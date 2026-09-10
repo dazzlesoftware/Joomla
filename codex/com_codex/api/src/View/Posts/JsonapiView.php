@@ -1,0 +1,281 @@
+<?php
+
+/**
+ * @package     Joomla.API
+ * @subpackage  com_codex
+ *
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Codex\Api\View\Posts;
+
+use Joomla\CMS\Event\Model\PrepareDataEvent;
+use Joomla\CMS\Factory;
+use Joomla\Component\Codex\Administrator\Helper\TagsHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Codex\Api\Helper\ContentHelper;
+use Joomla\Component\Codex\Api\Serializer\ContentSerializer;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * The post view
+ *
+ * @since  4.0.0
+ */
+class JsonapiView extends BaseApiView
+{
+    /**
+     * The fields to render item in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderItem = [
+        'id',
+        'typeAlias',
+        'asset_id',
+        'title',
+        'text',
+        'tags',
+        'language',
+        'state',
+        'category',
+        'media',
+        'metakey',
+        'metadesc',
+        'metadata',
+        'access',
+        'featured',
+        'alias',
+        'note',
+        'publish_up',
+        'publish_down',
+'created',
+        'created_by',
+        'created_by_alias',
+        'modified',
+        'modified_by',
+        'hits',
+        'version',
+        'featured_up',
+        'featured_down',
+        'schemaorg',
+    ];
+
+    /**
+     * The fields to render items in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderList = [
+        'id',
+        'typeAlias',
+        'asset_id',
+        'title',
+        'text',
+        'tags',
+        'language',
+        'state',
+        'category',
+        'media',
+        'metakey',
+        'metadesc',
+        'metadata',
+        'access',
+        'featured',
+        'alias',
+        'note',
+        'publish_up',
+        'publish_down',
+'created',
+        'created_by',
+        'created_by_alias',
+        'modified',
+        'hits',
+        'version',
+        'featured_up',
+        'featured_down',
+        'schemaorg',
+    ];
+
+    /**
+     * The relationships the item has
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    protected $relationship = [
+        'category',
+        'created_by',
+        'tags',
+    ];
+
+    /**
+     * Constructor.
+     *
+     * @param   array  $config  A named configuration array for object construction.
+     *                          contentType: the name (optional) of the content type to use for the serialization
+     *
+     * @since   4.0.0
+     */
+    public function __construct($config = [])
+    {
+        if (\array_key_exists('contentType', $config)) {
+            $this->serializer = new ContentSerializer($config['contentType']);
+        }
+
+        parent::__construct($config);
+    }
+
+    /**
+     * Execute and display a template script.
+     *
+     * @param   ?array  $items  Array of items
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function displayList(?array $items = null)
+    {
+        foreach (FieldsHelper::getFields('com_codex.post') as $field) {
+            $this->fieldsToRenderList[] = $field->name;
+        }
+
+        return parent::displayList();
+    }
+
+    /**
+     * Execute and display a template script.
+     *
+     * @param   object  $item  Item
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function displayItem($item = null)
+    {
+        $this->relationship[] = 'modified_by';
+
+        foreach (FieldsHelper::getFields('com_codex.post') as $field) {
+            $this->fieldsToRenderItem[] = $field->name;
+        }
+
+        if (Multilanguage::isEnabled()) {
+            $this->fieldsToRenderItem[] = 'languageAssociations';
+            $this->relationship[]       = 'languageAssociations';
+        }
+
+        return parent::displayItem();
+    }
+
+    /**
+     * Prepare item before render.
+     *
+     * @param   object  $item  The model item
+     *
+     * @return  object
+     *
+     * @since   4.0.0
+     */
+    protected function prepareItem($item)
+    {
+        if (!$item) {
+            return $item;
+        }
+
+        $item->text = $item->summary . ' ' . $item->body;
+
+        // Process the content plugins.
+        PluginHelper::importPlugin('codex');
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_codex.post', &$item, &$item->params]);
+
+        foreach (FieldsHelper::getFields('com_codex.post', $item, true) as $field) {
+            $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
+        }
+
+        if (Multilanguage::isEnabled() && !empty($item->associations)) {
+            $associations = [];
+
+            foreach ($item->associations as $language => $association) {
+                $itemId = explode(':', $association)[0];
+
+                $associations[] = (object) [
+                    'id'       => $itemId,
+                    'language' => $language,
+                ];
+            }
+
+            $item->associations = $associations;
+        }
+
+        if (!empty($item->tags->tags)) {
+            $tagsIds    = explode(',', $item->tags->tags);
+            $item->tags = (new TagsHelper())->getTags($tagsIds);
+        } else {
+            $item->tags = [];
+            $tags       = new TagsHelper();
+            $tagsIds    = $tags->getTagIds($item->id, 'com_codex.post');
+
+            if (!empty($tagsIds)) {
+                $tagsIds    = explode(',', $tagsIds);
+                $item->tags = $tags->getTags($tagsIds);
+            }
+        }
+
+        if (isset($item->media)) {
+            $registry     = new Registry($item->media);
+            $item->media = $registry->toArray();
+
+            if (!empty($item->media['featured_image'])) {
+                $item->media['featured_image'] = ContentHelper::resolve($item->media['featured_image']);
+            }
+
+            if (!empty($item->media['image_body'])) {
+                $item->media['image_body'] = ContentHelper::resolve($item->media['image_body']);
+            }
+        }
+
+        // Add schema.org data using existing plugin system
+        if (PluginHelper::isEnabled('system', 'schemaorg')) {
+            $item->schemaorg = $this->getSchemaOrg($item);
+        }
+
+        return parent::prepareItem($item);
+    }
+
+    /**
+     * Get schema.org structured data for an post using the plugin system
+     *
+     * @param   object  $item  The post item
+     *
+     * @return  array|null
+     *
+     * @since   6.1.0
+     */
+    protected function getSchemaOrg($item)
+    {
+        $context = 'com_codex.post';
+        $event   = new PrepareDataEvent('onContentPrepareData', ['context' => $context, 'data' => $item]);
+
+        PluginHelper::importPlugin('system', 'schemaorg');
+        Factory::getApplication()->getDispatcher()->dispatch('onContentPrepareData', $event);
+
+        if (isset($item->schema) && !empty($item->schema['schemaType'])) {
+            $schemaType = $item->schema['schemaType'];
+            return $item->schema[$schemaType] ?? null;
+        }
+
+        return null;
+    }
+}

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="codex" method="upgrade">
+  <name>plg_codex_emailcloak</name>
+  <author>Joomla! Project</author>
+  <creationDate>2005-11</creationDate>
+  <copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+  <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+  <authorEmail>admin@joomla.org</authorEmail>
+  <authorUrl>www.joomla.org</authorUrl>
+  <version>3.0.0</version>
+  <description>PLG_CODEX_EMAILCLOAK_XML_DESCRIPTION</description>
+  <namespace path="src">Joomla\Plugin\Codex\Emailcloak</namespace>
+  <files>
+    <folder plugin="emailcloak">services</folder>
+    <folder>src</folder>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/plg_codex_emailcloak.ini</language>
+    <language tag="en-GB">language/en-GB/plg_codex_emailcloak.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+      <fieldset name="basic">
+        <field name="mode" type="list" label="PLG_CODEX_EMAILCLOAK_MODE_LABEL" default="1" filter="integer" validate="options">
+          <option value="0">PLG_CODEX_EMAILCLOAK_NONLINKABLE</option>
+          <option value="1">PLG_CODEX_EMAILCLOAK_LINKABLE</option>
+        </field>
+      </fieldset>
+    </fields>
+  </config>
+</extension>

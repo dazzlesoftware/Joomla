@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="editors-xtd" method="upgrade">
+  <name>plg_editors-xtd_video</name>
+  <author>Local Joomla Development</author>
+  <creationDate>2026-09</creationDate>
+  <license>GNU General Public License version 2 or later</license>
+  <version>1.0.1</version>
+  <description>PLG_EDITORSXTD_VIDEO_XML_DESCRIPTION</description>
+  <namespace path="src">Joomla\Plugin\EditorsXtd\Video</namespace>
+  <files>
+    <folder plugin="video">services</folder>
+    <folder>src</folder>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/plg_editors-xtd_video.ini</language>
+    <language tag="en-GB">language/en-GB/plg_editors-xtd_video.sys.ini</language>
+  </languages>
+  <media destination="plg_editors-xtd_video" folder="media">
+    <folder>js</folder>
+  </media>
+</extension>

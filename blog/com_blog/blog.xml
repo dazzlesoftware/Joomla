@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" method="upgrade">
+  <name>com_blog</name>
+  <author>Local Joomla Development</author>
+  <creationDate>2026-09</creationDate>
+  <copyright>Derived from Joomla com_content under GPL-2.0-or-later</copyright>
+  <license>GNU General Public License version 2 or later</license>
+  <version>1.0.0</version>
+  <description>COM_BLOG_XML_DESCRIPTION</description>
+  <scriptfile>script.php</scriptfile>
+  <namespace path="src">Joomla\Component\Blog</namespace>
+  <install><sql><file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file></sql></install>
+  <uninstall><sql><file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file></sql></uninstall>
+  <files folder="site"><folder>forms</folder><folder>helpers</folder><folder>layouts</folder><folder>src</folder><folder>tmpl</folder></files>
+  <languages folder="site-language"><language tag="en-GB">en-GB/com_blog.ini</language></languages>
+  <media destination="com_blog" folder="media"><filename>joomla.asset.json</filename><folder>js</folder><folder>css</folder></media>
+  <administration>
+    <menu link="index.php?option=com_blog">COM_BLOG</menu>
+    <submenu>
+      <menu link="option=com_blog&amp;view=dashboard">COM_BLOG_DASHBOARD_TITLE</menu>
+      <menu link="option=com_blog&amp;view=settings">COM_BLOG_SETTINGS</menu>
+      <menu type="heading" alias="blog-posts-group">COM_BLOG_POSTS_GROUP</menu>
+      <menu link="option=com_blog&amp;view=posts&amp;filter[published]=*&amp;filter[featured]=">COM_BLOG_ALL_POSTS</menu>
+      <menu link="option=com_blog&amp;view=posts&amp;filter[published]=1&amp;filter[featured]=">COM_BLOG_PUBLISHED</menu>
+      <menu link="option=com_blog&amp;view=posts&amp;filter[published]=0&amp;filter[featured]=">COM_BLOG_UNPUBLISHED</menu>
+      <menu link="option=com_blog&amp;view=posts&amp;filter[published]=-3&amp;filter[featured]=">COM_BLOG_PENDING_REVIEW</menu>
+      <menu link="option=com_blog&amp;view=posts&amp;filter[published]=2&amp;filter[featured]=">COM_BLOG_ARCHIVED</menu>
+      <menu link="option=com_blog&amp;view=posts&amp;filter[published]=-2&amp;filter[featured]=">COM_BLOG_TRASHED</menu>
+      <menu link="option=com_blog&amp;view=posts&amp;filter[published]=*&amp;filter[featured]=1">COM_BLOG_FEATURED</menu>
+      <menu type="heading" alias="blog-autopost-group">COM_BLOG_AUTOPOST_GROUP</menu>
+      <menu link="option=com_blog&amp;view=autopost&amp;provider=facebook">COM_BLOG_AUTOPOST_FACEBOOK</menu>
+      <menu link="option=com_blog&amp;view=autopost&amp;provider=twitter">COM_BLOG_AUTOPOST_TWITTER</menu>
+      <menu link="option=com_blog&amp;view=autopost&amp;provider=linkedin">COM_BLOG_AUTOPOST_LINKEDIN</menu>
+      <menu link="option=com_blog&amp;view=autopostlogs">COM_BLOG_AUTOPOST_LOGS</menu>
+      <menu link="option=com_blog&amp;view=categories&amp;extension=com_blog">JCATEGORIES</menu>
+      <menu link="option=com_blog&amp;view=tags">JTAG</menu>
+      <menu link="option=com_blog&amp;view=comments">COM_BLOG_COMMENTS_SETTINGS</menu>
+      <menu link="option=com_blog&amp;view=polls">COM_BLOG_POLLS</menu>
+      <menu type="heading" alias="blog-marketing-group">COM_BLOG_MARKETING_GROUP</menu>
+      <menu link="option=com_blog&amp;view=subscribers">COM_BLOG_SUBSCRIBERS</menu>
+      <menu link="option=com_blog&amp;view=newsletter">COM_BLOG_EMAIL_CAMPAIGN</menu>
+      <menu link="option=com_blog&amp;view=emailtemplates">COM_BLOG_EMAIL_TEMPLATES</menu>
+      <menu type="heading" alias="blog-migration-group">COM_BLOG_MIGRATION_GROUP</menu>
+      <menu link="option=com_blog&amp;view=import">COM_BLOG_IMPORT_POSTS</menu>
+      <menu link="option=com_blog&amp;view=export">COM_BLOG_EXPORT_POSTS</menu>
+    </submenu>
+    <files folder="admin"><filename>access.xml</filename><filename>config.xml</filename><filename>blog.xml</filename><folder>forms</folder><folder>helpers</folder><folder>layouts</folder><folder>presets</folder><folder>services</folder><folder>sql</folder><folder>src</folder><folder>tmpl</folder></files>
+    <languages folder="language"><language tag="en-GB">en-GB/com_blog.ini</language><language tag="en-GB">en-GB/com_blog.sys.ini</language></languages>
+  </administration>
+  <api><files folder="api"><folder>src</folder></files></api>
+  <dashboards><dashboard title="COM_BLOG_DASHBOARD_TITLE" icon="icon-file-alt">blog</dashboard></dashboards>
+</extension>

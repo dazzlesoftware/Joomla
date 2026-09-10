@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="task" method="upgrade">
+	<name>PLG_TASK_BLOG_MAILQUEUE</name>
+	<version>1.0.0</version>
+	<description>PLG_TASK_BLOG_MAILQUEUE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\BlogMailqueue</namespace>
+	<files>
+		<folder plugin="blog_mailqueue">services</folder>
+		<folder>src</folder>
+		<folder>forms</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_task_blog_mailqueue.ini</language>
+		<language tag="en-GB">language/en-GB/plg_task_blog_mailqueue.sys.ini</language>
+	</languages>
+</extension>

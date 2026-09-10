@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="academy" method="upgrade">
+  <name>plg_academy_blocks</name><author>Local Joomla Development</author><creationDate>2026-09</creationDate><license>GNU General Public License version 2 or later</license><version>1.2.0</version><description>Separate block buttons for academy posts.</description>
+  <namespace path="src">Joomla\Plugin\Academy\Blocks</namespace>
+  <files><folder plugin="blocks">services</folder><folder>src</folder></files>
+  <media destination="plg_academy_blocks" folder="media"><folder>js</folder></media>
+</extension>

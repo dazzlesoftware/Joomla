@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>PKG_CODEX</name>
+  <packagename>codex</packagename>
+  <version>1.0.0</version>
+  <creationDate>2026-09</creationDate>
+  <author>Local Joomla Development</author>
+  <license>GNU General Public License version 2 or later</license>
+  <description>PKG_CODEX_XML_DESCRIPTION</description>
+  <scriptfile>script.php</scriptfile>
+  <files>
+    <file type="component" id="com_codex">com_codex.zip</file>
+    <file type="package" id="pkg_codex_integrations">plugins.zip</file>
+    <file type="package" id="pkg_codex_modules">modules.zip</file>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/pkg_codex.ini</language>
+    <language tag="en-GB">language/en-GB/pkg_codex.sys.ini</language>
+  </languages>
+</extension>

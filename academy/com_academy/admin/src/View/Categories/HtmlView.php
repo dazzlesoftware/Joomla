@@ -1,0 +1,5 @@
+<?php
+namespace Joomla\Component\Academy\Administrator\View\Categories;
+defined('_JEXEC') or die;
+use Joomla\CMS\Factory;use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper;
+final class HtmlView extends BaseHtmlView {public array $items=[];public $item;public function display($tpl=null):void{$app=Factory::getApplication();if(!$app->getIdentity()->authorise('core.manage','com_academy'))throw new \RuntimeException('Not authorised',403);$db=CategoriesHelper::db();$this->items=$db->setQuery('SELECT c.*,COUNT(p.id) AS post_count FROM #__academy_categories c LEFT JOIN #__academy p ON p.catid=c.id GROUP BY c.id ORDER BY c.title')->loadObjectList()?:[];$id=$app->getInput()->getInt('category_id');$this->item=$id?$db->setQuery('SELECT * FROM #__academy_categories WHERE id='.$id)->loadObject():(object)['id'=>0,'title'=>'','alias'=>'','description'=>'','published'=>1,'access'=>1,'language'=>'*','parent_id'=>0];parent::display($tpl);}}

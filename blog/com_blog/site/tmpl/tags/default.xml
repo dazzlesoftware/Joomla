@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata><layout title="Post Tags"><message>Browse this component's independent tags or posts for a selected tag.</message></layout><fields name="request"><fieldset name="request"><field name="tag_id" type="posttags" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Tag" description="Leave empty to show all tags."><option value="0">All tags</option></field></fieldset></fields></metadata>

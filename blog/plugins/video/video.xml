@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="blog" method="upgrade">
+  <name>plg_blog_video</name>
+  <author>Local Joomla Development</author>
+  <creationDate>2026-09</creationDate>
+  <license>GNU General Public License version 2 or later</license>
+  <version>1.1.1</version>
+  <description>PLG_BLOG_VIDEO_XML_DESCRIPTION</description>
+  <namespace path="src">Joomla\Plugin\Blog\Video</namespace>
+  <files>
+    <folder plugin="video">services</folder>
+    <folder>src</folder>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/plg_blog_video.ini</language>
+    <language tag="en-GB">language/en-GB/plg_blog_video.sys.ini</language>
+  </languages>
+  <media destination="plg_blog_video" folder="media">
+    <folder>js</folder>
+  </media>
+</extension>

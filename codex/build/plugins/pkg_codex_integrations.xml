@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>pkg_codex_integrations</name>
+  <packagename>codex_integrations</packagename>
+  <version>3.0.0</version>
+  <creationDate>2026-09</creationDate>
+  <author>Local Joomla Development</author>
+  <license>GNU General Public License version 2 or later</license>
+  <description>Codex isolated post integration plugins</description>
+  <files>
+    <file type="plugin" id="confirmconsent" group="codex">plg_codex_confirmconsent.zip</file>
+    <file type="plugin" id="contact" group="codex">plg_codex_contact.zip</file>
+    <file type="plugin" id="pagebreak" group="codex">plg_codex_pagebreak.zip</file>
+    <file type="plugin" id="emailcloak" group="codex">plg_codex_emailcloak.zip</file>
+    <file type="plugin" id="fields" group="codex">plg_codex_fields.zip</file>
+    <file type="plugin" id="finderindexer" group="codex">plg_codex_finderindexer.zip</file>
+    <file type="plugin" id="joomla" group="codex">plg_codex_joomla.zip</file>
+    <file type="plugin" id="loadmodule" group="codex">plg_codex_loadmodule.zip</file>
+    <file type="plugin" id="pagenavigation" group="codex">plg_codex_pagenavigation.zip</file>
+    <file type="plugin" id="vote" group="codex">plg_codex_vote.zip</file>
+    <file type="plugin" id="finder" group="codex">plg_codex_finder.zip</file>
+    <file type="plugin" id="privacy" group="codex">plg_codex_privacy.zip</file>
+    <file type="plugin" id="webservices" group="codex">plg_codex_webservices.zip</file>
+    <file type="plugin" id="postbutton" group="codex">plg_codex_postbutton.zip</file>
+    <file type="plugin" id="contactbutton" group="codex">plg_codex_contactbutton.zip</file>
+    <file type="plugin" id="fieldsbutton" group="codex">plg_codex_fieldsbutton.zip</file>
+    <file type="plugin" id="imagebutton" group="codex">plg_codex_imagebutton.zip</file>
+    <file type="plugin" id="menubutton" group="codex">plg_codex_menubutton.zip</file>
+    <file type="plugin" id="modulebutton" group="codex">plg_codex_modulebutton.zip</file>
+    <file type="plugin" id="pagebreakbutton" group="codex">plg_codex_pagebreakbutton.zip</file>
+    <file type="plugin" id="readmorebutton" group="codex">plg_codex_readmorebutton.zip</file>
+    <file type="plugin" id="featuring" group="codex">plg_codex_featuring.zip</file>
+    <file type="plugin" id="notification" group="codex">plg_codex_notification.zip</file>
+    <file type="plugin" id="publishing" group="codex">plg_codex_publishing.zip</file>
+    <file type="plugin" id="actionlog" group="codex">plg_codex_actionlog.zip</file>
+    <file type="plugin" id="video" group="codex">plg_codex_video.zip</file>
+    <file type="plugin" id="blocks" group="codex">plg_codex_blocks.zip</file>
+    <file type="plugin" id="codex_mailqueue" group="task">plg_task_codex_mailqueue.zip</file>
+    <file type="plugin" id="codexbranding" group="system">plg_system_codexbranding.zip</file>
+    <file type="plugin" id="codexloader" group="system">plg_system_codexloader.zip</file>
+  </files>
+</extension>

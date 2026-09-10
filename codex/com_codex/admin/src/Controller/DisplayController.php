@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_codex
+ *
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Codex\Administrator\Controller;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * Component Controller
+ *
+ * @since  1.5
+ */
+class DisplayController extends BaseController
+{
+    /**
+     * The default view.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $default_view = 'dashboard';
+
+    /**
+     * Method to display a view.
+     *
+     * @param   boolean  $cachable   If true, the view output will be cached
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *
+     * @return  BaseController|boolean  This object to support chaining.
+     *
+     * @since   1.5
+     */
+    public function display($cachable = false, $urlparams = [])
+    {
+        $view   = $this->input->get('view', 'dashboard');
+        $layout = $this->input->get('layout', 'posts');
+        $id     = $this->input->getInt('id');
+
+        // Check for edit form.
+        if ($view == 'post' && $layout == 'edit' && !$this->checkEditId('com_codex.edit.post', $id)) {
+            // Somehow the person just went to the form - we don't allow that.
+            if (!\count($this->app->getMessageQueue())) {
+                $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+            }
+
+            $this->setRedirect(Route::_('index.php?option=com_codex&view=posts', false));
+
+            return false;
+        }
+
+        if ($view === 'featured' || $this->input->getInt('featured')) {
+            $this->setRedirect(Route::_('index.php?option=com_codex&view=posts&filter[featured]=1', false));
+            return false;
+        }
+
+        return parent::display();
+    }
+}

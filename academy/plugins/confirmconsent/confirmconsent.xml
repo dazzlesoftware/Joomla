@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="academy" method="upgrade">
+  <name>plg_academy_confirmconsent</name>
+  <author>Joomla! Project</author>
+  <creationDate>2018-05</creationDate>
+  <copyright>(C) 2018 Open Source Matters, Inc.</copyright>
+  <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+  <authorEmail>admin@joomla.org</authorEmail>
+  <authorUrl>www.joomla.org</authorUrl>
+  <version>3.9.0</version>
+  <description>PLG_ACADEMY_CONFIRMCONSENT_XML_DESCRIPTION</description>
+  <namespace path="src">Joomla\Plugin\Academy\Confirmconsent</namespace>
+  <files>
+    <folder plugin="confirmconsent">services</folder>
+    <folder>src</folder>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/plg_academy_confirmconsent.ini</language>
+    <language tag="en-GB">language/en-GB/plg_academy_confirmconsent.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+      <fieldset name="basic" addfieldprefix="Joomla\Component\Academy\Administrator\Field">
+        <field name="consentbox_text" type="textarea" label="PLG_ACADEMY_CONFIRMCONSENT_FIELD_NOTE_LABEL" description="PLG_ACADEMY_CONFIRMCONSENT_FIELD_NOTE_DESC" hint="PLG_ACADEMY_CONFIRMCONSENT_FIELD_NOTE_DEFAULT" rows="7" cols="20" filter="html" />
+        <field name="privacy_type" type="list" label="PLG_ACADEMY_CONFIRMCONSENT_FIELD_TYPE_LABEL" default="post" validate="options">
+          <option value="post">PLG_ACADEMY_CONFIRMCONSENT_FIELD_TYPE_POST</option>
+          <option value="menu_item">PLG_ACADEMY_CONFIRMCONSENT_FIELD_TYPE_MENU_ITEM</option>
+        </field>
+        <field name="privacy_post" type="modal_post" label="PLG_ACADEMY_CONFIRMCONSENT_FIELD_POST_LABEL" description="PLG_ACADEMY_CONFIRMCONSENT_FIELD_POST_DESC" select="true" new="true" edit="true" clear="true" filter="integer" showon="privacy_type:post" />
+        <field addfieldprefix="Joomla\Component\Menus\Administrator\Field" name="privacy_menu_item" type="modal_menu" label="PLG_ACADEMY_CONFIRMCONSENT_FIELD_MENU_ITEM_LABEL" select="true" new="true" edit="true" clear="true" filter="integer" showon="privacy_type:menu_item" />
+      </fieldset>
+    </fields>
+  </config>
+</extension>

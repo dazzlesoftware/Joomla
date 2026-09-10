@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_codex
+ *
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Codex\Site\Helper;
+
+use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Language\Multilanguage;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * Content Component Route Helper.
+ *
+ * @since  1.5
+ */
+abstract class RouteHelper
+{
+    /**
+     * Get the post route.
+     *
+     * @param   integer  $id        The route of the content item.
+     * @param   integer  $catid     The category ID.
+     * @param   string   $language  The language code.
+     * @param   string   $layout    The layout value.
+     *
+     * @return  string  The post route.
+     *
+     * @since   1.5
+     */
+    public static function getPostRoute($id, $catid = 0, $language = null, $layout = null)
+    {
+        // Create the link
+        $link = 'index.php?option=com_codex&view=post&id=' . $id;
+
+        if ((int) $catid > 1) {
+            $link .= '&catid=' . $catid;
+        }
+
+        if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
+            $link .= '&lang=' . $language;
+        }
+
+        if ($layout) {
+            $link .= '&layout=' . $layout;
+        }
+
+        return $link;
+    }
+
+    /**
+     * Get the category route.
+     *
+     * @param   integer  $catid     The category ID.
+     * @param   string   $language  The language code.
+     * @param   string   $layout    The layout value.
+     *
+     * @return  string  The post route.
+     *
+     * @since   1.5
+     */
+    public static function getCategoryRoute($catid, $language = null, $layout = null)
+    {
+        if ($catid instanceof CategoryNode) {
+            $id = $catid->id;
+        } else {
+            $id = (int) $catid;
+        }
+
+        if ($id < 1) {
+            return '';
+        }
+
+        $link = 'index.php?option=com_codex&view=category&id=' . $id;
+
+        if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
+            $link .= '&lang=' . $language;
+        }
+
+        if ($layout) {
+            $link .= '&layout=' . $layout;
+        }
+
+        return $link;
+    }
+
+    /**
+     * Get the form route.
+     *
+     * @param   integer  $id  The form ID.
+     *
+     * @return  string  The post route.
+     *
+     * @since   1.5
+     */
+    public static function getFormRoute($id)
+    {
+        return 'index.php?option=com_codex&task=post.edit&a_id=' . (int) $id;
+    }
+}

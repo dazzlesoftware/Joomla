@@ -1,0 +1,38 @@
+<?php
+namespace Joomla\Component\Codex\Administrator\View\Subscriber;
+
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Database\DatabaseInterface;
+
+final class HtmlView extends BaseHtmlView
+{
+    public object $item;
+
+    public function display($tpl = null): void
+    {
+        $app = Factory::getApplication();
+        if (!$app->getIdentity()->authorise('core.manage', 'com_codex')) {
+            throw new \RuntimeException('Not authorised', 403);
+        }
+
+        $id = $app->getInput()->getInt('id');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $item = $db->setQuery(
+            $db->createQuery()->select('*')->from('#__codex_subscribers')->where('id=' . $id)
+        )->loadObject();
+
+        if (!$item) {
+            throw new \RuntimeException('Subscriber not found.', 404);
+        }
+
+        $this->item = $item;
+
+        ToolbarHelper::title('Codex Subscriber', 'user');
+
+        parent::display($tpl);
+    }
+}

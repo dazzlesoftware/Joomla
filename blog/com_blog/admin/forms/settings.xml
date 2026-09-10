@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+  <fields name="params">
+    <fieldset name="posts" label="JGLOBAL_POSTS" description="COM_BLOG_CONFIG_POST_SETTINGS_DESC">
+      <field name="post_layout" type="componentlayout" label="JGLOBAL_FIELD_LAYOUT_LABEL" class="form-select" menuitems="true" extension="com_blog" view="post" />
+      <field name="show_title" type="radio" label="JGLOBAL_SHOW_TITLE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_titles" type="radio" label="JGLOBAL_LINKED_TITLES_LABEL" layout="joomla.form.field.radio.switcher" default="1" showon="show_title:1">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_intro" type="radio" label="JGLOBAL_SHOW_INTRO_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="info_block_position" type="list" label="COM_BLOG_FIELD_INFOBLOCK_POSITION_LABEL" default="0" validate="options">
+        <option value="0">COM_BLOG_FIELD_OPTION_ABOVE</option>
+        <option value="1">COM_BLOG_FIELD_OPTION_BELOW</option>
+        <option value="2">COM_BLOG_FIELD_OPTION_SPLIT</option>
+      </field>
+      <field name="info_block_show_title" type="radio" label="COM_BLOG_FIELD_INFOBLOCK_TITLE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_category" type="radio" label="JGLOBAL_SHOW_CATEGORY_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_category" type="radio" label="JGLOBAL_LINK_CATEGORY_LABEL" layout="joomla.form.field.radio.switcher" default="1" showon="show_category:1">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_parent_category" type="radio" label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_parent_category" type="radio" label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL" layout="joomla.form.field.radio.switcher" default="1" showon="show_parent_category:1">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="spacer1" type="spacer" hr="true" />
+      <field name="show_associations" type="radio" label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="flags" type="radio" label="JGLOBAL_SHOW_FLAG_LABEL" layout="joomla.form.field.radio.switcher" default="1" showon="show_associations:1">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="spacer3" type="spacer" hr="true" />
+      <field name="show_author" type="radio" label="JGLOBAL_SHOW_AUTHOR_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_author" type="radio" label="JGLOBAL_LINK_AUTHOR_LABEL" layout="joomla.form.field.radio.switcher" default="0" showon="show_author:1">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_create_date" type="radio" label="JGLOBAL_SHOW_CREATE_DATE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_modify_date" type="radio" label="JGLOBAL_SHOW_MODIFY_DATE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_publish_date" type="radio" label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_item_navigation" type="radio" label="JGLOBAL_SHOW_NAVIGATION_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_vote" type="voteradio" label="JGLOBAL_SHOW_VOTE_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_readmore" type="radio" label="JGLOBAL_SHOW_READMORE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_readmore_title" type="radio" label="JGLOBAL_SHOW_READMORE_TITLE_LABEL" layout="joomla.form.field.radio.switcher" default="1" showon="show_readmore:1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="readmore_limit" type="number" label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL" filter="integer" validate="number" min="0" default="100" showon="show_readmore:1[AND]show_readmore_title:1" />
+      <field name="show_tags" type="radio" label="COM_BLOG_FIELD_SHOW_TAGS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="spacer2" type="spacer" hr="true" />
+      <field name="record_hits" type="radio" label="JGLOBAL_RECORD_HITS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_hits" type="radio" label="JGLOBAL_SHOW_HITS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_noauth" type="radio" label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL" description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="urls_position" type="list" label="COM_BLOG_FIELD_URLSPOSITION_LABEL" default="0" filter="integer" validate="options">
+        <option value="0">COM_BLOG_FIELD_OPTION_ABOVE</option>
+        <option value="1">COM_BLOG_FIELD_OPTION_BELOW</option>
+        <option value="-1">JHIDE</option>
+      </field>
+    </fieldset>
+    <fieldset name="editinglayout" label="COM_BLOG_EDITING_LAYOUT" description="COM_BLOG_CONFIG_EDITOR_LAYOUT">
+      <field name="captcha" type="plugins" label="COM_BLOG_FIELD_CAPTCHA_LABEL" folder="captcha" filter="cmd" useglobal="true">
+        <option value="0">JOPTION_DO_NOT_USE</option>
+      </field>
+      <field name="show_publishing_options" type="radio" label="COM_BLOG_SHOW_PUBLISHING_OPTIONS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_post_options" type="radio" label="COM_BLOG_SHOW_POST_OPTIONS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_configure_edit_options" type="radio" label="COM_BLOG_SHOW_CONFIGURE_EDIT_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_permissions" type="radio" label="COM_BLOG_SHOW_PERMISSIONS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_associations_edit" type="radio" label="COM_BLOG_SHOW_ASSOCIATIONS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="save_history" type="radio" label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="history_limit" type="number" label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL" filter="integer" validate="number" min="0" default="10" showon="save_history:1" />
+      <field name="show_urls_images_frontend" type="radio" label="COM_BLOG_SHOW_IMAGES_URLS_FRONT_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_urls_images_backend" type="radio" label="COM_BLOG_SHOW_IMAGES_URLS_BACK_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="spacer3" type="spacer" hr="true" showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1" />
+      <field name="spacer4" type="spacer" hr="true" showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1" />
+      <field name="featured_image_class" type="text" label="COM_BLOG_IMAGE_FEATURED_CLASS_LABEL" validate="CssIdentifier" showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1" />
+    </fieldset>
+    <fieldset name="category" label="JCATEGORY" description="COM_BLOG_CONFIG_CATEGORY_SETTINGS_DESC">
+      <field name="category_layout" type="componentlayout" label="JGLOBAL_FIELD_LAYOUT_LABEL" class="form-select" menuitems="true" extension="com_blog" view="category" />
+      <field name="show_category_title" type="radio" label="JGLOBAL_SHOW_CATEGORY_TITLE" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_description" type="radio" label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_description_image" type="radio" label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="maxLevel" type="list" label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL" default="-1" validate="options">
+        <option value="0">JNONE</option>
+        <option value="-1">JALL</option>
+        <option value="1">J1</option>
+        <option value="2">J2</option>
+        <option value="3">J3</option>
+        <option value="4">J4</option>
+        <option value="5">J5</option>
+      </field>
+      <field name="show_empty_categories" type="radio" label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_no_posts" type="radio" label="COM_BLOG_NO_POSTS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_category_heading_title_text" type="radio" label="JGLOBAL_SHOW_SUBCATEGORY_HEADING" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_subcat_desc" type="radio" label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL" default="1" layout="joomla.form.field.radio.switcher">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_cat_num_posts" type="radio" label="COM_BLOG_NUMBER_CATEGORY_ITEMS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_cat_tags" type="radio" label="COM_BLOG_FIELD_SHOW_CAT_TAGS_LABEL" default="1" layout="joomla.form.field.radio.switcher">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
+    <fieldset name="categories" label="JCATEGORIES" description="COM_BLOG_CONFIG_CATEGORIES_SETTINGS_DESC">
+      <field name="show_base_description" type="radio" label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="maxLevelcat" type="list" label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL" default="-1" validate="options">
+        <option value="0">JNONE</option>
+        <option value="-1">JALL</option>
+        <option value="1">J1</option>
+        <option value="2">J2</option>
+        <option value="3">J3</option>
+        <option value="4">J4</option>
+        <option value="5">J5</option>
+      </field>
+      <field name="show_empty_categories_cat" type="radio" label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL" layout="joomla.form.field.radio.switcher" default="0" showon="maxLevelcat:-1,1,2,3,4,5">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_subcat_desc_cat" type="radio" label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL" layout="joomla.form.field.radio.switcher" default="1" showon="maxLevelcat:-1,1,2,3,4,5">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_cat_num_posts_cat" type="radio" label="COM_BLOG_NUMBER_CATEGORY_ITEMS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
+    <fieldset name="blog_default_parameters" label="COM_BLOG_CONFIG_BLOG_SETTINGS_LABEL" description="COM_BLOG_CONFIG_BLOG_SETTINGS_DESC">
+      <field name="num_leading_posts" type="number" label="JGLOBAL_NUM_LEADING_POSTS_LABEL" filter="integer" validate="number" min="0" default="1" />
+      <field name="blog_class_leading" type="text" label="JGLOBAL_BLOG_CLASS_LEADING" validate="CssIdentifier" />
+      <field name="num_intro_posts" type="number" label="JGLOBAL_NUM_INTRO_POSTS_LABEL" filter="integer" validate="number" min="0" default="4" />
+      <field name="blog_class" type="text" label="JGLOBAL_BLOG_CLASS" description="JGLOBAL_BLOG_CLASS_NOTE_DESC" validate="CssIdentifier" />
+      <field name="num_columns" type="number" label="JGLOBAL_NUM_COLUMNS_LABEL" filter="integer" validate="number" min="0" default="1" />
+      <field name="multi_column_order" type="list" label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL" default="0" validate="options">
+        <option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
+        <option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
+      </field>
+      <field name="num_links" type="number" label="JGLOBAL_NUM_LINKS_LABEL" filter="integer" validate="number" min="0" default="4" />
+      <field name="show_subcategory_content" type="list" label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL" default="0" validate="options">
+        <option value="0">JNONE</option>
+        <option value="-1">JALL</option>
+        <option value="1">J1</option>
+        <option value="2">J2</option>
+        <option value="3">J3</option>
+        <option value="4">J4</option>
+        <option value="5">J5</option>
+      </field>
+      <field name="link_featured_image" type="radio" label="COM_BLOG_LINKED_FEATURED_IMAGE_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="list_default_parameters" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="COM_BLOG_CONFIG_LIST_SETTINGS_DESC" addfieldprefix="Joomla\Component\Blog\Administrator\Field">
+      <field name="show_pagination_limit" type="radio" label="JGLOBAL_DISPLAY_SELECT_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="filter_field" type="list" label="JGLOBAL_FILTER_FIELD_LABEL" default="hide" validate="options">
+        <option value="hide">JHIDE</option>
+        <option value="title">JGLOBAL_TITLE</option>
+        <option value="author">JAUTHOR</option>
+        <option value="hits" requires="hits">JGLOBAL_HITS</option>
+        <option value="tag">JTAG</option>
+        <option value="month">JMONTH_PUBLISHED</option>
+      </field>
+      <field name="show_headings" type="radio" label="JGLOBAL_SHOW_HEADINGS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="list_show_date" type="list" label="JGLOBAL_SHOW_DATE_LABEL" default="0" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="created">JGLOBAL_CREATED</option>
+        <option value="modified">JGLOBAL_MODIFIED</option>
+        <option value="published">JPUBLISHED</option>
+      </field>
+      <field name="date_format" type="text" label="JGLOBAL_DATE_FORMAT_LABEL" showon="list_show_date:created,modified,published" />
+      <field name="list_show_hits" type="radio" label="JGLOBAL_LIST_HITS_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="list_show_author" type="radio" label="JGLOBAL_LIST_AUTHOR_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="display_num" type="list" label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL" default="10" validate="options">
+        <option value="5">J5</option>
+        <option value="10">J10</option>
+        <option value="15">J15</option>
+        <option value="20">J20</option>
+        <option value="25">J25</option>
+        <option value="30">J30</option>
+        <option value="50">J50</option>
+        <option value="100">J100</option>
+        <option value="0">JALL</option>
+      </field>
+      <field name="list_show_votes" type="voteradio" label="JGLOBAL_LIST_VOTES_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="list_show_ratings" type="voteradio" label="JGLOBAL_LIST_RATINGS_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
+    <fieldset name="shared" label="COM_BLOG_SHARED_LABEL" description="COM_BLOG_SHARED_DESC">
+      <field name="orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" default="none" validate="options">
+        <option value="none">JGLOBAL_NO_ORDER</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+      </field>
+      <field name="orderby_sec" type="list" label="JGLOBAL_POST_ORDER_LABEL" default="rdate" validate="options">
+        <option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+        <option value="date">JGLOBAL_OLDEST_FIRST</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+        <option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+        <option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+        <option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
+        <option value="order">JGLOBAL_POST_MANAGER_ORDER</option>
+        <option value="rorder">JGLOBAL_POST_MANAGER_REVERSE_ORDER</option>
+        <option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+        <option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+        <option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+        <option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+      </field>
+      <field name="order_date" type="list" label="JGLOBAL_ORDERING_DATE_LABEL" default="published" validate="options">
+        <option value="created">JGLOBAL_CREATED</option>
+        <option value="modified">JGLOBAL_MODIFIED</option>
+        <option value="published">JPUBLISHED</option>
+      </field>
+      <field name="show_pagination" type="list" label="JGLOBAL_PAGINATION_LABEL" default="2" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+        <option value="2">JGLOBAL_AUTO</option>
+      </field>
+      <field name="show_pagination_results" type="radio" label="JGLOBAL_PAGINATION_RESULTS_LABEL" layout="joomla.form.field.radio.switcher" default="1" showon="show_pagination:1,2">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_featured" type="list" label="JGLOBAL_SHOW_FEATURED_POSTS_LABEL" default="show" validate="options">
+        <option value="show">JSHOW</option>
+        <option value="hide">JHIDE</option>
+        <option value="only">JONLY</option>
+      </field>
+    </fieldset>
+    <fieldset name="integration_newsfeed" label="JGLOBAL_FEED_TITLE">
+      <field name="show_feed_link" type="radio" label="JGLOBAL_SHOW_FEED_LINK_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="feed_summary" type="list" label="JGLOBAL_FEED_SUMMARY_LABEL" default="0" showon="show_feed_link:1" validate="options">
+        <option value="0">JGLOBAL_INTRO_TEXT</option>
+        <option value="1">JGLOBAL_FULL_TEXT</option>
+      </field>
+      <field name="feed_show_readmore" type="radio" label="JGLOBAL_FEED_SHOW_READMORE_LABEL" description="JGLOBAL_FEED_SHOW_READMORE_DESC" layout="joomla.form.field.radio.switcher" default="0" showon="show_feed_link:1[AND]feed_summary:0">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
+    <fieldset name="integration_sef" label="JGLOBAL_SEF_TITLE">
+      <field name="sef_ids" type="radio" layout="joomla.form.field.radio.switcher" default="0" label="JGLOBAL_SEF_NOIDS_LABEL" filter="integer">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="integration_customfields" label="JGLOBAL_FIELDS_TITLE">
+      <field name="custom_fields_enable" type="radio" label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="block_editor" label="COM_BLOG_CONFIG_EDITOR_LABEL">
+      <field name="default_editor_mode" type="list" default="classic" label="COM_BLOG_CONFIG_DEFAULT_EDITOR_LABEL">
+        <option value="classic">COM_BLOG_EDITOR_CLASSIC</option>
+        <option value="blocks">COM_BLOG_EDITOR_BLOCKS</option>
+      </field>
+    </fieldset>
+    <fieldset name="quote_settings" label="Quote Settings">
+      <field name="quote_template" type="list" default="simple" label="Quote Template">
+        <option value="simple">Simple Bootstrap</option>
+        <option value="color">Color Block</option>
+        <option value="framed">Framed</option>
+        <option value="card">Quote Card</option>
+        <option value="panel">Dark Panel</option>
+        <option value="minimal">Minimal</option>
+      </field>
+      <field name="quote_color_mode" type="list" default="bootstrap" label="Quote Color Source">
+        <option value="bootstrap">Bootstrap Color</option>
+        <option value="custom">Custom Color</option>
+      </field>
+      <field name="quote_bootstrap_color" type="list" default="primary" label="Bootstrap Quote Color" showon="quote_color_mode:bootstrap">
+        <option value="primary">Primary</option>
+        <option value="secondary">Secondary</option>
+        <option value="success">Success</option>
+        <option value="danger">Danger</option>
+        <option value="warning">Warning</option>
+        <option value="info">Info</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </field>
+      <field name="quote_custom_color" type="color" default="#0d6efd" label="Custom Quote Color" showon="quote_color_mode:custom" />
+    </fieldset>
+    <fieldset name="tab_settings" label="Tab Settings">
+      <field name="tab_template" type="list" default="classic" label="Tab Template">
+        <option value="classic">Classic Bootstrap</option>
+        <option value="pills">Pills</option>
+        <option value="underline">Underline</option>
+        <option value="cards">Card Tabs</option>
+        <option value="colorbar">Color Bar</option>
+        <option value="icons">Icon Tabs</option>
+      </field>
+      <field name="tab_mode" type="list" default="horizontal" label="Tab Orientation">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+      </field>
+      <field name="tab_color_mode" type="list" default="bootstrap" label="Tab Color Source">
+        <option value="bootstrap">Bootstrap Color</option>
+        <option value="custom">Custom Color</option>
+      </field>
+      <field name="tab_bootstrap_color" type="list" default="primary" label="Bootstrap Tab Color" showon="tab_color_mode:bootstrap">
+        <option value="primary">Primary</option>
+        <option value="secondary">Secondary</option>
+        <option value="success">Success</option>
+        <option value="danger">Danger</option>
+        <option value="warning">Warning</option>
+        <option value="info">Info</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </field>
+      <field name="tab_custom_color" type="color" default="#0d6efd" label="Custom Tab Color" showon="tab_color_mode:custom" />
+    </fieldset>
+    <fieldset name="accordion_settings" label="Accordion Settings">
+      <field name="accordion_template" type="list" default="classic" label="Accordion Template">
+        <option value="classic">Classic Bootstrap</option>
+        <option value="separated">Separated Cards</option>
+        <option value="numbered">Numbered Process</option>
+        <option value="minimal">Minimal FAQ</option>
+        <option value="color-panel">Color Panel</option>
+        <option value="gradient-card">Gradient Card</option>
+        <option value="compact">Compact Dark</option>
+        <option value="two-column">Two Columns</option>
+      </field>
+      <field name="accordion_color_mode" type="list" default="bootstrap" label="Accordion Color Source">
+        <option value="bootstrap">Bootstrap Color</option>
+        <option value="custom">Custom Color</option>
+      </field>
+      <field name="accordion_bootstrap_color" type="list" default="primary" label="Bootstrap Accordion Color" showon="accordion_color_mode:bootstrap">
+        <option value="primary">Primary</option>
+        <option value="secondary">Secondary</option>
+        <option value="success">Success</option>
+        <option value="danger">Danger</option>
+        <option value="warning">Warning</option>
+        <option value="info">Info</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </field>
+      <field name="accordion_custom_color" type="color" default="#0d6efd" label="Custom Accordion Color" showon="accordion_color_mode:custom" />
+    </fieldset>
+    <fieldset name="column_settings" label="Column Settings">
+      <field name="column_template" type="list" default="equal" label="Column Template">
+        <option value="equal">Equal Columns</option>
+        <option value="sidebar-left">Left Sidebar (1/3 + 2/3)</option>
+        <option value="sidebar-right">Right Sidebar (2/3 + 1/3)</option>
+        <option value="cards">Card Columns</option>
+        <option value="bordered">Bordered Columns</option>
+        <option value="color">Color Columns</option>
+        <option value="gapless">Gapless Split</option>
+        <option value="feature">Feature + Supporting</option>
+      </field>
+      <field name="column_gap" type="list" default="3" label="Column Gap">
+        <option value="0">None</option>
+        <option value="1">Extra Small</option>
+        <option value="2">Small</option>
+        <option value="3">Medium</option>
+        <option value="4">Large</option>
+        <option value="5">Extra Large</option>
+      </field>
+      <field name="column_vertical_align" type="list" default="start" label="Vertical Alignment">
+        <option value="start">Top</option>
+        <option value="center">Center</option>
+        <option value="end">Bottom</option>
+        <option value="stretch">Stretch</option>
+      </field>
+      <field name="column_color_mode" type="list" default="bootstrap" label="Column Color Source">
+        <option value="bootstrap">Bootstrap Color</option>
+        <option value="custom">Custom Color</option>
+      </field>
+      <field name="column_bootstrap_color" type="list" default="primary" label="Bootstrap Column Color" showon="column_color_mode:bootstrap">
+        <option value="primary">Primary</option>
+        <option value="secondary">Secondary</option>
+        <option value="success">Success</option>
+        <option value="danger">Danger</option>
+        <option value="warning">Warning</option>
+        <option value="info">Info</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </field>
+      <field name="column_custom_color" type="color" default="#0d6efd" label="Custom Column Color" showon="column_color_mode:custom" />
+    </fieldset>
+    <fieldset name="comments" label="COM_BLOG_COMMENTS_SETTINGS">
+      <field name="comments_provider" type="list" default="disabled" label="COM_BLOG_COMMENTS_PROVIDER">
+        <option value="disabled">JDISABLED</option>
+        <option value="native">Native Comments</option>
+        <option value="disqus">Disqus</option>
+        <option value="intensedebate">IntenseDebate</option>
+        <option value="compojoom">CompoJoom Comments</option>
+        <option value="jlex">JLex Comments</option>
+        <option value="hypercomments">HyperComments</option>
+        <option value="komento">Komento</option>
+        <option value="jcomments">JComments</option>
+      </field>
+      <field name="disqus_shortname" type="text" label="COM_BLOG_DISQUS_SHORTNAME" showon="comments_provider:disqus" />
+      <field name="intensedebate_account" type="text" label="COM_BLOG_INTENSEDEBATE_ACCOUNT" showon="comments_provider:intensedebate" />
+      <field name="hypercomments_widget_id" type="text" label="COM_BLOG_HYPERCOMMENTS_WIDGET_ID" showon="comments_provider:hypercomments" />
+      <field name="comments_moderation" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Comment moderation" showon="comments_provider:native">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="comment_safety" label="Native Comment Safety">
+      <field name="comments_notify" type="radio" label="Notify administrators of new comments" default="1" layout="joomla.form.field.radio.switcher">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="comments_cooldown" type="number" label="Seconds between comments from one visitor" default="60" min="0" max="3600" />
+    </fieldset>
+    <fieldset name="polls" label="COM_BLOG_POLLS_SETTINGS">
+      <field name="poll_show_votes" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_POLL_SHOW_VOTES">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="poll_results_style" type="list" default="progress" label="COM_BLOG_POLL_RESULTS_STYLE">
+        <option value="progress">COM_BLOG_POLL_STYLE_PROGRESS</option>
+        <option value="simple">COM_BLOG_POLL_STYLE_SIMPLE</option>
+        <option value="badges">COM_BLOG_POLL_STYLE_BADGES</option>
+      </field>
+      <field name="poll_progress_labels" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_POLL_PROGRESS_LABELS" showon="poll_results_style:progress">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="poll_progress_striped" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_POLL_PROGRESS_STRIPED" showon="poll_results_style:progress">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="poll_progress_color_mode" type="list" default="palette" label="COM_BLOG_POLL_PROGRESS_COLOR_MODE" showon="poll_results_style:progress">
+        <option value="palette">COM_BLOG_POLL_COLOR_PALETTE</option>
+        <option value="primary">COM_BLOG_POLL_COLOR_PRIMARY</option>
+        <option value="custom">COM_BLOG_POLL_COLOR_CUSTOM</option>
+      </field>
+      <field name="poll_progress_custom_color" type="color" default="#0d6efd" label="COM_BLOG_POLL_PROGRESS_CUSTOM_COLOR" showon="poll_results_style:progress[AND]poll_progress_color_mode:custom" />
+    </fieldset>
+    <fieldset name="poll_access" label="Poll Access">
+      <field name="poll_guest_voting" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Allow guest voting">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="engagement" label="COM_BLOG_ENGAGEMENT_SETTINGS">
+      <field name="engagement_ratings" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_ENABLE_RATINGS">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="engagement_sharing" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_ENABLE_SHARING">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="engagement_subscribe" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_ENABLE_SUBSCRIBE">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="engagement_appearance" label="COM_BLOG_ENGAGEMENT_APPEARANCE">
+      <field name="rating_label" type="text" label="COM_BLOG_RATING_LABEL" default="Rate this post:" />
+      <field name="subscribe_heading" type="text" label="COM_BLOG_SUBSCRIBE_HEADING" default="Stay Informed" />
+      <field name="subscribe_text" type="textarea" label="COM_BLOG_SUBSCRIBE_TEXT" default="Subscribe for updates and new posts." />
+      <field name="subscribe_button" type="text" label="COM_BLOG_SUBSCRIBE_BUTTON" default="Subscribe" />
+      <field name="subscribe_consent" type="textarea" label="COM_BLOG_SUBSCRIBE_CONSENT" default="I agree to receive email updates and can unsubscribe at any time." />
+      <field name="share_facebook" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Share via facebook">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="share_x" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Share via x">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="share_linkedin" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Share via linkedin">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="share_pinterest" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Share via pinterest">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="share_email" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Share via email">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="email_tracking" label="COM_BLOG_EMAIL_TRACKING_SETTINGS">
+      <field name="email_open_tracking" type="radio" layout="joomla.form.field.radio.switcher" default="0" label="COM_BLOG_EMAIL_OPEN_TRACKING">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="email_link_tracking" type="radio" layout="joomla.form.field.radio.switcher" default="0" label="COM_BLOG_EMAIL_LINK_TRACKING">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+    </fieldset>
+    <fieldset name="email_delivery" label="COM_BLOG_EMAIL_DELIVERY_SETTINGS">
+      <field name="campaign_mail_service" type="list" default="joomla" label="COM_BLOG_EMAIL_SERVICE">
+        <option value="joomla">Joomla Default</option>
+        <option value="mail">PHP Mail</option>
+        <option value="smtp">SMTP</option>
+        <option value="mailgun">Mailgun</option>
+        <option value="sendgrid">SendGrid</option>
+        <option value="postmark">Postmark</option>
+      </field>
+      <field name="campaign_from_email" type="email" label="COM_BLOG_CAMPAIGN_FROM_EMAIL" />
+      <field name="campaign_from_name" type="text" label="COM_BLOG_CAMPAIGN_FROM_NAME" />
+      <field name="campaign_reply_to" type="email" label="COM_BLOG_CAMPAIGN_REPLY_TO" />
+      <field name="campaign_smtp_host" type="text" label="SMTP host" showon="campaign_mail_service:smtp" />
+      <field name="campaign_smtp_port" type="number" label="SMTP port" showon="campaign_mail_service:smtp" default="587" min="1" max="65535" />
+      <field name="campaign_smtp_security" type="list" label="SMTP security" showon="campaign_mail_service:smtp">
+        <option value="tls">TLS</option>
+        <option value="ssl">SSL</option>
+        <option value="">None</option>
+      </field>
+      <field name="campaign_smtp_user" type="text" label="SMTP username" showon="campaign_mail_service:smtp" />
+      <field name="campaign_smtp_password" type="password" label="SMTP password" showon="campaign_mail_service:smtp" />
+      <field name="campaign_mailgun_key" type="password" label="Mailgun API key" showon="campaign_mail_service:mailgun" />
+      <field name="campaign_mailgun_domain" type="text" label="Mailgun sending domain" showon="campaign_mail_service:mailgun" />
+      <field name="campaign_mailgun_region" type="list" label="Mailgun region" showon="campaign_mail_service:mailgun">
+        <option value="us">United States</option>
+        <option value="eu">Europe</option>
+      </field>
+      <field name="campaign_sendgrid_key" type="password" label="SendGrid API key" showon="campaign_mail_service:sendgrid" />
+      <field name="campaign_postmark_key" type="password" label="Postmark server token" showon="campaign_mail_service:postmark" />
+      <field name="campaign_postmark_stream" type="text" label="Postmark message stream" showon="campaign_mail_service:postmark" default="outbound" />
+    </fieldset>
+    <fieldset name="list_display" label="COM_BLOG_LIST_DISPLAY_SETTINGS">
+      <field name="post_listing_layout" type="list" default="rows" label="COM_BLOG_POST_LISTING_LAYOUT_LABEL">
+        <option value="rows">COM_BLOG_POST_LISTING_LAYOUT_ROWS</option>
+        <option value="columns">COM_BLOG_POST_LISTING_LAYOUT_COLUMNS</option>
+      </field>
+      <field name="column_style" type="list" label="COM_BLOG_COLUMN_STYLE_LABEL" default="grid" showon="post_listing_layout:columns">
+        <option value="grid">COM_BLOG_COLUMN_STYLE_GRID</option>
+        <option value="masonry">COM_BLOG_COLUMN_STYLE_MASONRY</option>
+      </field>
+      <field name="columns_per_row" type="list" label="COM_BLOG_COLUMNS_PER_ROW_LABEL" default="2" showon="post_listing_layout:columns">
+        <option value="2">2 Columns</option>
+        <option value="3">3 Columns</option>
+        <option value="4">4 Columns</option>
+        <option value="5">5 Columns</option>
+        <option value="6">6 Columns</option>
+      </field>
+      <field name="list_excerpt_length" type="number" default="400" filter="integer" min="0" label="COM_BLOG_LIST_EXCERPT_LENGTH_LABEL" description="COM_BLOG_LIST_EXCERPT_LENGTH_DESC" />
+      <field name="list_item_style" type="list" default="standard" label="COM_BLOG_LIST_ITEM_STYLE_LABEL">
+        <option value="standard">COM_BLOG_LIST_ITEM_STYLE_STANDARD</option>
+        <option value="card">COM_BLOG_LIST_ITEM_STYLE_CARD</option>
+        <option value="learning">COM_BLOG_LIST_ITEM_STYLE_LEARNING</option>
+        <option value="simple">COM_BLOG_LIST_ITEM_STYLE_SIMPLE</option>
+        <option value="nickel">COM_BLOG_LIST_ITEM_STYLE_NICKEL</option>
+      </field>
+    </fieldset>
+  </fields>
+</form>

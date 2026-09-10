@@ -1,0 +1,146 @@
+<?php
+
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_blog
+ *
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+
+/** @var \Joomla\Component\Blog\Site\View\Form\HtmlView $this */
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('keepalive')
+    ->useScript('form.validate')
+    ->useScript('com_blog.form-edit');
+
+$this->tab_name = 'com-content-form';
+$this->ignore_fieldsets = ['image-featured', 'jmetadata', 'item_associations'];
+$this->useCoreUI = true;
+
+// Create shortcut to parameters.
+$params = $this->state->get('params');
+
+// This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings
+if (!$params->exists('show_publishing_options')) {
+    $params->set('show_urls_images_frontend', '0');
+}
+?>
+<div class="edit item-page">
+    <?php if ($params->get('show_page_heading')) : ?>
+    <div class="page-header">
+        <h1>
+            <?php echo $this->escape($params->get('page_heading')); ?>
+        </h1>
+    </div>
+    <?php endif; ?>
+
+    <form action="<?php echo Route::_('index.php'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+        <fieldset>
+            <?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
+
+            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', Text::_('COM_BLOG_POST_CONTENT')); ?>
+                <?php echo $this->form->renderField('title'); ?>
+
+                <?php echo $this->form->renderField('alias'); ?>
+
+
+                <?php echo $this->form->renderField('post_content'); ?>
+                <?php if ($params->get('show_urls_images_frontend')) : ?>
+                    <fieldset id="fieldset-image-featured" class="options-form mt-4">
+                        <legend><?php echo Text::_('Featured Image'); ?></legend>
+                        <?php echo $this->form->renderField('featured_image', 'media'); ?>
+                        <?php echo $this->form->renderField('featured_image_alt', 'media'); ?>
+                        <?php echo $this->form->renderField('featured_image_alt_empty', 'media'); ?>
+                        <?php echo $this->form->renderField('featured_image_caption', 'media'); ?>
+                        <?php echo $this->form->renderField('featured_image_class', 'media'); ?>
+                    </fieldset>
+                <?php endif; ?>
+
+                <?php if ($this->captchaEnabled) : ?>
+                    <?php echo $this->form->renderField('captcha'); ?>
+                <?php endif; ?>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+            <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+
+            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'options', Text::_('JOPTIONS')); ?>
+                <?php echo $this->form->renderField('transition'); ?>
+                    <?php echo $this->form->renderField('state'); ?>
+                    <?php echo $this->form->renderField('catid'); ?>
+                    <?php if ($this->item->params->get('access-change')) : ?>
+                        <?php echo $this->form->renderField('featured'); ?>
+                    <?php endif; ?>
+                    <?php echo $this->form->renderField('access'); ?>
+                    <?php echo $this->form->renderField('language'); ?>
+                    <?php echo $this->form->renderField('tags'); ?>
+                    <?php echo $this->form->renderField('note'); ?>
+                    <?php if ($params->get('save_history', 0)) : ?>
+                        <?php echo $this->form->renderField('version_note'); ?>
+                    <?php endif; ?>
+                    <?php if (is_null($this->item->id)) : ?>
+                        <div class="control-group">
+                            <div class="controls">
+                                <?php echo Text::_('COM_BLOG_ORDERING'); ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+                <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+                    <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_BLOG_PUBLISHING')); ?>
+                        <?php if ($this->item->params->get('access-change')) : ?>
+                            <?php echo $this->form->renderField('publish_up'); ?>
+                            <?php echo $this->form->renderField('publish_down'); ?>
+                            <?php echo $this->form->renderField('featured_up'); ?>
+                            <?php echo $this->form->renderField('featured_down'); ?>
+                        <?php endif; ?>
+                        <?php echo $this->form->renderField('created_by_alias'); ?>
+
+                        <fieldset id="fieldset-metadata" class="options-form">
+                            <legend><?php echo Text::_('COM_BLOG_METADATA'); ?></legend>
+                            <?php echo $this->form->renderField('metadesc'); ?>
+                            <?php echo $this->form->renderField('metakey'); ?>
+                        </fieldset>
+                    <?php echo HTMLHelper::_('uitab.endTab'); ?>
+                <?php endif; ?>
+
+            <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+
+            <?php echo $this->form->renderControlFields(); ?>
+        </fieldset>
+        <div class="d-grid gap-2 d-sm-block mb-2">
+            <button type="button" class="btn btn-primary" data-submit-task="post.apply">
+                <span class="icon-check" aria-hidden="true"></span>
+                <?php echo Text::_('JSAVE'); ?>
+            </button>
+            <button type="button" class="btn btn-primary" data-submit-task="post.save">
+                <span class="icon-check" aria-hidden="true"></span>
+                <?php echo Text::_('JSAVEANDCLOSE'); ?>
+            </button>
+            <?php if ($this->showSaveAsCopy) : ?>
+                <button type="button" class="btn btn-primary" data-submit-task="post.save2copy">
+                    <span class="icon-copy" aria-hidden="true"></span>
+                    <?php echo Text::_('JSAVEASCOPY'); ?>
+                </button>
+            <?php endif; ?>
+            <button type="button" class="btn btn-danger" data-submit-task="post.cancel">
+                <span class="icon-times" aria-hidden="true"></span>
+                <?php echo Text::_('JCANCEL'); ?>
+            </button>
+            <?php if ($params->get('save_history', 0) && $this->item->id && ComponentHelper::isEnabled('com_contenthistory')) : ?>
+                <?php echo $this->form->getInput('contenthistory'); ?>
+            <?php endif; ?>
+        </div>
+    </form>
+</div>

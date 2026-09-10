@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `#__blog_autopost_logs`;
+DROP TABLE IF EXISTS `#__blog_subscribers`;
+DROP TABLE IF EXISTS `#__blog_rating_votes`;
+DROP TABLE IF EXISTS `#__blog_poll_votes`;
+DROP TABLE IF EXISTS `#__blog_poll_options`;
+DROP TABLE IF EXISTS `#__blog_polls`;
+DROP TABLE IF EXISTS `#__blog_comments`;
+DROP TABLE IF EXISTS `#__blog_rating`;
+DROP TABLE IF EXISTS `#__blog_frontpage`;
+DROP TABLE IF EXISTS `#__blog`;

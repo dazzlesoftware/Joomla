@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>pkg_video_feature</name>
+  <packagename>video_feature</packagename>
+  <version>1.0.1</version>
+  <creationDate>2026-09</creationDate>
+  <author>Local Joomla Development</author>
+  <license>GNU General Public License version 2 or later</license>
+  <description>Native Joomla video editor button and content renderer.</description>
+  <files>
+    <file type="plugin" id="video" group="editors-xtd">plg_editors-xtd_video.zip</file>
+    <file type="plugin" id="video" group="content">plg_content_video.zip</file>
+  </files>
+</extension>

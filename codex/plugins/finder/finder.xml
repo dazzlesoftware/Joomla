@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="codex" method="upgrade">
+  <name>plg_codex_finder</name>
+  <author>Joomla! Project</author>
+  <creationDate>2011-08</creationDate>
+  <copyright>(C) 2011 Open Source Matters, Inc.</copyright>
+  <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+  <authorEmail>admin@joomla.org</authorEmail>
+  <authorUrl>www.joomla.org</authorUrl>
+  <version>3.0.0</version>
+  <description>PLG_CODEX_FINDER_XML_DESCRIPTION</description>
+  <namespace path="src">Joomla\Plugin\Codex\Finder</namespace>
+  <files>
+    <folder plugin="finder">services</folder>
+    <folder>src</folder>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/plg_codex_finder.ini</language>
+    <language tag="en-GB">language/en-GB/plg_codex_finder.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+      <fieldset name="basic" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
+        <field name="search_archived" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_CODEX_FINDER_FIELD_SEARCH_ARCHIVED_LABEL" description="PLG_CODEX_FINDER_FIELD_SEARCH_ARCHIVED_DESC" default="1" filter="integer">
+          <option value="0">JNO</option>
+          <option value="1">JYES</option>
+        </field>
+        <field name="taxonomies" type="taxonomytypes" label="PLG_CODEX_FINDER_TAXONOMIES_LABEL" default="type,category,language,author" multiple="true">
+          <option value="author">PLG_CODEX_FINDER_TAXONOMIES_AUTHOR</option>
+          <option value="category">PLG_CODEX_FINDER_TAXONOMIES_CATEGORY</option>
+          <option value="language">PLG_CODEX_FINDER_TAXONOMIES_LANGUAGE</option>
+          <option value="type">PLG_CODEX_FINDER_TAXONOMIES_TYPE</option>
+        </field>
+      </fieldset>
+    </fields>
+  </config>
+</extension>

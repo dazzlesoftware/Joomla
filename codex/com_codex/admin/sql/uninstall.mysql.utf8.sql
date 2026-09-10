@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `#__codex_autopost_logs`;
+DROP TABLE IF EXISTS `#__codex_subscribers`;
+DROP TABLE IF EXISTS `#__codex_rating_votes`;
+DROP TABLE IF EXISTS `#__codex_poll_votes`;
+DROP TABLE IF EXISTS `#__codex_poll_options`;
+DROP TABLE IF EXISTS `#__codex_polls`;
+DROP TABLE IF EXISTS `#__codex_comments`;
+DROP TABLE IF EXISTS `#__codex_rating`;
+DROP TABLE IF EXISTS `#__codex_frontpage`;
+DROP TABLE IF EXISTS `#__codex`;

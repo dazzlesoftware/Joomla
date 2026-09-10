@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<help key="Posts:_Edit_Category" />
+	<listhelp key="Posts:_Categories" />
+	<fields name="params" addfieldprefix="Joomla\Component\Academy\Administrator\Field">
+		<fieldset name="workflow" label="COM_ACADEMY_WORKFLOW">
+			<field
+				name="workflow_id"
+				type="sql"
+				label="COM_ACADEMY_WORKFLOWS"
+				class="form-select"
+				sql_select="id, title"
+				sql_from="#__workflows"
+				sql_where="published = 1 AND extension = 'com_academy.post'"
+				sql_order="ordering"
+				key_field="id"
+				value_field="title"
+				required="true"
+				default="use_default"
+				translate="true"
+			/>
+		</fieldset>
+	</fields>
+
+</form>

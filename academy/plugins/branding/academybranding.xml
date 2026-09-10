@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="system" method="upgrade">
+  <name>plg_system_academybranding</name>
+  <version>1.0.0</version>
+  <description>Applies component-specific document and RSS branding.</description>
+  <namespace path="src">Joomla\Plugin\System\AcademyBranding</namespace>
+  <files><folder plugin="academybranding">services</folder><folder>src</folder></files>
+</extension>

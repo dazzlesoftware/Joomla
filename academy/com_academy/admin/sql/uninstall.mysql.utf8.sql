@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `#__academy_autopost_logs`;
+DROP TABLE IF EXISTS `#__academy_subscribers`;
+DROP TABLE IF EXISTS `#__academy_rating_votes`;
+DROP TABLE IF EXISTS `#__academy_poll_votes`;
+DROP TABLE IF EXISTS `#__academy_poll_options`;
+DROP TABLE IF EXISTS `#__academy_polls`;
+DROP TABLE IF EXISTS `#__academy_comments`;
+DROP TABLE IF EXISTS `#__academy_rating`;
+DROP TABLE IF EXISTS `#__academy_frontpage`;
+DROP TABLE IF EXISTS `#__academy`;

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>PKG_BLOG</name>
+  <packagename>blog</packagename>
+  <version>1.0.0</version>
+  <creationDate>2026-09</creationDate>
+  <author>Local Joomla Development</author>
+  <license>GNU General Public License version 2 or later</license>
+  <description>PKG_BLOG_XML_DESCRIPTION</description>
+  <scriptfile>script.php</scriptfile>
+  <files>
+    <file type="component" id="com_blog">com_blog.zip</file>
+    <file type="package" id="pkg_blog_integrations">plugins.zip</file>
+    <file type="package" id="pkg_blog_modules">modules.zip</file>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/pkg_blog.ini</language>
+    <language tag="en-GB">language/en-GB/pkg_blog.sys.ini</language>
+  </languages>
+</extension>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="user" method="upgrade">
+    <name>plg_user_genesisprofile</name>
+    <author>Dazzle Software</author>
+    <creationDate>2026-09</creationDate>
+    <copyright>(C) 2026 Dazzle Software</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0.0</version>
+    <description>PLG_USER_GENESISPROFILE_XML_DESCRIPTION</description>
+    <namespace path="src">Joomla\Plugin\User\GenesisProfile</namespace>
+    <files>
+        <folder>forms</folder>
+        <folder plugin="genesisprofile">services</folder>
+        <folder>src</folder>
+    </files>
+    <media destination="plg_user_genesisprofile" folder="media">
+        <folder>images</folder>
+    </media>
+    <languages>
+        <language tag="en-GB">language/en-GB/plg_user_genesisprofile.ini</language>
+        <language tag="en-GB">language/en-GB/plg_user_genesisprofile.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="max_size"
+                    type="number"
+                    label="PLG_USER_GENESISPROFILE_FIELD_MAX_SIZE_LABEL"
+                    description="PLG_USER_GENESISPROFILE_FIELD_MAX_SIZE_DESC"
+                    default="8"
+                    filter="integer"
+                    min="1"
+                />
+                <field
+                    name="dimension"
+                    type="number"
+                    label="PLG_USER_GENESISPROFILE_FIELD_DIMENSION_LABEL"
+                    description="PLG_USER_GENESISPROFILE_FIELD_DIMENSION_DESC"
+                    default="200"
+                    filter="integer"
+                    min="16"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

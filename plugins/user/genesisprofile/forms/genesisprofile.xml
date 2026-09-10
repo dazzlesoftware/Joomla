@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <fields name="genesisprofile">
+        <fieldset name="genesisprofile" label="PLG_USER_GENESISPROFILE_FIELDSET_LABEL">
+            <field
+                name="image"
+                type="avatarupload"
+                label="PLG_USER_GENESISPROFILE_FIELD_IMAGE_LABEL"
+                description="PLG_USER_GENESISPROFILE_FIELD_IMAGE_DESC"
+                max_size="8"
+                dimension="200"
+            />
+
+            <!--
+                Add more account fields here later - they will automatically be
+                saved to #__user_profiles under 'genesisprofile.<name>' by the
+                same onUserAfterSave handler, alongside the avatar.
+            -->
+        </fieldset>
+    </fields>
+</form>

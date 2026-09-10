@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="codex" method="upgrade">
+  <name>plg_codex_video</name>
+  <author>Local Joomla Development</author>
+  <creationDate>2026-09</creationDate>
+  <license>GNU General Public License version 2 or later</license>
+  <version>1.1.1</version>
+  <description>PLG_CODEX_VIDEO_XML_DESCRIPTION</description>
+  <namespace path="src">Joomla\Plugin\Codex\Video</namespace>
+  <files>
+    <folder plugin="video">services</folder>
+    <folder>src</folder>
+  </files>
+  <languages>
+    <language tag="en-GB">language/en-GB/plg_codex_video.ini</language>
+    <language tag="en-GB">language/en-GB/plg_codex_video.sys.ini</language>
+  </languages>
+  <media destination="plg_codex_video" folder="media">
+    <folder>js</folder>
+  </media>
+</extension>

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_academy",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_academy.admin-post-pagebreak",
+      "type": "script",
+      "uri": "com_academy/admin-post-pagebreak.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module",
+        "defer": true
+      },
+      "version": "214a47"
+    },
+    {
+      "name": "com_academy.admin-post-readmore",
+      "type": "script",
+      "uri": "com_academy/admin-post-readmore.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "27b7c1"
+    },
+    {
+      "name": "com_academy.admin-posts-stage",
+      "type": "script",
+      "uri": "com_academy/admin-posts-default-stage-footer.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "09d5c2"
+    },
+    {
+      "name": "com_academy.admin-posts-batch",
+      "type": "script",
+      "uri": "com_academy/admin-posts-default-batch-footer.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "f382dd"
+    },
+    {
+      "name": "com_academy.admin-posts-modal",
+      "type": "script",
+      "uri": "com_academy/admin-posts-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection.",
+      "version": "509ba1"
+    },
+    {
+      "name": "com_academy.form-edit",
+      "type": "script",
+      "uri": "com_academy/form-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "9c9433"
+    },
+    {
+      "name": "com_academy.posts-list",
+      "type": "script",
+      "uri": "com_academy/posts-list.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "f53819"
+    },
+    {
+      "name": "com_academy.posts-status",
+      "type": "script",
+      "uri": "com_academy/posts-status.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "31fff5"
+    }
+  ]
+}
