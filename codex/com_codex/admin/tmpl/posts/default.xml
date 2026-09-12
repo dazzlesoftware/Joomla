@@ -14,13 +14,9 @@
 			>
 			<field
 				name="filter_category_id"
-				type="modal_category"
+				type="postcategory"
+				addfieldprefix="Joomla\Component\Codex\Administrator\Field"
 				label="COM_MENUS_ADMIN_CATEGORY_LABEL"
-				extension="com_codex"
-				select="true"
-				new="true"
-				edit="true"
-				clear="true"
 				filter="integer"
 			/>
 

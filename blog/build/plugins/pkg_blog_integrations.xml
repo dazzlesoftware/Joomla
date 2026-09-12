@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="package" method="upgrade">
   <name>pkg_blog_integrations</name>
   <packagename>blog_integrations</packagename>
@@ -8,33 +8,33 @@
   <license>GNU General Public License version 2 or later</license>
   <description>Blog isolated post integration plugins</description>
   <files>
+    <file type="plugin" id="actionlog" group="blog">plg_blog_actionlog.zip</file>
+    <file type="plugin" id="blocks" group="blog">plg_blog_blocks.zip</file>
     <file type="plugin" id="confirmconsent" group="blog">plg_blog_confirmconsent.zip</file>
     <file type="plugin" id="contact" group="blog">plg_blog_contact.zip</file>
-    <file type="plugin" id="pagebreak" group="blog">plg_blog_pagebreak.zip</file>
+    <file type="plugin" id="contactbutton" group="blog">plg_blog_contactbutton.zip</file>
     <file type="plugin" id="emailcloak" group="blog">plg_blog_emailcloak.zip</file>
+    <file type="plugin" id="featuring" group="blog">plg_blog_featuring.zip</file>
     <file type="plugin" id="fields" group="blog">plg_blog_fields.zip</file>
+    <file type="plugin" id="fieldsbutton" group="blog">plg_blog_fieldsbutton.zip</file>
+    <file type="plugin" id="finder" group="blog">plg_blog_finder.zip</file>
     <file type="plugin" id="finderindexer" group="blog">plg_blog_finderindexer.zip</file>
+    <file type="plugin" id="imagebutton" group="blog">plg_blog_imagebutton.zip</file>
     <file type="plugin" id="joomla" group="blog">plg_blog_joomla.zip</file>
     <file type="plugin" id="loadmodule" group="blog">plg_blog_loadmodule.zip</file>
-    <file type="plugin" id="pagenavigation" group="blog">plg_blog_pagenavigation.zip</file>
-    <file type="plugin" id="vote" group="blog">plg_blog_vote.zip</file>
-    <file type="plugin" id="finder" group="blog">plg_blog_finder.zip</file>
-    <file type="plugin" id="privacy" group="blog">plg_blog_privacy.zip</file>
-    <file type="plugin" id="webservices" group="blog">plg_blog_webservices.zip</file>
-    <file type="plugin" id="postbutton" group="blog">plg_blog_postbutton.zip</file>
-    <file type="plugin" id="contactbutton" group="blog">plg_blog_contactbutton.zip</file>
-    <file type="plugin" id="fieldsbutton" group="blog">plg_blog_fieldsbutton.zip</file>
-    <file type="plugin" id="imagebutton" group="blog">plg_blog_imagebutton.zip</file>
     <file type="plugin" id="menubutton" group="blog">plg_blog_menubutton.zip</file>
     <file type="plugin" id="modulebutton" group="blog">plg_blog_modulebutton.zip</file>
-    <file type="plugin" id="pagebreakbutton" group="blog">plg_blog_pagebreakbutton.zip</file>
-    <file type="plugin" id="readmorebutton" group="blog">plg_blog_readmorebutton.zip</file>
-    <file type="plugin" id="featuring" group="blog">plg_blog_featuring.zip</file>
     <file type="plugin" id="notification" group="blog">plg_blog_notification.zip</file>
+    <file type="plugin" id="pagebreak" group="blog">plg_blog_pagebreak.zip</file>
+    <file type="plugin" id="pagebreakbutton" group="blog">plg_blog_pagebreakbutton.zip</file>
+    <file type="plugin" id="pagenavigation" group="blog">plg_blog_pagenavigation.zip</file>
+    <file type="plugin" id="postbutton" group="blog">plg_blog_postbutton.zip</file>
+    <file type="plugin" id="privacy" group="blog">plg_blog_privacy.zip</file>
     <file type="plugin" id="publishing" group="blog">plg_blog_publishing.zip</file>
-    <file type="plugin" id="actionlog" group="blog">plg_blog_actionlog.zip</file>
+    <file type="plugin" id="readmorebutton" group="blog">plg_blog_readmorebutton.zip</file>
     <file type="plugin" id="video" group="blog">plg_blog_video.zip</file>
-    <file type="plugin" id="blocks" group="blog">plg_blog_blocks.zip</file>
+    <file type="plugin" id="vote" group="blog">plg_blog_vote.zip</file>
+    <file type="plugin" id="webservices" group="blog">plg_blog_webservices.zip</file>
     <file type="plugin" id="blog_mailqueue" group="task">plg_task_blog_mailqueue.zip</file>
     <file type="plugin" id="blogbranding" group="system">plg_system_blogbranding.zip</file>
     <file type="plugin" id="blogloader" group="system">plg_system_blogloader.zip</file>

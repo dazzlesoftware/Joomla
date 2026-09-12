@@ -7,7 +7,7 @@
   <!-- Add fields to the request variables for the layout. -->
   <fields name="request">
     <fieldset name="request">
-      <field name="id" type="modal_category" label="JGLOBAL_CHOOSE_CATEGORY_LABEL" extension="com_codex" required="true" select="true" new="true" edit="true" clear="true" />
+      <field name="id" type="postcategory" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_CHOOSE_CATEGORY_LABEL" required="true" />
       <field name="filter_tag" type="posttags" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JTAG" multiple="true" mode="nested" custom="deny" />
     </fieldset>
   </fields>

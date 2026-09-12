@@ -141,6 +141,7 @@ class PostModel extends ItemModel
                             $db->quoteName('c.alias', 'category_alias'),
                             $db->quoteName('c.access', 'category_access'),
                             $db->quoteName('c.language', 'category_language'),
+                            $db->quoteName('c.default_image', 'category_default_image'),
                             $db->quoteName('fp.ordering'),
                             $db->quoteName('u.name', 'author'),
                             $db->quoteName('parent.title', 'parent_title'),

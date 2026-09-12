@@ -10,13 +10,22 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Blog\Site\Helper\RouteHelper;
 
 $params         = $displayData->params;
 $featuredImages = json_decode($displayData->media);
 
+// Fall back to the post's category's "Default Post Cover" when the post has none of its own.
 if (empty($featuredImages->featured_image)) {
-    return;
+    if (empty($displayData->category_default_image)) {
+        return;
+    }
+
+    $featuredImages = (object) [
+        'featured_image' => Uri::root() . $displayData->category_default_image,
+        'featured_image_alt_empty' => true,
+    ];
 }
 
 $imageClass = empty($featuredImages->featured_image_class) ? $params->get('featured_image_class') : $featuredImages->featured_image_class;

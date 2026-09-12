@@ -31,7 +31,7 @@ use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Academy\Administrator\Event\Model\FeatureEvent;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
@@ -669,11 +669,23 @@ class PostModel extends AdminModel implements WorkflowModelInterface, Versionabl
 
         $this->workflowBeforeSave();
 
-        // Categories are managed by this component. New categories are created in the
-        // native Categories screen, never through Joomla's shared category component.
-        if (!empty($data['catid']) && !CategoriesHelper::validateCategoryId((int) $data['catid'], 'com_academy')) {
+        // Categories are managed by this component's own native categories table, not
+        // Joomla's shared #__categories - validate against that native table instead.
+        if (!empty($data['catid']) && !CategoriesHelper::exists((int) $data['catid'])) {
             $this->setError('The selected category does not exist.');
             return false;
+        }
+
+        // New posts inherit their category's "Default Tags", merged with whatever the
+        // author already picked. Existing posts are left alone so their tags aren't
+        // silently re-applied every time the post is edited.
+        if ($autopostWasNew && !empty($data['catid'])) {
+            $defaultTagIds = CategoriesHelper::defaultTagIds((int) $data['catid']);
+
+            if ($defaultTagIds) {
+                $existingTags = array_map('strval', (array) ($data['tags'] ?? []));
+                $data['tags'] = array_values(array_unique(array_merge($existingTags, $defaultTagIds)));
+            }
         }
 
         // Alter the title for save as copy

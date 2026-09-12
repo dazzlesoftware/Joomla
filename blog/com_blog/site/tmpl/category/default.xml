@@ -16,14 +16,10 @@
 		>
 			<field
 				name="id"
-				type="modal_category"
+				type="postcategory"
+				addfieldprefix="Joomla\Component\Blog\Administrator\Field"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
-				extension="com_blog"
 				required="true"
-				select="true"
-				new="true"
-				edit="true"
-				clear="true"
 			/>
 
 			<field

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="package" method="upgrade">
   <name>pkg_academy_integrations</name>
   <packagename>academy_integrations</packagename>
@@ -8,33 +8,33 @@
   <license>GNU General Public License version 2 or later</license>
   <description>Academy isolated post integration plugins</description>
   <files>
+    <file type="plugin" id="actionlog" group="academy">plg_academy_actionlog.zip</file>
+    <file type="plugin" id="blocks" group="academy">plg_academy_blocks.zip</file>
     <file type="plugin" id="confirmconsent" group="academy">plg_academy_confirmconsent.zip</file>
     <file type="plugin" id="contact" group="academy">plg_academy_contact.zip</file>
-    <file type="plugin" id="pagebreak" group="academy">plg_academy_pagebreak.zip</file>
+    <file type="plugin" id="contactbutton" group="academy">plg_academy_contactbutton.zip</file>
     <file type="plugin" id="emailcloak" group="academy">plg_academy_emailcloak.zip</file>
+    <file type="plugin" id="featuring" group="academy">plg_academy_featuring.zip</file>
     <file type="plugin" id="fields" group="academy">plg_academy_fields.zip</file>
+    <file type="plugin" id="fieldsbutton" group="academy">plg_academy_fieldsbutton.zip</file>
+    <file type="plugin" id="finder" group="academy">plg_academy_finder.zip</file>
     <file type="plugin" id="finderindexer" group="academy">plg_academy_finderindexer.zip</file>
+    <file type="plugin" id="imagebutton" group="academy">plg_academy_imagebutton.zip</file>
     <file type="plugin" id="joomla" group="academy">plg_academy_joomla.zip</file>
     <file type="plugin" id="loadmodule" group="academy">plg_academy_loadmodule.zip</file>
-    <file type="plugin" id="pagenavigation" group="academy">plg_academy_pagenavigation.zip</file>
-    <file type="plugin" id="vote" group="academy">plg_academy_vote.zip</file>
-    <file type="plugin" id="finder" group="academy">plg_academy_finder.zip</file>
-    <file type="plugin" id="privacy" group="academy">plg_academy_privacy.zip</file>
-    <file type="plugin" id="webservices" group="academy">plg_academy_webservices.zip</file>
-    <file type="plugin" id="postbutton" group="academy">plg_academy_postbutton.zip</file>
-    <file type="plugin" id="contactbutton" group="academy">plg_academy_contactbutton.zip</file>
-    <file type="plugin" id="fieldsbutton" group="academy">plg_academy_fieldsbutton.zip</file>
-    <file type="plugin" id="imagebutton" group="academy">plg_academy_imagebutton.zip</file>
     <file type="plugin" id="menubutton" group="academy">plg_academy_menubutton.zip</file>
     <file type="plugin" id="modulebutton" group="academy">plg_academy_modulebutton.zip</file>
-    <file type="plugin" id="pagebreakbutton" group="academy">plg_academy_pagebreakbutton.zip</file>
-    <file type="plugin" id="readmorebutton" group="academy">plg_academy_readmorebutton.zip</file>
-    <file type="plugin" id="featuring" group="academy">plg_academy_featuring.zip</file>
     <file type="plugin" id="notification" group="academy">plg_academy_notification.zip</file>
+    <file type="plugin" id="pagebreak" group="academy">plg_academy_pagebreak.zip</file>
+    <file type="plugin" id="pagebreakbutton" group="academy">plg_academy_pagebreakbutton.zip</file>
+    <file type="plugin" id="pagenavigation" group="academy">plg_academy_pagenavigation.zip</file>
+    <file type="plugin" id="postbutton" group="academy">plg_academy_postbutton.zip</file>
+    <file type="plugin" id="privacy" group="academy">plg_academy_privacy.zip</file>
     <file type="plugin" id="publishing" group="academy">plg_academy_publishing.zip</file>
-    <file type="plugin" id="actionlog" group="academy">plg_academy_actionlog.zip</file>
+    <file type="plugin" id="readmorebutton" group="academy">plg_academy_readmorebutton.zip</file>
     <file type="plugin" id="video" group="academy">plg_academy_video.zip</file>
-    <file type="plugin" id="blocks" group="academy">plg_academy_blocks.zip</file>
+    <file type="plugin" id="vote" group="academy">plg_academy_vote.zip</file>
+    <file type="plugin" id="webservices" group="academy">plg_academy_webservices.zip</file>
     <file type="plugin" id="academy_mailqueue" group="task">plg_task_academy_mailqueue.zip</file>
     <file type="plugin" id="academybranding" group="system">plg_system_academybranding.zip</file>
     <file type="plugin" id="academyloader" group="system">plg_system_academyloader.zip</file>

@@ -1,105 +1,185 @@
-param(
-    [switch]$SkipBuild
-)
+<#
+    Packages the hand-maintained extension source under academy/, blog/, codex/ (plus
+    the two shared extensions under plugins/) into installable Joomla zips.
+
+    This does NOT generate anything from a stock Joomla core anymore - it only zips up
+    whatever already exists on disk. The academy/, blog/, and codex/ folders are the
+    real, hand-maintained source; edit the plugin/module/component code directly, then
+    re-run this script to re-package it.
+#>
+param()
 
 $ErrorActionPreference = 'Stop'
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$SourceRoot = Split-Path (Split-Path $ScriptDir -Parent) -Parent
-$Dist = Join-Path $SourceRoot 'dist'
+$RepoRoot = Split-Path $ScriptDir -Parent
 
-if (-not $SkipBuild) {
-    & (Join-Path $ScriptDir 'build-components.ps1')
-    & (Join-Path $ScriptDir 'build-family-modules.ps1')
-    & (Join-Path $ScriptDir 'build-integration-plugins.ps1')
-    & (Join-Path $ScriptDir 'build-mail-task-plugins.ps1')
+function New-Zip([string]$SourceDir, [string]$DestZip) {
+    if (Test-Path -LiteralPath $DestZip) { Remove-Item -LiteralPath $DestZip -Force }
+    Compress-Archive -Path (Join-Path $SourceDir '*') -DestinationPath $DestZip -CompressionLevel Optimal
 }
+
+function Build-VideoFeaturePackage([string]$RepoRoot) {
+    $source = Join-Path $RepoRoot 'plugins'
+    $staging = Join-Path $RepoRoot 'build/video-feature'
+    $distOut = Join-Path $RepoRoot 'dist'
+    if (Test-Path -LiteralPath $staging) { Remove-Item -LiteralPath $staging -Recurse -Force }
+    New-Item -ItemType Directory -Path $staging, $distOut -Force | Out-Null
+
+    New-Zip "$source/editors-xtd/video" "$staging/plg_editors-xtd_video.zip"
+    New-Zip "$source/content/video" "$staging/plg_content_video.zip"
+
+    $manifest = @'
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>pkg_video_feature</name>
+  <packagename>video_feature</packagename>
+  <version>1.0.1</version>
+  <creationDate>2026-09</creationDate>
+  <author>Local Joomla Development</author>
+  <license>GNU General Public License version 2 or later</license>
+  <description>Native Joomla video editor button and content renderer.</description>
+  <files>
+    <file type="plugin" id="video" group="editors-xtd">plg_editors-xtd_video.zip</file>
+    <file type="plugin" id="video" group="content">plg_content_video.zip</file>
+  </files>
+</extension>
+'@
+    [IO.File]::WriteAllText("$staging/pkg_video_feature.xml", $manifest, [Text.UTF8Encoding]::new($false))
+    Compress-Archive -LiteralPath "$staging/pkg_video_feature.xml", "$staging/plg_editors-xtd_video.zip", "$staging/plg_content_video.zip" -DestinationPath "$distOut/pkg_video_feature.zip" -CompressionLevel Optimal -Force
+    Write-Output "Built $distOut/pkg_video_feature.zip"
+}
+
+function Build-GenesisProfilePackage([string]$RepoRoot) {
+    $source = Join-Path $RepoRoot 'plugins/user/genesisprofile'
+    $distOut = Join-Path $RepoRoot 'dist'
+    New-Item -ItemType Directory -Path $distOut -Force | Out-Null
+    $output = Join-Path $distOut 'plg_user_genesisprofile.zip'
+    New-Zip $source $output
+    Write-Output "Built $output"
+}
+
+Build-VideoFeaturePackage $RepoRoot
+Build-GenesisProfilePackage $RepoRoot
 
 foreach ($family in @('academy', 'blog', 'codex')) {
     $title = (Get-Culture).TextInfo.ToTitleCase($family)
     $upper = $family.ToUpperInvariant()
-    $familyDist = Join-Path $Dist $family
-    $familyBuild = Join-Path $familyDist 'build'
-    $familyOutput = Join-Path $familyDist 'dist'
-    $pluginsDist = Join-Path $familyDist 'plugins'
-    New-Item -ItemType Directory -Path $familyBuild, $familyOutput, $pluginsDist -Force | Out-Null
-    $packageRoot = Join-Path $familyBuild "pkg_$family"
+    $familyDir = Join-Path $RepoRoot $family
+    $familyDist = Join-Path $familyDir 'dist'
+    $familyBuild = Join-Path $familyDir 'build'
+    New-Item -ItemType Directory -Path $familyDist, $familyBuild -Force | Out-Null
 
+    Write-Output "=== Packaging $title ==="
+
+    # --- Component ---
+    $componentZip = Join-Path $familyDist "com_$family.zip"
+    New-Zip (Join-Path $familyDir "com_$family") $componentZip
+
+    # --- Content-group plugins (everything under plugins/ except mailqueue/branding/loader) ---
+    $integrationsRoot = Join-Path $familyBuild 'plugins'
+    if (Test-Path -LiteralPath $integrationsRoot) { Remove-Item -LiteralPath $integrationsRoot -Recurse -Force }
+    New-Item -ItemType Directory -Path $integrationsRoot -Force | Out-Null
+
+    $pluginFiles = [System.Collections.Generic.List[string]]::new()
+    Get-ChildItem -LiteralPath (Join-Path $familyDir 'plugins') -Directory |
+        Where-Object { $_.Name -notin @('mailqueue', 'branding', 'loader') } |
+        Sort-Object Name |
+        ForEach-Object {
+            $el = $_.Name
+            $zipName = "plg_${family}_${el}.zip"
+            $zip = Join-Path $familyDist $zipName
+            New-Zip $_.FullName $zip
+            Copy-Item -LiteralPath $zip -Destination $integrationsRoot -Force
+            $pluginFiles.Add("    <file type=`"plugin`" id=`"$el`" group=`"$family`">$zipName</file>")
+        }
+
+    # --- Mail queue task plugin ---
+    $mailZipName = "plg_task_${family}_mailqueue.zip"
+    $mailZip = Join-Path $familyDist $mailZipName
+    New-Zip (Join-Path $familyDir 'plugins/mailqueue') $mailZip
+    Copy-Item -LiteralPath $mailZip -Destination $integrationsRoot -Force
+    $pluginFiles.Add("    <file type=`"plugin`" id=`"${family}_mailqueue`" group=`"task`">$mailZipName</file>")
+
+    # --- Branding system plugin ---
+    $brandZipName = "plg_system_${family}branding.zip"
+    $brandZip = Join-Path $familyDist $brandZipName
+    New-Zip (Join-Path $familyDir 'plugins/branding') $brandZip
+    Copy-Item -LiteralPath $brandZip -Destination $integrationsRoot -Force
+    $pluginFiles.Add("    <file type=`"plugin`" id=`"${family}branding`" group=`"system`">$brandZipName</file>")
+
+    # --- Plugin-group loader system plugin ---
+    $loaderZipName = "plg_system_${family}loader.zip"
+    $loaderZip = Join-Path $familyDist $loaderZipName
+    New-Zip (Join-Path $familyDir 'plugins/loader') $loaderZip
+    Copy-Item -LiteralPath $loaderZip -Destination $integrationsRoot -Force
+    $pluginFiles.Add("    <file type=`"plugin`" id=`"${family}loader`" group=`"system`">$loaderZipName</file>")
+
+    $integrationsManifest = @"
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>pkg_${family}_integrations</name>
+  <packagename>${family}_integrations</packagename>
+  <version>3.0.0</version>
+  <creationDate>2026-09</creationDate>
+  <author>Local Joomla Development</author>
+  <license>GNU General Public License version 2 or later</license>
+  <description>$title isolated post integration plugins</description>
+  <files>
+$($pluginFiles -join "`r`n")
+  </files>
+</extension>
+"@
+    [IO.File]::WriteAllText((Join-Path $integrationsRoot "pkg_${family}_integrations.xml"), $integrationsManifest, [Text.UTF8Encoding]::new($false))
+
+    $pluginsZip = Join-Path $familyDist 'plugins.zip'
+    Compress-Archive -Path (Join-Path $integrationsRoot '*') -DestinationPath $pluginsZip -Force
+
+    # --- Modules ---
+    $modulesRoot = Join-Path $familyBuild 'modules'
+    if (Test-Path -LiteralPath $modulesRoot) { Remove-Item -LiteralPath $modulesRoot -Recurse -Force }
+    New-Item -ItemType Directory -Path $modulesRoot -Force | Out-Null
+
+    $moduleFiles = [System.Collections.Generic.List[string]]::new()
+    Get-ChildItem -LiteralPath (Join-Path $familyDir 'modules') -Directory | Sort-Object Name | ForEach-Object {
+        $mode = $_.Name
+        $module = "mod_${family}_${mode}"
+        $zip = Join-Path $familyDist "$module.zip"
+        New-Zip $_.FullName $zip
+        Copy-Item -LiteralPath $zip -Destination $modulesRoot -Force
+        $moduleFiles.Add("    <file type=`"module`" id=`"$module`">$module.zip</file>")
+    }
+
+    $modulesManifest = @"
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>PKG_${upper}_MODULES</name>
+  <packagename>${family}_modules</packagename>
+  <version>1.0.0</version>
+  <files>
+$($moduleFiles -join "`r`n")
+  </files>
+</extension>
+"@
+    [IO.File]::WriteAllText((Join-Path $modulesRoot "pkg_${family}_modules.xml"), $modulesManifest, [Text.UTF8Encoding]::new($false))
+
+    $modulesZip = Join-Path $familyDist 'modules.zip'
+    Compress-Archive -Path (Join-Path $modulesRoot '*') -DestinationPath $modulesZip -Force
+
+    # --- Final package (pkg_<family>.zip) ---
+    $packageRoot = Join-Path $familyBuild "pkg_$family"
     if (Test-Path -LiteralPath $packageRoot) {
         $resolved = [IO.Path]::GetFullPath($packageRoot)
-        $expectedRoot = [IO.Path]::GetFullPath($Dist) + [IO.Path]::DirectorySeparatorChar
+        $expectedRoot = [IO.Path]::GetFullPath($familyBuild) + [IO.Path]::DirectorySeparatorChar
         if (-not $resolved.StartsWith($expectedRoot, [StringComparison]::OrdinalIgnoreCase)) {
-            throw "Refusing to replace package directory outside dist: $resolved"
+            throw "Refusing to replace package directory outside build: $resolved"
         }
         Remove-Item -LiteralPath $resolved -Recurse -Force
     }
     New-Item -ItemType Directory -Path $packageRoot -Force | Out-Null
 
-    $componentZip = Join-Path $familyOutput "com_$family.zip"
-    & tar.exe -a -cf $componentZip -C (Join-Path $familyDist "com_$family") *
-    if ($LASTEXITCODE -ne 0) { throw "Could not create $componentZip" }
     Copy-Item -LiteralPath $componentZip -Destination $packageRoot -Force
-
-    # The mailqueue (task) and branding (system) plugins are bundled INTO the
-    # integrations/plugins sub-package (plugins.zip), not shipped as separate
-    # top-level package members.
-    $integrationsRoot = Join-Path $familyBuild 'plugins'
-    Copy-Item -LiteralPath (Join-Path $familyOutput "plg_task_${family}_mailqueue.zip") -Destination $integrationsRoot -Force
-
-    $brandingRoot = Join-Path $pluginsDist 'branding'
-    if (Test-Path -LiteralPath $brandingRoot) { Remove-Item -LiteralPath $brandingRoot -Recurse -Force }
-    New-Item -ItemType Directory -Path $brandingRoot -Force | Out-Null
-    Copy-Item -Path (Join-Path $SourceRoot 'extensions\post-branding\*') -Destination $brandingRoot -Recurse -Force
-    Get-ChildItem -Path $brandingRoot -Recurse -File | ForEach-Object {
-        $content = [IO.File]::ReadAllText($_.FullName).Replace('FamilyName', $title).Replace('FamilyTitle', $title).Replace('familyname', $family)
-        [IO.File]::WriteAllText($_.FullName, $content, [Text.UTF8Encoding]::new($false))
-    }
-    Rename-Item -LiteralPath (Join-Path $brandingRoot 'familynamebranding.xml') -NewName "${family}branding.xml"
-    $brandingZip = Join-Path $familyOutput "plg_system_${family}branding.zip"
-    & tar.exe -a -cf $brandingZip -C $brandingRoot *
-    if ($LASTEXITCODE -ne 0) { throw "Could not create $brandingZip" }
-    Copy-Item -LiteralPath $brandingZip -Destination $integrationsRoot -Force
-
-    # Each family gets its own copy of the plugin-group loader (imports the family's
-    # own custom plugin group on onAfterInitialise) instead of sharing one loader
-    # across all three products — so a customer who only buys Academy gets a plugin
-    # that only ever mentions Academy.
-    $loaderRoot = Join-Path $pluginsDist 'loader'
-    if (Test-Path -LiteralPath $loaderRoot) { Remove-Item -LiteralPath $loaderRoot -Recurse -Force }
-    New-Item -ItemType Directory -Path $loaderRoot -Force | Out-Null
-    Copy-Item -Path (Join-Path $SourceRoot 'extensions\post-family-loader\*') -Destination $loaderRoot -Recurse -Force
-    Get-ChildItem -Path $loaderRoot -Recurse -File | ForEach-Object {
-        $content = [IO.File]::ReadAllText($_.FullName).Replace('FamilyName', $title).Replace('FamilyTitle', $title).Replace('familyname', $family)
-        [IO.File]::WriteAllText($_.FullName, $content, [Text.UTF8Encoding]::new($false))
-    }
-    Rename-Item -LiteralPath (Join-Path $loaderRoot 'familynameloader.xml') -NewName "${family}loader.xml"
-    $loaderZip = Join-Path $familyOutput "plg_system_${family}loader.zip"
-    & tar.exe -a -cf $loaderZip -C $loaderRoot *
-    if ($LASTEXITCODE -ne 0) { throw "Could not create $loaderZip" }
-    Copy-Item -LiteralPath $loaderZip -Destination $integrationsRoot -Force
-
-    # Now that mailqueue + branding + loader exist, fold them into the integrations
-    # manifest and assemble the final plugins.zip / modules.zip package files.
-    $integrationsManifestPath = Join-Path $integrationsRoot "pkg_${family}_integrations.xml"
-    [xml]$integrationsManifest = Get-Content -LiteralPath $integrationsManifestPath -Raw
-    $filesNode = $integrationsManifest.extension.files
-    $mailqueueFile = $integrationsManifest.CreateElement('file')
-    $mailqueueFile.SetAttribute('type', 'plugin'); $mailqueueFile.SetAttribute('id', "${family}_mailqueue"); $mailqueueFile.SetAttribute('group', 'task')
-    $mailqueueFile.InnerText = "plg_task_${family}_mailqueue.zip"
-    [void]$filesNode.AppendChild($mailqueueFile)
-    $brandingFile = $integrationsManifest.CreateElement('file')
-    $brandingFile.SetAttribute('type', 'plugin'); $brandingFile.SetAttribute('id', "${family}branding"); $brandingFile.SetAttribute('group', 'system')
-    $brandingFile.InnerText = "plg_system_${family}branding.zip"
-    [void]$filesNode.AppendChild($brandingFile)
-    $loaderFile = $integrationsManifest.CreateElement('file')
-    $loaderFile.SetAttribute('type', 'plugin'); $loaderFile.SetAttribute('id', "${family}loader"); $loaderFile.SetAttribute('group', 'system')
-    $loaderFile.InnerText = "plg_system_${family}loader.zip"
-    [void]$filesNode.AppendChild($loaderFile)
-    $integrationsManifest.Save($integrationsManifestPath)
-
-    $pluginsZip = Join-Path $familyOutput 'plugins.zip'
-    Compress-Archive -Path (Join-Path $integrationsRoot '*') -DestinationPath $pluginsZip -Force
     Copy-Item -LiteralPath $pluginsZip -Destination $packageRoot -Force
-    Copy-Item -LiteralPath (Join-Path $familyOutput 'modules.zip') -Destination $packageRoot -Force
+    Copy-Item -LiteralPath $modulesZip -Destination $packageRoot -Force
 
     $manifest = @"
 <?xml version="1.0" encoding="UTF-8"?>
@@ -160,7 +240,11 @@ final class pkg_${family}InstallerScript
     [IO.File]::WriteAllText((Join-Path $languageRoot "pkg_$family.ini"), $language, [Text.UTF8Encoding]::new($false))
     [IO.File]::WriteAllText((Join-Path $languageRoot "pkg_$family.sys.ini"), $language, [Text.UTF8Encoding]::new($false))
 
-    $outputZip = Join-Path $familyOutput "pkg_$family.zip"
+    $outputZip = Join-Path $familyDist "pkg_$family.zip"
     Compress-Archive -Path (Join-Path $packageRoot '*') -DestinationPath $outputZip -CompressionLevel Optimal -Force
     Write-Output "Built $outputZip"
+
+    Write-Output "=== $title packaged ==="
 }
+
+Write-Output "=== All families packaged ==="

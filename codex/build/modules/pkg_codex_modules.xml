@@ -1,1 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><extension type="package" method="upgrade"><name>PKG_CODEX_MODULES</name><packagename>codex_modules</packagename><version>1.0.0</version><files><file type="module" id="mod_codex_posts">mod_codex_posts.zip</file><file type="module" id="mod_codex_archive">mod_codex_archive.zip</file><file type="module" id="mod_codex_categories">mod_codex_categories.zip</file><file type="module" id="mod_codex_category">mod_codex_category.zip</file><file type="module" id="mod_codex_latest">mod_codex_latest.zip</file><file type="module" id="mod_codex_news">mod_codex_news.zip</file><file type="module" id="mod_codex_popular">mod_codex_popular.zip</file><file type="module" id="mod_codex_tagspopular">mod_codex_tagspopular.zip</file><file type="module" id="mod_codex_tagssimilar">mod_codex_tagssimilar.zip</file></files></extension>
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+  <name>PKG_CODEX_MODULES</name>
+  <packagename>codex_modules</packagename>
+  <version>1.0.0</version>
+  <files>
+    <file type="module" id="mod_codex_archive">mod_codex_archive.zip</file>
+    <file type="module" id="mod_codex_categories">mod_codex_categories.zip</file>
+    <file type="module" id="mod_codex_category">mod_codex_category.zip</file>
+    <file type="module" id="mod_codex_latest">mod_codex_latest.zip</file>
+    <file type="module" id="mod_codex_news">mod_codex_news.zip</file>
+    <file type="module" id="mod_codex_popular">mod_codex_popular.zip</file>
+    <file type="module" id="mod_codex_posts">mod_codex_posts.zip</file>
+    <file type="module" id="mod_codex_tagspopular">mod_codex_tagspopular.zip</file>
+    <file type="module" id="mod_codex_tagssimilar">mod_codex_tagssimilar.zip</file>
+  </files>
+</extension>

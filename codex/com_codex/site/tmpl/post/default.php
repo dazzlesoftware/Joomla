@@ -74,7 +74,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
     <?php echo $this->item->event->afterDisplayTitle; ?>
 
     <?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
-        <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above']); ?>
+        <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
 
     <?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
@@ -100,7 +100,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 
         <?php if ($info == 1 || $info == 2) : ?>
             <?php if ($useDefList) : ?>
-                <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'below']); ?>
+                <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'below'], JPATH_COMPONENT . '/layouts'); ?>
             <?php endif; ?>
             <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
                 <?php $this->item->tagLayout = new FileLayout('posttags', JPATH_COMPONENT . '/layouts'); ?>

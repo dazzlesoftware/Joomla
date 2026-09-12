@@ -26,13 +26,18 @@ final class AutopostService
 
         $post = $this->db->setQuery(
             $this->db->createQuery()
-                ->select(['a.id', 'a.title', 'a.alias', 'a.catid', 'a.summary', 'a.state', 'a.language', 'c.title AS category_title'])
+                ->select(['a.id', 'a.title', 'a.alias', 'a.catid', 'a.summary', 'a.state', 'a.language', 'c.title AS category_title', 'c.allow_autoposting'])
                 ->from('#__academy AS a')
                 ->join('LEFT', '#__academy_categories AS c ON c.id = a.catid')
                 ->where('a.id=' . $postId)
         )->loadObject();
 
         if (!$post || (int) $post->state !== 1) {
+            return;
+        }
+
+        // The post's category can opt out of autoposting entirely.
+        if ($post->allow_autoposting !== null && (int) $post->allow_autoposting === 0) {
             return;
         }
 

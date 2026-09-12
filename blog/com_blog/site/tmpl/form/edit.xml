@@ -25,13 +25,9 @@
 
 			<field
 				name="catid"
-				type="modal_category"
+				type="postcategory"
+				addfieldprefix="Joomla\Component\Blog\Administrator\Field"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
-				extension="com_blog"
-				select="true"
-				new="true"
-				edit="true"
-				clear="true"
 				showon="enable_category:1"
 			/>
 

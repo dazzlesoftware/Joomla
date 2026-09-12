@@ -7,8 +7,21 @@ final class CategorySchema
 {
     public static function ensure(DatabaseInterface $db): void
     {
-        $db->setQuery("CREATE TABLE IF NOT EXISTS #__academy_categories (id INT UNSIGNED NOT NULL AUTO_INCREMENT, asset_id INT UNSIGNED NOT NULL DEFAULT 0, parent_id INT UNSIGNED NOT NULL DEFAULT 0, lft INT NOT NULL DEFAULT 0, rgt INT NOT NULL DEFAULT 0, level INT NOT NULL DEFAULT 1, path VARCHAR(400) NOT NULL DEFAULT '', title VARCHAR(255) NOT NULL, alias VARCHAR(400) NOT NULL, description MEDIUMTEXT NOT NULL, published TINYINT NOT NULL DEFAULT 1, access INT UNSIGNED NOT NULL DEFAULT 1, language CHAR(7) NOT NULL DEFAULT '*', created_time DATETIME NULL, created_user_id INT UNSIGNED NOT NULL DEFAULT 0, modified_time DATETIME NULL, modified_user_id INT UNSIGNED NOT NULL DEFAULT 0, metadata TEXT NOT NULL, params TEXT NOT NULL, PRIMARY KEY(id), KEY idx_parent(parent_id), KEY idx_state(published), KEY idx_access(access), KEY idx_language(language), KEY idx_alias(alias(191))) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")->execute();
+        $db->setQuery("CREATE TABLE IF NOT EXISTS #__academy_categories (id INT UNSIGNED NOT NULL AUTO_INCREMENT, asset_id INT UNSIGNED NOT NULL DEFAULT 0, parent_id INT UNSIGNED NOT NULL DEFAULT 0, lft INT NOT NULL DEFAULT 0, rgt INT NOT NULL DEFAULT 0, level INT NOT NULL DEFAULT 1, path VARCHAR(400) NOT NULL DEFAULT '', title VARCHAR(255) NOT NULL, alias VARCHAR(400) NOT NULL, description MEDIUMTEXT NOT NULL, published TINYINT NOT NULL DEFAULT 1, access INT UNSIGNED NOT NULL DEFAULT 1, language CHAR(7) NOT NULL DEFAULT '*', allow_autoposting TINYINT NOT NULL DEFAULT 1, default_image VARCHAR(255) NOT NULL DEFAULT '', default_tags VARCHAR(500) NOT NULL DEFAULT '', created_time DATETIME NULL, created_user_id INT UNSIGNED NOT NULL DEFAULT 0, modified_time DATETIME NULL, modified_user_id INT UNSIGNED NOT NULL DEFAULT 0, metadata TEXT NOT NULL, params TEXT NOT NULL, PRIMARY KEY(id), KEY idx_parent(parent_id), KEY idx_state(published), KEY idx_access(access), KEY idx_language(language), KEY idx_alias(alias(191))) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")->execute();
         $db->setQuery("CREATE TABLE IF NOT EXISTS #__academy_category_migrations (version INT NOT NULL PRIMARY KEY) ENGINE=InnoDB")->execute();
+
+        // Additive columns for categories created before these settings existed.
+        $columns = $db->getTableColumns('#__academy_categories');
+        if (!isset($columns['allow_autoposting'])) {
+            $db->setQuery('ALTER TABLE #__academy_categories ADD COLUMN allow_autoposting TINYINT NOT NULL DEFAULT 1 AFTER language')->execute();
+        }
+        if (!isset($columns['default_image'])) {
+            $db->setQuery("ALTER TABLE #__academy_categories ADD COLUMN default_image VARCHAR(255) NOT NULL DEFAULT '' AFTER allow_autoposting")->execute();
+        }
+        if (!isset($columns['default_tags'])) {
+            $db->setQuery("ALTER TABLE #__academy_categories ADD COLUMN default_tags VARCHAR(500) NOT NULL DEFAULT '' AFTER default_image")->execute();
+        }
+
         if ($db->setQuery('SELECT version FROM #__academy_category_migrations WHERE version=1')->loadResult()) {
             if (!(int) $db->setQuery('SELECT COUNT(*) FROM #__academy_categories')->loadResult()) {
                 $fallback = (object) ['title' => 'Uncategorised', 'alias' => 'uncategorised', 'description' => '', 'published' => 1, 'access' => 1, 'language' => '*', 'parent_id' => 0, 'lft' => 1, 'rgt' => 2, 'level' => 1, 'path' => 'uncategorised', 'created_time' => null, 'created_user_id' => 0, 'modified_time' => null, 'modified_user_id' => 0, 'metadata' => '{}', 'params' => '{}'];

@@ -251,6 +251,7 @@ class PostsModel extends ListModel
                     $db->quoteName('c.access', 'category_access'),
                     $db->quoteName('c.alias', 'category_alias'),
                     $db->quoteName('c.language', 'category_language'),
+                    $db->quoteName('c.default_image', 'category_default_image'),
                     $db->quoteName('c.published'),
                     $db->quoteName('c.published', 'parents_published'),
                     $db->quoteName('c.lft'),

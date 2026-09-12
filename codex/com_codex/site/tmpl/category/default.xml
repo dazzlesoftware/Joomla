@@ -16,14 +16,10 @@
 		>
 			<field
 				name="id"
-				type="modal_category"
+				type="postcategory"
+				addfieldprefix="Joomla\Component\Codex\Administrator\Field"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
-				extension="com_codex"
 				required="true"
-				select="true"
-				new="true"
-				edit="true"
-				clear="true"
 			/>
 
 			<field
