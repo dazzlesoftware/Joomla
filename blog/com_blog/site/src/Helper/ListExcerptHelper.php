@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
 final class ListExcerptHelper
 {
     /**
-     * Render a post's list-view body: the full intro text when a manual
+     * Render a post's list-view body: the full stored summary when a manual
      * Read More split already exists, otherwise an automatically
      * truncated excerpt (forcing the Continue Reading link to show).
      */

@@ -78,12 +78,12 @@ final class Fields extends CMSPlugin implements SubscriberInterface
             $item->text = $this->prepare($item->text, $context, $item);
         }
 
-        // Prepare the intro text
+        // Prepare the excerpt
         if (property_exists($item, 'summary') && \is_string($item->summary) && str_contains($item->summary, 'field')) {
             $item->summary = $this->prepare($item->summary, $context, $item);
         }
 
-        // Prepare the full text
+        // Prepare the post text
         if (!empty($item->body) && str_contains($item->body, 'field')) {
             $item->body = $this->prepare($item->body, $context, $item);
         }

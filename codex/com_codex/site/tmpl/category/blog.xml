@@ -170,7 +170,7 @@
         <option value="0">JNO</option>
         <option value="1">JYES</option>
       </field>
-      <field name="show_intro" type="list" label="JGLOBAL_SHOW_INTRO_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+      <field name="show_intro" type="list" label="COM_CODEX_SHOW_EXCERPT_LABEL" useglobal="true" class="form-select-color-state" validate="options">
         <option value="use_post">COM_CODEX_FIELD_VALUE_USE_POST_SETTINGS</option>
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
@@ -276,8 +276,8 @@
         <option value="1">JSHOW</option>
       </field>
       <field name="feed_summary" type="list" label="JGLOBAL_FEED_SUMMARY_LABEL" useglobal="true" validate="options">
-        <option value="0">JGLOBAL_INTRO_TEXT</option>
-        <option value="1">JGLOBAL_FULL_TEXT</option>
+        <option value="0">COM_CODEX_OPTION_EXCERPT</option>
+        <option value="1">COM_CODEX_OPTION_POST_TEXT</option>
       </field>
     </fieldset>
   </fields>

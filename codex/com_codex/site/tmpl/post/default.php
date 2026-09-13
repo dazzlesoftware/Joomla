@@ -113,7 +113,7 @@ if (!empty($this->item->pagination) && !$this->item->paginationposition && $this
             echo $this->item->pagination;
             ?>
         <?php endif; ?>
-<?php // Optional teaser intro text for guests?>
+<?php // Optional teaser excerpt for guests?>
     <?php elseif ($params->get('show_noauth') && $user->guest) : ?>
         <?php echo LayoutHelper::render('joomla.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts'); ?>
         <?php echo HTMLHelper::_('content.prepare', $this->item->summary); ?>

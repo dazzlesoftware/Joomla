@@ -11,7 +11,7 @@
         <option value="0">JNO</option>
         <option value="1">JYES</option>
       </field>
-      <field name="show_intro" type="radio" label="JGLOBAL_SHOW_INTRO_LABEL" layout="joomla.form.field.radio.switcher" default="1">
+      <field name="show_intro" type="radio" label="COM_BLOG_SHOW_EXCERPT_LABEL" layout="joomla.form.field.radio.switcher" default="1">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
       </field>
@@ -352,10 +352,10 @@
         <option value="1">JSHOW</option>
       </field>
       <field name="feed_summary" type="list" label="JGLOBAL_FEED_SUMMARY_LABEL" default="0" showon="show_feed_link:1" validate="options">
-        <option value="0">JGLOBAL_INTRO_TEXT</option>
-        <option value="1">JGLOBAL_FULL_TEXT</option>
+        <option value="0">COM_BLOG_OPTION_EXCERPT</option>
+        <option value="1">COM_BLOG_OPTION_POST_TEXT</option>
       </field>
-      <field name="feed_show_readmore" type="radio" label="JGLOBAL_FEED_SHOW_READMORE_LABEL" description="JGLOBAL_FEED_SHOW_READMORE_DESC" layout="joomla.form.field.radio.switcher" default="0" showon="show_feed_link:1[AND]feed_summary:0">
+      <field name="feed_show_readmore" type="radio" label="JGLOBAL_FEED_SHOW_READMORE_LABEL" description="COM_BLOG_FEED_SHOW_READMORE_DESC" layout="joomla.form.field.radio.switcher" default="0" showon="show_feed_link:1[AND]feed_summary:0">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
       </field>
