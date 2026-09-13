@@ -11,8 +11,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\FeaturedButton;
-use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Button\TransitionButton;
+use Joomla\Component\Blog\Administrator\Button\PostStateButton;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -250,7 +250,7 @@ $assoc = Associations::isEnabled();
                                         'category_published' => $item->category_published
                                     ];
 
-                                    echo (new PublishedButton())->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+                                    echo (new PostStateButton())->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
                                     ?>
                                 </td>
                                 <th scope="row" class="has-context">

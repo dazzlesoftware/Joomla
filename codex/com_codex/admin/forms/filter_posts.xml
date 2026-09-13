@@ -36,7 +36,7 @@
 
 		<field
 			name="published"
-			type="status"
+			type="poststatus" addfieldprefix="Joomla\Component\Codex\Administrator\Field"
 			label="JOPTION_SELECT_PUBLISHED"
 			class="js-select-submit-on-change"
 			extension="com_codex"

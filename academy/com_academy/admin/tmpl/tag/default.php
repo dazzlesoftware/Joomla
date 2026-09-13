@@ -80,5 +80,6 @@ $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'U
         </div>
     </div>
 
+    <input type="hidden" name="task" value="">
     <?php echo HTMLHelper::_('form.token'); ?>
 </form>
