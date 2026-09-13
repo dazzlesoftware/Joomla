@@ -1,1 +1,2 @@
 *.zip
+.php-cs-fixer.cache

@@ -20,7 +20,9 @@ final class HtmlView extends BaseHtmlView
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         foreach (['posts' => null, 'published' => 1, 'unpublished' => 0, 'pending' => -3, 'archived' => 2, 'trashed' => -2] as $key => $state) {
             $query = $db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__blog'));
-            if ($state !== null) $query->where($db->quoteName('state') . ' = ' . (int) $state);
+            if ($state !== null) {
+                $query->where($db->quoteName('state') . ' = ' . (int) $state);
+            }
             $this->stats[$key] = (int) $db->setQuery($query)->loadResult();
         }
         $this->stats['featured'] = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__blog_frontpage')))->loadResult();
@@ -33,7 +35,9 @@ final class HtmlView extends BaseHtmlView
         $this->mailTask = $db->setQuery($db->createQuery()->select(['id','title','state','last_exit_code','last_execution','next_execution','times_executed','times_failed'])->from($db->quoteName('#__scheduler_tasks'))->where($db->quoteName('type') . " = 'blog.mailqueue'"))->loadObject();
         $this->recent = $db->setQuery($db->createQuery()->select($db->quoteName(['id','title','state','created']))->from($db->quoteName('#__blog'))->order($db->quoteName('created') . ' DESC'), 0, 8)->loadObjectList();
         ToolbarHelper::title('Blog Dashboard', 'home');
-        if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_blog')) ToolbarHelper::preferences('com_blog');
+        if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_blog')) {
+            ToolbarHelper::preferences('com_blog');
+        }
         parent::display($tpl);
     }
 }

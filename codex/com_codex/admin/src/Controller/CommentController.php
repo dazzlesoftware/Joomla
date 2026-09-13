@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\Controller;
+
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;

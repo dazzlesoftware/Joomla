@@ -8,9 +8,9 @@
  */
 
 namespace Joomla\Component\Academy\Site\View;
+
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\MVC\View\GenericDataException;
-
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\Component\Academy\Administrator\Helper\TagsHelper;

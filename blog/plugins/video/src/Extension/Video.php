@@ -73,7 +73,7 @@ final class Video extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $item->text = preg_replace_callback('/\{video\s+([^}]+)\}/i', fn(array $match) => $this->render($this->attributes($match[1])), $item->text);
+        $item->text = preg_replace_callback('/\{video\s+([^}]+)\}/i', fn (array $match) => $this->render($this->attributes($match[1])), $item->text);
     }
 
     private function attributes(string $source): array
@@ -169,16 +169,26 @@ final class Video extends CMSPlugin implements SubscriberInterface
                     $params[$key] = $options[$key];
                 }
             }
-            if (($options['autoplay'] ?? '0') === '1') $params['autoplay'] = '1';
-            if (($options['muted'] ?? '0') === '1') $params['mute'] = '1';
+            if (($options['autoplay'] ?? '0') === '1') {
+                $params['autoplay'] = '1';
+            }
+            if (($options['muted'] ?? '0') === '1') {
+                $params['mute'] = '1';
+            }
             return 'https://' . $domain . '/embed/' . $id . '?' . http_build_query($params);
         }
 
         if (in_array($host, ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'], true) && preg_match('~/(?:video/)?([0-9]+)~', $path, $match)) {
             $params = [];
-            if (($options['autoplay'] ?? '0') === '1') $params['autoplay'] = '1';
-            if (($options['muted'] ?? '0') === '1') $params['muted'] = '1';
-            if (($options['loop'] ?? '0') === '1') $params['loop'] = '1';
+            if (($options['autoplay'] ?? '0') === '1') {
+                $params['autoplay'] = '1';
+            }
+            if (($options['muted'] ?? '0') === '1') {
+                $params['muted'] = '1';
+            }
+            if (($options['loop'] ?? '0') === '1') {
+                $params['loop'] = '1';
+            }
             return 'https://player.vimeo.com/video/' . $match[1] . ($params ? '?' . http_build_query($params) : '');
         }
 

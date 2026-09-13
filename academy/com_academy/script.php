@@ -1,4 +1,5 @@
 <?php
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -40,7 +41,9 @@ class Com_AcademyInstallerScript
         foreach (['post', 'category'] as $section) {
             $alias = 'com_academy.' . $section;
             $query = $db->getQuery(true)->select('COUNT(*)')->from($db->quoteName('#__content_types'))->where($db->quoteName('type_alias') . ' = ' . $db->quote($alias));
-            if ((int) $db->setQuery($query)->loadResult() > 0) { continue; }
+            if ((int) $db->setQuery($query)->loadResult() > 0) {
+                continue;
+            }
 
             // The source row is Joomla's built-in content type; the installed
             // family alias itself is always the native "post" alias.
@@ -48,7 +51,9 @@ class Com_AcademyInstallerScript
             $sourceAlias = 'com_content.' . $sourceSection;
             $query = $db->getQuery(true)->select('*')->from($db->quoteName('#__content_types'))->where($db->quoteName('type_alias') . ' = ' . $db->quote($sourceAlias));
             $row = $db->setQuery($query)->loadObject();
-            if (!$row) { continue; }
+            if (!$row) {
+                continue;
+            }
 
             unset($row->type_id);
             foreach ($row as $field => $value) {
@@ -129,7 +134,9 @@ class Com_AcademyInstallerScript
             'last_clicked' => "ALTER TABLE #__academy_mail_queue ADD last_clicked datetime NULL AFTER last_opened",
         ];
         foreach ($queueAdditions as $column => $sql) {
-            if (!isset($queueColumns[$column])) $db->setQuery($sql)->execute();
+            if (!isset($queueColumns[$column])) {
+                $db->setQuery($sql)->execute();
+            }
         }
         return true;
     }
@@ -158,13 +165,17 @@ class Com_AcademyInstallerScript
             'academy-migration-group' => ['view=import', 'view=export'],
         ] as $alias => $needles) {
             $parentId = (int) $db->setQuery($db->getQuery(true)->select('id')->from('#__menu')->where('client_id=1')->where('component_id=' . $componentId)->where('alias=' . $db->quote($alias)))->loadResult();
-            if (!$parentId) { continue; }
+            if (!$parentId) {
+                continue;
+            }
             foreach ($needles as $needle) {
                 $ids = $db->setQuery($db->getQuery(true)->select('id')->from('#__menu')->where('client_id=1')->where('component_id=' . $componentId)->where('id<>' . $parentId)->where('link LIKE ' . $db->quote('%' . $needle . '%')))->loadColumn();
                 foreach ($ids as $id) {
                     $table = new Menu($db);
                     if ($table->load((int) $id) && (int) $table->parent_id !== $parentId) {
-                        $table->setLocation($parentId, 'last-child'); $table->parent_id = $parentId; $table->store();
+                        $table->setLocation($parentId, 'last-child');
+                        $table->parent_id = $parentId;
+                        $table->store();
                     }
                 }
             }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Component\Codex\Site\Helper;
 
 defined('_JEXEC') or die;

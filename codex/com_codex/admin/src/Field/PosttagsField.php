@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\Field;
+
 defined('_JEXEC') or die;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Factory;
@@ -11,8 +13,12 @@ class PosttagsField extends ListField
     protected $layout = 'joomla.form.field.list-fancy-select';
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
-        if ($value instanceof TagsHelper) $value = $value->tags;
-        if (is_string($value) && $value !== '') $value = explode(',', $value);
+        if ($value instanceof TagsHelper) {
+            $value = $value->tags;
+        }
+        if (is_string($value) && $value !== '') {
+            $value = explode(',', $value);
+        }
         return parent::setup($element, $value, $group);
     }
     protected function getOptions()
@@ -22,7 +28,9 @@ class PosttagsField extends ListField
         if (!Factory::getApplication()->isClient('administrator')) {
             $q->where('published=1')->whereIn('access', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels());
             $language = Factory::getApplication()->getLanguage();
-            if ($language) $q->where('language IN (' . $db->quote('*') . ',' . $db->quote($language->getTag()) . ')');
+            if ($language) {
+                $q->where('language IN (' . $db->quote('*') . ',' . $db->quote($language->getTag()) . ')');
+            }
         }
         return array_merge(parent::getOptions(), $db->setQuery($q)->loadObjectList());
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Component\Academy\Administrator\View\Subscribers;
 
 defined('_JEXEC') or die;
@@ -29,9 +30,15 @@ final class HtmlView extends BaseHtmlView
             $needle = $db->quote('%' . $db->escape($this->search, true) . '%', false);
             $where[] = '(name LIKE ' . $needle . ' OR email LIKE ' . $needle . ')';
         }
-        if ($this->status === 'active') $where[] = 'state=1';
-        if ($this->status === 'pending') $where[] = 'state=0 AND confirmed IS NULL';
-        if ($this->status === 'disabled') $where[] = 'state=0 AND confirmed IS NOT NULL';
+        if ($this->status === 'active') {
+            $where[] = 'state=1';
+        }
+        if ($this->status === 'pending') {
+            $where[] = 'state=0 AND confirmed IS NULL';
+        }
+        if ($this->status === 'disabled') {
+            $where[] = 'state=0 AND confirmed IS NOT NULL';
+        }
         $count = $db->createQuery()->select('COUNT(*)')->from('#__academy_subscribers');
         $query = $db->createQuery()->select('*')->from('#__academy_subscribers')->order('created DESC');
         foreach ($where as $condition) {

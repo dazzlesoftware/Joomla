@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-
 /**
  * @var Joomla\CMS\WebAsset\WebAssetManager $wa
  * @var \Joomla\Plugin\Blog\Vote\Extension\Vote $this

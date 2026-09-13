@@ -105,8 +105,8 @@ $canOrder = $user->authorise('core.edit.state', 'com_codex');
                         <td class="text-center">
                             <?php
                             $options = ['task_prefix' => 'categories.', 'disabled' => !$canOrder, 'id' => 'cat-state-' . $item->id];
-                            echo (new PublishedButton())->render((int) $item->published, $i, $options);
-                            ?>
+                    echo (new PublishedButton())->render((int) $item->published, $i, $options);
+                    ?>
                         </td>
                         <td class="text-center d-none d-md-table-cell">
                             <span class="badge bg-secondary"><?php echo (int) $item->post_count; ?></span>

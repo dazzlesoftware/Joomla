@@ -8,15 +8,13 @@
  */
 
 namespace Joomla\Component\Codex\Administrator\Table;
+
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Codex\Administrator\Helper\TagsHelper;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-
-
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseInterface;
@@ -36,7 +34,6 @@ use Joomla\String\StringHelper;
  */
 class NativePostTable extends Table implements CurrentUserInterface
 {
-
     use CurrentUserTrait;
 
     /**
@@ -153,15 +150,19 @@ class NativePostTable extends Table implements CurrentUserInterface
     {
         if (array_key_exists('catid', (array) $array) && (int) $array['catid'] > 0) {
             $exists = (int) $this->getDatabase()->setQuery('SELECT id FROM #__codex_categories WHERE id=' . (int) $array['catid'])->loadResult();
-            if (!$exists) throw new \InvalidArgumentException('Native category does not exist.');
+            if (!$exists) {
+                throw new \InvalidArgumentException('Native category does not exist.');
+            }
         }
         if (array_key_exists('tags', (array) $array)) {
             $values = (array) $array['tags'];
             $new = trim((string) ($array['new_tag_titles'] ?? ''));
             $create = Factory::getApplication()->getIdentity()->authorise('core.create', 'com_codex');
             if ($new !== '') {
-                if (!$create) throw new \RuntimeException('Not authorised to create tags', 403);
-                $values = array_merge($values, array_map(static fn($title) => '#new#' . trim($title), explode(',', $new)));
+                if (!$create) {
+                    throw new \RuntimeException('Not authorised to create tags', 403);
+                }
+                $values = array_merge($values, array_map(static fn ($title) => '#new#' . trim($title), explode(',', $new)));
             }
             $this->pendingTagIds = TagsHelper::resolve($values, $create);
             unset($array['tags'], $array['new_tag_titles']);
@@ -387,12 +388,20 @@ class NativePostTable extends Table implements CurrentUserInterface
         $db->transactionStart(true);
         try {
             $result = parent::store($updateNulls);
-            if (!$result) { $db->transactionRollback(true); return false; }
-            if ($this->pendingTagIds !== null) TagsHelper::assign((int) $this->id, $this->pendingTagIds);
+            if (!$result) {
+                $db->transactionRollback(true);
+                return false;
+            }
+            if ($this->pendingTagIds !== null) {
+                TagsHelper::assign((int) $this->id, $this->pendingTagIds);
+            }
             $this->pendingTagIds = null;
             $db->transactionCommit(true);
             return true;
-        } catch (\Throwable $e) { $db->transactionRollback(true); throw $e; }
+        } catch (\Throwable $e) {
+            $db->transactionRollback(true);
+            throw $e;
+        }
     }
 
     /**
@@ -423,10 +432,16 @@ class NativePostTable extends Table implements CurrentUserInterface
         $db = $this->getDatabase();
         $db->transactionStart(true);
         try {
-            if (!parent::delete($pk)) { $db->transactionRollback(true); return false; }
+            if (!parent::delete($pk)) {
+                $db->transactionRollback(true);
+                return false;
+            }
             $db->setQuery('DELETE FROM #__codex_tag_map WHERE content_item_id=' . $id . ' AND type_alias=' . $db->quote('com_codex.post'))->execute();
             $db->transactionCommit(true);
             return true;
-        } catch (\Throwable $e) { $db->transactionRollback(true); throw $e; }
+        } catch (\Throwable $e) {
+            $db->transactionRollback(true);
+            throw $e;
+        }
     }
 }

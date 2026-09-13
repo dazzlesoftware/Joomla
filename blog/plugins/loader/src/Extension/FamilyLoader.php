@@ -1,9 +1,12 @@
 <?php
+
 namespace Joomla\Plugin\System\BlogLoader\Extension;
+
 defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\SubscriberInterface;
+
 final class FamilyLoader extends CMSPlugin implements SubscriberInterface
 {
     public static function getSubscribedEvents(): array

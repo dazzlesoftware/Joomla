@@ -1,6 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
+
 ?>
 <?php if ($displayData) : ?><ul class="tags list-inline">
 <?php foreach ($displayData as $tag) : ?>

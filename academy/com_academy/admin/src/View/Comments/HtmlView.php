@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Academy\Administrator\View\Comments;
+
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

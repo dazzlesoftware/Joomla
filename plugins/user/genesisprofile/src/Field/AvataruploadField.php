@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Plugin\User\GenesisProfile\Field;
 
 defined('_JEXEC') or die;

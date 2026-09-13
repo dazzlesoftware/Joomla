@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -28,7 +27,9 @@ $link = RouteHelper::getPostRoute($displayData->slug, $displayData->catid, $disp
 <?php if ($displayData->state == 0 || $params->get('show_title', 1) || ($params->get('show_author') && !empty($displayData->author))) : ?>
     <div class="page-header">
         <?php if ($params->get('show_title', 1)) : ?>
-            <h2 class="d-flex align-items-center gap-2"><?php if (!in_array($listStyle, ['card', 'learning'], true)) { echo LayoutHelper::render('postlist.' . $listStyle . '.avatar', $displayData, JPATH_COMPONENT . '/layouts'); } ?><span>
+            <h2 class="d-flex align-items-center gap-2"><?php if (!in_array($listStyle, ['card', 'learning'], true)) {
+                echo LayoutHelper::render('postlist.' . $listStyle . '.avatar', $displayData, JPATH_COMPONENT . '/layouts');
+            } ?><span>
                 <?php if ($params->get('link_titles', 1) && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
                     <a href="<?php echo Route::_($link); ?>">
                         <?php echo $this->escape($displayData->title); ?>

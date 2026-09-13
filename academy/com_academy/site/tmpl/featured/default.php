@@ -31,8 +31,8 @@ use Joomla\CMS\Layout\LayoutHelper;
                 <div class="blog-item">
                         <?php
                         $this->item = & $item;
-                        echo $this->loadTemplate('item');
-                        ?>
+                echo $this->loadTemplate('item');
+                ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -40,8 +40,15 @@ use Joomla\CMS\Layout\LayoutHelper;
 
     <?php if (!empty($this->intro_items)) : ?>
         <?php $blogClass = $this->params->get('blog_class', ''); ?>
-        <?php $listingLayout = $this->params->get('post_listing_layout', 'rows'); $columnStyle = $this->params->get('column_style', 'grid'); $columnsPerRow = max(2, min(6, (int) $this->params->get('columns_per_row', 2))); $postStyle = $this->params->get('list_item_style', 'standard'); ?>
-        <?php if ($listingLayout === 'rows') { $blogClass .= ' columns-1 post-listing-rows'; } else { $blogClass .= ' post-listing-columns post-listing-' . $columnStyle . ' columns-' . $columnsPerRow; } $blogClass .= ' post-style-' . $postStyle; ?>
+        <?php $listingLayout = $this->params->get('post_listing_layout', 'rows');
+        $columnStyle = $this->params->get('column_style', 'grid');
+        $columnsPerRow = max(2, min(6, (int) $this->params->get('columns_per_row', 2)));
+        $postStyle = $this->params->get('list_item_style', 'standard'); ?>
+        <?php if ($listingLayout === 'rows') {
+            $blogClass .= ' columns-1 post-listing-rows';
+        } else {
+            $blogClass .= ' post-listing-columns post-listing-' . $columnStyle . ' columns-' . $columnsPerRow;
+        } $blogClass .= ' post-style-' . $postStyle; ?>
         <?php if (false) : ?>
             <?php $blogClass .= (int) $this->params->get('multi_column_order', 0) === 0 ? ' masonry-' : ' columns-'; ?>
             <?php $blogClass .= (int) $this->params->get('num_columns'); ?>
@@ -51,8 +58,8 @@ use Joomla\CMS\Layout\LayoutHelper;
             <div class="blog-item">
                     <?php
                     $this->item = & $item;
-                    echo $this->loadTemplate('item');
-                    ?>
+            echo $this->loadTemplate('item');
+            ?>
             </div>
         <?php endforeach; ?>
         </div>

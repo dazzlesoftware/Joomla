@@ -1101,7 +1101,8 @@ class PostModel extends AdminModel implements WorkflowModelInterface, Versionabl
         $user = $this->getCurrentUser();
         foreach ($pks as $pk) {
             if (!$user->authorise('core.edit', 'com_academy.post.' . (int) $pk)) {
-                $this->setError('Not authorised'); return false;
+                $this->setError('Not authorised');
+                return false;
             }
         }
         foreach ($pks as $pk) {

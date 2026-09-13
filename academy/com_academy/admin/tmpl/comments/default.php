@@ -59,8 +59,8 @@ $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'U
                         <td class="text-center">
                             <?php
                             $options = ['task_prefix' => 'comments.', 'disabled' => !$canChange, 'id' => 'comment-state-' . $item->id];
-                            echo (new PublishedButton())->render((int) $item->state, $i, $options);
-                            ?>
+                    echo (new PublishedButton())->render((int) $item->state, $i, $options);
+                    ?>
                         </td>
                         <td class="small d-none d-md-table-cell">
                             <?php echo $escape($item->created); ?>

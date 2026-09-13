@@ -1,7 +1,13 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\Controller;
+
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory; use Joomla\CMS\MVC\Controller\BaseController; use Joomla\CMS\Router\Route; use Joomla\CMS\Session\Session; use Joomla\Component\Codex\Administrator\Helper\TagsHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Codex\Administrator\Helper\TagsHelper;
 
 final class TagController extends BaseController
 {

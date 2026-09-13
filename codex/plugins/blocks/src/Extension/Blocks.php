@@ -38,7 +38,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         try {
             $items = $db->setQuery($db->createQuery()->select(['id', 'title'])->from('#__' . self::FAMILY . '_polls')->where('state=1')->order('title'))->loadObjectList();
-            $polls = array_map(fn($item) => ['id' => (int) $item->id, 'title' => (string) $item->title], $items);
+            $polls = array_map(fn ($item) => ['id' => (int) $item->id, 'title' => (string) $item->title], $items);
         } catch (\Throwable $error) {
             $polls = [];
         }
@@ -67,9 +67,13 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
 
     public function onContentPrepare(ContentPrepareEvent $event): void
     {
-        if (!str_starts_with($event->getContext(), 'com_' . self::FAMILY . '.')) return;
+        if (!str_starts_with($event->getContext(), 'com_' . self::FAMILY . '.')) {
+            return;
+        }
         $item = $event->getItem();
-        if (!is_object($item) || !isset($item->text) || !is_string($item->text)) return;
+        if (!is_object($item) || !isset($item->text) || !is_string($item->text)) {
+            return;
+        }
         if ($event->getContext() === 'com_finder.indexer') {
             $item->text = preg_replace('/\{embed\s+[^}]+\}/i', '', $item->text);
             $item->text = preg_replace('~\{quote(?:\s+cite=(?:"|&quot;).*?(?:"|&quot;))?\s+template=(?:"|&quot;).*?(?:"|&quot;)\}(.*?)\{/quote\}~is', '$1', $item->text);
@@ -81,63 +85,63 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         if (str_contains($item->text, '{tabs')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{tabs\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/tabs\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderTabs($match[2], $match[1]),
+                fn ($match) => $this->renderTabs($match[2], $match[1]),
                 $item->text
             );
         }
         if (str_contains($item->text, '{section ')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{section\s+title=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/section\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderSection($match[1], $match[2]),
+                fn ($match) => $this->renderSection($match[1], $match[2]),
                 $item->text
             );
         }
         if (str_contains($item->text, '{alert ')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{alert\s+type=(?:"|&quot;)([a-z]+)(?:"|&quot;)\}(.*?)\{/alert\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderAlert($match[1], $match[2]),
+                fn ($match) => $this->renderAlert($match[1], $match[2]),
                 $item->text
             );
         }
         if (str_contains($item->text, '{quote')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{quote(?:\s+cite=(?:"|&quot;)(.*?)(?:"|&quot;))?\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/quote\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderQuote($match[1] ?? '', $match[3], $match[2]),
+                fn ($match) => $this->renderQuote($match[1] ?? '', $match[3], $match[2]),
                 $item->text
             );
         }
         if (str_contains($item->text, '{button ')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{button\s+url=(?:"|&quot;)(.*?)(?:"|&quot;)\s+style=(?:"|&quot;)([a-z]+)(?:"|&quot;)\}(.*?)\{/button\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderButton($match[1], $match[2], $match[3]),
+                fn ($match) => $this->renderButton($match[1], $match[2], $match[3]),
                 $item->text
             );
         }
         if (str_contains($item->text, '{audio ')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{audio\s+url=(?:"|&quot;)(.*?)(?:"|&quot;)\s+title=(?:"|&quot;)(.*?)(?:"|&quot;)\s+autoplay=(?:"|&quot;)([01])(?:"|&quot;)\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderAudio($match[1], $match[2], $match[3] === '1'),
+                fn ($match) => $this->renderAudio($match[1], $match[2], $match[3] === '1'),
                 $item->text
             );
         }
         if (str_contains($item->text, '{columns')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{columns\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/columns\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderColumns($match[2], $match[1]),
+                fn ($match) => $this->renderColumns($match[2], $match[1]),
                 $item->text
             );
         }
         if (str_contains($item->text, '{comparison ')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{comparison\s+before=(?:"|&quot;)(.*?)(?:"|&quot;)\s+after=(?:"|&quot;)(.*?)(?:"|&quot;)\s+beforealt=(?:"|&quot;)(.*?)(?:"|&quot;)\s+afteralt=(?:"|&quot;)(.*?)(?:"|&quot;)\s*\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderComparison($match[1], $match[2], $match[3], $match[4]),
+                fn ($match) => $this->renderComparison($match[1], $match[2], $match[3], $match[4]),
                 $item->text
             );
         }
         if (str_contains($item->text, '{accordion')) {
             $item->text = preg_replace_callback(
                 '~(?:<p>\s*)?\{accordion\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/accordion\}(?:\s*</p>)?~is',
-                fn($match) => $this->renderAccordion($match[2], $match[1]),
+                fn ($match) => $this->renderAccordion($match[2], $match[1]),
                 $item->text
             );
         }
@@ -145,7 +149,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->getDocument()->getWebAssetManager()->useScript('bootstrap.collapse');
         }
         if (str_contains($item->text, '{embed ')) {
-            $item->text = preg_replace_callback('/\{embed\s+([^}]+)\}/i', fn($m) => $this->renderEmbed($this->attributes($m[1])), $item->text);
+            $item->text = preg_replace_callback('/\{embed\s+([^}]+)\}/i', fn ($m) => $this->renderEmbed($this->attributes($m[1])), $item->text);
         }
     }
 
@@ -179,7 +183,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             $matches,
             PREG_SET_ORDER
         );
-        if (!$matches) return '';
+        if (!$matches) {
+            return '';
+        }
 
         $params = ComponentHelper::getParams('com_' . self::FAMILY);
         $templates = ['classic', 'pills', 'underline', 'cards', 'colorbar', 'icons'];
@@ -198,14 +204,25 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $id = self::FAMILY . '-tabs-' . $this->tabSequence;
         $navType = in_array($template, ['pills', 'icons', 'colorbar'], true) || $vertical ? 'nav-pills' : 'nav-tabs';
         $navClasses = 'nav ' . $navType;
-        if ($vertical) $navClasses .= ' flex-column flex-shrink-0 me-3';
-        if ($template === 'icons' && !$vertical) $navClasses .= ' nav-fill gap-2';
-        if ($template === 'underline') $navClasses .= ' border-0 gap-3';
-        if ($template === 'colorbar') $navClasses .= ' rounded-top p-2 gap-1';
+        if ($vertical) {
+            $navClasses .= ' flex-column flex-shrink-0 me-3';
+        }
+        if ($template === 'icons' && !$vertical) {
+            $navClasses .= ' nav-fill gap-2';
+        }
+        if ($template === 'underline') {
+            $navClasses .= ' border-0 gap-3';
+        }
+        if ($template === 'colorbar') {
+            $navClasses .= ' rounded-top p-2 gap-1';
+        }
         $navigation = '<div class="' . $navClasses . '" id="' . $id . '-nav" role="tablist"' . ($vertical ? ' aria-orientation="vertical"' : '') . '>';
         $contentClasses = 'tab-content flex-grow-1 p-3';
-        if ($template === 'cards') $contentClasses .= ' card-body';
-        else $contentClasses .= ' border rounded-bottom';
+        if ($template === 'cards') {
+            $contentClasses .= ' card-body';
+        } else {
+            $contentClasses .= ' border rounded-bottom';
+        }
         $panes = '<div class="' . $contentClasses . '" id="' . $id . '-content">';
         $allowedIcons = ['home','user','check','info','star','heart','music','camera','video','cog','envelope','search','question','bookmark'];
         foreach ($matches as $index => $match) {
@@ -300,7 +317,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $style = in_array(strtolower($style), ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'], true)
             ? strtolower($style) : 'primary';
         $url = html_entity_decode(trim(strip_tags($url)), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        if (!preg_match('~^(?:https?://|/|#)~i', $url)) $url = '#';
+        if (!preg_match('~^(?:https?://|/|#)~i', $url)) {
+            $url = '#';
+        }
 
         return '<p><a class="btn btn-' . $style . '" href="' . htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
             . htmlspecialchars(html_entity_decode(strip_tags($label), ENT_QUOTES | ENT_HTML5, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</a></p>';
@@ -309,7 +328,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderAudio(string $url, string $title, bool $autoplay): string
     {
         $url = html_entity_decode(strip_tags($url), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        if (preg_match('~^(?:javascript|data):~i', trim($url))) return '';
+        if (preg_match('~^(?:javascript|data):~i', trim($url))) {
+            return '';
+        }
         $safeUrl = htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $safeTitle = htmlspecialchars(html_entity_decode(strip_tags($title), ENT_QUOTES | ENT_HTML5, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
@@ -324,14 +345,16 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
                 ? ''
                 : htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         };
-        $cleanText = static fn(string $text): string => htmlspecialchars(
+        $cleanText = static fn (string $text): string => htmlspecialchars(
             html_entity_decode(strip_tags($text), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
             ENT_QUOTES | ENT_SUBSTITUTE,
             'UTF-8'
         );
         $beforeUrl = $cleanUrl($before);
         $afterUrl = $cleanUrl($after);
-        if ($beforeUrl === '' || $afterUrl === '') return '';
+        if ($beforeUrl === '' || $afterUrl === '') {
+            return '';
+        }
 
         return '<div class="row g-3 comparison">'
             . '<div class="col-md-6"><figure><img class="img-fluid w-100" src="' . $beforeUrl . '" alt="' . $cleanText($beforeAlt) . '"><figcaption class="text-muted mt-2">' . $cleanText($beforeAlt) . '</figcaption></figure></div>'
@@ -342,7 +365,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderColumns(string $source, string $override): string
     {
         preg_match_all('~\{column\}(.*?)\{/column\}~is', $source, $matches);
-        if (empty($matches[1])) return '';
+        if (empty($matches[1])) {
+            return '';
+        }
         $params = ComponentHelper::getParams('com_' . self::FAMILY);
         $templates = ['equal', 'sidebar-left', 'sidebar-right', 'cards', 'bordered', 'color', 'gapless', 'feature'];
         $globalTemplate = (string) $params->get('column_template', 'equal');
@@ -350,7 +375,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $template = in_array($template, $templates, true) ? $template : 'equal';
         $gap = (string) $params->get('column_gap', '3');
         $gap = in_array($gap, ['0', '1', '2', '3', '4', '5'], true) ? $gap : '3';
-        if ($template === 'gapless') $gap = '0';
+        if ($template === 'gapless') {
+            $gap = '0';
+        }
         $align = (string) $params->get('column_vertical_align', 'start');
         $align = in_array($align, ['start', 'center', 'end', 'stretch'], true) ? $align : 'start';
         $colorMode = (string) $params->get('column_color_mode', 'bootstrap');
@@ -361,20 +388,32 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $color = $colorMode === 'custom' ? $customColor : 'var(--bs-' . $bootstrapColor . ',#0d6efd)';
         $contrast = $colorMode === 'custom' ? $this->contrastColor($customColor) : (in_array($bootstrapColor, ['warning', 'info', 'light'], true) ? '#212529' : '#ffffff');
         $count = count($matches[1]);
-        $equalWidth = match ($count) { 2 => 'col-md-6', 3 => 'col-md-4', 4 => 'col-md-3', default => 'col-md' };
+        $equalWidth = match ($count) {
+            2 => 'col-md-6', 3 => 'col-md-4', 4 => 'col-md-3', default => 'col-md'
+        };
         $this->columnSequence++;
         $id = self::FAMILY . '-columns-' . $this->columnSequence;
         $columns = [];
         foreach ($matches[1] as $index => $content) {
             $width = $equalWidth;
-            if ($count === 2 && $template === 'sidebar-left') $width = $index === 0 ? 'col-md-4' : 'col-md-8';
-            if ($count === 2 && in_array($template, ['sidebar-right', 'feature'], true)) $width = $index === 0 ? 'col-md-8' : 'col-md-4';
+            if ($count === 2 && $template === 'sidebar-left') {
+                $width = $index === 0 ? 'col-md-4' : 'col-md-8';
+            }
+            if ($count === 2 && in_array($template, ['sidebar-right', 'feature'], true)) {
+                $width = $index === 0 ? 'col-md-8' : 'col-md-4';
+            }
             $inner = $this->paragraphs($content);
-            if ($template === 'cards') $inner = '<div class="card h-100 shadow-sm"><div class="card-body">' . $inner . '</div></div>';
-            elseif ($template === 'bordered') $inner = '<div class="h-100 border rounded-3 p-4">' . $inner . '</div>';
-            elseif ($template === 'color') $inner = '<div class="h-100 rounded-3 p-4' . ($index === 0 ? ' post-columns__featured' : ' bg-body-tertiary border') . '">' . $inner . '</div>';
-            elseif ($template === 'feature') $inner = '<div class="h-100 rounded-3 p-4 ' . ($index === 0 ? 'post-columns__featured' : 'bg-body-tertiary border') . '">' . $inner . '</div>';
-            elseif ($template === 'gapless') $inner = '<div class="h-100 p-4 ' . ($index % 2 === 0 ? 'post-columns__featured' : 'bg-body-tertiary') . '">' . $inner . '</div>';
+            if ($template === 'cards') {
+                $inner = '<div class="card h-100 shadow-sm"><div class="card-body">' . $inner . '</div></div>';
+            } elseif ($template === 'bordered') {
+                $inner = '<div class="h-100 border rounded-3 p-4">' . $inner . '</div>';
+            } elseif ($template === 'color') {
+                $inner = '<div class="h-100 rounded-3 p-4' . ($index === 0 ? ' post-columns__featured' : ' bg-body-tertiary border') . '">' . $inner . '</div>';
+            } elseif ($template === 'feature') {
+                $inner = '<div class="h-100 rounded-3 p-4 ' . ($index === 0 ? 'post-columns__featured' : 'bg-body-tertiary border') . '">' . $inner . '</div>';
+            } elseif ($template === 'gapless') {
+                $inner = '<div class="h-100 p-4 ' . ($index % 2 === 0 ? 'post-columns__featured' : 'bg-body-tertiary') . '">' . $inner . '</div>';
+            }
             $columns[] = '<div class="' . $width . '">' . $inner . '</div>';
         }
         $style = '<style>#' . $id . '{--post-column-color:' . htmlspecialchars($color, ENT_QUOTES, 'UTF-8') . ';--post-column-contrast:' . $contrast . '}#' . $id . ' .post-columns__featured{background:var(--post-column-color);color:var(--post-column-contrast)}#' . $id . '.post-columns--gapless{overflow:hidden;border-radius:.75rem}</style>';
@@ -391,7 +430,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             $matches,
             PREG_SET_ORDER
         );
-        if (!$matches) return '';
+        if (!$matches) {
+            return '';
+        }
 
         $params = ComponentHelper::getParams('com_' . self::FAMILY);
         $templates = ['classic', 'separated', 'numbered', 'minimal', 'color-panel', 'gradient-card', 'compact', 'two-column'];
@@ -408,9 +449,15 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $this->accordionSequence++;
         $id = self::FAMILY . '-accordion-' . $this->accordionSequence;
         $rootClasses = 'accordion post-accordion post-accordion--' . $template;
-        if ($template === 'minimal') $rootClasses .= ' accordion-flush';
-        if (in_array($template, ['color-panel', 'gradient-card'], true)) $rootClasses .= ' p-4 rounded-4';
-        if ($template === 'gradient-card') $rootClasses .= ' shadow-sm';
+        if ($template === 'minimal') {
+            $rootClasses .= ' accordion-flush';
+        }
+        if (in_array($template, ['color-panel', 'gradient-card'], true)) {
+            $rootClasses .= ' p-4 rounded-4';
+        }
+        if ($template === 'gradient-card') {
+            $rootClasses .= ' shadow-sm';
+        }
         $safeColor = htmlspecialchars($color, ENT_QUOTES, 'UTF-8');
         $style = '<style>#' . $id . '{--post-accordion-color:' . $safeColor . ';--post-accordion-contrast:' . $contrast . ';--bs-accordion-active-bg:var(--post-accordion-color);--bs-accordion-active-color:var(--post-accordion-contrast);--bs-accordion-btn-focus-box-shadow:0 0 0 .25rem color-mix(in srgb,var(--post-accordion-color) 25%,transparent)}'
             . '#' . $id . '.post-accordion--separated .accordion-item,#' . $id . '.post-accordion--numbered .accordion-item{border:1px solid var(--bs-border-color);border-radius:1rem;overflow:hidden;margin-bottom:1rem;box-shadow:0 .2rem 0 rgba(0,0,0,.75)}'
@@ -445,7 +492,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $lines = $lines ?: [''];
 
         return implode('', array_map(
-            fn($line) => '<p>' . (trim($line) === '' ? '<br>' : htmlspecialchars($line, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')) . '</p>',
+            fn ($line) => '<p>' . (trim($line) === '' ? '<br>' : htmlspecialchars($line, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')) . '</p>',
             $lines
         ));
     }
@@ -454,7 +501,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     {
         $out = [];
         preg_match_all('/([a-z][a-z0-9_-]*)\s*=\s*"([^"]*)"/i', $source, $matches, PREG_SET_ORDER);
-        foreach ($matches as $match) $out[strtolower($match[1])] = html_entity_decode($match[2], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        foreach ($matches as $match) {
+            $out[strtolower($match[1])] = html_entity_decode($match[2], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        }
         return $out;
     }
 
@@ -462,8 +511,12 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     {
         $provider = strtolower($data['provider'] ?? '');
         $url = trim($data['url'] ?? '');
-        if ($provider === 'polls') return $this->renderPoll((int) $url, (string) ($data['template'] ?? 'global'));
-        if (!filter_var($url, FILTER_VALIDATE_URL) || !in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'], true)) return '';
+        if ($provider === 'polls') {
+            return $this->renderPoll((int) $url, (string) ($data['template'] ?? 'global'));
+        }
+        if (!filter_var($url, FILTER_VALIDATE_URL) || !in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'], true)) {
+            return '';
+        }
         $hosts = [
             'gist' => ['gist.github.com'], 'instagram' => ['instagram.com', 'www.instagram.com'],
             'spotify' => ['open.spotify.com'], 'behance' => ['behance.net', 'www.behance.net'],
@@ -475,21 +528,51 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             'facebook' => ['facebook.com', 'www.facebook.com', 'm.facebook.com'], 'polls' => [],
         ];
         $host = strtolower(parse_url($url, PHP_URL_HOST) ?: '');
-        if (!isset($hosts[$provider]) || ($hosts[$provider] && !in_array($host, $hosts[$provider], true))) return '';
-        if ($provider === 'tweet') return $this->renderTweet($url);
-        if ($provider === 'gist') return $this->renderGist($url);
-        if ($provider === 'instagram') return $this->renderInstagram($url);
-        if ($provider === 'spotify') return $this->renderSpotify($url);
-        if ($provider === 'behance') return $this->renderBehance($url);
-        if ($provider === 'soundcloud') return $this->renderSoundCloud($url);
-        if ($provider === 'slideshare') return $this->renderSlideShare($url, (int) ($data['width'] ?? 510), (int) ($data['height'] ?? 420));
-        if ($provider === 'codepen') return $this->renderCodePen($url);
-        if ($provider === 'pinterest') return $this->renderPinterest($url);
-        if ($provider === 'youtube') return $this->renderYouTube($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
-        if ($provider === 'vimeo') return $this->renderVimeo($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
-        if ($provider === 'dailymotion') return $this->renderDailyMotion($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
-        if ($provider === 'ted') return $this->renderTed($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
-        if ($provider === 'facebook') return $this->renderFacebook($url, (int) ($data['width'] ?? 500), (int) ($data['height'] ?? 736));
+        if (!isset($hosts[$provider]) || ($hosts[$provider] && !in_array($host, $hosts[$provider], true))) {
+            return '';
+        }
+        if ($provider === 'tweet') {
+            return $this->renderTweet($url);
+        }
+        if ($provider === 'gist') {
+            return $this->renderGist($url);
+        }
+        if ($provider === 'instagram') {
+            return $this->renderInstagram($url);
+        }
+        if ($provider === 'spotify') {
+            return $this->renderSpotify($url);
+        }
+        if ($provider === 'behance') {
+            return $this->renderBehance($url);
+        }
+        if ($provider === 'soundcloud') {
+            return $this->renderSoundCloud($url);
+        }
+        if ($provider === 'slideshare') {
+            return $this->renderSlideShare($url, (int) ($data['width'] ?? 510), (int) ($data['height'] ?? 420));
+        }
+        if ($provider === 'codepen') {
+            return $this->renderCodePen($url);
+        }
+        if ($provider === 'pinterest') {
+            return $this->renderPinterest($url);
+        }
+        if ($provider === 'youtube') {
+            return $this->renderYouTube($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
+        }
+        if ($provider === 'vimeo') {
+            return $this->renderVimeo($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
+        }
+        if ($provider === 'dailymotion') {
+            return $this->renderDailyMotion($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
+        }
+        if ($provider === 'ted') {
+            return $this->renderTed($url, (int) ($data['width'] ?? 1024), (int) ($data['height'] ?? 576));
+        }
+        if ($provider === 'facebook') {
+            return $this->renderFacebook($url, (int) ($data['width'] ?? 500), (int) ($data['height'] ?? 736));
+        }
         $embedUrl = $this->embedUrl($provider, $url);
         $safe = htmlspecialchars($embedUrl ?: $url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $label = htmlspecialchars(ucfirst($provider) . ' embed', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -502,7 +585,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderTweet(string $url): string
     {
         $path = parse_url($url, PHP_URL_PATH) ?: '';
-        if (!preg_match('~^/[^/]+/status/[0-9]+/?$~', $path)) return '';
+        if (!preg_match('~^/[^/]+/status/[0-9]+/?$~', $path)) {
+            return '';
+        }
         $this->getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript(
             self::FAMILY . '.x-widgets',
             'https://platform.twitter.com/widgets.js',
@@ -518,7 +603,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     {
         $parts = parse_url($url);
         $path = rtrim($parts['path'] ?? '', '/');
-        if (!preg_match('~^/([A-Za-z0-9_-]+)/([A-Fa-f0-9]+)(?:\.js)?$~', $path, $match)) return '';
+        if (!preg_match('~^/([A-Za-z0-9_-]+)/([A-Fa-f0-9]+)(?:\.js)?$~', $path, $match)) {
+            return '';
+        }
 
         $gistUrl = 'https://gist.github.com/' . rawurlencode($match[1]) . '/' . strtolower($match[2]);
         $scriptUrl = $gistUrl . '.js';
@@ -536,7 +623,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderInstagram(string $url): string
     {
         $path = rtrim(parse_url($url, PHP_URL_PATH) ?: '', '/') . '/';
-        if (!preg_match('~^/(?:p|reel|tv)/[A-Za-z0-9_-]+/$~', $path)) return '';
+        if (!preg_match('~^/(?:p|reel|tv)/[A-Za-z0-9_-]+/$~', $path)) {
+            return '';
+        }
 
         $permalink = 'https://www.instagram.com' . $path;
         $this->getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript(
@@ -555,7 +644,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderSpotify(string $url): string
     {
         $path = preg_replace('~^/embed~', '', parse_url($url, PHP_URL_PATH) ?: '');
-        if (!preg_match('~^/(album|track|playlist|episode|show|artist)/([A-Za-z0-9]+)$~', $path, $match)) return '';
+        if (!preg_match('~^/(album|track|playlist|episode|show|artist)/([A-Za-z0-9]+)$~', $path, $match)) {
+            return '';
+        }
 
         $embedUrl = 'https://open.spotify.com/embed/' . $match[1] . '/' . $match[2] . '?utm_source=generator';
         $safe = htmlspecialchars($embedUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -566,7 +657,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderBehance(string $url): string
     {
         $path = parse_url($url, PHP_URL_PATH) ?: '';
-        if (!preg_match('~^/(?:embed/project|gallery)/([0-9]+)(?:/|$)~', $path, $match)) return '';
+        if (!preg_match('~^/(?:embed/project|gallery)/([0-9]+)(?:/|$)~', $path, $match)) {
+            return '';
+        }
 
         $embedUrl = 'https://www.behance.net/embed/project/' . $match[1] . '?ilo0=1';
         $safe = htmlspecialchars($embedUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -583,9 +676,13 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         } else {
             $trackUrl = $url;
         }
-        if (!filter_var($trackUrl, FILTER_VALIDATE_URL)) return '';
+        if (!filter_var($trackUrl, FILTER_VALIDATE_URL)) {
+            return '';
+        }
         $trackHost = strtolower(parse_url($trackUrl, PHP_URL_HOST) ?: '');
-        if (!in_array($trackHost, ['soundcloud.com', 'www.soundcloud.com', 'api.soundcloud.com'], true)) return '';
+        if (!in_array($trackHost, ['soundcloud.com', 'www.soundcloud.com', 'api.soundcloud.com'], true)) {
+            return '';
+        }
 
         $playerUrl = 'https://w.soundcloud.com/player/?' . http_build_query([
             'url' => $trackUrl,
@@ -608,7 +705,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderSlideShare(string $url, int $width, int $height): string
     {
         $path = parse_url($url, PHP_URL_PATH) ?: '';
-        if (!preg_match('~^/slideshow/embed_code/key/([A-Za-z0-9_-]+)$~', $path, $match)) return '';
+        if (!preg_match('~^/slideshow/embed_code/key/([A-Za-z0-9_-]+)$~', $path, $match)) {
+            return '';
+        }
         $width = max(200, min(1920, $width ?: 510));
         $height = max(150, min(1200, $height ?: 420));
         $embedUrl = 'https://www.slideshare.net/slideshow/embed_code/key/' . $match[1];
@@ -620,7 +719,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderCodePen(string $url): string
     {
         $path = rtrim(parse_url($url, PHP_URL_PATH) ?: '', '/');
-        if (!preg_match('~^/([A-Za-z0-9_-]+)/(?:pen|embed)/([A-Za-z0-9_-]+)$~', $path, $match)) return '';
+        if (!preg_match('~^/([A-Za-z0-9_-]+)/(?:pen|embed)/([A-Za-z0-9_-]+)$~', $path, $match)) {
+            return '';
+        }
         $user = $match[1];
         $slug = $match[2];
         $penUrl = 'https://codepen.io/' . rawurlencode($user) . '/pen/' . rawurlencode($slug);
@@ -646,7 +747,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             $path = parse_url($url, PHP_URL_PATH) ?: '';
             $pinId = preg_match('~/(?:pin/)?([0-9]{5,})(?:/|$)~', $path, $match) ? $match[1] : '';
         }
-        if (!preg_match('/^[0-9]{5,}$/', $pinId)) return '';
+        if (!preg_match('/^[0-9]{5,}$/', $pinId)) {
+            return '';
+        }
 
         $embedUrl = 'https://assets.pinterest.com/ext/embed.html?id=' . $pinId;
         $safe = htmlspecialchars($embedUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -666,7 +769,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         } else {
             $videoId = preg_match('~/video/([A-Za-z0-9]+)~', $path, $match) ? $match[1] : '';
         }
-        if (!preg_match('/^[A-Za-z0-9]+$/', $videoId)) return '';
+        if (!preg_match('/^[A-Za-z0-9]+$/', $videoId)) {
+            return '';
+        }
 
         $playerUrl = 'https://geo.dailymotion.com/player.html?video=' . rawurlencode($videoId);
         $safe = htmlspecialchars($playerUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -682,7 +787,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $path = $parts['path'] ?? '';
         parse_str($parts['query'] ?? '', $query);
         $videoId = $host === 'youtu.be' ? trim($path, '/') : ($query['v'] ?? (preg_match('~/(?:shorts|embed)/([^/?]+)~', $path, $match) ? $match[1] : ''));
-        if (!preg_match('/^[A-Za-z0-9_-]{6,20}$/', (string) $videoId)) return '';
+        if (!preg_match('/^[A-Za-z0-9_-]{6,20}$/', (string) $videoId)) {
+            return '';
+        }
         $safe = htmlspecialchars('https://www.youtube-nocookie.com/embed/' . $videoId, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         [$width, $height, $ratio] = $this->embedDimensions($width, $height);
 
@@ -692,7 +799,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderVimeo(string $url, int $width, int $height): string
     {
         $path = parse_url($url, PHP_URL_PATH) ?: '';
-        if (!preg_match('~/(?:video/)?([0-9]+)(?:/|$)~', $path, $match)) return '';
+        if (!preg_match('~/(?:video/)?([0-9]+)(?:/|$)~', $path, $match)) {
+            return '';
+        }
         $safe = htmlspecialchars('https://player.vimeo.com/video/' . $match[1], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         [$width, $height, $ratio] = $this->embedDimensions($width, $height);
 
@@ -709,7 +818,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
     private function renderTed(string $url, int $width, int $height): string
     {
         $path = rtrim(parse_url($url, PHP_URL_PATH) ?: '', '/');
-        if (!preg_match('~^/talks/([A-Za-z0-9_-]+)$~', $path, $match)) return '';
+        if (!preg_match('~^/talks/([A-Za-z0-9_-]+)$~', $path, $match)) {
+            return '';
+        }
         $slug = $match[1];
         $embedUrl = 'https://embed.ted.com/talks/' . rawurlencode($slug);
         $title = ucwords(str_replace('_', ' ', $slug));
@@ -731,9 +842,13 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         } else {
             $postUrl = $url;
         }
-        if (!filter_var($postUrl, FILTER_VALIDATE_URL)) return '';
+        if (!filter_var($postUrl, FILTER_VALIDATE_URL)) {
+            return '';
+        }
         $postHost = strtolower(parse_url($postUrl, PHP_URL_HOST) ?: '');
-        if (!in_array($postHost, ['facebook.com', 'www.facebook.com', 'm.facebook.com'], true)) return '';
+        if (!in_array($postHost, ['facebook.com', 'www.facebook.com', 'm.facebook.com'], true)) {
+            return '';
+        }
         $width = max(350, min(750, $width ?: 500));
         $height = max(200, min(1600, $height ?: 736));
         $playerUrl = 'https://www.facebook.com/plugins/post.php?' . http_build_query([
@@ -748,12 +863,16 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
 
     private function renderPoll(int $pollId, string $override = 'global'): string
     {
-        if ($pollId < 1) return '';
+        if ($pollId < 1) {
+            return '';
+        }
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $poll = $db->setQuery($db->createQuery()->select('*')->from('#__' . self::FAMILY . '_polls')->where('id=' . $pollId)->where('state=1'))->loadObject();
-        if (!$poll) return '';
+        if (!$poll) {
+            return '';
+        }
         $options = $db->setQuery($db->createQuery()->select('o.*,COUNT(v.id) AS votes')->from('#__' . self::FAMILY . '_poll_options AS o')->join('LEFT', '#__' . self::FAMILY . '_poll_votes AS v ON v.option_id=o.id')->where('o.poll_id=' . $pollId)->group('o.id')->order('o.ordering'))->loadObjectList();
-        $total = array_sum(array_map(fn($option) => (int) $option->votes, $options));
+        $total = array_sum(array_map(fn ($option) => (int) $option->votes, $options));
         $params = ComponentHelper::getParams('com_' . self::FAMILY);
         $showVotes = (bool) $params->get('poll_show_votes', 1);
         $styles = ['progress', 'simple', 'badges'];
@@ -771,19 +890,30 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $html = '<section class="post-poll post-poll--'.$style.' card card-body my-4"><h3>' . htmlspecialchars($poll->title, ENT_QUOTES, 'UTF-8') . '</h3>';
         if (!$hasVoted) {
             $html .= '<form method="post" action="' . htmlspecialchars(Uri::base() . 'index.php?option=com_' . self::FAMILY . '&task=polls.vote', ENT_QUOTES, 'UTF-8') . '">';
-            foreach ($options as $option) $html .= '<label class="d-block mb-2"><input type="'.$type.'" name="choice[]" value="'.(int)$option->id.'"> '.htmlspecialchars($option->title,ENT_QUOTES,'UTF-8').'</label>';
-            return $html.'<input type="hidden" name="poll_id" value="'.$pollId.'"><input type="hidden" name="return" value="'.htmlspecialchars(base64_encode(Uri::getInstance()->toString()),ENT_QUOTES,'UTF-8').'">'.HTMLHelper::_('form.token').'<button class="btn btn-primary" type="submit">Vote</button></form></section>';
+            foreach ($options as $option) {
+                $html .= '<label class="d-block mb-2"><input type="'.$type.'" name="choice[]" value="'.(int)$option->id.'"> '.htmlspecialchars($option->title, ENT_QUOTES, 'UTF-8').'</label>';
+            }
+            return $html.'<input type="hidden" name="poll_id" value="'.$pollId.'"><input type="hidden" name="return" value="'.htmlspecialchars(base64_encode(Uri::getInstance()->toString()), ENT_QUOTES, 'UTF-8').'">'.HTMLHelper::_('form.token').'<button class="btn btn-primary" type="submit">Vote</button></form></section>';
         }
         $html .= '<div class="post-poll-results" aria-label="Poll results">';
         $index = 0;
         foreach ($options as $option) {
-            $percent=$total?(int)round(((int)$option->votes/$total)*100):0;$label=htmlspecialchars($option->title,ENT_QUOTES,'UTF-8');$count=$showVotes?' <small class="text-muted">'.(int)$option->votes.' vote'.((int)$option->votes===1?'':'s').'</small>':'';
-            if ($style === 'progress') {$palette=['bg-primary','bg-success','bg-info','bg-warning','bg-danger'];$barClass='progress-bar'.($progressStriped?' progress-bar-striped':'').($colorMode==='palette'?' '.$palette[$index%count($palette)]:($colorMode==='primary'?' bg-primary':''));$barStyle='width:'.$percent.'%'.($colorMode==='custom'?';background-color:'.$customColor:'');$html.='<div class="mb-3"><div class="d-flex justify-content-between"><span>'.$label.$count.'</span>'.($progressLabels?'':'<strong>'.$percent.'%</strong>').'</div><div class="progress" role="progressbar" aria-label="'.$label.'" aria-valuenow="'.$percent.'" aria-valuemin="0" aria-valuemax="100"><div class="'.$barClass.'" style="'.$barStyle.'">'.($progressLabels?$percent.'%':'').'</div></div></div>';}
-            elseif ($style === 'badges') $html.='<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-2"><span>'.$label.$count.'</span><span class="badge bg-primary rounded-pill">'.$percent.'%</span></div>';
-            else $html.='<div class="border-bottom py-2"><strong>'.$label.'</strong> — '.$percent.'%'.$count.'</div>';
+            $percent = $total ? (int)round(((int)$option->votes / $total) * 100) : 0;
+            $label = htmlspecialchars($option->title, ENT_QUOTES, 'UTF-8');
+            $count = $showVotes ? ' <small class="text-muted">'.(int)$option->votes.' vote'.((int)$option->votes === 1 ? '' : 's').'</small>' : '';
+            if ($style === 'progress') {
+                $palette = ['bg-primary','bg-success','bg-info','bg-warning','bg-danger'];
+                $barClass = 'progress-bar'.($progressStriped ? ' progress-bar-striped' : '').($colorMode === 'palette' ? ' '.$palette[$index % count($palette)] : ($colorMode === 'primary' ? ' bg-primary' : ''));
+                $barStyle = 'width:'.$percent.'%'.($colorMode === 'custom' ? ';background-color:'.$customColor : '');
+                $html .= '<div class="mb-3"><div class="d-flex justify-content-between"><span>'.$label.$count.'</span>'.($progressLabels ? '' : '<strong>'.$percent.'%</strong>').'</div><div class="progress" role="progressbar" aria-label="'.$label.'" aria-valuenow="'.$percent.'" aria-valuemin="0" aria-valuemax="100"><div class="'.$barClass.'" style="'.$barStyle.'">'.($progressLabels ? $percent.'%' : '').'</div></div></div>';
+            } elseif ($style === 'badges') {
+                $html .= '<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-2"><span>'.$label.$count.'</span><span class="badge bg-primary rounded-pill">'.$percent.'%</span></div>';
+            } else {
+                $html .= '<div class="border-bottom py-2"><strong>'.$label.'</strong> — '.$percent.'%'.$count.'</div>';
+            }
             $index++;
         }
-        return $html.'</div>'.($showVotes?'<p class="mt-3 mb-0"><strong>'.$total.'</strong> total vote'.($total===1?'':'s').'</p>':'').'</section>';
+        return $html.'</div>'.($showVotes ? '<p class="mt-3 mb-0"><strong>'.$total.'</strong> total vote'.($total === 1 ? '' : 's').'</p>' : '').'</section>';
     }
 
     private function embedUrl(string $provider, string $url): ?string
@@ -796,12 +926,24 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             $id = $host === 'youtu.be' ? trim($path, '/') : ($query['v'] ?? (preg_match('~/(?:shorts|embed)/([^/?]+)~', $path, $m) ? $m[1] : ''));
             return preg_match('/^[A-Za-z0-9_-]{6,20}$/', $id) ? 'https://www.youtube-nocookie.com/embed/' . $id : null;
         }
-        if ($provider === 'vimeo' && preg_match('~/([0-9]+)~', $path, $m)) return 'https://player.vimeo.com/video/' . $m[1];
-        if ($provider === 'dailymotion' && preg_match('~/(?:video/)?([A-Za-z0-9]+)~', $path, $m)) return 'https://www.dailymotion.com/embed/video/' . $m[1];
-        if ($provider === 'spotify') return 'https://open.spotify.com/embed' . preg_replace('~^/embed~', '', $path);
-        if ($provider === 'soundcloud') return 'https://w.soundcloud.com/player/?url=' . rawurlencode($url);
-        if ($provider === 'instagram') return 'https://www.instagram.com' . rtrim($path, '/') . '/embed/';
-        if ($provider === 'codepen' && preg_match('~/pen/[^/]+/([^/?]+)~', $path, $m)) return 'https://codepen.io/anon/embed/' . $m[1];
+        if ($provider === 'vimeo' && preg_match('~/([0-9]+)~', $path, $m)) {
+            return 'https://player.vimeo.com/video/' . $m[1];
+        }
+        if ($provider === 'dailymotion' && preg_match('~/(?:video/)?([A-Za-z0-9]+)~', $path, $m)) {
+            return 'https://www.dailymotion.com/embed/video/' . $m[1];
+        }
+        if ($provider === 'spotify') {
+            return 'https://open.spotify.com/embed' . preg_replace('~^/embed~', '', $path);
+        }
+        if ($provider === 'soundcloud') {
+            return 'https://w.soundcloud.com/player/?url=' . rawurlencode($url);
+        }
+        if ($provider === 'instagram') {
+            return 'https://www.instagram.com' . rtrim($path, '/') . '/embed/';
+        }
+        if ($provider === 'codepen' && preg_match('~/pen/[^/]+/([^/?]+)~', $path, $m)) {
+            return 'https://codepen.io/anon/embed/' . $m[1];
+        }
         return null;
     }
 }

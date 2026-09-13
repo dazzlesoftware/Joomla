@@ -1,5 +1,21 @@
 <?php
+
 namespace Joomla\Component\Academy\Administrator\View\Emailtemplates;
+
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory;use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;use Joomla\CMS\Toolbar\ToolbarHelper;use Joomla\Database\DatabaseInterface;
-final class HtmlView extends BaseHtmlView{public array $items=[];public function display($tpl=null):void{$db=Factory::getContainer()->get(DatabaseInterface::class);$this->items=$db->setQuery($db->createQuery()->select('*')->from('#__academy_email_templates')->order('title'))->loadObjectList();ToolbarHelper::title('Academy Email Templates','copy');parent::display($tpl);}}
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Database\DatabaseInterface;
+
+final class HtmlView extends BaseHtmlView
+{
+    public array $items = [];
+    public function display($tpl = null): void
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $this->items = $db->setQuery($db->createQuery()->select('*')->from('#__academy_email_templates')->order('title'))->loadObjectList();
+        ToolbarHelper::title('Academy Email Templates', 'copy');
+        parent::display($tpl);
+    }
+}

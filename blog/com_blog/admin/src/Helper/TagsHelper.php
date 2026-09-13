@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Blog\Administrator\Helper;
+
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Application\ApplicationHelper;
@@ -10,7 +12,10 @@ final class TagsHelper
     public $tags = '';
     public array $itemTags = [];
     public string $typeAlias = 'com_blog.post';
-    public static function db(): DatabaseInterface { return Factory::getContainer()->get(DatabaseInterface::class); }
+    public static function db(): DatabaseInterface
+    {
+        return Factory::getContainer()->get(DatabaseInterface::class);
+    }
 
     /**
      * The site-wide default tag (if any), as a one-element array of string
@@ -162,7 +167,9 @@ final class TagsHelper
     public function getMultipleItemTags($typeAlias, $ids, $getTagData = true, $params = null): array
     {
         $ids = array_values(array_filter(array_map('intval', (array) $ids)));
-        if (!$ids) return [];
+        if (!$ids) {
+            return [];
+        }
         $db = self::db();
         $q = $db->createQuery()->select('t.*, t.id AS tag_id, m.content_item_id')->from('#__blog_tags AS t')->join('INNER', '#__blog_tag_map AS m ON m.tag_id=t.id')->where('m.type_alias=' . $db->quote($typeAlias))->whereIn('m.content_item_id', $ids)->where('t.published=1')->order('t.title');
         if (Factory::getApplication()->isClient('site')) {
@@ -170,7 +177,9 @@ final class TagsHelper
             $q->where('t.language IN (' . $db->quote('*') . ',' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ')');
         }
         $result = [];
-        foreach ($db->setQuery($q)->loadObjectList() as $tag) $result[(int) $tag->content_item_id][] = $tag;
+        foreach ($db->setQuery($q)->loadObjectList() as $tag) {
+            $result[(int) $tag->content_item_id][] = $tag;
+        }
         return $result;
     }
     public function getTags($ids): array
@@ -180,25 +189,41 @@ final class TagsHelper
     }
     public static function resolve(array $values, bool $create = false): array
     {
-        $db = self::db(); $ids = [];
+        $db = self::db();
+        $ids = [];
         foreach ($values as $value) {
-            if (!is_scalar($value)) continue;
+            if (!is_scalar($value)) {
+                continue;
+            }
             $value = trim((string) $value);
-            if ($value === '') continue;
+            if ($value === '') {
+                continue;
+            }
             if (ctype_digit($value)) {
                 $id = (int) $db->setQuery('SELECT id FROM #__blog_tags WHERE id=' . (int) $value)->loadResult();
-                if (!$id) throw new \InvalidArgumentException('Unknown tag ID: ' . $value);
+                if (!$id) {
+                    throw new \InvalidArgumentException('Unknown tag ID: ' . $value);
+                }
             } else {
-                if (!$create) throw new \InvalidArgumentException('Choose an existing tag.');
+                if (!$create) {
+                    throw new \InvalidArgumentException('Choose an existing tag.');
+                }
                 $title = mb_substr(trim(strip_tags(preg_replace('/^#new#/', '', $value))), 0, 255);
-                if ($title === '') continue;
+                if ($title === '') {
+                    continue;
+                }
                 $id = (int) $db->setQuery('SELECT id FROM #__blog_tags WHERE title=' . $db->quote($title))->loadResult();
                 if (!$id) {
                     $alias = ApplicationHelper::stringURLSafe($title) ?: bin2hex(random_bytes(6));
-                    $base = mb_substr($alias, 0, 170); $alias = $base; $n = 2;
-                    while ($db->setQuery('SELECT id FROM #__blog_tags WHERE alias=' . $db->quote($alias))->loadResult()) $alias = $base . '-' . $n++;
+                    $base = mb_substr($alias, 0, 170);
+                    $alias = $base;
+                    $n = 2;
+                    while ($db->setQuery('SELECT id FROM #__blog_tags WHERE alias=' . $db->quote($alias))->loadResult()) {
+                        $alias = $base . '-' . $n++;
+                    }
                     $row = (object) ['title' => $title, 'alias' => $alias, 'published' => 1, 'access' => 1, 'language' => '*', 'description' => '', 'params' => '{}'];
-                    $db->insertObject('#__blog_tags', $row, 'id'); $id = (int) $row->id;
+                    $db->insertObject('#__blog_tags', $row, 'id');
+                    $id = (int) $row->id;
                 }
             }
             $ids[] = $id;
@@ -217,6 +242,9 @@ final class TagsHelper
                 $db->insertObject('#__blog_tag_map', $row);
             }
             $db->transactionCommit(true);
-        } catch (\Throwable $e) { $db->transactionRollback(true); throw $e; }
+        } catch (\Throwable $e) {
+            $db->transactionRollback(true);
+            throw $e;
+        }
     }
 }

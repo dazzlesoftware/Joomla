@@ -92,7 +92,7 @@ use Joomla\CMS\Uri\Uri;
                         // first, then overridden by the checkbox's own value if it IS
                         // checked) there is no way to ever save this toggle as "off" -
                         // CategoriesHelper::save() would always see a missing field and
-                        // default it back to enabled. ?>
+                        // default it back to enabled.?>
                         <input type="hidden" name="jform[allow_autoposting]" value="0">
                         <input
                             type="checkbox"

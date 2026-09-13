@@ -2,6 +2,7 @@
 defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Codex\Administrator\Helper\TagsHelper;
+
 $options = TagsHelper::db()->setQuery('SELECT id AS value, title AS text FROM #__codex_tags ORDER BY title')->loadObjectList();
 ?>
 <label for="batch-tag-id">Tag</label><select class="form-select" name="batch[tag]" id="batch-tag-id"><option value="">Keep current tags</option><?php echo HTMLHelper::_('select.options', $options, 'value', 'text'); ?></select>

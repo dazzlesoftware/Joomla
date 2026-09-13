@@ -1,5 +1,39 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\View\Import;
+
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory;use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;use Joomla\CMS\Toolbar\ToolbarHelper;use Joomla\Database\DatabaseInterface;
-final class HtmlView extends BaseHtmlView{public array $categories=[];public array $batches=[];public array $databaseSources=[];public function display($tpl=null):void{$db=Factory::getContainer()->get(DatabaseInterface::class);$q=$db->createQuery()->select(['id','title','level'])->from('#__codex_categories')->where('published=1')->order('lft');$this->categories=$db->setQuery($q)->loadObjectList();$this->batches=$db->setQuery($db->createQuery()->select('*')->from('#__codex_import_batches')->order('created DESC'),0,20)->loadObjectList();$tables=array_map('strtolower',$db->getTableList());$prefix=strtolower($db->getPrefix());foreach(['joomla'=>['Joomla Posts','content'],'easyblog'=>['EasyBlog','easyblog_post'],'k2'=>['K2','k2_items'],'rsblog'=>['RSBlog','rsblog_posts']] as $key=>$definition){$candidates=$key==='easyblog'?['easyblog_post','easyblog_posts']:[$definition[1]];$table='';foreach($candidates as $candidate)if(in_array($prefix.$candidate,$tables,true)){$table=$candidate;break;}if($table!==''){$count=(int)$db->setQuery('SELECT COUNT(*) FROM '.$db->quoteName('#__'.$table))->loadResult();$this->databaseSources[$key]=['label'=>$definition[0],'count'=>$count];}}ToolbarHelper::title('Import Posts','upload');parent::display($tpl);}}
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Database\DatabaseInterface;
+
+final class HtmlView extends BaseHtmlView
+{
+    public array $categories = [];
+    public array $batches = [];
+    public array $databaseSources = [];
+    public function display($tpl = null): void
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $q = $db->createQuery()->select(['id','title','level'])->from('#__codex_categories')->where('published=1')->order('lft');
+        $this->categories = $db->setQuery($q)->loadObjectList();
+        $this->batches = $db->setQuery($db->createQuery()->select('*')->from('#__codex_import_batches')->order('created DESC'), 0, 20)->loadObjectList();
+        $tables = array_map('strtolower', $db->getTableList());
+        $prefix = strtolower($db->getPrefix());
+        foreach (['joomla' => ['Joomla Posts','content'],'easyblog' => ['EasyBlog','easyblog_post'],'k2' => ['K2','k2_items'],'rsblog' => ['RSBlog','rsblog_posts']] as $key => $definition) {
+            $candidates = $key === 'easyblog' ? ['easyblog_post','easyblog_posts'] : [$definition[1]];
+            $table = '';
+            foreach ($candidates as $candidate) {
+                if (in_array($prefix.$candidate, $tables, true)) {
+                    $table = $candidate;
+                    break;
+                }
+            }if ($table !== '') {
+                $count = (int)$db->setQuery('SELECT COUNT(*) FROM '.$db->quoteName('#__'.$table))->loadResult();
+                $this->databaseSources[$key] = ['label' => $definition[0],'count' => $count];
+            }
+        }ToolbarHelper::title('Import Posts', 'upload');
+        parent::display($tpl);
+    }
+}

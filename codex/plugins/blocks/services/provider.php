@@ -10,7 +10,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Codex\Blocks\Extension\Blocks;
 
-return new class implements ServiceProviderInterface {
+return new class () implements ServiceProviderInterface {
     public function register(Container $container): void
     {
         $container->set(PluginInterface::class, static function (Container $container) {

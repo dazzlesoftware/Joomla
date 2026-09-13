@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Component\Codex\Site\View\Subscribe;
 
 defined('_JEXEC') or die;

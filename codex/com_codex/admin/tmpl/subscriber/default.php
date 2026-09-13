@@ -2,6 +2,7 @@
 defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_codex&view=subscriber&id=' . (int) $this->item->id); ?>" method="post" id="adminForm">
     <div class="row g-3" style="max-width:640px;">

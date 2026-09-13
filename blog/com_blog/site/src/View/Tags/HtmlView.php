@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Blog\Site\View\Tags;
+
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -8,6 +10,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Blog\Administrator\Helper\TagsHelper;
 use Joomla\Component\Blog\Site\Helper\ListExcerptHelper;
 use Joomla\Registry\Registry;
+
 class HtmlView extends BaseHtmlView
 {
     public array $tags = [];
@@ -16,13 +19,16 @@ class HtmlView extends BaseHtmlView
     public $pagination;
     public function display($tpl = null): void
     {
-        $app = Factory::getApplication(); $db = TagsHelper::db();
+        $app = Factory::getApplication();
+        $db = TagsHelper::db();
         $q = $db->createQuery()->select('*')->from('#__blog_tags')->where('published=1')->whereIn('access', $app->getIdentity()->getAuthorisedViewLevels())->where('language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')')->order('title');
         $id = $app->getInput()->getInt('tag_id');
         if ($id) {
             $q->where('id=' . $id);
             $this->tag = $db->setQuery($q)->loadObject();
-            if (!$this->tag) throw new \RuntimeException('Tag not found', 404);
+            if (!$this->tag) {
+                throw new \RuntimeException('Tag not found', 404);
+            }
             $groups = $app->getIdentity()->getAuthorisedViewLevels();
             $query = $db->createQuery()->select(['p.*', 'c.default_image AS category_default_image'])->from('#__blog AS p')
                 ->join('INNER', '#__blog_tag_map AS m ON m.content_item_id=p.id')
@@ -31,9 +37,12 @@ class HtmlView extends BaseHtmlView
                 ->where('p.state=1')->whereIn('p.access', $groups)
                 ->where('(p.publish_up IS NULL OR p.publish_up <= UTC_TIMESTAMP())')->where('(p.publish_down IS NULL OR p.publish_down >= UTC_TIMESTAMP())')
                 ->where('EXISTS (SELECT 1 FROM #__blog_categories c2 WHERE c2.id=p.catid AND c2.published=1 AND c2.access IN (' . implode(',', $groups) . '))');
-            if ($app->getLanguageFilter()) $query->where('p.language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+            if ($app->getLanguageFilter()) {
+                $query->where('p.language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+            }
             $query->order('CASE WHEN p.publish_up IS NULL THEN p.created ELSE p.publish_up END DESC');
-            $limit = max(1, (int) $app->get('list_limit', 20)); $start = $app->getInput()->getUint('limitstart', 0);
+            $limit = max(1, (int) $app->get('list_limit', 20));
+            $start = $app->getInput()->getUint('limitstart', 0);
             $allItems = $db->setQuery($query)->loadObjectList() ?: [];
             foreach ($allItems as $item) {
                 $item->params = new Registry($item->options ?? '{}');
@@ -54,7 +63,9 @@ class HtmlView extends BaseHtmlView
                 $app->triggerEvent('onContentPrepare', ['com_blog.tags', &$item, &$item->params, 0]);
                 $item->summary = $item->text;
             }
-        } else { $this->tags = $db->setQuery($q)->loadObjectList(); }
+        } else {
+            $this->tags = $db->setQuery($q)->loadObjectList();
+        }
         $this->getDocument()->setTitle($this->tag->title ?? 'Tags');
         parent::display($tpl);
     }

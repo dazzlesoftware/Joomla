@@ -330,7 +330,9 @@ final class Content extends Adapter implements SubscriberInterface
 
         // Get taxonomies to display
         $taxonomies = $this->params->get('taxonomies', ['type', 'author', 'category', 'language']);
-        if (is_string($taxonomies)) { $taxonomies = array_filter(array_map('trim', explode(',', $taxonomies))); }
+        if (is_string($taxonomies)) {
+            $taxonomies = array_filter(array_map('trim', explode(',', $taxonomies)));
+        }
 
         // Add the type taxonomy data.
         if (\in_array('type', $taxonomies)) {

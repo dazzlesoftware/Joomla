@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Blog\Administrator\Field;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\StatusField;

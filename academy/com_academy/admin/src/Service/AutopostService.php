@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Component\Academy\Administrator\Service;
 
 defined('_JEXEC') or die;

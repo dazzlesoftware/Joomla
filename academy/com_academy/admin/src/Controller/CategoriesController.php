@@ -1,7 +1,14 @@
 <?php
+
 namespace Joomla\Component\Academy\Administrator\Controller;
+
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory; use Joomla\CMS\MVC\Controller\BaseController; use Joomla\CMS\Router\Route; use Joomla\CMS\Session\Session; use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper; use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper;
+use Joomla\Utilities\ArrayHelper;
 
 final class CategoriesController extends BaseController
 {
@@ -56,7 +63,9 @@ final class CategoriesController extends BaseController
         $ids = ArrayHelper::toInteger((array) $app->getInput()->post->get('cid', [], 'array'));
         if (!$ids) {
             $single = $app->getInput()->getInt('id');
-            if ($single) { $ids = [$single]; }
+            if ($single) {
+                $ids = [$single];
+            }
         }
         $n = CategoriesHelper::delete($ids);
         $app->enqueueMessage($n ? 'Category deleted. Posts were left uncategorised.' : 'No categories selected.', $n ? 'message' : 'warning');

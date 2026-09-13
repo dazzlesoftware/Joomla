@@ -98,10 +98,10 @@ if (!empty($editor)) {
                     1  => 'icon-publish',
                     2  => 'icon-archive',
                 ];
-                ?>
+?>
                 <?php foreach ($this->items as $i => $item) : ?>
                     <?php
-                    $lang = '';
+    $lang = '';
                     if ($item->language && $multilang) {
                         $tag = strlen($item->language);
                         if ($tag == 5) {
@@ -129,7 +129,7 @@ if (!empty($editor)) {
                                 . ' data-uri="' . $this->escape($link) . '"'
                                 . ' data-language="' . $this->escape($lang) . '"'
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
-                            ?>
+                    ?>
                             <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                                 <?php echo $this->escape($item->title); ?>
                             </a>
@@ -163,7 +163,7 @@ if (!empty($editor)) {
                 </tbody>
             </table>
 
-            <?php // load the pagination. ?>
+            <?php // load the pagination.?>
             <?php echo $this->pagination->getListFooter(); ?>
 
         <?php endif; ?>

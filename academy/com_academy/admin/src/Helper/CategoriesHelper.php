@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Academy\Administrator\Helper;
+
 defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -15,53 +17,95 @@ final class CategoriesHelper
      * string and pointing at our own native categories table. */
     private const ASSOCIATIONS_CONTEXT = 'com_academy.category';
 
-    public static function db(): DatabaseInterface { return Factory::getContainer()->get(DatabaseInterface::class); }
+    public static function db(): DatabaseInterface
+    {
+        return Factory::getContainer()->get(DatabaseInterface::class);
+    }
 
     /** Whether a category id exists in this component's own native categories table. */
     public static function exists(int $id): bool
     {
-        if (!$id) { return false; }
+        if (!$id) {
+            return false;
+        }
         return (bool) self::db()->setQuery('SELECT 1 FROM #__academy_categories WHERE id=' . $id)->loadResult();
     }
 
     public static function options(bool $site = false): array
     {
-        $db = self::db(); $q = $db->createQuery()->select('id AS value,title AS text')->from('#__academy_categories')->order('lft,title');
-        if ($site) { $q->where('published=1')->whereIn('access', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels())->where('language IN (' . $db->quote('*') . ',' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ')'); }
+        $db = self::db();
+        $q = $db->createQuery()->select('id AS value,title AS text')->from('#__academy_categories')->order('lft,title');
+        if ($site) {
+            $q->where('published=1')->whereIn('access', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels())->where('language IN (' . $db->quote('*') . ',' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ')');
+        }
         return $db->setQuery($q)->loadObjectList() ?: [];
     }
     public static function save(array $data): int
     {
-        $db = self::db(); $id=(int)($data['id'] ?? 0); $title=trim(strip_tags((string)($data['title'] ?? ''))); if($title==='') throw new \InvalidArgumentException('A category title is required.');
-        $alias=ApplicationHelper::stringURLSafe((string)($data['alias'] ?? $title)); if($alias==='')$alias='category-'.bin2hex(random_bytes(4)); $base=mb_substr($alias,0,185);$n=2;
-        while((int)$db->setQuery('SELECT id FROM #__academy_categories WHERE alias='.$db->quote($alias).($id?' AND id<>'.$id:''))->loadResult()) $alias=$base.'-'.$n++;
+        $db = self::db();
+        $id = (int)($data['id'] ?? 0);
+        $title = trim(strip_tags((string)($data['title'] ?? '')));
+        if ($title === '') {
+            throw new \InvalidArgumentException('A category title is required.');
+        }
+        $alias = ApplicationHelper::stringURLSafe((string)($data['alias'] ?? $title));
+        if ($alias === '') {
+            $alias = 'category-'.bin2hex(random_bytes(4));
+        } $base = mb_substr($alias, 0, 185);
+        $n = 2;
+        while ((int)$db->setQuery('SELECT id FROM #__academy_categories WHERE alias='.$db->quote($alias).($id ? ' AND id<>'.$id : ''))->loadResult()) {
+            $alias = $base.'-'.$n++;
+        }
         $parentId = (int) ($data['parent_id'] ?? 0);
         if ($parentId && ($parentId === $id || in_array($parentId, self::descendantIds($id), true))) {
             throw new \InvalidArgumentException('A category cannot be its own parent or descendant.');
         }
-        $identity = Factory::getApplication()->getIdentity(); $userId = (int) ($identity?->id ?? 0);
+        $identity = Factory::getApplication()->getIdentity();
+        $userId = (int) ($identity?->id ?? 0);
         // 'extension' mirrors the column core's own shared #__categories table
         // carries: com_associations' generic category query hardcodes a WHERE
         // a.extension = <component name> filter, so every row needs it set.
-        $row=(object)['id'=>$id?:null,'title'=>$title,'alias'=>$alias,'description'=>(string)($data['description']??''),'published'=>(int)($data['published']??1),'access'=>(int)($data['access']??1),'language'=>(string)($data['language']??'*'),'parent_id'=>$parentId,'extension'=>'com_academy','allow_autoposting'=>(int)($data['allow_autoposting']??1),'default_image'=>(string)($data['default_image']??''),'default_tags'=>(string)($data['default_tags']??''),'created_time'=>Factory::getDate()->toSql(),'created_user_id'=>$userId,'modified_time'=>Factory::getDate()->toSql(),'modified_user_id'=>$userId,'metadata'=>'{}','params'=>'{}'];
-        if($id){$old=$db->setQuery('SELECT * FROM #__academy_categories WHERE id='.$id)->loadObject();if(!$old)throw new \RuntimeException('Category not found.',404);foreach(['created_time','created_user_id','metadata','params','asset_id','lft','rgt','level','path'] as $field)if(isset($old->$field))$row->$field=$old->$field;$db->updateObject('#__academy_categories',$row,'id');}else{$row->lft=$row->rgt=$row->level=0;$row->path=$alias;$db->insertObject('#__academy_categories',$row,'id');}
+        $row = (object)['id' => $id ?: null,'title' => $title,'alias' => $alias,'description' => (string)($data['description'] ?? ''),'published' => (int)($data['published'] ?? 1),'access' => (int)($data['access'] ?? 1),'language' => (string)($data['language'] ?? '*'),'parent_id' => $parentId,'extension' => 'com_academy','allow_autoposting' => (int)($data['allow_autoposting'] ?? 1),'default_image' => (string)($data['default_image'] ?? ''),'default_tags' => (string)($data['default_tags'] ?? ''),'created_time' => Factory::getDate()->toSql(),'created_user_id' => $userId,'modified_time' => Factory::getDate()->toSql(),'modified_user_id' => $userId,'metadata' => '{}','params' => '{}'];
+        if ($id) {
+            $old = $db->setQuery('SELECT * FROM #__academy_categories WHERE id='.$id)->loadObject();
+            if (!$old) {
+                throw new \RuntimeException('Category not found.', 404);
+            }foreach (['created_time','created_user_id','metadata','params','asset_id','lft','rgt','level','path'] as $field) {
+                if (isset($old->$field)) {
+                    $row->$field = $old->$field;
+                }
+            }$db->updateObject('#__academy_categories', $row, 'id');
+        } else {
+            $row->lft = $row->rgt = $row->level = 0;
+            $row->path = $alias;
+            $db->insertObject('#__academy_categories', $row, 'id');
+        }
         return (int)$row->id;
     }
 
     /** Every descendant id of $id (direct and indirect children), used to keep the parent picker acyclic. */
     private static function descendantIds(int $id): array
     {
-        if (!$id) { return []; }
+        if (!$id) {
+            return [];
+        }
         $db = self::db();
         $all = $db->setQuery('SELECT id, parent_id FROM #__academy_categories')->loadObjectList();
         $byParent = [];
-        foreach ($all as $row) { $byParent[(int) $row->parent_id][] = (int) $row->id; }
-        $descendants = []; $queue = $byParent[$id] ?? [];
+        foreach ($all as $row) {
+            $byParent[(int) $row->parent_id][] = (int) $row->id;
+        }
+        $descendants = [];
+        $queue = $byParent[$id] ?? [];
         while ($queue) {
             $current = array_shift($queue);
-            if (in_array($current, $descendants, true)) { continue; }
+            if (in_array($current, $descendants, true)) {
+                continue;
+            }
             $descendants[] = $current;
-            foreach ($byParent[$current] ?? [] as $child) { $queue[] = $child; }
+            foreach ($byParent[$current] ?? [] as $child) {
+                $queue[] = $child;
+            }
         }
         return $descendants;
     }
@@ -77,14 +121,23 @@ final class CategoriesHelper
         $db = self::db();
         $rows = $db->setQuery('SELECT id, parent_id, title FROM #__academy_categories ORDER BY title')->loadObjectList();
         $byId = [];
-        foreach ($rows as $row) { $byId[(int) $row->id] = $row; }
+        foreach ($rows as $row) {
+            $byId[(int) $row->id] = $row;
+        }
         $exclude = $excludeId ? array_merge([$excludeId], self::descendantIds($excludeId)) : [];
         $options = [];
         foreach ($rows as $row) {
             $id = (int) $row->id;
-            if (in_array($id, $exclude, true)) { continue; }
-            $level = 0; $walk = (int) $row->parent_id; $guard = 0;
-            while ($walk && isset($byId[$walk]) && $guard++ < 50) { $level++; $walk = (int) $byId[$walk]->parent_id; }
+            if (in_array($id, $exclude, true)) {
+                continue;
+            }
+            $level = 0;
+            $walk = (int) $row->parent_id;
+            $guard = 0;
+            while ($walk && isset($byId[$walk]) && $guard++ < 50) {
+                $level++;
+                $walk = (int) $byId[$walk]->parent_id;
+            }
             $options[] = (object) ['value' => $id, 'text' => $row->title, 'level' => $level];
         }
         usort($options, fn ($a, $b) => strcasecmp($a->text, $b->text));
@@ -104,7 +157,9 @@ final class CategoriesHelper
         $q = $db->createQuery()->select('id,title')->from('#__academy_categories')
             ->where('language=' . $db->quote($language))
             ->order('title');
-        if ($excludeId) { $q->where('id != ' . $excludeId); }
+        if ($excludeId) {
+            $q->where('id != ' . $excludeId);
+        }
         return $db->setQuery($q)->loadObjectList() ?: [];
     }
 
@@ -116,10 +171,14 @@ final class CategoriesHelper
      */
     public static function getAssociations(int $id): array
     {
-        if (!$id) { return []; }
+        if (!$id) {
+            return [];
+        }
         $rows = Associations::getAssociations('com_academy', '#__academy_categories', self::ASSOCIATIONS_CONTEXT, $id, 'id', 'alias', '');
         $out = [];
-        foreach ($rows as $tag => $row) { $out[$tag] = (int) $row->id; }
+        foreach ($rows as $tag => $row) {
+            $out[$tag] = (int) $row->id;
+        }
         return $out;
     }
 
@@ -156,8 +215,12 @@ final class CategoriesHelper
         if ($associations || $oldKey !== null) {
             $delete = $db->createQuery()->delete('#__associations')->where('context=' . $db->quote($context));
             $where = [];
-            if ($associations) { $where[] = 'id IN (' . implode(',', array_values($associations)) . ')'; }
-            if ($oldKey !== null) { $where[] = $db->quoteName('key') . '=' . $db->quote($oldKey); }
+            if ($associations) {
+                $where[] = 'id IN (' . implode(',', array_values($associations)) . ')';
+            }
+            if ($oldKey !== null) {
+                $where[] = $db->quoteName('key') . '=' . $db->quote($oldKey);
+            }
             $delete->extendWhere('AND', $where, 'OR');
             $db->setQuery($delete)->execute();
         }
@@ -185,10 +248,14 @@ final class CategoriesHelper
      */
     public static function defaultTagIds(int $categoryId): array
     {
-        if (!$categoryId) { return []; }
+        if (!$categoryId) {
+            return [];
+        }
         $raw = (string) self::db()->setQuery('SELECT default_tags FROM #__academy_categories WHERE id=' . $categoryId)->loadResult();
         $titles = array_filter(array_map('trim', explode(',', $raw)));
-        if (!$titles) { return []; }
+        if (!$titles) {
+            return [];
+        }
         return array_map('strval', TagsHelper::resolve(array_values($titles), true));
     }
 
@@ -196,7 +263,9 @@ final class CategoriesHelper
     public static function publish(array $ids, int $state): int
     {
         $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
-        if (!$ids) { return 0; }
+        if (!$ids) {
+            return 0;
+        }
         self::db()->setQuery('UPDATE #__academy_categories SET published=' . (int) $state . ' WHERE id IN (' . implode(',', $ids) . ')')->execute();
         return count($ids);
     }
@@ -205,8 +274,11 @@ final class CategoriesHelper
     public static function delete(array $ids): int
     {
         $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
-        if (!$ids) { return 0; }
-        $db = self::db(); $list = implode(',', $ids);
+        if (!$ids) {
+            return 0;
+        }
+        $db = self::db();
+        $list = implode(',', $ids);
         $db->setQuery('UPDATE #__academy SET catid=0 WHERE catid IN (' . $list . ')')->execute();
         $db->setQuery('UPDATE #__academy_categories SET parent_id=0 WHERE parent_id IN (' . $list . ')')->execute();
         $db->setQuery('DELETE FROM #__academy_categories WHERE id IN (' . $list . ')')->execute();
@@ -241,7 +313,9 @@ final class CategoriesHelper
 
     public static function deleteDefaultImage(string $path): void
     {
-        if ($path === '') { return; }
+        if ($path === '') {
+            return;
+        }
         $full = JPATH_ROOT . '/' . ltrim($path, '/');
         if (is_file($full)) {
             \Joomla\Filesystem\File::delete($full);
@@ -251,10 +325,13 @@ final class CategoriesHelper
     /** @param int[] $ids */
     public static function copy(array $ids): int
     {
-        $db = self::db(); $done = 0;
+        $db = self::db();
+        $done = 0;
         foreach (array_unique(array_filter(array_map('intval', $ids))) as $id) {
             $row = $db->setQuery('SELECT * FROM #__academy_categories WHERE id=' . $id)->loadObject();
-            if (!$row) { continue; }
+            if (!$row) {
+                continue;
+            }
             self::save(['id' => 0, 'title' => $row->title . ' (2)', 'description' => $row->description, 'published' => $row->published, 'access' => $row->access, 'language' => $row->language, 'parent_id' => $row->parent_id, 'allow_autoposting' => $row->allow_autoposting ?? 1, 'default_image' => $row->default_image ?? '', 'default_tags' => $row->default_tags ?? '']);
             $done++;
         }

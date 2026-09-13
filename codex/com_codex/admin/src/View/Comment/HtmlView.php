@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\View\Comment;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;

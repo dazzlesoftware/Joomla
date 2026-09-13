@@ -95,14 +95,14 @@ use Joomla\Component\Academy\Administrator\Button\DefaultButton;
                         <td class="text-center">
                             <?php
                             $defaultOptions = ['task_prefix' => 'tags.', 'disabled' => !$this->getCurrentUser()->authorise('core.edit.state', 'com_academy'), 'id' => 'tag-default-' . $item->id];
-                            echo (new DefaultButton())->render((int) $item->is_default, $i, $defaultOptions);
-                            ?>
+                    echo (new DefaultButton())->render((int) $item->is_default, $i, $defaultOptions);
+                    ?>
                         </td>
                         <td class="text-center">
                             <?php
-                            $options = ['task_prefix' => 'tags.', 'disabled' => !$this->getCurrentUser()->authorise('core.edit.state', 'com_academy'), 'id' => 'tag-state-' . $item->id];
-                            echo (new PublishedButton())->render((int) $item->published, $i, $options);
-                            ?>
+                    $options = ['task_prefix' => 'tags.', 'disabled' => !$this->getCurrentUser()->authorise('core.edit.state', 'com_academy'), 'id' => 'tag-state-' . $item->id];
+                    echo (new PublishedButton())->render((int) $item->published, $i, $options);
+                    ?>
                         </td>
                         <td class="text-center d-none d-md-table-cell">
                             <span class="badge bg-secondary"><?php echo (int) $item->post_count; ?></span>

@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\Helper;
+
 defined('_JEXEC') or die;
 use Joomla\Database\DatabaseInterface;
 
@@ -20,7 +22,9 @@ final class TagSchema
             $db->setQuery('ALTER TABLE #__codex_tags ADD COLUMN created_by INT UNSIGNED NOT NULL DEFAULT 0 AFTER is_default')->execute();
         }
 
-        if ($db->setQuery('SELECT version FROM #__codex_tag_migrations WHERE version=1')->loadResult()) return;
+        if ($db->setQuery('SELECT version FROM #__codex_tag_migrations WHERE version=1')->loadResult()) {
+            return;
+        }
         $tables = $db->getTableList();
         $legacy = in_array($db->getPrefix() . 'tags', $tables, true) && in_array($db->getPrefix() . 'contentitem_tag_map', $tables, true);
         $db->transactionStart();
@@ -32,7 +36,9 @@ final class TagSchema
                     if (!$db->setQuery('SELECT id FROM #__codex_tags WHERE id=' . (int) $tag->id)->loadResult()) {
                         $base = mb_substr($tag->alias ?: 'tag-' . $tag->id, 0, 170);
                         $tag->alias = $base;
-                        if ($db->setQuery('SELECT id FROM #__codex_tags WHERE alias=' . $db->quote($base))->loadResult()) $tag->alias .= '-' . $tag->id;
+                        if ($db->setQuery('SELECT id FROM #__codex_tags WHERE alias=' . $db->quote($base))->loadResult()) {
+                            $tag->alias .= '-' . $tag->id;
+                        }
                         $db->insertObject('#__codex_tags', $tag);
                     }
                 }
@@ -41,6 +47,9 @@ final class TagSchema
             }
             $db->setQuery('INSERT INTO #__codex_tag_migrations (version) VALUES (1)')->execute();
             $db->transactionCommit();
-        } catch (\Throwable $e) { $db->transactionRollback(); throw $e; }
+        } catch (\Throwable $e) {
+            $db->transactionRollback();
+            throw $e;
+        }
     }
 }

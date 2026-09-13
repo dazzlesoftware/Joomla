@@ -63,7 +63,7 @@ $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'U
                 <?php // A plain unchecked checkbox is simply omitted from the POST
                 // body by the browser, so without this hidden fallback (submitted
                 // first, then overridden by the checkbox's own value if it IS
-                // checked) there is no way to ever save this toggle as "off". ?>
+                // checked) there is no way to ever save this toggle as "off".?>
                 <input type="hidden" name="jform[is_default]" value="0">
                 <input
                     type="checkbox"

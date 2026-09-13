@@ -78,8 +78,8 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
                 <div class="com-academy-category-blog__item blog-item">
                     <?php
                     $this->item = &$item;
-                    echo $this->loadTemplate('item');
-                    ?>
+                echo $this->loadTemplate('item');
+                ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -95,8 +95,8 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
             <div class="com-academy-category-blog__item blog-item">
                 <?php
                 $this->item = &$item;
-                echo $this->loadTemplate('item');
-                ?>
+            echo $this->loadTemplate('item');
+            ?>
             </div>
         <?php endforeach; ?>
         </div>

@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Component\Academy\Site\View\Author;
 
 defined('_JEXEC') or die;

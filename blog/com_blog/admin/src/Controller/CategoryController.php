@@ -1,7 +1,14 @@
 <?php
+
 namespace Joomla\Component\Blog\Administrator\Controller;
+
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory; use Joomla\CMS\MVC\Controller\BaseController; use Joomla\CMS\Router\Route; use Joomla\CMS\Session\Session; use Joomla\Component\Blog\Administrator\Helper\CategoriesHelper; use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Blog\Administrator\Helper\CategoriesHelper;
+use Joomla\Utilities\ArrayHelper;
 
 final class CategoryController extends BaseController
 {

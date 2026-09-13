@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Academy\Administrator\View\Tags;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;

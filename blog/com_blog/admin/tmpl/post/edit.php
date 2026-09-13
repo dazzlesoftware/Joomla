@@ -83,7 +83,8 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                 </div>
                 <div>
                     <fieldset class="adminform">
-                        <?php $pollDb = Factory::getContainer()->get(DatabaseInterface::class); $pollItems = $pollDb->setQuery($pollDb->createQuery()->select(['id','title'])->from('#__blog_polls')->where('state=1')->order('title'))->loadObjectList(); ?>
+                        <?php $pollDb = Factory::getContainer()->get(DatabaseInterface::class);
+$pollItems = $pollDb->setQuery($pollDb->createQuery()->select(['id','title'])->from('#__blog_polls')->where('state=1')->order('title'))->loadObjectList(); ?>
                         <details class="post-editor-excerpt" <?php echo trim((string) $this->form->getValue('excerpt')) !== '' ? 'open' : ''; ?>>
                             <summary><?php echo Text::_('COM_BLOG_FIELD_EXCERPT_LABEL'); ?><span><?php echo Text::_('COM_BLOG_EDITOR_OPTIONAL'); ?></span></summary>
                             <div class="post-editor-panel-body form-vertical">
@@ -143,7 +144,9 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                             <details class="post-editor-image-options">
                                 <summary><?php echo Text::_('COM_BLOG_EDITOR_IMAGE_DETAILS'); ?></summary>
                                 <?php foreach ($this->form->getFieldset('image-featured') as $imageField) : ?>
-                                    <?php if ($imageField->fieldname !== 'featured_image') { echo $imageField->renderField(); } ?>
+                                    <?php if ($imageField->fieldname !== 'featured_image') {
+                                        echo $imageField->renderField();
+                                    } ?>
                                 <?php endforeach; ?>
                             </details>
                         </div>
@@ -166,7 +169,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['recall' => true, 'breakpoint' => 768]); ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-        <?php // Do not show the publishing options if the edit form is configured not to. ?>
+        <?php // Do not show the publishing options if the edit form is configured not to.?>
         <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_BLOG_FIELDSET_PUBLISHING')); ?>
             <div class="row">
@@ -229,7 +232,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
         </div>
         </details>
 
-        <?php // Creating 'id' hiddenField to cope with com_associations sidebyside loop ?>
+        <?php // Creating 'id' hiddenField to cope with com_associations sidebyside loop?>
         <?php if ($params->get('show_publishing_options', 1) == 0) : ?>
             <?php $hidden_fields = $this->form->getInput('id'); ?>
             <div class="hidden"><?php echo $hidden_fields; ?></div>

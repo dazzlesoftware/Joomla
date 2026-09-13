@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Plugin\Task\BlogMailqueue\Extension;
 
 defined('_JEXEC') or die;

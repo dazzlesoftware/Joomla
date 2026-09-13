@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\Button;
 
 defined('_JEXEC') or die;

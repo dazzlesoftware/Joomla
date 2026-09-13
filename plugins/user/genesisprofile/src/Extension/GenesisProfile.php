@@ -1,4 +1,5 @@
 <?php
+
 namespace Joomla\Plugin\User\GenesisProfile\Extension;
 
 defined('_JEXEC') or die;

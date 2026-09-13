@@ -1,5 +1,7 @@
 <?php
+
 namespace Joomla\Component\Codex\Administrator\Helper;
+
 defined('_JEXEC') or die;
 use Joomla\Database\DatabaseInterface;
 
@@ -42,6 +44,9 @@ final class CategorySchema
             }
             $db->setQuery('INSERT INTO #__codex_category_migrations (version) VALUES (1)')->execute();
             $db->transactionCommit();
-        } catch (\Throwable $e) { $db->transactionRollback(); throw $e; }
+        } catch (\Throwable $e) {
+            $db->transactionRollback();
+            throw $e;
+        }
     }
 }

@@ -82,7 +82,7 @@ $assoc = Associations::isEnabled();
                 <?php
                 // Search tools bar
                 echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'featured']]);
-                ?>
+?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -156,7 +156,7 @@ $assoc = Associations::isEnabled();
                         </thead>
                         <tbody<?php if ($saveOrder) :
                             ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php echo $featured === '1' ? '' : ' data-nested="true"'; ?><?php
-                              endif; ?>>
+                        endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
                             $ordering             = ($listOrder == 'fp.ordering');
@@ -205,12 +205,12 @@ $assoc = Associations::isEnabled();
                                 <td class="text-center d-none d-md-table-cell">
                                     <?php
                                     $iconClass = '';
-                                    if (!$canChange) {
-                                        $iconClass = ' inactive';
-                                    } elseif (!$saveOrder) {
-                                        $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
-                                    }
-                                    ?>
+                            if (!$canChange) {
+                                $iconClass = ' inactive';
+                            } elseif (!$saveOrder) {
+                                $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                            }
+                            ?>
                                     <span class="sortable-handler<?php echo $iconClass ?>">
                                         <span class="icon-ellipsis-v" aria-hidden="true"></span>
                                     </span>
@@ -221,8 +221,8 @@ $assoc = Associations::isEnabled();
                                 <?php if ($workflow_enabled) : ?>
                                 <td class="post-stage text-center">
                                     <?php
-                                    echo (new TransitionButton($options))
-                                    ->render(0, $i);
+                            echo (new TransitionButton($options))
+                            ->render(0, $i);
                                     ?>
                                     <div class="small">
                                         <?php echo Text::_($item->stage_title); ?>
@@ -237,21 +237,21 @@ $assoc = Associations::isEnabled();
                                         'id' => 'featured-' . $item->id
                                     ];
 
-                                    echo (new FeaturedButton())
-                                        ->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
-                                    ?>
+                            echo (new FeaturedButton())
+                                ->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
+                            ?>
                                 </td>
                                 <td class="post-status text-center">
                                 <?php
-                                    $options = [
-                                        'task_prefix' => 'posts.',
-                                        'disabled' => $workflow_state || !$canChange,
-                                        'id' => 'state-' . $item->id,
-                                        'category_published' => $item->category_published
-                                    ];
+                            $options = [
+                                'task_prefix' => 'posts.',
+                                'disabled' => $workflow_state || !$canChange,
+                                'id' => 'state-' . $item->id,
+                                'category_published' => $item->category_published
+                            ];
 
-                                    echo (new PostStateButton())->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
-                                    ?>
+                            echo (new PostStateButton())->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+                            ?>
                                 </td>
                                 <th scope="row" class="has-context">
                                     <div class="break-word">
@@ -273,56 +273,56 @@ $assoc = Associations::isEnabled();
                                         </div>
                                         <div class="small">
                                             <?php
-                                            $ParentCatUrl = Route::_('index.php?option=com_academy&view=categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_academy');
-                                            $CurrentCatUrl = Route::_('index.php?option=com_academy&view=categories&task=category.edit&id=' . $item->catid . '&extension=com_academy');
-                                            $EditCatTxt = Text::_('COM_ACADEMY_EDIT_CATEGORY');
-                                            echo Text::_('JCATEGORY') . ': ';
-                                            if ($item->category_level != '1') :
-                                                if ($item->parent_category_level != '1') :
-                                                    echo ' &#187; ';
-                                                endif;
-                                            endif;
-                                            if ($this->getLanguage()->isRtl()) {
-                                                if ($canEditCat || $canEditOwnCat) :
-                                                    echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-                                                endif;
-                                                echo $this->escape($item->category_title);
-                                                if ($canEditCat || $canEditOwnCat) :
-                                                    echo '</a>';
-                                                endif;
-                                                if ($item->category_level != '1') :
-                                                    echo ' &#171; ';
-                                                    if ($canEditParCat || $canEditOwnParCat) :
-                                                        echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-                                                    endif;
-                                                    echo $this->escape($item->parent_category_title);
-                                                    if ($canEditParCat || $canEditOwnParCat) :
-                                                        echo '</a>';
-                                                    endif;
-                                                endif;
-                                            } else {
-                                                if ($item->category_level != '1') :
-                                                    if ($canEditParCat || $canEditOwnParCat) :
-                                                        echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-                                                    endif;
-                                                    echo $this->escape($item->parent_category_title);
-                                                    if ($canEditParCat || $canEditOwnParCat) :
-                                                        echo '</a>';
-                                                    endif;
-                                                    echo ' &#187; ';
-                                                endif;
-                                                if ($canEditCat || $canEditOwnCat) :
-                                                    echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-                                                endif;
-                                                echo $this->escape($item->category_title);
-                                                if ($canEditCat || $canEditOwnCat) :
-                                                    echo '</a>';
-                                                endif;
-                                            }
-                                            if ($item->category_published < '1') :
-                                                echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
-                                            endif;
-                                            ?>
+                                    $ParentCatUrl = Route::_('index.php?option=com_academy&view=categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_academy');
+                            $CurrentCatUrl = Route::_('index.php?option=com_academy&view=categories&task=category.edit&id=' . $item->catid . '&extension=com_academy');
+                            $EditCatTxt = Text::_('COM_ACADEMY_EDIT_CATEGORY');
+                            echo Text::_('JCATEGORY') . ': ';
+                            if ($item->category_level != '1') :
+                                if ($item->parent_category_level != '1') :
+                                    echo ' &#187; ';
+                                endif;
+                            endif;
+                            if ($this->getLanguage()->isRtl()) {
+                                if ($canEditCat || $canEditOwnCat) :
+                                    echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+                                endif;
+                                echo $this->escape($item->category_title);
+                                if ($canEditCat || $canEditOwnCat) :
+                                    echo '</a>';
+                                endif;
+                                if ($item->category_level != '1') :
+                                    echo ' &#171; ';
+                                    if ($canEditParCat || $canEditOwnParCat) :
+                                        echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+                                    endif;
+                                    echo $this->escape($item->parent_category_title);
+                                    if ($canEditParCat || $canEditOwnParCat) :
+                                        echo '</a>';
+                                    endif;
+                                endif;
+                            } else {
+                                if ($item->category_level != '1') :
+                                    if ($canEditParCat || $canEditOwnParCat) :
+                                        echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+                                    endif;
+                                    echo $this->escape($item->parent_category_title);
+                                    if ($canEditParCat || $canEditOwnParCat) :
+                                        echo '</a>';
+                                    endif;
+                                    echo ' &#187; ';
+                                endif;
+                                if ($canEditCat || $canEditOwnCat) :
+                                    echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+                                endif;
+                                echo $this->escape($item->category_title);
+                                if ($canEditCat || $canEditOwnCat) :
+                                    echo '</a>';
+                                endif;
+                            }
+                            if ($item->category_published < '1') :
+                                echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
+                            endif;
+                            ?>
                                         </div>
                                     </div>
                                 </th>
@@ -360,8 +360,8 @@ $assoc = Associations::isEnabled();
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php
                                     $date = $item->{$orderingColumn};
-                                    echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
-                                    ?>
+                            echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
+                            ?>
                                 </td>
                                 <?php if ($this->hits) : ?>
                                     <td class="d-none d-lg-table-cell text-center">
@@ -390,10 +390,10 @@ $assoc = Associations::isEnabled();
                         </tbody>
                     </table>
 
-                    <?php // load the pagination. ?>
+                    <?php // load the pagination.?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php // Load the batch processing form. ?>
+                    <?php // Load the batch processing form.?>
                     <?php
                     if (
                         $user->authorise('core.create', 'com_academy')

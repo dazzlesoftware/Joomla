@@ -30,12 +30,17 @@ $active = array_key_first($this->sections);
                     <section class="tab-pane fade<?php echo $key === $active ? ' show active' : ''; ?>" id="settings-<?php echo $key; ?>" role="tabpanel">
                         <div class="mb-3"><h2><?php echo $section['label']; ?></h2><p class="text-muted">Configure <?php echo strtolower($section['label']); ?> for Academy Posts.</p></div>
                         <div class="row g-4">
-                            <?php foreach ($section['fieldsets'] as $fieldsetName) : $fieldset = $this->form->getFieldset($fieldsetName); if (!$fieldset) continue; ?>
+                            <?php foreach ($section['fieldsets'] as $fieldsetName) : $fieldset = $this->form->getFieldset($fieldsetName);
+                                if (!$fieldset) {
+                                    continue;
+                                } ?>
                                 <?php $meta = $this->form->getFieldsets('params')[$fieldsetName] ?? null; ?>
                                 <div class="col-12 col-xxl-6">
                                     <div class="card h-100">
                                         <div class="card-header"><strong><?php echo Text::_($meta->label ?? $fieldsetName); ?></strong></div>
-                                        <div class="card-body"><?php foreach ($fieldset as $field) echo $field->renderField(); ?></div>
+                                        <div class="card-body"><?php foreach ($fieldset as $field) {
+                                            echo $field->renderField();
+                                        } ?></div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
