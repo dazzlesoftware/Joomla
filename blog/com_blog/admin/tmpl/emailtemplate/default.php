@@ -1,8 +1,45 @@
-<?php defined('_JEXEC') or die;
+<?php
+defined('_JEXEC') or die;
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
-$editor = Editor::getInstance((string)Factory::getApplication()->getIdentity()->getParam('editor', 'tinymce'));?>
-<form action="<?php echo Route::_('index.php?option=com_blog&view=emailtemplate');?>" method="post" id="adminForm" name="adminForm"><div class="card card-body"><label class="form-label">Template name</label><input class="form-control mb-3" name="title" required value="<?php echo htmlspecialchars($this->item->title ?? '', ENT_QUOTES, 'UTF-8');?>"><label class="form-label">Default subject</label><input class="form-control mb-3" name="subject" required value="<?php echo htmlspecialchars($this->item->subject ?? '', ENT_QUOTES, 'UTF-8');?>"><label class="form-label">Message</label><?php echo $editor->display('body', $this->item->body ?? '', '100%', '500', '60', '20', true, null, null, null, ['relative_urls' => false]);?><p class="form-text">Available placeholders: {name}, {email}, {unsubscribe_url}</p><button class="btn btn-secondary align-self-start" type="button" id="template-preview">Preview</button></div><input type="hidden" name="id" value="<?php echo (int)($this->item->id ?? 0);?>"><input type="hidden" name="created" value="<?php echo htmlspecialchars($this->item->created ?? '', ENT_QUOTES, 'UTF-8');?>"><input type="hidden" name="task" value=""><?php echo HTMLHelper::_('form.token');?></form><dialog id="template-preview-dialog" class="border-0 rounded shadow-lg p-0" style="width:min(900px,calc(100vw - 2rem))"><header class="border-bottom p-3 d-flex justify-content-between"><strong>Email preview</strong><button class="btn-close" onclick="this.closest('dialog').close()" type="button"></button></header><div class="p-4"></div></dialog><script>document.addEventListener('DOMContentLoaded',()=>document.getElementById('template-preview').addEventListener('click',()=>{const dialog=document.getElementById('template-preview-dialog');dialog.querySelector('div').innerHTML=Joomla.editors?.instances?.body?.getValue?.()??document.getElementById('body')?.value??'';dialog.showModal()}));</script>
+$editor = Editor::getInstance((string) Factory::getApplication()->getIdentity()->getParam('editor', 'tinymce'));
+$escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+?>
+<form action="<?php echo Route::_('index.php?option=com_blog&view=emailtemplate'); ?>" method="post" id="adminForm" name="adminForm">
+    <div class="card card-body">
+        <label class="form-label">Template name</label>
+        <input class="form-control mb-3" name="title" required value="<?php echo $escape($this->item->title ?? ''); ?>">
+
+        <label class="form-label">Default subject</label>
+        <input class="form-control mb-3" name="subject" required value="<?php echo $escape($this->item->subject ?? ''); ?>">
+
+        <label class="form-label">Message</label>
+        <?php echo $editor->display('body', $this->item->body ?? '', '100%', '500', '60', '20', true, null, null, null, ['relative_urls' => false]); ?>
+        <p class="form-text">Available placeholders: {name}, {email}, {unsubscribe_url}</p>
+
+        <button class="btn btn-secondary align-self-start" type="button" id="template-preview">Preview</button>
+    </div>
+    <input type="hidden" name="id" value="<?php echo (int) ($this->item->id ?? 0); ?>">
+    <input type="hidden" name="created" value="<?php echo $escape($this->item->created ?? ''); ?>">
+    <input type="hidden" name="task" value="">
+    <?php echo HTMLHelper::_('form.token'); ?>
+</form>
+
+<dialog id="template-preview-dialog" class="border-0 rounded shadow-lg p-0" style="width:min(900px,calc(100vw - 2rem))">
+    <header class="border-bottom p-3 d-flex justify-content-between">
+        <strong>Email preview</strong>
+        <button class="btn-close" onclick="this.closest('dialog').close()" type="button"></button>
+    </header>
+    <div class="p-4"></div>
+</dialog>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => document.getElementById('template-preview').addEventListener('click', () => {
+        const dialog = document.getElementById('template-preview-dialog');
+        dialog.querySelector('div').innerHTML = Joomla.editors?.instances?.body?.getValue?.() ?? document.getElementById('body')?.value ?? '';
+        dialog.showModal();
+    }));
+</script>
