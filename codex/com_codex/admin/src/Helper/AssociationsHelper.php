@@ -183,10 +183,19 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $fields['level']           = 'a.level';
                     $fields['catid']           = '';
                     $fields['state']           = 'a.published';
+                    // Unlike com_content's shared #__categories table, our own
+                    // native #__codex_categories table has no checked_out /
+                    // checked_out_time columns. com_associations' item query
+                    // only guards on these two $fields entries being non-empty
+                    // (it ignores $support['checkout'] entirely), so they must
+                    // be blanked out here or the query blows up with a SQL
+                    // "Unknown column" error.
+                    $fields['checked_out']      = '';
+                    $fields['checked_out_time'] = '';
 
                     $support['state']    = true;
                     $support['acl']      = true;
-                    $support['checkout'] = true;
+                    $support['checkout'] = false;
                     $support['level']    = true;
 
                     $tables = [

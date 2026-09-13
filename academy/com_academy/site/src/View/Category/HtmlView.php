@@ -18,6 +18,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Academy\Administrator\Helper\TagsHelper;
+use Joomla\Component\Academy\Site\Helper\ListExcerptHelper;
 use Joomla\Registry\Registry;
 
 final class HtmlView extends BaseHtmlView
@@ -59,11 +60,19 @@ final class HtmlView extends BaseHtmlView
             ->where('(p.publish_up IS NULL OR p.publish_up<=UTC_TIMESTAMP())')
             ->where('(p.publish_down IS NULL OR p.publish_down>=UTC_TIMESTAMP())')
             ->order('CASE WHEN p.publish_up IS NULL THEN p.created ELSE p.publish_up END DESC');
+
+        if ($app->getLanguageFilter()) {
+            $q->where('p.language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+        }
+
         $all = $db->setQuery($q)->loadObjectList() ?: [];
 
         foreach ($all as $item) {
             $item->params = new Registry($item->options ?? '{}');
             $item->slug = $item->id . ':' . $item->alias;
+            // Lets the featured_image layout fall back to the category's own
+            // "Default Post Cover" when a post has no image of its own.
+            $item->category_default_image = $this->category->default_image ?? '';
         }
 
         $limit = max(1, (int) $app->get('list_limit', 20));
@@ -107,9 +116,13 @@ final class HtmlView extends BaseHtmlView
             $item->tags = (object) ['itemTags' => $tagsByItem[(int) $item->id] ?? []];
             $item->event = new \stdClass();
 
-            if (!isset($item->text)) {
-                $item->text = $item->summary;
-            }
+            // Decide the excerpt from the raw stored summary, before content
+            // plugins expand any shortcodes (accordions, embeds, etc.) into
+            // their full rendered markup - otherwise a short shortcode that
+            // expands into a large widget fools the length check into
+            // skipping truncation entirely, dumping the whole widget into
+            // the listing.
+            $item->text = ListExcerptHelper::render($item, $item->params);
 
             $app->triggerEvent('onContentPrepare', ['com_academy.category', &$item, &$item->params, 0]);
             $item->summary = $item->text;

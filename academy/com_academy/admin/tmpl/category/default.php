@@ -87,6 +87,13 @@ use Joomla\CMS\Uri\Uri;
                         </select>
                     </div>
                     <div class="mb-0 form-check form-switch">
+                        <?php // A plain unchecked checkbox is simply omitted from the POST
+                        // body by the browser, so without this hidden fallback (submitted
+                        // first, then overridden by the checkbox's own value if it IS
+                        // checked) there is no way to ever save this toggle as "off" -
+                        // CategoriesHelper::save() would always see a missing field and
+                        // default it back to enabled. ?>
+                        <input type="hidden" name="jform[allow_autoposting]" value="0">
                         <input
                             type="checkbox"
                             class="form-check-input"
@@ -120,6 +127,28 @@ use Joomla\CMS\Uri\Uri;
                     <input type="hidden" name="jform_existing_image" value="<?php echo htmlspecialchars($this->item->default_image, ENT_QUOTES, 'UTF-8'); ?>">
                 </div>
             </div>
+            <?php if ($this->associationLanguages) : ?>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h2 class="h6"><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></h2>
+                        <p class="form-text"><?php echo Text::_('COM_ACADEMY_ASSOCIATIONS_DESC'); ?></p>
+                        <?php foreach ($this->associationLanguages as $lang) : ?>
+                            <?php $fieldId = 'jform_associations_' . preg_replace('/[^a-z0-9]+/i', '_', $lang->lang_code); ?>
+                            <div class="mb-3">
+                                <label class="form-label" for="<?php echo $fieldId; ?>"><?php echo htmlspecialchars($lang->title, ENT_QUOTES, 'UTF-8'); ?></label>
+                                <select class="form-select" id="<?php echo $fieldId; ?>" name="jform_associations[<?php echo htmlspecialchars($lang->lang_code, ENT_QUOTES, 'UTF-8'); ?>]">
+                                    <option value="0">&mdash;</option>
+                                    <?php foreach ($this->associationOptions[$lang->lang_code] ?? [] as $option) : ?>
+                                        <option value="<?php echo (int) $option->id; ?>"<?php echo (($this->associations[$lang->lang_code] ?? 0) === (int) $option->id) ? ' selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($option->title, ENT_QUOTES, 'UTF-8'); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

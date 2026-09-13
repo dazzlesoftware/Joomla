@@ -129,10 +129,19 @@ class CodexComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_SITE);
         $this->getRegistry()->register('codexadministrator', new AdministratorService());
+        // Deliberately NOT also registered under the shared, unnamespaced
+        // 'icon' key: academy/blog/codex/content are siblings whose icon
+        // services render different task URLs (task=post.edit vs
+        // task=article.edit, etc.) and can all be booted in the same request
+        // (e.g. the post edit screen's Associations tab, or the core
+        // Associations admin screen, boot every association-supporting
+        // extension at once). Whichever of them claims that shared key second
+        // crashes, since com_content's own boot() registers it unconditionally
+        // with no $replace flag. Our own front-end templates instead render
+        // an override of the joomla.content.icons layout
+        // (site/layouts/joomla/content/icons.php) that calls this
+        // 'codexicon' service directly, so the shared key is never needed.
         $this->getRegistry()->register('codexicon', new Icon());
-
-        // The layout joomla.content.icons does need a general icon service
-        $this->getRegistry()->register('icon', $this->getRegistry()->getService('codexicon'));
     }
 
     /**

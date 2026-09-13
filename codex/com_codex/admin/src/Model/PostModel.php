@@ -422,6 +422,11 @@ class PostModel extends AdminModel implements WorkflowModelInterface, Versionabl
                         $item->featured_down = $featured->featured_down;
                     }
                 }
+            } else {
+                // A brand-new post: pre-select the site-wide default tag (if
+                // any) so it's visibly checked in the Tags field right away,
+                // matching what gets auto-attached on save anyway.
+                $item->tags = TagsHelper::defaultTagIds();
             }
         }
 
@@ -676,11 +681,16 @@ class PostModel extends AdminModel implements WorkflowModelInterface, Versionabl
             return false;
         }
 
-        // New posts inherit their category's "Default Tags", merged with whatever the
-        // author already picked. Existing posts are left alone so their tags aren't
-        // silently re-applied every time the post is edited.
-        if ($autopostWasNew && !empty($data['catid'])) {
-            $defaultTagIds = CategoriesHelper::defaultTagIds((int) $data['catid']);
+        // New posts inherit their category's "Default Tags" and the site-wide
+        // default tag, merged with whatever the author already picked.
+        // Existing posts are left alone so their tags aren't silently
+        // re-applied every time the post is edited.
+        if ($autopostWasNew) {
+            $defaultTagIds = TagsHelper::defaultTagIds();
+
+            if (!empty($data['catid'])) {
+                $defaultTagIds = array_merge($defaultTagIds, CategoriesHelper::defaultTagIds((int) $data['catid']));
+            }
 
             if ($defaultTagIds) {
                 $existingTags = array_map('strval', (array) ($data['tags'] ?? []));

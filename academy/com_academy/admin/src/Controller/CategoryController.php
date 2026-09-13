@@ -1,7 +1,7 @@
 <?php
 namespace Joomla\Component\Academy\Administrator\Controller;
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory; use Joomla\CMS\MVC\Controller\BaseController; use Joomla\CMS\Router\Route; use Joomla\CMS\Session\Session; use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Factory; use Joomla\CMS\MVC\Controller\BaseController; use Joomla\CMS\Router\Route; use Joomla\CMS\Session\Session; use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper; use Joomla\Utilities\ArrayHelper;
 
 final class CategoryController extends BaseController
 {
@@ -60,6 +60,10 @@ final class CategoryController extends BaseController
         }
 
         $id = CategoriesHelper::save($data);
+
+        $associations = ArrayHelper::toInteger((array) $app->getInput()->post->get('jform_associations', [], 'array'));
+        CategoriesHelper::saveAssociations($id, (string) ($data['language'] ?? '*'), $associations);
+
         $app->enqueueMessage('Category saved.');
         return $id;
     }

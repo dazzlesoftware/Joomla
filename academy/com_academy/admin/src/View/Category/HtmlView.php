@@ -3,6 +3,7 @@ namespace Joomla\Component\Academy\Administrator\View\Category;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -14,6 +15,13 @@ final class HtmlView extends BaseHtmlView
     public $item;
     public array $parentOptions = [];
     public array $languageOptions = [];
+
+    /** @var object[] Other installed languages (excludes the item's own and "All"), for the Associations picker. */
+    public array $associationLanguages = [];
+    /** @var array<string, object[]> lang_code => candidate categories in that language */
+    public array $associationOptions = [];
+    /** @var array<string, int> lang_code => existing associated category id */
+    public array $associations = [];
 
     public function display($tpl = null): void
     {
@@ -33,7 +41,22 @@ final class HtmlView extends BaseHtmlView
         }
 
         $this->parentOptions = CategoriesHelper::parentOptions((int) $this->item->id);
-        $this->languageOptions = LanguageHelper::getContentLanguages([1], false);
+        $this->languageOptions = LanguageHelper::getContentLanguages([0, 1], false);
+
+        if (Associations::isEnabled()) {
+            $this->associationLanguages = array_values(array_filter(
+                $this->languageOptions,
+                fn ($lang) => $lang->lang_code !== $this->item->language
+            ));
+
+            if ($this->item->id) {
+                $this->associations = CategoriesHelper::getAssociations((int) $this->item->id);
+            }
+
+            foreach ($this->associationLanguages as $lang) {
+                $this->associationOptions[$lang->lang_code] = CategoriesHelper::optionsForLanguage($lang->lang_code, (int) $this->item->id);
+            }
+        }
 
         $this->addToolbar();
 

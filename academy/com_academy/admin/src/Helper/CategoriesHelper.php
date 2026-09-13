@@ -3,11 +3,18 @@ namespace Joomla\Component\Academy\Administrator\Helper;
 defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Component\Academy\Administrator\Helper\TagsHelper;
 
 final class CategoriesHelper
 {
+    /** The context this component's categories are stored under in the shared
+     * #__associations table - the same generic table and mechanism Joomla core
+     * uses for com_content categories/articles, just under our own context
+     * string and pointing at our own native categories table. */
+    private const ASSOCIATIONS_CONTEXT = 'com_academy.category';
+
     public static function db(): DatabaseInterface { return Factory::getContainer()->get(DatabaseInterface::class); }
 
     /** Whether a category id exists in this component's own native categories table. */
@@ -33,7 +40,10 @@ final class CategoriesHelper
             throw new \InvalidArgumentException('A category cannot be its own parent or descendant.');
         }
         $identity = Factory::getApplication()->getIdentity(); $userId = (int) ($identity?->id ?? 0);
-        $row=(object)['id'=>$id?:null,'title'=>$title,'alias'=>$alias,'description'=>(string)($data['description']??''),'published'=>(int)($data['published']??1),'access'=>(int)($data['access']??1),'language'=>(string)($data['language']??'*'),'parent_id'=>$parentId,'allow_autoposting'=>(int)($data['allow_autoposting']??1),'default_image'=>(string)($data['default_image']??''),'default_tags'=>(string)($data['default_tags']??''),'created_time'=>Factory::getDate()->toSql(),'created_user_id'=>$userId,'modified_time'=>Factory::getDate()->toSql(),'modified_user_id'=>$userId,'metadata'=>'{}','params'=>'{}'];
+        // 'extension' mirrors the column core's own shared #__categories table
+        // carries: com_associations' generic category query hardcodes a WHERE
+        // a.extension = <component name> filter, so every row needs it set.
+        $row=(object)['id'=>$id?:null,'title'=>$title,'alias'=>$alias,'description'=>(string)($data['description']??''),'published'=>(int)($data['published']??1),'access'=>(int)($data['access']??1),'language'=>(string)($data['language']??'*'),'parent_id'=>$parentId,'extension'=>'com_academy','allow_autoposting'=>(int)($data['allow_autoposting']??1),'default_image'=>(string)($data['default_image']??''),'default_tags'=>(string)($data['default_tags']??''),'created_time'=>Factory::getDate()->toSql(),'created_user_id'=>$userId,'modified_time'=>Factory::getDate()->toSql(),'modified_user_id'=>$userId,'metadata'=>'{}','params'=>'{}'];
         if($id){$old=$db->setQuery('SELECT * FROM #__academy_categories WHERE id='.$id)->loadObject();if(!$old)throw new \RuntimeException('Category not found.',404);foreach(['created_time','created_user_id','metadata','params','asset_id','lft','rgt','level','path'] as $field)if(isset($old->$field))$row->$field=$old->$field;$db->updateObject('#__academy_categories',$row,'id');}else{$row->lft=$row->rgt=$row->level=0;$row->path=$alias;$db->insertObject('#__academy_categories',$row,'id');}
         return (int)$row->id;
     }
@@ -82,6 +92,91 @@ final class CategoriesHelper
     }
 
     /**
+     * Categories in a given language, for the per-language Associations picker.
+     * Excludes $excludeId (the category being edited) since a category can't be
+     * associated with itself.
+     *
+     * @return array<int, object{id:int,title:string}>
+     */
+    public static function optionsForLanguage(string $language, int $excludeId = 0): array
+    {
+        $db = self::db();
+        $q = $db->createQuery()->select('id,title')->from('#__academy_categories')
+            ->where('language=' . $db->quote($language))
+            ->order('title');
+        if ($excludeId) { $q->where('id != ' . $excludeId); }
+        return $db->setQuery($q)->loadObjectList() ?: [];
+    }
+
+    /**
+     * The existing per-language associations for a category, as [lang_code => id],
+     * read via Joomla's shared #__associations table under our own context.
+     *
+     * @return array<string, int>
+     */
+    public static function getAssociations(int $id): array
+    {
+        if (!$id) { return []; }
+        $rows = Associations::getAssociations('com_academy', '#__academy_categories', self::ASSOCIATIONS_CONTEXT, $id, 'id', 'alias', '');
+        $out = [];
+        foreach ($rows as $tag => $row) { $out[$tag] = (int) $row->id; }
+        return $out;
+    }
+
+    /**
+     * Links a category to its translated counterparts, mirroring exactly how
+     * Joomla core's own AdminModel::save() maintains the shared #__associations
+     * table - so this stays fully compatible with the core Associations admin
+     * screen and the site-side Language Switcher module.
+     *
+     * @param array<string,int> $associations lang_code => associated category id (0/absent = no association for that language)
+     */
+    public static function saveAssociations(int $id, string $language, array $associations): void
+    {
+        $db = self::db();
+        $context = self::ASSOCIATIONS_CONTEXT;
+
+        $associations = array_filter(array_map('intval', $associations));
+
+        if ($associations && $language === '*') {
+            Factory::getApplication()->enqueueMessage(
+                'A category set to All languages can\'t be associated. Associations have not been set.',
+                'warning'
+            );
+
+            return;
+        }
+
+        $oldKey = $db->setQuery(
+            $db->createQuery()->select($db->quoteName('key'))->from('#__associations')
+                ->where('context=' . $db->quote($context))
+                ->where('id=' . $id)
+        )->loadResult();
+
+        if ($associations || $oldKey !== null) {
+            $delete = $db->createQuery()->delete('#__associations')->where('context=' . $db->quote($context));
+            $where = [];
+            if ($associations) { $where[] = 'id IN (' . implode(',', array_values($associations)) . ')'; }
+            if ($oldKey !== null) { $where[] = $db->quoteName('key') . '=' . $db->quote($oldKey); }
+            $delete->extendWhere('AND', $where, 'OR');
+            $db->setQuery($delete)->execute();
+        }
+
+        if ($language !== '*') {
+            $associations[$language] = $id;
+        }
+
+        if (count($associations) > 1) {
+            $key = md5(json_encode($associations));
+            $insert = $db->createQuery()->insert('#__associations')->columns(['id', 'context', $db->quoteName('key')]);
+            foreach ($associations as $assocId) {
+                $insert->values((int) $assocId . ',' . $db->quote($context) . ',' . $db->quote($key));
+            }
+            $db->setQuery($insert)->execute();
+        }
+    }
+
+    /**
      * Resolves this category's comma-separated "Default Tags" title list into tag ids,
      * creating any tag that doesn't exist yet. Returns an empty array if the category has
      * no default tags configured.
@@ -115,6 +210,7 @@ final class CategoriesHelper
         $db->setQuery('UPDATE #__academy SET catid=0 WHERE catid IN (' . $list . ')')->execute();
         $db->setQuery('UPDATE #__academy_categories SET parent_id=0 WHERE parent_id IN (' . $list . ')')->execute();
         $db->setQuery('DELETE FROM #__academy_categories WHERE id IN (' . $list . ')')->execute();
+        $db->setQuery('DELETE FROM #__associations WHERE context=' . $db->quote(self::ASSOCIATIONS_CONTEXT) . ' AND id IN (' . $list . ')')->execute();
         return count($ids);
     }
 

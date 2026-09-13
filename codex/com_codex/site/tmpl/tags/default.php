@@ -1,8 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Component\Codex\Site\Helper\ListExcerptHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Codex\Site\Helper\RouteHelper;
 $escape = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 ?>
@@ -12,8 +11,8 @@ $escape = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UT
 <p><a href="<?php echo Route::_('index.php?option=com_codex&view=tags'); ?>">All tags</a></p>
 <?php if ($this->tag->description !== '') : ?><p><?php echo nl2br($escape(strip_tags($this->tag->description))); ?></p><?php endif; ?>
 <?php foreach ($this->items as $item) : $url = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language ?? '*')); ?>
-<article class="mb-4"><h2><a href="<?php echo $url; ?>"><?php echo $escape($item->title); ?></a></h2>
-<?php $item->summary = HTMLHelper::_('content.prepare', $item->summary, '', 'com_codex.post'); echo ListExcerptHelper::render($item, $item->params); ?>
+<article class="mb-4"><?php echo LayoutHelper::render('joomla.content.featured_image', $item, JPATH_COMPONENT . '/layouts'); ?><h2><a href="<?php echo $url; ?>"><?php echo $escape($item->title); ?></a></h2>
+<?php echo $item->summary; ?>
 <a class="btn btn-outline-primary" href="<?php echo $url; ?>">Read more<span class="visually-hidden">: <?php echo $escape($item->title); ?></span></a></article>
 <?php endforeach; ?>
 <?php if (!$this->items) : ?><p>No published posts with this tag.</p><?php endif; ?>

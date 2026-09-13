@@ -1,30 +1,133 @@
 <?php
+
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory;
+
+use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-$user = Factory::getApplication()->getIdentity();
-$tag = $this->tag;
-$escape = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+use Joomla\Component\Academy\Administrator\Button\DefaultButton;
+
+/** @var \Joomla\Component\Academy\Administrator\View\Tags\HtmlView $this */
 ?>
-<div class="row g-4">
-<div class="col-lg-8">
-<form method="get" class="d-flex gap-2 mb-3"><input type="hidden" name="option" value="com_academy"><input type="hidden" name="view" value="tags"><label class="visually-hidden" for="tag-search">Search tags</label><input class="form-control" id="tag-search" name="search" value="<?php echo $escape(Factory::getApplication()->getInput()->getString('search')); ?>" placeholder="Search tags"><button class="btn btn-primary">Search</button></form>
-<div class="card"><div class="card-header">Tags</div><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Title</th><th>Alias</th><th>Posts</th><th>Status</th></tr></thead><tbody>
-<?php foreach ($this->items as $item) : ?><tr><td><a href="<?php echo Route::_('index.php?option=com_academy&view=tags&id=' . (int) $item->id); ?>"><?php echo $escape($item->title); ?></a></td><td><?php echo $escape($item->alias); ?></td><td><?php echo (int) $item->post_count; ?></td><td><?php echo $item->published == 1 ? 'Published' : 'Unpublished'; ?></td></tr><?php endforeach; ?>
-<?php if (!$this->items) : ?><tr><td colspan="4">No tags yet. Create a tag or add one while editing a post.</td></tr><?php endif; ?>
-</tbody></table></div></div></div>
-<div class="col-lg-4"><div class="card"><div class="card-header"><?php echo $tag ? 'Edit tag' : 'New tag'; ?></div><div class="card-body">
-<?php if ($user->authorise($tag ? 'core.edit' : 'core.create', 'com_academy')) : ?>
-<form method="post" action="<?php echo Route::_('index.php?option=com_academy&task=tags.save'); ?>" class="form-vertical">
-<input type="hidden" name="id" value="<?php echo (int) ($tag->id ?? 0); ?>">
-<label for="tag-title">Title</label><input required maxlength="255" class="form-control mb-3" id="tag-title" name="title" value="<?php echo $escape($tag->title ?? ''); ?>">
-<label for="tag-alias">Alias</label><input class="form-control mb-3" id="tag-alias" name="alias" maxlength="191" value="<?php echo $escape($tag->alias ?? ''); ?>" placeholder="Generated from title">
-<label for="tag-description">Description</label><textarea class="form-control mb-3" id="tag-description" name="description" rows="3"><?php echo $escape($tag->description ?? ''); ?></textarea>
-<label for="tag-published">Status</label><select class="form-select mb-3" id="tag-published" name="published" <?php echo !$user->authorise('core.edit.state', 'com_academy') ? 'disabled' : ''; ?>><option value="1">Published</option><option value="0" <?php echo $tag && !$tag->published ? 'selected' : ''; ?>>Unpublished</option></select>
-<?php $form = new \Joomla\CMS\Form\Form('native-tag'); $form->load('<form><field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"/><field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"><option value="*">JALL</option></field></form>'); $form->bind(['access' => $tag->access ?? 1, 'language' => $tag->language ?? '*']); echo $form->renderField('access'); echo $form->renderField('language'); ?>
-<button class="btn btn-success" type="submit">Save tag</button> <a class="btn btn-outline-secondary" href="<?php echo Route::_('index.php?option=com_academy&view=tags'); ?>">New tag</a>
-<?php echo HTMLHelper::_('form.token'); ?></form>
-<?php endif; ?>
-<?php if ($tag && $user->authorise('core.delete', 'com_academy')) : ?><form method="post" action="<?php echo Route::_('index.php?option=com_academy&task=tags.delete'); ?>" class="mt-3"><input type="hidden" name="id" value="<?php echo (int) $tag->id; ?>"><button class="btn btn-outline-danger" type="submit">Delete tag and its assignments</button><?php echo HTMLHelper::_('form.token'); ?></form><?php endif; ?>
-</div></div></div></div>
+<form action="<?php echo Route::_('index.php?option=com_academy&view=tags'); ?>" method="post" name="adminForm" id="adminForm">
+    <div class="alert alert-light border mb-3">
+        <h1 class="h4 mb-1"><?php echo Text::_('COM_ACADEMY_TAGS_TITLE'); ?></h1>
+        <p class="mb-0 small text-muted"><?php echo Text::_('COM_ACADEMY_TAGS_DESC'); ?></p>
+    </div>
+
+    <div class="row g-2 align-items-center mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="filter_search"
+                    id="filter_search"
+                    class="form-control"
+                    placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+                    value="<?php echo htmlspecialchars($this->search, ENT_QUOTES, 'UTF-8'); ?>"
+                >
+                <button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
+                    <span class="icon-search" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <select name="filter_published" id="filter_published" class="form-select" onchange="this.form.submit()">
+                <option value=""><?php echo Text::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+                <option value="1"<?php echo $this->filterPublished === '1' ? ' selected' : ''; ?>><?php echo Text::_('JPUBLISHED'); ?></option>
+                <option value="0"<?php echo $this->filterPublished === '0' ? ' selected' : ''; ?>><?php echo Text::_('JUNPUBLISHED'); ?></option>
+            </select>
+        </div>
+        <div class="col-md-5 text-md-end">
+            <?php echo $this->pagination->getLimitBox(); ?>
+        </div>
+    </div>
+
+    <?php if (empty($this->items)) : ?>
+        <div class="alert alert-info">
+            <span class="icon-info-circle" aria-hidden="true"></span>
+            <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+        </div>
+    <?php else : ?>
+        <div class="table-responsive">
+            <table class="table table-hover" id="tagList">
+                <caption class="visually-hidden"><?php echo Text::_('COM_ACADEMY_TAGS_TABLE_CAPTION'); ?></caption>
+                <thead>
+                    <tr>
+                        <td class="w-1 text-center">
+                            <?php echo HTMLHelper::_('grid.checkall'); ?>
+                        </td>
+                        <th scope="col">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 't.title', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                        <th scope="col" class="w-5 text-center">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'COM_ACADEMY_HEADING_DEFAULT', 't.is_default', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                        <th scope="col" class="w-5 text-center">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                        <th scope="col" class="w-5 text-center d-none d-md-table-cell">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'COM_ACADEMY_HEADING_POSTS', 'post_count', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                        <th scope="col" class="w-10 d-none d-md-table-cell">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 't.language', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                        <th scope="col" class="w-10 d-none d-md-table-cell">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'author_name', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                        <th scope="col" class="w-5 d-none d-lg-table-cell">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 't.id', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($this->items as $i => $item) : ?>
+                    <tr class="row<?php echo $i % 2; ?>">
+                        <td class="text-center">
+                            <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                        </td>
+                        <th scope="row">
+                            <a href="<?php echo Route::_('index.php?option=com_academy&view=tag&id=' . (int) $item->id); ?>">
+                                <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+                            </a>
+                        </th>
+                        <td class="text-center">
+                            <?php
+                            $defaultOptions = ['task_prefix' => 'tags.', 'disabled' => !$this->getCurrentUser()->authorise('core.edit.state', 'com_academy'), 'id' => 'tag-default-' . $item->id];
+                            echo (new DefaultButton())->render((int) $item->is_default, $i, $defaultOptions);
+                            ?>
+                        </td>
+                        <td class="text-center">
+                            <?php
+                            $options = ['task_prefix' => 'tags.', 'disabled' => !$this->getCurrentUser()->authorise('core.edit.state', 'com_academy'), 'id' => 'tag-state-' . $item->id];
+                            echo (new PublishedButton())->render((int) $item->published, $i, $options);
+                            ?>
+                        </td>
+                        <td class="text-center d-none d-md-table-cell">
+                            <span class="badge bg-secondary"><?php echo (int) $item->post_count; ?></span>
+                        </td>
+                        <td class="small d-none d-md-table-cell">
+                            <?php echo $item->language === '*' ? Text::_('JALL') : htmlspecialchars($item->language, ENT_QUOTES, 'UTF-8'); ?>
+                        </td>
+                        <td class="small d-none d-md-table-cell">
+                            <?php echo htmlspecialchars($item->author_name ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                        </td>
+                        <td class="d-none d-lg-table-cell">
+                            <?php echo (int) $item->id; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php echo $this->pagination->getListFooter(); ?>
+    <?php endif; ?>
+
+    <input type="hidden" name="task" value="">
+    <input type="hidden" name="boxchecked" value="0">
+    <input type="hidden" name="filter_order" value="<?php echo htmlspecialchars($this->listOrder, ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" name="filter_order_Dir" value="<?php echo htmlspecialchars($this->listDirn, ENT_QUOTES, 'UTF-8'); ?>">
+    <?php echo HTMLHelper::_('form.token'); ?>
+</form>

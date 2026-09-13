@@ -7,9 +7,19 @@ final class TagSchema
 {
     public static function ensure(DatabaseInterface $db): void
     {
-        $db->setQuery("CREATE TABLE IF NOT EXISTS #__blog_tags (id INT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR(255) NOT NULL, alias VARCHAR(191) NOT NULL, description TEXT NOT NULL, published TINYINT NOT NULL DEFAULT 1, access INT UNSIGNED NOT NULL DEFAULT 1, language VARCHAR(7) NOT NULL DEFAULT '*', params TEXT NOT NULL, PRIMARY KEY(id), UNIQUE KEY idx_alias(alias), KEY idx_state(published)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")->execute();
+        $db->setQuery("CREATE TABLE IF NOT EXISTS #__blog_tags (id INT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR(255) NOT NULL, alias VARCHAR(191) NOT NULL, description TEXT NOT NULL, published TINYINT NOT NULL DEFAULT 1, access INT UNSIGNED NOT NULL DEFAULT 1, language VARCHAR(7) NOT NULL DEFAULT '*', is_default TINYINT NOT NULL DEFAULT 0, created_by INT UNSIGNED NOT NULL DEFAULT 0, params TEXT NOT NULL, PRIMARY KEY(id), UNIQUE KEY idx_alias(alias), KEY idx_state(published)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")->execute();
         $db->setQuery("CREATE TABLE IF NOT EXISTS #__blog_tag_map (content_item_id INT UNSIGNED NOT NULL, tag_id INT UNSIGNED NOT NULL, type_alias VARCHAR(64) NOT NULL DEFAULT 'com_blog.post', PRIMARY KEY(content_item_id,tag_id,type_alias), KEY idx_tag(tag_id,type_alias)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")->execute();
         $db->setQuery("CREATE TABLE IF NOT EXISTS #__blog_tag_migrations (version INT NOT NULL PRIMARY KEY) ENGINE=InnoDB")->execute();
+
+        // Additive columns for tags created before these settings existed.
+        $columns = $db->getTableColumns('#__blog_tags');
+        if (!isset($columns['is_default'])) {
+            $db->setQuery('ALTER TABLE #__blog_tags ADD COLUMN is_default TINYINT NOT NULL DEFAULT 0 AFTER language')->execute();
+        }
+        if (!isset($columns['created_by'])) {
+            $db->setQuery('ALTER TABLE #__blog_tags ADD COLUMN created_by INT UNSIGNED NOT NULL DEFAULT 0 AFTER is_default')->execute();
+        }
+
         if ($db->setQuery('SELECT version FROM #__blog_tag_migrations WHERE version=1')->loadResult()) return;
         $tables = $db->getTableList();
         $legacy = in_array($db->getPrefix() . 'tags', $tables, true) && in_array($db->getPrefix() . 'contentitem_tag_map', $tables, true);

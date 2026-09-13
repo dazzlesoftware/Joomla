@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\Component\Blog\Site\View\Category\HtmlView $this */
 
@@ -44,6 +45,11 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <<?php echo $htag; ?>>
         <?php echo htmlspecialchars($this->category->title, ENT_QUOTES, 'UTF-8'); ?>
     </<?php echo $htag; ?>>
+    <?php endif; ?>
+    <?php if ($this->category->default_image) : ?>
+        <figure class="category-image">
+            <img src="<?php echo htmlspecialchars(Uri::root() . $this->category->default_image, ENT_QUOTES, 'UTF-8'); ?>" alt="">
+        </figure>
     <?php endif; ?>
     <?php echo $afterDisplayTitle; ?>
 

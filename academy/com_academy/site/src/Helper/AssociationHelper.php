@@ -96,8 +96,28 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             }
         }
 
-        if ($view === 'category' || $view === 'categories') {
-            return self::getCategoryAssociations($id, 'com_academy', $layout);
+        if (($view === 'category' || $view === 'categories') && $id) {
+            // Deliberately not delegating to the inherited
+            // CategoryAssociationHelper::getCategoryAssociations(): that method is
+            // hard-wired to Joomla core's shared #__categories table and won't ever
+            // find rows for this component's own native #__academy_categories table.
+            $associations = Associations::getAssociations(
+                'com_academy',
+                '#__academy_categories',
+                'com_academy.category',
+                $id,
+                'id',
+                'alias',
+                ''
+            );
+
+            $return = [];
+
+            foreach ($associations as $tag => $item) {
+                $return[$tag] = RouteHelper::getCategoryRoute((int) $item->id, $item->language, $layout);
+            }
+
+            return $return;
         }
 
         return [];

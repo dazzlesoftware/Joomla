@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Blog\Site\Helper\ListExcerptHelper;
 use Joomla\Component\Blog\Site\Model\FeaturedModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -143,10 +144,13 @@ class HtmlView extends BaseHtmlView
 
             $item->event = new \stdClass();
 
-            // Old plugins: Ensure that text property is available
-            if (!isset($item->text)) {
-                $item->text = $item->summary;
-            }
+            // Decide the excerpt from the raw stored summary, before content
+            // plugins expand any shortcodes (accordions, embeds, etc.) into
+            // their full rendered markup - otherwise a short shortcode that
+            // expands into a large widget fools the length check into
+            // skipping truncation entirely, dumping the whole widget into
+            // the listing.
+            $item->text = ListExcerptHelper::render($item, $item->params);
 
             Factory::getApplication()->triggerEvent('onContentPrepare', ['com_blog.featured', &$item, &$item->params, 0]);
 
