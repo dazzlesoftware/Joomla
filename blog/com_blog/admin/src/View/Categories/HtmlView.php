@@ -14,7 +14,7 @@ use Joomla\Component\Blog\Administrator\Helper\CategoriesHelper;
 
 final class HtmlView extends BaseHtmlView
 {
-    private const SORT_COLUMNS = ['c.title', 'c.published', 'sub_count', 'post_count', 'c.language', 'author_name', 'c.id'];
+    private const SORT_COLUMNS = ['c.title', 'c.is_default', 'c.published', 'sub_count', 'post_count', 'c.language', 'author_name', 'c.id'];
 
     public array $items = [];
     public ?Pagination $pagination = null;
@@ -94,6 +94,8 @@ final class HtmlView extends BaseHtmlView
         if ($user->authorise('core.edit.state', 'com_blog')) {
             $toolbar->publish('categories.publish')->listCheck(true);
             $toolbar->unpublish('categories.unpublish')->listCheck(true);
+            $toolbar->standardButton('star', 'COM_BLOG_MAKE_DEFAULT', 'categories.makedefault')->listCheck(true);
+            $toolbar->standardButton('star-empty', 'COM_BLOG_REMOVE_DEFAULT', 'categories.removedefault')->listCheck(true);
         }
 
         if ($user->authorise('core.create', 'com_blog')) {

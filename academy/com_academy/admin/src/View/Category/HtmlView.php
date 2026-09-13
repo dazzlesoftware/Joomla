@@ -36,7 +36,7 @@ final class HtmlView extends BaseHtmlView
         $db = CategoriesHelper::db();
         $this->item = $id
             ? $db->setQuery('SELECT * FROM #__academy_categories WHERE id=' . $id)->loadObject()
-            : (object) ['id' => 0, 'title' => '', 'alias' => '', 'description' => '', 'published' => 1, 'access' => 1, 'language' => '*', 'parent_id' => 0, 'allow_autoposting' => 1, 'default_image' => '', 'default_tags' => ''];
+            : (object) ['id' => 0, 'title' => '', 'alias' => '', 'description' => '', 'published' => 1, 'access' => 1, 'language' => '*', 'parent_id' => 0, 'is_default' => 0, 'allow_autoposting' => 1, 'default_image' => '', 'default_tags' => ''];
 
         if ($id && !$this->item) {
             throw new \RuntimeException('Category not found.', 404);

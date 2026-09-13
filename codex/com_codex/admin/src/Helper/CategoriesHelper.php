@@ -62,10 +62,11 @@ final class CategoriesHelper
         }
         $identity = Factory::getApplication()->getIdentity();
         $userId = (int) ($identity?->id ?? 0);
+        $isDefault = (int) ($data['is_default'] ?? 0);
         // 'extension' mirrors the column core's own shared #__categories table
         // carries: com_associations' generic category query hardcodes a WHERE
         // a.extension = <component name> filter, so every row needs it set.
-        $row = (object)['id' => $id ?: null,'title' => $title,'alias' => $alias,'description' => (string)($data['description'] ?? ''),'published' => (int)($data['published'] ?? 1),'access' => (int)($data['access'] ?? 1),'language' => (string)($data['language'] ?? '*'),'parent_id' => $parentId,'extension' => 'com_codex','allow_autoposting' => (int)($data['allow_autoposting'] ?? 1),'default_image' => (string)($data['default_image'] ?? ''),'default_tags' => (string)($data['default_tags'] ?? ''),'created_time' => Factory::getDate()->toSql(),'created_user_id' => $userId,'modified_time' => Factory::getDate()->toSql(),'modified_user_id' => $userId,'metadata' => '{}','params' => '{}'];
+        $row = (object)['id' => $id ?: null,'title' => $title,'alias' => $alias,'description' => (string)($data['description'] ?? ''),'published' => (int)($data['published'] ?? 1),'access' => (int)($data['access'] ?? 1),'language' => (string)($data['language'] ?? '*'),'parent_id' => $parentId,'extension' => 'com_codex','is_default' => $isDefault,'allow_autoposting' => (int)($data['allow_autoposting'] ?? 1),'default_image' => (string)($data['default_image'] ?? ''),'default_tags' => (string)($data['default_tags'] ?? ''),'created_time' => Factory::getDate()->toSql(),'created_user_id' => $userId,'modified_time' => Factory::getDate()->toSql(),'modified_user_id' => $userId,'metadata' => '{}','params' => '{}'];
         if ($id) {
             $old = $db->setQuery('SELECT * FROM #__codex_categories WHERE id='.$id)->loadObject();
             if (!$old) {
@@ -80,7 +81,50 @@ final class CategoriesHelper
             $row->path = $alias;
             $db->insertObject('#__codex_categories', $row, 'id');
         }
+
+        // Only one category can be the default at a time - setting this one
+        // clears the flag from every other category.
+        if ($isDefault) {
+            $db->setQuery('UPDATE #__codex_categories SET is_default=0 WHERE id<>' . (int) $row->id)->execute();
+        }
+
         return (int)$row->id;
+    }
+
+    /** The id of the current default category (0 if none is set). */
+    public static function defaultCategoryId(): int
+    {
+        return (int) self::db()->setQuery('SELECT id FROM #__codex_categories WHERE is_default=1 AND published=1')->loadResult();
+    }
+
+    /** Sets exactly one category as the default, clearing the flag from every other category. */
+    public static function makeDefault(int $id): bool
+    {
+        if (!$id) {
+            return false;
+        }
+        $db = self::db();
+        $db->transactionStart();
+        try {
+            $db->setQuery('UPDATE #__codex_categories SET is_default=0')->execute();
+            $db->setQuery('UPDATE #__codex_categories SET is_default=1 WHERE id=' . $id)->execute();
+            $db->transactionCommit();
+        } catch (\Throwable $e) {
+            $db->transactionRollback();
+            throw $e;
+        }
+        return true;
+    }
+
+    /** Clears the default flag from the given categories. Returns the number of rows affected. */
+    public static function removeDefault(array $ids): int
+    {
+        $ids = array_values(array_filter(array_map('intval', $ids)));
+        if (!$ids) {
+            return 0;
+        }
+        self::db()->setQuery('UPDATE #__codex_categories SET is_default=0 WHERE id IN (' . implode(',', $ids) . ')')->execute();
+        return count($ids);
     }
 
     /** Every descendant id of $id (direct and indirect children), used to keep the parent picker acyclic. */

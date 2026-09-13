@@ -6,6 +6,7 @@ use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Blog\Administrator\Button\CategoryDefaultButton;
 
 /** @var \Joomla\Component\Blog\Administrator\View\Categories\HtmlView $this */
 
@@ -67,6 +68,9 @@ $canOrder = $user->authorise('core.edit.state', 'com_blog');
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'c.title', $this->listDirn, $this->listOrder); ?>
                         </th>
                         <th scope="col" class="w-5 text-center">
+                            <?php echo HTMLHelper::_('searchtools.sort', 'COM_BLOG_HEADING_DEFAULT', 'c.is_default', $this->listDirn, $this->listOrder); ?>
+                        </th>
+                        <th scope="col" class="w-5 text-center">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'c.published', $this->listDirn, $this->listOrder); ?>
                         </th>
                         <th scope="col" class="w-5 text-center d-none d-md-table-cell">
@@ -102,6 +106,12 @@ $canOrder = $user->authorise('core.edit.state', 'com_blog');
                                 <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
                             </a>
                         </th>
+                        <td class="text-center">
+                            <?php
+                            $defaultOptions = ['task_prefix' => 'categories.', 'disabled' => !$this->getCurrentUser()->authorise('core.edit.state', 'com_blog'), 'id' => 'cat-default-' . $item->id];
+                            echo (new CategoryDefaultButton())->render((int) $item->is_default, $i, $defaultOptions);
+                            ?>
+                        </td>
                         <td class="text-center">
                             <?php
                             $options = ['task_prefix' => 'categories.', 'disabled' => !$canOrder, 'id' => 'cat-state-' . $item->id];

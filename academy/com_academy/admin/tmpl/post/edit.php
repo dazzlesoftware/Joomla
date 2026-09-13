@@ -83,8 +83,12 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                 </div>
                 <div>
                     <fieldset class="adminform">
-                        <?php $pollDb = Factory::getContainer()->get(DatabaseInterface::class);
-$pollItems = $pollDb->setQuery($pollDb->createQuery()->select(['id','title'])->from('#__academy_polls')->where('state=1')->order('title'))->loadObjectList(); ?>
+                        <?php
+                        $pollDb = Factory::getContainer()->get(DatabaseInterface::class);
+                        $pollItems = $pollDb->setQuery(
+                            $pollDb->createQuery()->select(['id', 'title'])->from('#__academy_polls')->where('state=1')->order('title')
+                        )->loadObjectList();
+                        ?>
                         <details class="post-editor-excerpt" <?php echo trim((string) $this->form->getValue('excerpt')) !== '' ? 'open' : ''; ?>>
                             <summary><?php echo Text::_('COM_ACADEMY_FIELD_EXCERPT_LABEL'); ?><span><?php echo Text::_('COM_ACADEMY_EDITOR_OPTIONAL'); ?></span></summary>
                             <div class="post-editor-panel-body form-vertical">
@@ -100,18 +104,27 @@ $pollItems = $pollDb->setQuery($pollDb->createQuery()->select(['id','title'])->f
                                     <main class="post-composer-main"><div class="post-block-canvas" data-block-canvas></div></main>
                                     <aside class="post-block-palette">
                                         <h3>Insert Block</h3>
-                                        <label class="visually-hidden" for="post-block-search">Search blocks</label><input id="post-block-search" class="form-control mb-3" type="search" placeholder="Search blocks">
-                                        <h4>Layout</h4><div class="post-block-palette-grid">
-                                        <?php foreach (['heading','text','tabs','columns','table','section','accordion'] as $blockType) : ?><button type="button" class="btn btn-outline-secondary" data-add-block="<?php echo $blockType; ?>"><?php echo ucfirst($blockType); ?></button><?php endforeach; ?>
-                                        </div><h4>Elements</h4><div class="post-block-palette-grid">
-                                        <?php foreach (['alert','quote','button','link','code'] as $blockType) : ?><button type="button" class="btn btn-outline-secondary" data-add-block="<?php echo $blockType; ?>"><?php echo ucfirst($blockType); ?></button><?php endforeach; ?>
-                                        </div><h4>Media</h4><div class="post-block-palette-grid">
-                                        <?php foreach (['image','video','audio','comparison'] as $blockType) : ?><button type="button" class="btn btn-outline-secondary" data-add-block="<?php echo $blockType; ?>"><?php echo ucfirst($blockType); ?></button><?php endforeach; ?>
-                                        </div><h4>Joomla</h4><div class="post-block-palette-grid">
-                                        <?php foreach (['html','rule','readmore','pagebreak','module','polls'] as $blockType) : ?><button type="button" class="btn btn-outline-secondary" data-add-block="<?php echo $blockType; ?>"><?php echo $blockType === 'polls' ? 'Poll' : ucfirst($blockType); ?></button><?php endforeach; ?>
-                                        </div><h4>Embeddables</h4><div class="post-block-palette-grid">
-                                        <?php foreach (['gist','instagram','spotify','behance','soundcloud','slideshare','codepen','tweet','pinterest','youtube','vimeo','dailymotion','ted','facebook'] as $blockType) : ?><button type="button" class="btn btn-outline-secondary" data-add-block="<?php echo $blockType; ?>"><?php echo ucfirst($blockType); ?></button><?php endforeach; ?>
-                                        </div>
+                                        <label class="visually-hidden" for="post-block-search">Search blocks</label>
+                                        <input id="post-block-search" class="form-control mb-3" type="search" placeholder="Search blocks">
+                                        <?php
+                                        // Each group heading maps to the block types shown under it. Type
+                                        // names are used as-is for the button label (Title Case via
+                                        // ucfirst), except where overridden in $blockLabelOverrides.
+                                        $blockPalette = [
+                                            'Layout' => ['heading', 'text', 'tabs', 'columns', 'table', 'section', 'accordion'],
+                                            'Elements' => ['alert', 'quote', 'button', 'link', 'code'],
+                                            'Media' => ['image', 'video', 'audio', 'comparison'],
+                                            'Joomla' => ['html', 'rule', 'readmore', 'pagebreak', 'module', 'polls'],
+                                            'Embeddables' => ['gist', 'instagram', 'spotify', 'behance', 'soundcloud', 'slideshare', 'codepen', 'tweet', 'pinterest', 'youtube', 'vimeo', 'dailymotion', 'ted', 'facebook'],
+                                        ];
+                                        $blockLabelOverrides = ['polls' => 'Poll'];
+                                        ?>
+                                        <?php foreach ($blockPalette as $heading => $blockTypes) : ?>
+                                            <h4><?php echo $heading; ?></h4>
+                                            <div class="post-block-palette-grid">
+                                                <?php foreach ($blockTypes as $blockType) : ?><button type="button" class="btn btn-outline-secondary" data-add-block="<?php echo $blockType; ?>"><?php echo $blockLabelOverrides[$blockType] ?? ucfirst($blockType); ?></button><?php endforeach; ?>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </aside>
                                 </div>
                             </div>

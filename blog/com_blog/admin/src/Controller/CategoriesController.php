@@ -40,6 +40,36 @@ final class CategoriesController extends BaseController
         $app->redirect(Route::_('index.php?option=com_blog&view=categories', false));
     }
 
+    public function makedefault(): void
+    {
+        Session::checkToken() or jexit('Invalid token');
+        $app = Factory::getApplication();
+        if (!$app->getIdentity()->authorise('core.edit.state', 'com_blog')) {
+            throw new \RuntimeException('Not authorised', 403);
+        }
+        $ids = ArrayHelper::toInteger((array) $app->getInput()->post->get('cid', [], 'array'));
+        if (count($ids) !== 1) {
+            $app->enqueueMessage('Select exactly one category to make the default.', 'warning');
+        } else {
+            CategoriesHelper::makeDefault((int) $ids[0]);
+            $app->enqueueMessage('Default category updated.');
+        }
+        $app->redirect(Route::_('index.php?option=com_blog&view=categories', false));
+    }
+
+    public function removedefault(): void
+    {
+        Session::checkToken() or jexit('Invalid token');
+        $app = Factory::getApplication();
+        if (!$app->getIdentity()->authorise('core.edit.state', 'com_blog')) {
+            throw new \RuntimeException('Not authorised', 403);
+        }
+        $ids = ArrayHelper::toInteger((array) $app->getInput()->post->get('cid', [], 'array'));
+        $n = CategoriesHelper::removeDefault($ids);
+        $app->enqueueMessage($n ? 'Default category removed.' : 'No categories selected.', $n ? 'message' : 'warning');
+        $app->redirect(Route::_('index.php?option=com_blog&view=categories', false));
+    }
+
     public function copy(): void
     {
         Session::checkToken() or jexit('Invalid token');

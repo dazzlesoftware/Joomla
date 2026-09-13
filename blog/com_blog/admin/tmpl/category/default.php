@@ -86,7 +86,7 @@ use Joomla\CMS\Uri\Uri;
                             <option value="0"<?php echo $this->item->published ? '' : ' selected'; ?>><?php echo Text::_('JUNPUBLISHED'); ?></option>
                         </select>
                     </div>
-                    <div class="mb-0 form-check form-switch">
+                    <div class="mb-3 form-check form-switch">
                         <?php // A plain unchecked checkbox is simply omitted from the POST
                         // body by the browser, so without this hidden fallback (submitted
                         // first, then overridden by the checkbox's own value if it IS
@@ -105,6 +105,21 @@ use Joomla\CMS\Uri\Uri;
                         >
                         <label class="form-check-label" for="jform_allow_autoposting"><?php echo Text::_('COM_BLOG_ALLOW_AUTOPOSTING_LABEL'); ?></label>
                         <div class="form-text"><?php echo Text::_('COM_BLOG_ALLOW_AUTOPOSTING_DESC'); ?></div>
+                    </div>
+                    <div class="mb-0 form-check form-switch">
+                        <?php // Same hidden-fallback reasoning as the autoposting toggle above. ?>
+                        <input type="hidden" name="jform[is_default]" value="0">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            role="switch"
+                            id="jform_is_default"
+                            name="jform[is_default]"
+                            value="1"
+                            <?php echo $this->item->is_default ? ' checked' : ''; ?>
+                        >
+                        <label class="form-check-label" for="jform_is_default"><?php echo Text::_('COM_BLOG_FIELD_CATEGORY_DEFAULT_LABEL'); ?></label>
+                        <div class="form-text"><?php echo Text::_('COM_BLOG_FIELD_CATEGORY_DEFAULT_DESC'); ?></div>
                     </div>
                 </div>
             </div>

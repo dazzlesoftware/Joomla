@@ -35,7 +35,13 @@ $langFilter = false;
 
 // Use component-owned tags and enforce their published, access and language visibility.
 $tagDb = TagsHelper::db();
-$tagQuery = $tagDb->createQuery()->select('id AS value, title AS text')->from('#__blog_tags')->where('published=1')->whereIn('access', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels())->where('language IN (' . $tagDb->quote('*') . ',' . $tagDb->quote(Factory::getApplication()->getLanguage()->getTag()) . ')')->order('title');
+$tagQuery = $tagDb->createQuery()
+    ->select('id AS value, title AS text')
+    ->from('#__blog_tags')
+    ->where('published=1')
+    ->whereIn('access', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels())
+    ->where('language IN (' . $tagDb->quote('*') . ',' . $tagDb->quote(Factory::getApplication()->getLanguage()->getTag()) . ')')
+    ->order('title');
 $tagOptions = $tagDb->setQuery($tagQuery)->loadObjectList();
 // Check for at least one editable post
 $isEditable = false;

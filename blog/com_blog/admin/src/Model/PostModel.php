@@ -591,7 +591,10 @@ class PostModel extends AdminModel implements WorkflowModelInterface, Versionabl
                     $selectedCatId = (int) $filteredCategories;
                 }
 
-                $data->catid = $app->getInput()->getInt('catid', $selectedCatId);
+                // Fall back to the default category (if one is set) only when
+                // nothing more specific - an explicit URL param or the Posts
+                // list's active category filter - already picked one.
+                $data->catid = $app->getInput()->getInt('catid', $selectedCatId ?? CategoriesHelper::defaultCategoryId());
 
                 if ($app->isClient('administrator')) {
                     $data->language = $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
@@ -673,6 +676,17 @@ class PostModel extends AdminModel implements WorkflowModelInterface, Versionabl
         }
 
         $this->workflowBeforeSave();
+
+        // A brand-new post with no category chosen falls back to the default
+        // category (the form itself already pre-selects it - see
+        // loadFormData() - but this covers saves that bypass that, e.g. a
+        // front-end submission form with the category field hidden).
+        if ($autopostWasNew && empty($data['catid'])) {
+            $defaultCategoryId = CategoriesHelper::defaultCategoryId();
+            if ($defaultCategoryId) {
+                $data['catid'] = $defaultCategoryId;
+            }
+        }
 
         // Categories are managed by this component's own native categories table, not
         // Joomla's shared #__categories - validate against that native table instead.

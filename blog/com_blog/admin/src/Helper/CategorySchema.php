@@ -9,7 +9,7 @@ final class CategorySchema
 {
     public static function ensure(DatabaseInterface $db): void
     {
-        $db->setQuery("CREATE TABLE IF NOT EXISTS #__blog_categories (id INT UNSIGNED NOT NULL AUTO_INCREMENT, asset_id INT UNSIGNED NOT NULL DEFAULT 0, parent_id INT UNSIGNED NOT NULL DEFAULT 0, lft INT NOT NULL DEFAULT 0, rgt INT NOT NULL DEFAULT 0, level INT NOT NULL DEFAULT 1, path VARCHAR(400) NOT NULL DEFAULT '', title VARCHAR(255) NOT NULL, alias VARCHAR(400) NOT NULL, description MEDIUMTEXT NOT NULL, published TINYINT NOT NULL DEFAULT 1, access INT UNSIGNED NOT NULL DEFAULT 1, language CHAR(7) NOT NULL DEFAULT '*', allow_autoposting TINYINT NOT NULL DEFAULT 1, default_image VARCHAR(255) NOT NULL DEFAULT '', default_tags VARCHAR(500) NOT NULL DEFAULT '', created_time DATETIME NULL, created_user_id INT UNSIGNED NOT NULL DEFAULT 0, modified_time DATETIME NULL, modified_user_id INT UNSIGNED NOT NULL DEFAULT 0, metadata TEXT NOT NULL, params TEXT NOT NULL, PRIMARY KEY(id), KEY idx_parent(parent_id), KEY idx_state(published), KEY idx_access(access), KEY idx_language(language), KEY idx_alias(alias(191))) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")->execute();
+        $db->setQuery("CREATE TABLE IF NOT EXISTS #__blog_categories (id INT UNSIGNED NOT NULL AUTO_INCREMENT, asset_id INT UNSIGNED NOT NULL DEFAULT 0, parent_id INT UNSIGNED NOT NULL DEFAULT 0, lft INT NOT NULL DEFAULT 0, rgt INT NOT NULL DEFAULT 0, level INT NOT NULL DEFAULT 1, path VARCHAR(400) NOT NULL DEFAULT '', title VARCHAR(255) NOT NULL, alias VARCHAR(400) NOT NULL, description MEDIUMTEXT NOT NULL, published TINYINT NOT NULL DEFAULT 1, access INT UNSIGNED NOT NULL DEFAULT 1, language CHAR(7) NOT NULL DEFAULT '*', extension VARCHAR(50) NOT NULL DEFAULT 'com_blog', is_default TINYINT NOT NULL DEFAULT 0, allow_autoposting TINYINT NOT NULL DEFAULT 1, default_image VARCHAR(255) NOT NULL DEFAULT '', default_tags VARCHAR(500) NOT NULL DEFAULT '', created_time DATETIME NULL, created_user_id INT UNSIGNED NOT NULL DEFAULT 0, modified_time DATETIME NULL, modified_user_id INT UNSIGNED NOT NULL DEFAULT 0, metadata TEXT NOT NULL, params TEXT NOT NULL, PRIMARY KEY(id), KEY idx_parent(parent_id), KEY idx_state(published), KEY idx_access(access), KEY idx_language(language), KEY idx_alias(alias(191))) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")->execute();
         $db->setQuery("CREATE TABLE IF NOT EXISTS #__blog_category_migrations (version INT NOT NULL PRIMARY KEY) ENGINE=InnoDB")->execute();
 
         // Additive columns for categories created before these settings existed.
@@ -22,6 +22,13 @@ final class CategorySchema
         }
         if (!isset($columns['default_tags'])) {
             $db->setQuery("ALTER TABLE #__blog_categories ADD COLUMN default_tags VARCHAR(500) NOT NULL DEFAULT '' AFTER default_image")->execute();
+        }
+        if (!isset($columns['extension'])) {
+            $db->setQuery("ALTER TABLE #__blog_categories ADD COLUMN extension VARCHAR(50) NOT NULL DEFAULT 'com_blog' AFTER language")->execute();
+            $db->setQuery("UPDATE #__blog_categories SET extension='com_blog' WHERE extension=''")->execute();
+        }
+        if (!isset($columns['is_default'])) {
+            $db->setQuery('ALTER TABLE #__blog_categories ADD COLUMN is_default TINYINT NOT NULL DEFAULT 0 AFTER extension')->execute();
         }
 
         if ($db->setQuery('SELECT version FROM #__blog_category_migrations WHERE version=1')->loadResult()) {
