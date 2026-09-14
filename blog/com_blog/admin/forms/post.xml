@@ -132,7 +132,7 @@
         </field>
       </fieldset>
       <fieldset name="other" label="COM_BLOG_OTHER_OPTIONS">
-        <field name="show_item_navigation" type="list" label="JGLOBAL_SHOW_NAVIGATION_LABEL" useglobal="true" validate="options">
+        <field name="show_item_navigation" type="list" label="COM_BLOG_SHOW_PAGINATION_LABEL" useglobal="true" validate="options">
           <option value="0">JHIDE</option>
           <option value="1">JSHOW</option>
         </field>
@@ -192,7 +192,7 @@
       <field name="show_create_date" type="hidden" label="JGLOBAL_SHOW_CREATE_DATE_LABEL" />
       <field name="show_modify_date" type="hidden" label="JGLOBAL_SHOW_MODIFY_DATE_LABEL" />
       <field name="show_publish_date" type="hidden" label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL" />
-      <field name="show_item_navigation" type="hidden" label="JGLOBAL_SHOW_NAVIGATION_LABEL" />
+      <field name="show_item_navigation" type="hidden" label="COM_BLOG_SHOW_PAGINATION_LABEL" />
       <field name="show_vote" type="hidden" label="JGLOBAL_SHOW_VOTE_LABEL" />
       <field name="show_hits" type="hidden" label="JGLOBAL_SHOW_HITS_LABEL" />
       <field name="show_noauth" type="hidden" label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL" description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC" />

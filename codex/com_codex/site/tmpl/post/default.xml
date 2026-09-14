@@ -218,7 +218,7 @@
 			<field
 				name="show_item_navigation"
 				type="list"
-				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
+				label="COM_CODEX_SHOW_PAGINATION_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"

@@ -236,7 +236,7 @@
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
       </field>
-      <field name="show_item_navigation" type="list" label="JGLOBAL_SHOW_NAVIGATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+      <field name="show_item_navigation" type="list" label="COM_ACADEMY_SHOW_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
         <option value="use_post">COM_ACADEMY_FIELD_VALUE_USE_POST_SETTINGS</option>
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
