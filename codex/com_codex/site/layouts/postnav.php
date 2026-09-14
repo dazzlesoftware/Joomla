@@ -91,7 +91,17 @@ $loginModule->id = 'postnav-' . ($loginModule->id ?: 0);
 ob_start();
 echo ModuleHelper::renderModule($loginModule, ['style' => 'none']);
 $loginModalBody = ob_get_clean();
-$isGuest = $app->getIdentity()->guest;
+$user = $app->getIdentity();
+$isGuest = $user->guest;
+$canCreatePost = !$isGuest && $user->authorise('core.create', 'com_' . $family);
+
+// The subscribe/login modals work via HTMLHelper::_('bootstrap.renderModal', ...),
+// which loads the "bootstrap.modal" script itself. The account dropdown uses
+// plain data-bs-toggle="dropdown" markup instead, so its script has to be
+// loaded explicitly here or the dropdown never opens.
+if (!$isGuest) {
+    HTMLHelper::_('bootstrap.dropdown');
+}
 ?>
 <nav class="postnav d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom" aria-label="Post navigation">
     <div class="postnav-links d-flex align-items-center flex-wrap gap-1">
@@ -112,10 +122,35 @@ $isGuest = $app->getIdentity()->guest;
             <i class="fa-regular fa-envelope" aria-hidden="true"></i>
             <span class="visually-hidden">Subscribe by email</span>
         </button>
-        <button type="button" class="postnav-icon-btn" data-bs-toggle="modal" data-bs-target="#<?php echo $loginModalId; ?>" title="<?php echo $isGuest ? 'Sign in' : 'Account'; ?>" aria-controls="<?php echo $loginModalId; ?>">
-            <i class="fa-solid fa-user" aria-hidden="true"></i>
-            <span class="visually-hidden"><?php echo $isGuest ? 'Sign in' : 'Account'; ?></span>
-        </button>
+        <?php if ($canCreatePost) : ?>
+            <a class="postnav-icon-btn postnav-create-btn" href="<?php echo Route::_('index.php?option=com_' . $family . '&task=post.add'); ?>" title="Create Post">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                <span class="visually-hidden">Create Post</span>
+            </a>
+        <?php endif; ?>
+        <?php if ($isGuest) : ?>
+            <button type="button" class="postnav-icon-btn" data-bs-toggle="modal" data-bs-target="#<?php echo $loginModalId; ?>" title="Sign in" aria-controls="<?php echo $loginModalId; ?>">
+                <i class="fa-solid fa-user" aria-hidden="true"></i>
+                <span class="visually-hidden">Sign in</span>
+            </button>
+        <?php else : ?>
+            <div class="dropdown postnav-account">
+                <button type="button" class="postnav-icon-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
+                    <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    <span class="visually-hidden">Account</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end postnav-account-menu">
+                    <a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_users&view=profile&layout=edit'); ?>">
+                        <i class="fa-solid fa-id-badge me-2" aria-hidden="true"></i>Edit Profile
+                    </a>
+                    <a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=myposts'); ?>">
+                        <i class="fa-solid fa-file-lines me-2" aria-hidden="true"></i>My Posts
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item-text postnav-logout"><?php echo $loginModalBody; ?></div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
     <form id="<?php echo $navId; ?>-search" class="postnav-search-box w-100 d-none mt-2" method="get" action="<?php echo Route::_('index.php?option=com_finder&view=search'); ?>">
         <div class="input-group">
@@ -132,11 +167,13 @@ echo HTMLHelper::_('bootstrap.renderModal', $subscribeModalId, [
     'footer'      => $subscribeModalFooter,
 ], $subscribeModalBody);
 
-echo HTMLHelper::_('bootstrap.renderModal', $loginModalId, [
-    'title'       => $isGuest ? 'Sign in to your account' : 'Your account',
-    'closeButton' => true,
-    'modalCss'    => 'modal-dialog modal-dialog-centered',
-], $loginModalBody);
+if ($isGuest) {
+    echo HTMLHelper::_('bootstrap.renderModal', $loginModalId, [
+        'title'       => 'Sign in to your account',
+        'closeButton' => true,
+        'modalCss'    => 'modal-dialog modal-dialog-centered',
+    ], $loginModalBody);
+}
 ?>
 <style>
 .postnav-link{display:inline-flex;align-items:center;padding:.4rem .65rem;border-radius:.375rem;color:var(--bs-body-color,#212529);text-decoration:none;font-weight:500;line-height:1}
@@ -146,6 +183,10 @@ echo HTMLHelper::_('bootstrap.renderModal', $loginModalId, [
 .postnav-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:.375rem;border:0;background:transparent;color:inherit;text-decoration:none;cursor:pointer;transition:background-color .15s ease,transform .15s ease}
 .postnav-icon-btn:hover{background:rgba(0,0,0,.08);transform:translateY(-1px)}
 .postnav-icon-btn:focus-visible{outline:2px solid #2b2f77;outline-offset:2px}
+.postnav-account-menu{min-width:14rem}
+.postnav-logout{padding:.25rem 1rem}
+.postnav-logout form{margin:0}
+.postnav-logout .btn{width:100%}
 </style>
 <script>
 (function () {
