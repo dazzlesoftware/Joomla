@@ -17,9 +17,11 @@ class HtmlView extends BaseHtmlView
     public array $items = [];
     public $tag;
     public $pagination;
+    public ?Registry $params = null;
     public function display($tpl = null): void
     {
         $app = Factory::getApplication();
+        $this->params = $app->getParams();
         $db = TagsHelper::db();
         $q = $db->createQuery()->select('*')->from('#__codex_tags')->where('published=1')->whereIn('access', $app->getIdentity()->getAuthorisedViewLevels())->where('language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')')->order('title');
         $id = $app->getInput()->getInt('tag_id');

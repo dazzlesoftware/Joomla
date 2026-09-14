@@ -655,6 +655,19 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field
+				name="show_postnav"
+				type="list"
+				label="COM_ACADEMY_SHOW_POSTNAV_LABEL"
+				description="COM_ACADEMY_SHOW_POSTNAV_DESC"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 		</fieldset>
 		<fieldset name="integration" label="COM_MENUS_INTEGRATION_FIELDSET_LABEL">
 

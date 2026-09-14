@@ -35,6 +35,7 @@ $currentDate       = Factory::getDate()->format('Y-m-d H:i:s');
 $isNotPublishedYet = $this->item->publish_up > $currentDate;
 $isExpired         = !is_null($this->item->publish_down) && $this->item->publish_down < $currentDate;
 ?>
+<?php echo LayoutHelper::render('postnav', ['params' => $this->item->params], JPATH_COMPONENT . '/layouts'); ?>
 <div class="com-content-post item-page<?php echo $this->pageclass_sfx; ?>">
     <meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
     <?php if ($this->params->get('show_page_heading')) : ?>

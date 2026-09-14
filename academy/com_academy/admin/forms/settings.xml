@@ -640,6 +640,12 @@
       <field name="campaign_postmark_key" type="password" label="Postmark server token" showon="campaign_mail_service:postmark" />
       <field name="campaign_postmark_stream" type="text" label="Postmark message stream" showon="campaign_mail_service:postmark" default="outbound" />
     </fieldset>
+    <fieldset name="postnav" label="COM_ACADEMY_POSTNAV_SETTINGS" description="COM_ACADEMY_POSTNAV_SETTINGS_DESC">
+      <field name="show_postnav" type="radio" label="COM_ACADEMY_SHOW_POSTNAV_LABEL" description="COM_ACADEMY_SHOW_POSTNAV_DESC" layout="joomla.form.field.radio.switcher" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
     <fieldset name="list_display" label="COM_ACADEMY_LIST_DISPLAY_SETTINGS">
       <field name="post_listing_layout" type="list" default="rows" label="COM_ACADEMY_POST_LISTING_LAYOUT_LABEL">
         <option value="rows">COM_ACADEMY_POST_LISTING_LAYOUT_ROWS</option>

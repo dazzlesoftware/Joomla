@@ -7,6 +7,7 @@ use Joomla\Component\Academy\Site\Helper\RouteHelper;
 
 $avatarItem = (object) ['created_by' => $this->author->id];
 ?>
+<?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
 <div class="com-academy-author">
     <header class="author-profile-header d-flex align-items-center gap-3 mb-4">
         <?php echo LayoutHelper::render('postlist.card.avatar', $avatarItem, JPATH_COMPONENT . '/layouts'); ?>

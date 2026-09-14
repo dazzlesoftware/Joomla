@@ -11,10 +11,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Blog\Site\View\Archive\HtmlView $this */
 ?>
+<?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
 <div class="com-content-archive archive">
 <?php if ($this->params->get('show_page_heading')) : ?>
     <div class="page-header">

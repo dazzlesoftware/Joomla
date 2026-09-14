@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\Component\Codex\Site\View\Category\HtmlView $this */
@@ -34,6 +35,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 
 $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 ?>
+<?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
 <div class="com-codex-category-blog blog">
     <?php if ($this->params->get('show_page_heading')) : ?>
         <div class="page-header">

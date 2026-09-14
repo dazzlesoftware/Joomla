@@ -308,6 +308,19 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+
+			<field
+				name="show_postnav"
+				type="list"
+				label="COM_CODEX_SHOW_POSTNAV_LABEL"
+				description="COM_CODEX_SHOW_POSTNAV_DESC"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 		</fieldset>
 
 	</fields>

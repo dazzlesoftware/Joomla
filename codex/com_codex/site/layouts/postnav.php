@@ -4,23 +4,49 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 $family = 'codex';
 $app = Factory::getApplication();
 $currentView = $app->getInput()->getCmd('view', 'featured');
 
+// $displayData carries the merged (menu + global) params from the calling
+// template, when one was passed in. Fall back to the global component
+// params so the layout still works when called without display data.
+$menuParams = null;
+if (is_array($displayData) && isset($displayData['params']) && $displayData['params'] instanceof Registry) {
+    $menuParams = $displayData['params'];
+} elseif (is_object($displayData) && isset($displayData->params) && $displayData->params instanceof Registry) {
+    $menuParams = $displayData->params;
+}
+
+$globalParams = ComponentHelper::getParams('com_' . $family);
+$showPostnav = $menuParams
+    ? (int) $menuParams->get('show_postnav', $globalParams->get('show_postnav', 1))
+    : (int) $globalParams->get('show_postnav', 1);
+
+if (!$showPostnav) {
+    return;
+}
+
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->useStyle('fontawesome');
+
 $links = [
-    'featured'   => 'Home',
     'categories' => 'Categories',
+    'tags'       => 'Tags',
+    'authors'    => 'Authors',
     'archive'    => 'Archives',
 ];
 
 $navId = 'postnav-' . substr(md5(uniqid('postnav', true)), 0, 8);
 $subscribeModalId = $navId . '-subscribe';
 $subscribeFormId = $navId . '-subscribe-form';
-$params = ComponentHelper::getParams('com_' . $family);
+$loginModalId = $navId . '-login';
+$params = $globalParams;
 $subscribeHeading = (string) $params->get('subscribe_heading', 'Stay Informed');
 $subscribeText = (string) $params->get('subscribe_text', 'Subscribe for updates and new posts.');
 $subscribeButton = (string) $params->get('subscribe_button', 'Subscribe');
@@ -31,9 +57,9 @@ ob_start();
 ?>
 <p><?php echo nl2br(htmlspecialchars($subscribeText, ENT_QUOTES, 'UTF-8')); ?></p>
 <form id="<?php echo $subscribeFormId; ?>" method="post" action="<?php echo htmlspecialchars(Uri::base() . 'index.php?option=com_' . $family . '&task=engagement.subscribe', ENT_QUOTES, 'UTF-8'); ?>">
-    <label class="form-label" for="<?php echo $subscribeFormId; ?>-name">Name</label>
+    <label class="form-label" for="<?php echo $subscribeFormId; ?>-name">Fullname</label>
     <input id="<?php echo $subscribeFormId; ?>-name" class="form-control mb-3" name="name" autocomplete="name" required>
-    <label class="form-label" for="<?php echo $subscribeFormId; ?>-email">Email address</label>
+    <label class="form-label" for="<?php echo $subscribeFormId; ?>-email">E-mail</label>
     <input id="<?php echo $subscribeFormId; ?>-email" class="form-control mb-3" name="email" type="email" autocomplete="email" inputmode="email" required>
     <label class="form-check mb-3">
         <input class="form-check-input" type="checkbox" name="consent" value="1" required>
@@ -47,24 +73,48 @@ $subscribeModalBody = ob_get_clean();
 $subscribeModalFooter = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'
     . '<button type="submit" class="btn btn-primary" form="' . $subscribeFormId . '">'
     . htmlspecialchars($subscribeButton, ENT_QUOTES, 'UTF-8') . '</button>';
+
+// Render Joomla's real mod_login output (guest login form, or the logged-in
+// greeting/logout form when a user is already signed in). This gives us a
+// fully functional login that honours whatever authentication plugins,
+// two-factor buttons, and remember-me behaviour the site has configured.
+// Note: core Joomla's login form has no built-in CAPTCHA field - CAPTCHA in
+// core only appears on the registration/forgot-password forms - so none
+// will appear here unless a plugin adds one to mod_login's layout.
+$loginModule = clone ModuleHelper::getModule('mod_login');
+// mod_login's own layout builds HTML ids from $module->id (e.g.
+// "login-form-16"). If the site also has a Login module assigned to a
+// template position, rendering the real module object a second time here
+// would duplicate those ids on the page. Give this copy a distinct,
+// non-persisted id so the modal's markup stays unique.
+$loginModule->id = 'postnav-' . ($loginModule->id ?: 0);
+ob_start();
+echo ModuleHelper::renderModule($loginModule, ['style' => 'none']);
+$loginModalBody = ob_get_clean();
+$isGuest = $app->getIdentity()->guest;
 ?>
 <nav class="postnav d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom" aria-label="Post navigation">
     <div class="postnav-links d-flex align-items-center flex-wrap gap-1">
-        <a class="postnav-link postnav-home<?php echo $currentView === 'featured' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=featured'); ?>" aria-label="Home" title="Home">
-            <svg class="postnav-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3.2 3 10.5V21h6v-6h6v6h6V10.5L12 3.2Z"/></svg>
+        <a class="postnav-link postnav-icon-link<?php echo $currentView === 'featured' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=featured'); ?>" aria-label="Home" title="Home">
+            <i class="fa-solid fa-house" aria-hidden="true"></i>
         </a>
         <a class="postnav-link<?php echo $currentView === 'categories' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=categories'); ?>"><?php echo $links['categories']; ?></a>
-        <a class="postnav-link" href="<?php echo Route::_('index.php?option=com_codex&view=tags'); ?>">Tags</a>
+        <a class="postnav-link<?php echo $currentView === 'tags' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=tags'); ?>"><?php echo $links['tags']; ?></a>
+        <a class="postnav-link<?php echo $currentView === 'authors' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=authors'); ?>"><?php echo $links['authors']; ?></a>
         <a class="postnav-link<?php echo $currentView === 'archive' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=archive'); ?>"><?php echo $links['archive']; ?></a>
     </div>
     <div class="postnav-actions d-flex align-items-center gap-1">
         <button type="button" class="postnav-icon-btn" data-postnav-search-toggle="<?php echo $navId; ?>" aria-expanded="false" aria-controls="<?php echo $navId; ?>-search" title="Search">
-            <svg class="postnav-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M10 4a6 6 0 1 0 3.75 10.66l4.3 4.29 1.4-1.41-4.29-4.3A6 6 0 0 0 10 4Zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/></svg>
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
             <span class="visually-hidden">Search</span>
         </button>
         <button type="button" class="postnav-icon-btn" data-bs-toggle="modal" data-bs-target="#<?php echo $subscribeModalId; ?>" title="Subscribe by email" aria-controls="<?php echo $subscribeModalId; ?>">
-            <svg class="postnav-svg" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383z"/></svg>
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
             <span class="visually-hidden">Subscribe by email</span>
+        </button>
+        <button type="button" class="postnav-icon-btn" data-bs-toggle="modal" data-bs-target="#<?php echo $loginModalId; ?>" title="<?php echo $isGuest ? 'Sign in' : 'Account'; ?>" aria-controls="<?php echo $loginModalId; ?>">
+            <i class="fa-solid fa-user" aria-hidden="true"></i>
+            <span class="visually-hidden"><?php echo $isGuest ? 'Sign in' : 'Account'; ?></span>
         </button>
     </div>
     <form id="<?php echo $navId; ?>-search" class="postnav-search-box w-100 d-none mt-2" method="get" action="<?php echo Route::_('index.php?option=com_finder&view=search'); ?>">
@@ -81,12 +131,18 @@ echo HTMLHelper::_('bootstrap.renderModal', $subscribeModalId, [
     'modalCss'    => 'modal-dialog modal-dialog-centered',
     'footer'      => $subscribeModalFooter,
 ], $subscribeModalBody);
+
+echo HTMLHelper::_('bootstrap.renderModal', $loginModalId, [
+    'title'       => $isGuest ? 'Sign in to your account' : 'Your account',
+    'closeButton' => true,
+    'modalCss'    => 'modal-dialog modal-dialog-centered',
+], $loginModalBody);
 ?>
 <style>
 .postnav-link{display:inline-flex;align-items:center;padding:.4rem .65rem;border-radius:.375rem;color:var(--bs-body-color,#212529);text-decoration:none;font-weight:500;line-height:1}
 .postnav-link:hover{background:rgba(0,0,0,.06);text-decoration:none}
 .postnav-link.active{background:#e7e9fb;color:#2b2f77}
-.postnav-home svg{display:block}
+.postnav-icon-link{width:2.25rem;height:2.25rem;justify-content:center;padding:0}
 .postnav-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:.375rem;border:0;background:transparent;color:inherit;text-decoration:none;cursor:pointer;transition:background-color .15s ease,transform .15s ease}
 .postnav-icon-btn:hover{background:rgba(0,0,0,.08);transform:translateY(-1px)}
 .postnav-icon-btn:focus-visible{outline:2px solid #2b2f77;outline-offset:2px}

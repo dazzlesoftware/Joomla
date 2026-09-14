@@ -6,6 +6,7 @@ use Joomla\Component\Codex\Site\Helper\RouteHelper;
 
 $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 ?>
+<?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
 <div class="com-codex-tags">
 <h1><?php echo $escape($this->tag->title ?? 'Tags'); ?></h1>
 <?php if ($this->tag) : ?>

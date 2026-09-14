@@ -7,6 +7,7 @@ use Joomla\CMS\Uri\Uri;
 
 $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 ?>
+<?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
 <div class="com-codex-category">
     <h1><?php echo $escape($this->category->title); ?></h1>
 

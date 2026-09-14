@@ -9,15 +9,18 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 
 final class HtmlView extends BaseHtmlView
 {
     public ?object $author = null;
     public array $posts = [];
+    public ?Registry $params = null;
 
     public function display($tpl = null): void
     {
         $app = Factory::getApplication();
+        $this->params = $app->getParams();
         $authorId = $app->getInput()->getInt('id');
 
         if ($authorId < 1) {
