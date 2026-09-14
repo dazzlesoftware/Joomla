@@ -111,7 +111,7 @@ class Icon
             $tooltip      = Text::sprintf('COM_BLOG_CHECKED_OUT_BY', $checkoutUser->name)
                 . ' <br> ' . $date;
 
-            $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['post' => $post, 'tooltip' => $tooltip, 'legacy' => $legacy]);
+            $text = LayoutHelper::render('blog.content.icons.edit_lock', ['post' => $post, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editpost-' . (int) $post->id;
             $output                      = HTMLHelper::_('link', '#', $text, $attribs);
@@ -128,7 +128,7 @@ class Icon
             $tooltip = Text::_('COM_BLOG_EDIT_PUBLISHED_POST');
         }
 
-        $text = LayoutHelper::render('joomla.content.icons.edit', ['post' => $post, 'tooltip' => $tooltip, 'legacy' => $legacy]);
+        $text = LayoutHelper::render('blog.content.icons.edit', ['post' => $post, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
         $attribs['aria-describedby'] = 'editpost-' . (int) $post->id;
         $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);

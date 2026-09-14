@@ -23,7 +23,6 @@ use Joomla\Component\Codex\Site\Helper\RouteHelper;
 $params = $this->item->params;
 $listStyle = $params->get('list_item_style', 'standard');
 $canEdit = $this->item->params->get('access-edit');
-$info    = $params->get('info_block_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
@@ -39,13 +38,13 @@ $featuredImages = json_decode((string) ($this->item->media ?? '{}'));
 if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->featured_image)) {
     echo LayoutHelper::render('postlist.card.placeholder', $this->item, JPATH_COMPONENT . '/layouts');
 } else {
-    echo LayoutHelper::render('joomla.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts');
+    echo LayoutHelper::render('codex.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts');
 }
 ?>
 
 <?php if ($listStyle === 'learning') : ?>
 <div class="item-content learning-item-content">
-    <?php echo LayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo LayoutHelper::render('codex.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
     <?php echo LayoutHelper::render('postlist.learning.details', $this->item, JPATH_COMPONENT . '/layouts'); ?>
 </div>
 <?php else : ?>
@@ -55,20 +54,20 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
         <div class="system-unpublished">
     <?php endif; ?>
 
-    <?php echo LayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo LayoutHelper::render('codex.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
 
     <?php if ($canEdit) : ?>
-        <?php echo LayoutHelper::render('joomla.content.icons', ['params' => $params, 'item' => $this->item], JPATH_COMPONENT . '/layouts'); ?>
+        <?php echo LayoutHelper::render('codex.content.icons', ['params' => $params, 'item' => $this->item], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
 
     <?php // @todo Not that elegant would be nice to group the params?>
     <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
         || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
-    <?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
-        <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
+    <?php if ($useDefList) : ?>
+        <?php echo LayoutHelper::render('codex.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
-    <?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+    <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
         <?php echo LayoutHelper::render('posttags', $this->item->tags->itemTags, JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
 
@@ -82,15 +81,6 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 
     <?php echo $this->item->summary; ?>
 
-    <?php if ($info == 1 || $info == 2) : ?>
-        <?php if ($useDefList) : ?>
-            <?php echo LayoutHelper::render('joomla.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'below'], JPATH_COMPONENT . '/layouts'); ?>
-        <?php endif; ?>
-        <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-            <?php echo LayoutHelper::render('posttags', $this->item->tags->itemTags, JPATH_COMPONENT . '/layouts'); ?>
-        <?php endif; ?>
-    <?php endif; ?>
-
     <?php if ($params->get('show_readmore') && $this->item->readmore) :
         if ($params->get('access-view')) :
             $link = Route::_(RouteHelper::getPostRoute($this->item->slug, $this->item->catid, $this->item->language));
@@ -102,7 +92,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
             $link->setVar('return', base64_encode(RouteHelper::getPostRoute($this->item->slug, $this->item->catid, $this->item->language)));
         endif; ?>
 
-        <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $this->item, 'params' => $params, 'link' => $link]); ?>
+        <?php echo LayoutHelper::render('codex.content.readmore', ['item' => $this->item, 'params' => $params, 'link' => $link]); ?>
 
     <?php endif; ?>
 

@@ -138,21 +138,6 @@
 			</field>
 
 			<field
-				name="info_block_position"
-				type="list"
-				label="COM_BLOG_FIELD_INFOBLOCK_POSITION_LABEL"
-				default=""
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
-				<option value="0">COM_BLOG_FIELD_OPTION_ABOVE</option>
-				<option value="1">COM_BLOG_FIELD_OPTION_BELOW</option>
-				<option value="2">COM_BLOG_FIELD_OPTION_SPLIT</option>
-			</field>
-
-			<field
 				name="info_block_show_title"
 				type="list"
 				label="COM_BLOG_FIELD_INFOBLOCK_TITLE_LABEL"

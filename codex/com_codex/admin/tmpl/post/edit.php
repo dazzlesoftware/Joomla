@@ -139,14 +139,14 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                     <div class="post-editor-panel-body form-vertical">
                         <?php echo $this->form->renderField('alias'); ?>
                         <?php $this->fields = ['access', 'language']; ?>
-                        <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+                        <?php echo LayoutHelper::render('codex.edit.global', $this); ?>
                     </div>
                 </details>
                 <details class="post-editor-panel" open>
                     <summary><?php echo Text::_('COM_CODEX_EDITOR_PUBLISH'); ?></summary>
                     <div class="post-editor-panel-body">
                         <?php $this->fields = ['transition', ['published', 'state', 'enabled'], ['category', 'catid'], 'featured', 'tags']; ?>
-                        <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+                        <?php echo LayoutHelper::render('codex.edit.global', $this); ?>
                     </div>
                 </details>
                 <?php if ($params->get('show_urls_images_backend') == 1) : ?>
@@ -170,7 +170,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                     <summary><?php echo Text::_('COM_CODEX_EDITOR_NOTES'); ?></summary>
                     <div class="post-editor-panel-body">
                         <?php $this->fields = ['note', 'version_note']; ?>
-                        <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+                        <?php echo LayoutHelper::render('codex.edit.global', $this); ?>
                         <?php unset($this->fields); ?>
                     </div>
                 </details>
@@ -180,7 +180,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
         <summary><?php echo Text::_('COM_CODEX_EDITOR_ADVANCED'); ?><span><?php echo Text::_('COM_CODEX_EDITOR_ADVANCED_HINT'); ?></span></summary>
         <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['recall' => true, 'breakpoint' => 768]); ?>
-        <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+        <?php echo LayoutHelper::render('codex.edit.params', $this); ?>
 
         <?php // Do not show the publishing options if the edit form is configured not to.?>
         <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
@@ -190,7 +190,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                     <fieldset id="fieldset-publishingdata" class="options-form">
                         <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                         <div>
-                        <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+                        <?php echo LayoutHelper::render('codex.edit.publishingdata', $this); ?>
                         </div>
                     </fieldset>
                 </div>
@@ -198,7 +198,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                     <fieldset id="fieldset-metadata" class="options-form">
                         <legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
                         <div>
-                        <?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+                        <?php echo LayoutHelper::render('codex.edit.metadata', $this); ?>
                         </div>
                     </fieldset>
                 </div>
@@ -211,12 +211,12 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
             <fieldset id="fieldset-associations" class="options-form">
             <legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
             <div>
-            <?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+            <?php echo LayoutHelper::render('codex.edit.associations', $this); ?>
             </div>
             </fieldset>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php elseif ($isModal && $assoc) : ?>
-            <div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
+            <div class="hidden"><?php echo LayoutHelper::render('codex.edit.associations', $this); ?></div>
         <?php endif; ?>
 
         <?php if ($this->canDo->get('core.admin') && $params->get('show_configure_edit_options', 1) == 1) : ?>

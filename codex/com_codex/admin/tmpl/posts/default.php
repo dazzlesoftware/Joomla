@@ -81,7 +81,7 @@ $assoc = Associations::isEnabled();
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'featured']]);
+                echo LayoutHelper::render('codex.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'featured']]);
 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -354,7 +354,7 @@ $assoc = Associations::isEnabled();
                                 <?php endif; ?>
                                 <?php if (Multilanguage::isEnabled()) : ?>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+                                        <?php echo LayoutHelper::render('codex.content.language', $item); ?>
                                     </td>
                                 <?php endif; ?>
                                 <td class="small d-none d-md-table-cell text-center">

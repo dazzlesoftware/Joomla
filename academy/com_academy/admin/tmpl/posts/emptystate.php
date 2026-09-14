@@ -29,4 +29,4 @@ if ($user->authorise('core.create', 'com_academy') || count($user->getAuthorised
     $displayData['createURL'] = 'index.php?option=com_academy&task=post.add';
 }
 
-echo LayoutHelper::render('joomla.content.emptystate', $displayData);
+echo LayoutHelper::render('academy.content.emptystate', $displayData);

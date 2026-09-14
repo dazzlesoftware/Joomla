@@ -52,7 +52,7 @@ if (!empty($editor)) {
 
     <form action="<?php echo Route::_('index.php?option=com_academy&view=posts&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
+        <?php echo LayoutHelper::render('academy.searchtools.default', ['view' => $this]); ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -149,7 +149,7 @@ if (!empty($editor)) {
                         </td>
                         <?php if ($multilang) : ?>
                             <td class="small">
-                                <?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+                                <?php echo LayoutHelper::render('academy.content.language', $item); ?>
                             </td>
                         <?php endif; ?>
                         <td class="small d-none d-md-table-cell">

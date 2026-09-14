@@ -29,4 +29,4 @@ if ($user->authorise('core.create', 'com_blog') || count($user->getAuthorisedCat
     $displayData['createURL'] = 'index.php?option=com_blog&task=post.add';
 }
 
-echo LayoutHelper::render('joomla.content.emptystate', $displayData);
+echo LayoutHelper::render('blog.content.emptystate', $displayData);

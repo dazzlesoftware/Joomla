@@ -98,7 +98,7 @@ class AdministratorService
                 }
             }
 
-            $html = LayoutHelper::render('joomla.content.associations', $items);
+            $html = LayoutHelper::render('codex.content.associations', $items);
         }
 
         return $html;

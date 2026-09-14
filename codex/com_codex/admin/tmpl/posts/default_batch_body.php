@@ -29,13 +29,13 @@ $user = $this->getCurrentUser();
         <?php if (Multilanguage::isEnabled()) : ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-                    <?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+                    <?php echo LayoutHelper::render('codex.html.batch.language', []); ?>
                 </div>
             </div>
         <?php endif; ?>
         <div class="form-group col-md-6">
             <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
+                <?php echo LayoutHelper::render('codex.html.batch.access', []); ?>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@ $user = $this->getCurrentUser();
         <?php if ($published >= 0) : ?>
         <div class="form-group col-md-6">
             <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => 'com_codex']); ?>
+                <?php echo LayoutHelper::render('codex.html.batch.item', ['extension' => 'com_codex']); ?>
             </div>
         </div>
         <?php endif; ?>
@@ -55,7 +55,7 @@ $user = $this->getCurrentUser();
         <?php if ($user->authorise('core.admin', 'com_codex') && $params->get('workflow_enabled')) : ?>
         <div class="form-group col-md-6">
             <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.workflowstage', ['extension' => 'com_codex']); ?>
+                <?php echo LayoutHelper::render('codex.html.batch.workflowstage', ['extension' => 'com_codex']); ?>
             </div>
         </div>
         <?php endif; ?>

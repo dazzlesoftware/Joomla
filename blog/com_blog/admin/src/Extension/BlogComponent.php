@@ -138,9 +138,10 @@ class BlogComponent extends MVCComponent implements
         // extension at once). Whichever of them claims that shared key second
         // crashes, since com_content's own boot() registers it unconditionally
         // with no $replace flag. Our own front-end templates instead render
-        // an override of the joomla.content.icons layout
-        // (site/layouts/joomla/content/icons.php) that calls this
-        // 'blogicon' service directly, so the shared key is never needed.
+        // our own blog.content.icons layout override
+        // (site/layouts/blog/content/icons.php, overriding core's
+        // joomla.content.icons) that calls this 'blogicon' service
+        // directly, so the shared key is never needed.
         $this->getRegistry()->register('blogicon', new Icon());
     }
 

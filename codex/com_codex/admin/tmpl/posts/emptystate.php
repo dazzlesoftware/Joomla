@@ -29,4 +29,4 @@ if ($user->authorise('core.create', 'com_codex') || count($user->getAuthorisedCa
     $displayData['createURL'] = 'index.php?option=com_codex&task=post.add';
 }
 
-echo LayoutHelper::render('joomla.content.emptystate', $displayData);
+echo LayoutHelper::render('codex.content.emptystate', $displayData);

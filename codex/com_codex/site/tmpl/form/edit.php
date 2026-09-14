@@ -72,7 +72,7 @@ if (!$params->exists('show_publishing_options')) {
                 <?php endif; ?>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-            <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+            <?php echo LayoutHelper::render('codex.edit.params', $this); ?>
 
             <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'options', Text::_('JOPTIONS')); ?>
                 <?php echo $this->form->renderField('transition'); ?>
