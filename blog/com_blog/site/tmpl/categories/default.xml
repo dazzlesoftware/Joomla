@@ -455,7 +455,7 @@
 
 			<field
 				name="post_layout"
-				type="componentlayout"
+				type="componentlayout" useglobal="true"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				class="form-select"

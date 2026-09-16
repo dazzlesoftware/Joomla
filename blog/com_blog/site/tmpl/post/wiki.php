@@ -1,0 +1,9 @@
+<?php
+defined('_JEXEC') or die;
+
+// Share the post shell so print, author, sharing and comment updates stay in sync.
+$isWikiLayout = true;
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()
+    ->registerAndUseStyle('com_blog.wiki', 'com_blog/wiki.css', ['version' => 'auto'])
+    ->registerAndUseScript('com_blog.wiki', 'com_blog/wiki.js', ['version' => 'auto'], ['defer' => true]);
+require __DIR__ . '/default.php';

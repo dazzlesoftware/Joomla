@@ -159,7 +159,7 @@
       </field>
     </fieldset>
     <fieldset name="post" label="COM_BLOG_ATTRIBS_FIELDSET_LABEL" addfieldprefix="Joomla\Component\Blog\Administrator\Field">
-      <field name="post_layout" type="componentlayout" label="JGLOBAL_FIELD_LAYOUT_LABEL" description="JGLOBAL_FIELD_LAYOUT_DESC" class="form-select" menuitems="true" extension="com_blog" view="post" />
+      <field name="post_layout" type="componentlayout" useglobal="true" label="JGLOBAL_FIELD_LAYOUT_LABEL" description="JGLOBAL_FIELD_LAYOUT_DESC" class="form-select" menuitems="true" extension="com_blog" view="post" />
       <field name="show_title" type="list" label="JGLOBAL_SHOW_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
         <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
         <option value="0">JHIDE</option>

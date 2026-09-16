@@ -175,6 +175,11 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        // Allow a Wiki preview without changing the saved post layout.
+        if ($app->getInput()->getCmd('layout') === 'wiki') {
+            $this->setLayout('wiki');
+        }
+
         $offset = (int) $this->state->get('list.offset');
 
         // Check the view access to the post (the model has already computed the values).
