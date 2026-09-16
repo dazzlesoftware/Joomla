@@ -19,6 +19,11 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\Component\Academy\Site\View\Category\HtmlView $this */
 
 $app = Factory::getApplication();
+$app->getDocument()->getWebAssetManager()->registerAndUseStyle('com_academy.post-list-styles', 'com_academy/post-list-styles.css', ['version' => 'auto']);
+$listStyle = (string) $this->params->get('list_item_style', 'standard');
+if (!in_array($listStyle, ['standard', 'card', 'learning', 'simple', 'nickel', 'compact'], true)) {
+    $listStyle = 'standard';
+}
 
 $this->category->text = $this->category->description;
 $app->triggerEvent('onContentPrepare', ['com_academy.categories', &$this->category, &$this->params, 0]);
@@ -75,7 +80,7 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if (!empty($this->lead_items)) : ?>
-        <div class="com-academy-category-blog__items blog-items items-leading">
+        <div class="com-academy-category-blog__items blog-items items-leading post-style-<?php echo $listStyle; ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
                 <div class="com-academy-category-blog__item blog-item">
                     <?php
@@ -92,7 +97,7 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         <?php if ((int) $this->params->get('num_columns') > 1) : ?>
             <?php $blogClass = ' columns-' . (int) $this->params->get('num_columns'); ?>
         <?php endif; ?>
-        <div class="com-academy-category-blog__items blog-items<?php echo $blogClass; ?>">
+        <div class="com-academy-category-blog__items blog-items post-style-<?php echo $listStyle; ?><?php echo $blogClass; ?>">
         <?php foreach ($this->intro_items as &$item) : ?>
             <div class="com-academy-category-blog__item blog-item">
                 <?php

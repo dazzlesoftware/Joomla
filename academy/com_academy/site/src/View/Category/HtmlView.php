@@ -53,7 +53,8 @@ final class HtmlView extends BaseHtmlView
             throw new \RuntimeException('Category not found', 404);
         }
 
-        $q = $db->createQuery()->select('p.*')->from('#__academy AS p')
+        $q = $db->createQuery()->select('p.*, u.name AS author')->from('#__academy AS p')
+            ->join('LEFT', '#__users AS u ON u.id = p.created_by')
             ->where('p.catid=' . (int) $id)
             ->where('p.state=1')
             ->whereIn('p.access', $user->getAuthorisedViewLevels())
@@ -73,13 +74,35 @@ final class HtmlView extends BaseHtmlView
             // Lets the featured_image layout fall back to the category's own
             // "Default Post Cover" when a post has no image of its own.
             $item->category_default_image = $this->category->default_image ?? '';
+            $item->category_title = $this->category->title;
+            $item->category_language = $this->category->language;
+            $item->parent_id = null;
+            $item->readmore = 0;
         }
 
         $limit = max(1, (int) $app->get('list_limit', 20));
         $start = $app->getInput()->getUint('limitstart', 0);
         $this->items = array_slice($all, $start, $limit);
         $this->pagination = new Pagination(count($all), $start, $limit);
-        $this->params = $app->getParams();
+        $this->params = clone $app->getParams();
+        $requestedLayout = $app->getInput()->getCmd('layout', '');
+        $layout = (string) $this->params->get('category_layout', '');
+        // Named style menu types are explicit; Blog/List can inherit the component setting.
+        if (in_array($requestedLayout, ['standard', 'card', 'learning', 'simple', 'nickel'], true)) {
+            $layout = $requestedLayout;
+        } elseif ($layout === '') {
+            $layout = $requestedLayout ?: 'default';
+        }
+        // Joomla componentlayout stores component selections as _:card, etc.
+        $layoutName = str_contains($layout, ':') ? substr($layout, strrpos($layout, ':') + 1) : $layout;
+        if (in_array($layoutName, ['default', 'blog', 'standard', 'card', 'learning', 'simple', 'nickel'], true)) {
+            $this->setLayout($layout);
+        }
+        foreach ($this->items as $item) {
+            $merged = clone $this->params;
+            $merged->merge($item->params);
+            $item->params = $merged;
+        }
 
         $this->enrichItems();
         $this->splitBlogGroups();

@@ -136,3 +136,17 @@ Run `build-family-installers.ps1` first — this script deploys whatever is curr
 .\build-family-installers.ps1
 .\deploy-to-test-site.ps1 -SiteRoot 'C:\wamp64\www\Joomla'
 ```
+
+## Category layout styles
+
+Choose List, Blog, Standard, Card, Learning, Simple, or Nickel under the component's
+Category Layouts settings. Category List and Category Blog menus offer a Category
+Layout selector with Use Global; selecting a named layout menu type is an explicit
+override. Card, Learning, Simple, Nickel, and Standard share the category blog shell
+and its pagination and post sublayouts.
+
+The former global List item style selector is retained only as a hidden compatibility
+value for saved configurations. Featured menus still offer Featured item style for
+independent featured-page styling. Category layouts and featured pages load the same
+`media/css/post-list-styles.css` file. The `site/layouts/postlist/` folders remain shared
+rendering helpers, not separate category layout selectors.

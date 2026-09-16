@@ -672,13 +672,7 @@
         <option value="6">6 Columns</option>
       </field>
       <field name="list_excerpt_length" type="number" default="400" filter="integer" min="0" label="COM_BLOG_LIST_EXCERPT_LENGTH_LABEL" description="COM_BLOG_LIST_EXCERPT_LENGTH_DESC" />
-      <field name="list_item_style" type="list" default="standard" label="COM_BLOG_LIST_ITEM_STYLE_LABEL">
-        <option value="standard">COM_BLOG_LIST_ITEM_STYLE_STANDARD</option>
-        <option value="card">COM_BLOG_LIST_ITEM_STYLE_CARD</option>
-        <option value="learning">COM_BLOG_LIST_ITEM_STYLE_LEARNING</option>
-        <option value="simple">COM_BLOG_LIST_ITEM_STYLE_SIMPLE</option>
-        <option value="nickel">COM_BLOG_LIST_ITEM_STYLE_NICKEL</option>
-      </field>
+      <field name="list_item_style" type="hidden" />
     </fieldset>
   </fields>
 </form>

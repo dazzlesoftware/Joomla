@@ -13,6 +13,7 @@
   </fields>
   <!-- Add fields to the parameters object for the layout. -->
   <fields name="params">
+    <fieldset name="category_layout_options" label="Category Layout"><field name="category_layout" type="componentlayout" class="form-select" label="JGLOBAL_FIELD_LAYOUT_LABEL" useglobal="true" extension="com_academy" view="category" /></fieldset>
     <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
       <field name="layout_type" type="hidden" default="blog" />
       <field name="show_category_title" type="list" label="JGLOBAL_SHOW_CATEGORY_TITLE" useglobal="true" class="form-select-color-state" validate="options">
@@ -62,13 +63,6 @@
       </field>
     </fieldset>
     <fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL" addfieldprefix="Joomla\Component\Academy\Administrator\Field">
-      <field name="list_item_style" type="list" label="COM_ACADEMY_LIST_ITEM_STYLE_LABEL" useglobal="true" validate="options">
-        <option value="standard">COM_ACADEMY_LIST_ITEM_STYLE_STANDARD</option>
-        <option value="card">COM_ACADEMY_LIST_ITEM_STYLE_CARD</option>
-        <option value="learning">COM_ACADEMY_LIST_ITEM_STYLE_LEARNING</option>
-        <option value="simple">COM_ACADEMY_LIST_ITEM_STYLE_SIMPLE</option>
-        <option value="nickel">COM_ACADEMY_LIST_ITEM_STYLE_NICKEL</option>
-      </field>
       <field name="columns_per_row" type="list" label="COM_ACADEMY_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
         <option value="2">2 Columns</option>
         <option value="3">3 Columns</option>

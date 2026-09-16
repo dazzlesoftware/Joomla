@@ -35,6 +35,7 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
+    <fieldset name="category_layout_options" label="Category Layout"><field name="category_layout" type="componentlayout" class="form-select" label="JGLOBAL_FIELD_LAYOUT_LABEL" useglobal="true" extension="com_academy" view="category" /></fieldset>
 		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 
 			<field
