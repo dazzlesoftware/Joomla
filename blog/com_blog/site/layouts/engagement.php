@@ -12,6 +12,10 @@ $postId = (int) ($displayData->id ?? 0);
 if (!$postId) {
     return;
 }
+Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
+Factory::getApplication()->getDocument()->getWebAssetManager()
+    ->registerAndUseScript('com_blog.share-popup', 'com_blog/share-popup.js', ['version' => 'auto'], ['defer' => true]);
+
 $params = ComponentHelper::getParams('com_' . $family);
 $url = Uri::getInstance()->toString();
 $title = (string) ($displayData->title ?? '');
@@ -29,18 +33,18 @@ $consentText = (string) $params->get('subscribe_consent', 'I agree to receive em
 <?php if ($params->get('engagement_ratings', 1)): ?>
 <form method="post" action="<?php echo htmlspecialchars(Uri::base().'index.php?option=com_'.$family.'&task=engagement.rate', ENT_QUOTES, 'UTF-8'); ?>" class="post-rating d-flex flex-wrap align-items-center gap-1 mb-3">
     <span class="me-2"><?php echo htmlspecialchars($ratingLabel, ENT_QUOTES, 'UTF-8'); ?></span>
-    <?php for ($star = 1; $star <= 5; $star++): ?><button class="btn btn-link text-warning fs-4 lh-1 p-1" type="submit" name="rating" value="<?php echo $star; ?>" aria-label="Rate <?php echo $star; ?> out of 5 stars">☆</button><?php endfor; ?>
-    <span class="badge bg-secondary ms-2" aria-live="polite"><?php echo $average; ?> / 5 · <?php echo $count; ?> vote<?php echo $count === 1 ? '' : 's'; ?></span>
+    <?php for ($star = 1; $star <= 5; $star++): ?><button class="btn btn-link text-warning fs-4 lh-1 p-1" type="submit" name="rating" value="<?php echo $star; ?>" aria-label="Rate <?php echo $star; ?> out of 5 stars">&#9734;</button><?php endfor; ?>
+    <span class="badge bg-secondary ms-2" aria-live="polite"><?php echo $average; ?> / 5 &middot; <?php echo $count; ?> vote<?php echo $count === 1 ? '' : 's'; ?></span>
     <input type="hidden" name="post_id" value="<?php echo $postId; ?>"><input type="hidden" name="return" value="<?php echo htmlspecialchars(base64_encode($url), ENT_QUOTES, 'UTF-8'); ?>"><?php echo HTMLHelper::_('form.token'); ?>
 </form>
 <?php endif; ?>
 <?php if ($params->get('engagement_sharing', 1)): ?>
 <nav class="post-sharing d-flex flex-wrap gap-2 mb-4" aria-label="Share this post">
-    <?php if ($params->get('share_facebook', 1)):?><a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode($url); ?>" aria-label="Share on Facebook">Facebook</a><?php endif;?>
-    <?php if ($params->get('share_x', 1)):?><a class="btn btn-dark" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=<?php echo rawurlencode($url); ?>&text=<?php echo rawurlencode($title); ?>" aria-label="Share on X">X</a><?php endif;?>
-    <?php if ($params->get('share_linkedin', 1)):?><a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo rawurlencode($url); ?>" aria-label="Share on LinkedIn">LinkedIn</a><?php endif;?>
-    <?php if ($params->get('share_pinterest', 1)):?><a class="btn btn-danger" target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=<?php echo rawurlencode($url); ?>&description=<?php echo rawurlencode($title); ?>" aria-label="Share on Pinterest">Pinterest</a><?php endif;?>
-    <?php if ($params->get('share_email', 1)):?><a class="btn btn-success" href="mailto:?subject=<?php echo rawurlencode($title); ?>&body=<?php echo rawurlencode($url); ?>" aria-label="Share by email">Email</a><?php endif;?>
+    <?php if ($params->get('share_facebook', 1)):?><a class="btn btn-primary" data-post-share-popup target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode($url); ?>" aria-label="Share on Facebook" title="Share on Facebook"><span class="fa-brands fa-facebook-f fa-fw" aria-hidden="true"></span></a><?php endif;?>
+    <?php if ($params->get('share_x', 1)):?><a class="btn btn-dark" data-post-share-popup target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?url=<?php echo rawurlencode($url); ?>&text=<?php echo rawurlencode($title); ?>" aria-label="Share on X" title="Share on X"><span class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></span></a><?php endif;?>
+    <?php if ($params->get('share_linkedin', 1)):?><a class="btn btn-primary" data-post-share-popup target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo rawurlencode($url); ?>" aria-label="Share on LinkedIn" title="Share on LinkedIn"><span class="fa-brands fa-linkedin-in fa-fw" aria-hidden="true"></span></a><?php endif;?>
+    <?php if ($params->get('share_pinterest', 1)):?><a class="btn btn-danger" data-post-share-popup target="_blank" rel="noopener noreferrer" href="https://pinterest.com/pin/create/button/?url=<?php echo rawurlencode($url); ?>&description=<?php echo rawurlencode($title); ?>" aria-label="Share on Pinterest" title="Share on Pinterest"><span class="fa-brands fa-pinterest-p fa-fw" aria-hidden="true"></span></a><?php endif;?>
+    <?php if ($params->get('share_email', 1)):?><a class="btn btn-success" href="mailto:?subject=<?php echo rawurlencode($title); ?>&body=<?php echo rawurlencode($url); ?>" aria-label="Share by email" title="Share by email"><span class="fa-solid fa-envelope fa-fw" aria-hidden="true"></span></a><?php endif;?>
 </nav>
 <?php endif; ?>
 <?php if ($params->get('engagement_subscribe', 1)): ?>

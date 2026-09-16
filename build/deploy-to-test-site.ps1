@@ -8,6 +8,14 @@ $dist = $DistRoot
 $site = $SiteRoot
 
 function Invoke-Robocopy([string]$src, [string]$dst, [string[]]$extraArgs = @()) {
+    $resolvedDestination = [IO.Path]::GetFullPath($dst)
+    $allowedRoot = [IO.Path]::GetFullPath($site).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+    if (-not $resolvedDestination.StartsWith($allowedRoot, [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Refusing to mirror outside test site: $resolvedDestination"
+    }
+    if (-not (Test-Path -LiteralPath $src -PathType Container)) {
+        throw "Deployment source missing: $src"
+    }
     $args = @($src, $dst, '/MIR', '/NFL', '/NDL', '/NJH', '/NJS', '/NP') + $extraArgs
     & robocopy @args | Out-Null
     if ($LASTEXITCODE -ge 8) { throw "robocopy failed ($LASTEXITCODE): $src -> $dst" }
@@ -82,4 +90,9 @@ foreach ($f in $families) {
     Write-Output "=== $title deployed ==="
 }
 
-Write-Output "=== All families deployed ==="
+# Shared plugins use the standard Joomla group/element directory layout.
+foreach ($relativePath in @('content/video', 'editors-xtd/video', 'user/genesisprofile')) {
+    Invoke-Robocopy "$dist/plugins/$relativePath" "$site/plugins/$relativePath"
+}
+
+Write-Output "=== All families and shared plugins deployed ==="
