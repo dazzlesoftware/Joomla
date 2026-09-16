@@ -15,7 +15,7 @@ final class HtmlView extends BaseHtmlView
     public $form;
 
     public array $sections = [
-        'general' => ['label' => 'General', 'icon' => 'cog', 'fieldsets' => ['postnav', 'integration_newsfeed', 'integration_sef', 'integration_customfields']],
+        'general' => ['label' => 'General', 'icon' => 'cog', 'fieldsets' => ['postnav', 'create_post_redirect', 'integration_newsfeed', 'integration_sef', 'integration_customfields']],
         'posts' => ['label' => 'Post Display', 'icon' => 'file-alt', 'fieldsets' => ['posts']],
         'editor' => ['label' => 'Editor & Authoring', 'icon' => 'edit', 'fieldsets' => ['block_editor', 'quote_settings', 'tab_settings', 'accordion_settings', 'column_settings', 'polls', 'poll_access', 'editinglayout']],
         'lists' => ['label' => 'Post Lists & Blog Layouts', 'icon' => 'list', 'fieldsets' => ['list_display', 'blog_default_parameters', 'list_default_parameters', 'shared']],

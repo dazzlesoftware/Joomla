@@ -34,6 +34,7 @@
 			<field
 				name="redirect_menuitem"
 				type="modal_menu"
+				addfieldprefix="Joomla\Component\Menus\Administrator\Field"
 				label="COM_CODEX_CREATE_POST_REDIRECTMENU_LABEL"
 				description="COM_CODEX_CREATE_POST_REDIRECTMENU_DESC"
 				>
@@ -55,6 +56,7 @@
 			<field
 				name="cancel_redirect_menuitem"
 				type="modal_menu"
+				addfieldprefix="Joomla\Component\Menus\Administrator\Field"
 				label="COM_CODEX_CREATE_POST_CANCEL_REDIRECT_MENU_LABEL"
 				description="COM_CODEX_CREATE_POST_CANCEL_REDIRECT_MENU_DESC"
 				showon="custom_cancel_redirect:1"

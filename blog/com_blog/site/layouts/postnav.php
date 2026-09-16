@@ -95,6 +95,24 @@ $user = $app->getIdentity();
 $isGuest = $user->guest;
 $canCreatePost = !$isGuest && $user->authorise('core.create', 'com_' . $family);
 
+// Without an Itemid, Joomla's SEF router has no menu item to build a
+// friendly path from and falls back to the raw "component/blog" URL
+// segment. Look up whichever menu item points at this component's
+// front-end submission form (if one exists) and attach its Itemid so the
+// link resolves through the site's normal SEF routing instead.
+$createPostUrl = 'index.php?option=com_' . $family . '&task=post.add';
+if ($canCreatePost) {
+    // Matched by parsed query, not an exact link string, since a menu item
+    // built through the admin UI may carry extra params (e.g. &layout=edit)
+    // that an exact-string lookup would miss.
+    foreach ($app->getMenu()->getItems('component_id', ComponentHelper::getComponent('com_' . $family)->id) as $menuItem) {
+        if (($menuItem->query['view'] ?? null) === 'form') {
+            $createPostUrl .= '&Itemid=' . $menuItem->id;
+            break;
+        }
+    }
+}
+
 // The subscribe/login modals work via HTMLHelper::_('bootstrap.renderModal', ...),
 // which loads the "bootstrap.modal" script itself. The account dropdown uses
 // plain data-bs-toggle="dropdown" markup instead, so its script has to be
@@ -123,7 +141,7 @@ if (!$isGuest) {
             <span class="visually-hidden">Subscribe by email</span>
         </button>
         <?php if ($canCreatePost) : ?>
-            <a class="postnav-icon-btn postnav-create-btn" href="<?php echo Route::_('index.php?option=com_' . $family . '&task=post.add'); ?>" title="Create Post">
+            <a class="postnav-icon-btn postnav-create-btn" href="<?php echo Route::_($createPostUrl); ?>" title="Create Post">
                 <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 <span class="visually-hidden">Create Post</span>
             </a>

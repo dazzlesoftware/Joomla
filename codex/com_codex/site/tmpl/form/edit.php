@@ -134,7 +134,7 @@ if (!$params->exists('show_publishing_options')) {
                     <?php echo Text::_('JSAVEASCOPY'); ?>
                 </button>
             <?php endif; ?>
-            <button type="button" class="btn btn-danger" data-submit-task="post.cancel">
+            <button type="submit" form="post-cancel-form" class="btn btn-danger">
                 <span class="icon-times" aria-hidden="true"></span>
                 <?php echo Text::_('JCANCEL'); ?>
             </button>
@@ -142,5 +142,15 @@ if (!$params->exists('show_publishing_options')) {
                 <?php echo $this->form->getInput('contenthistory'); ?>
             <?php endif; ?>
         </div>
+    </form>
+    <?php // Cancel is deliberately its own isolated form - no content fields, no
+    // required-field validation to fight past, no dependency on the shared
+    // Joomla.submitform()/data-submit-task JS mechanism. "novalidate" is a
+    // plain HTML attribute here, not something toggled by JS at click time. ?>
+    <form id="post-cancel-form" action="<?php echo Route::_('index.php'); ?>" method="post" novalidate>
+        <input type="hidden" name="option" value="com_codex">
+        <input type="hidden" name="task" value="post.cancel">
+        <input type="hidden" name="a_id" value="<?php echo (int) $this->item->id; ?>">
+        <?php echo HTMLHelper::_('form.token'); ?>
     </form>
 </div>

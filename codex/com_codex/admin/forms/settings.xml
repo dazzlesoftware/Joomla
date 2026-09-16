@@ -641,6 +641,20 @@
         <option value="1">JSHOW</option>
       </field>
     </fieldset>
+    <fieldset name="create_post_redirect" label="COM_CODEX_CREATE_POST_REDIRECT_SETTINGS" description="COM_CODEX_CREATE_POST_REDIRECT_SETTINGS_DESC">
+      <field name="default_post_redirect_type" type="list" label="COM_CODEX_DEFAULT_POST_REDIRECT_LABEL" description="COM_CODEX_DEFAULT_POST_REDIRECT_DESC" default="featured" class="form-select" validate="options">
+        <option value="featured">COM_CODEX_REDIRECT_OPTION_FEATURED</option>
+        <option value="archive">COM_CODEX_REDIRECT_OPTION_ARCHIVE</option>
+        <option value="categories">COM_CODEX_REDIRECT_OPTION_CATEGORIES</option>
+        <option value="category">COM_CODEX_REDIRECT_OPTION_CATEGORY</option>
+        <option value="tags">COM_CODEX_REDIRECT_OPTION_TAGS</option>
+        <option value="custom">COM_CODEX_REDIRECT_OPTION_CUSTOM</option>
+      </field>
+      <field name="default_post_redirect_category" type="postcategory" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_CHOOSE_CATEGORY_LABEL" showon="default_post_redirect_type:category" />
+      <field name="default_post_redirect_menuitem" type="modal_menu" addfieldprefix="Joomla\Component\Menus\Administrator\Field" label="COM_CODEX_DEFAULT_POST_REDIRECT_MENUITEM_LABEL" showon="default_post_redirect_type:custom">
+        <option value="">JNONE</option>
+      </field>
+    </fieldset>
     <fieldset name="list_display" label="COM_CODEX_LIST_DISPLAY_SETTINGS">
       <field name="post_listing_layout" type="list" default="rows" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL">
         <option value="rows">COM_CODEX_POST_LISTING_LAYOUT_ROWS</option>

@@ -11,6 +11,7 @@
 namespace Joomla\Component\Academy\Site\Controller;
 
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -322,10 +323,73 @@ class PostController extends FormController
         $return = $this->input->get('return', null, 'base64');
 
         if (empty($return) || !Uri::isInternal(base64_decode($return))) {
-            return Uri::base();
+            // No explicit return URL was passed (e.g. Cancel clicked from a
+            // menu item or the postnav "+" icon with no "return" param).
+            // Fall back to the site-wide default configured in the
+            // component's global Settings, rather than the bare Joomla site
+            // root, which isn't useful to a post author. A menu item's own
+            // Submission/Cancel Redirect (Page Display Options) always takes
+            // priority over this - callers only reach here once those have
+            // already been checked and found unset.
+            return Route::_($this->getDefaultRedirectLink(), false);
         }
 
         return base64_decode($return);
+    }
+
+    /**
+     * Build the link for the site-wide default post-submission/cancel
+     * redirect, configured in the component's global Settings.
+     *
+     * @return  string  A route-able "index.php?..." link.
+     */
+    private function getDefaultRedirectLink()
+    {
+        $params = ComponentHelper::getParams('com_academy');
+        $type   = (string) $params->get('default_post_redirect_type', 'featured');
+
+        switch ($type) {
+            case 'archive':
+                return 'index.php?option=com_academy&view=archive';
+
+            case 'categories':
+                return 'index.php?option=com_academy&view=categories';
+
+            case 'category':
+                $catId = (int) $params->get('default_post_redirect_category');
+
+                if ($catId > 0) {
+                    return 'index.php?option=com_academy&view=category&id=' . $catId;
+                }
+
+                // No category chosen - fall through to the component home
+                // rather than link to a category-less "Category Blog" page.
+                break;
+
+            case 'tags':
+                return 'index.php?option=com_academy&view=tags';
+
+            case 'custom':
+                $menuitemId = (int) $params->get('default_post_redirect_menuitem');
+
+                if ($menuitemId > 0) {
+                    $item = $this->app->getMenu()->getItem($menuitemId);
+
+                    if ($item) {
+                        $lang = Multilanguage::isEnabled() && $item->language != '*' ? '&lang=' . $item->language : '';
+
+                        return $item->link . $lang . '&Itemid=' . $menuitemId;
+                    }
+                }
+
+                break;
+
+            case 'featured':
+            default:
+                break;
+        }
+
+        return 'index.php?option=com_academy&view=featured';
     }
 
     /**
