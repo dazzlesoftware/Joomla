@@ -229,18 +229,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				name="list_show_date"
-				type="list"
-				label="JGLOBAL_SHOW_DATE_LABEL"
-				useglobal="true"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="created">JGLOBAL_CREATED</option>
-				<option value="modified">JGLOBAL_MODIFIED</option>
-				<option value="published">JPUBLISHED</option>
-			</field>
+
 
 			<field
 				name="date_format"
@@ -548,41 +537,12 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field
-				name="show_create_date"
-				type="list"
-				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+			<field name="show_date" type="list" useglobal="true" class="form-select" validate="options" label="Show Date" translate_label="false"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+      <field name="date_type" type="list" class="form-select" useglobal="true" label="Date Type" translate_label="false" validate="options"><option value="created">JGLOBAL_SHOW_CREATE_DATE_LABEL</option><option value="modified">JGLOBAL_SHOW_MODIFY_DATE_LABEL</option><option value="published">JGLOBAL_SHOW_PUBLISH_DATE_LABEL</option></field>
 
-			<field
-				name="show_modify_date"
-				type="list"
-				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
 
-			<field
-				name="show_publish_date"
-				type="list"
-				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+
+
 
 			<field
 				name="show_item_navigation"

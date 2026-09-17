@@ -70,7 +70,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
     <?php endif; ?>
 
     <?php // @todo Not that elegant would be nice to group the params?>
-    <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
+    <?php $useDefList = (\Joomla\Component\Academy\Site\Helper\DateHelper::options($params)[0]
         || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
     <?php if ($useDefList) : ?>

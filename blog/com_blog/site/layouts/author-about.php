@@ -62,7 +62,7 @@ $posts = $model->getItems();
                 <?php foreach ($posts as $post) : ?>
                     <li class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 border-top py-3">
                         <a href="<?php echo Route::_(RouteHelper::getPostRoute($post->id . ':' . $post->alias, $post->catid, $post->language)); ?>"><span class="fa-regular fa-file-lines text-muted me-2" aria-hidden="true"></span><?php echo $escape($post->title); ?></a>
-                        <time class="text-muted" datetime="<?php echo $escape(Factory::getDate($post->publish_up ?: $post->created)->toISO8601()); ?>"><?php echo HTMLHelper::_('date', $post->publish_up ?: $post->created, 'DATE_FORMAT_LC1'); ?></time>
+                        <?php echo \Joomla\Component\Blog\Site\Helper\DateHelper::render($post, $post->params ?? null, false); ?>
                     </li>
                 <?php endforeach; ?>
             </ul>

@@ -7,7 +7,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Blog\Site\Helper\RouteHelper;
 
 $item = $displayData;
-$date = $item->publish_up ?: $item->created;
+$date = \Joomla\Component\Blog\Site\Helper\DateHelper::value($item, $item->params ?? null);
 $category = trim((string) ($item->category_title ?? ''));
 ?>
 <footer class="post-card-footer d-flex align-items-end justify-content-between gap-3 border-top pt-3 mt-3 text-muted">

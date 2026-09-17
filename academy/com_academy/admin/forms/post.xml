@@ -114,18 +114,10 @@
         </field>
       </fieldset>
       <fieldset name="date" label="JDATE">
-        <field name="show_create_date" type="list" label="JGLOBAL_SHOW_CREATE_DATE_LABEL" useglobal="true" validate="options">
-          <option value="0">JHIDE</option>
-          <option value="1">JSHOW</option>
-        </field>
-        <field name="show_modify_date" type="list" label="JGLOBAL_SHOW_MODIFY_DATE_LABEL" useglobal="true" validate="options">
-          <option value="0">JHIDE</option>
-          <option value="1">JSHOW</option>
-        </field>
-        <field name="show_publish_date" type="list" label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL" useglobal="true" validate="options">
-          <option value="0">JHIDE</option>
-          <option value="1">JSHOW</option>
-        </field>
+        <field name="show_date" type="list" useglobal="true" class="form-select" validate="options" label="Show Date" translate_label="false"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+      <field name="date_type" type="list" class="form-select" useglobal="true" label="Date Type" translate_label="false" validate="options"><option value="created">JGLOBAL_SHOW_CREATE_DATE_LABEL</option><option value="modified">JGLOBAL_SHOW_MODIFY_DATE_LABEL</option><option value="published">JGLOBAL_SHOW_PUBLISH_DATE_LABEL</option></field>
+
+
       </fieldset>
       <fieldset name="other" label="COM_ACADEMY_OTHER_OPTIONS">
         <field name="show_item_navigation" type="list" label="COM_ACADEMY_SHOW_PAGINATION_LABEL" useglobal="true" validate="options">
@@ -185,36 +177,7 @@
       <field name="link_parent_category" type="hidden" label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL" />
       <field name="show_author" type="hidden" label="JGLOBAL_SHOW_AUTHOR_LABEL" />
       <field name="link_author" type="hidden" label="JGLOBAL_LINK_AUTHOR_LABEL" />
-      <field name="show_create_date" type="hidden" label="JGLOBAL_SHOW_CREATE_DATE_LABEL" />
-      <field name="show_modify_date" type="hidden" label="JGLOBAL_SHOW_MODIFY_DATE_LABEL" />
-      <field name="show_publish_date" type="hidden" label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL" />
-      <field name="show_item_navigation" type="hidden" label="COM_ACADEMY_SHOW_PAGINATION_LABEL" />
-      <field name="show_vote" type="hidden" label="JGLOBAL_SHOW_VOTE_LABEL" />
-      <field name="show_hits" type="hidden" label="JGLOBAL_SHOW_HITS_LABEL" />
-      <field name="show_noauth" type="hidden" label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL" description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC" />
-      <field name="show_postnav" type="hidden" label="COM_ACADEMY_SHOW_POSTNAV_LABEL" description="COM_ACADEMY_SHOW_POSTNAV_DESC" />
-      <field name="alternative_readmore" type="hidden" label="JFIELD_READMORE_LABEL" description="JFIELD_READMORE_DESC" />
-      <field name="post_layout" type="hidden" label="JFIELD_ALT_LAYOUT_LABEL" useglobal="true" extension="com_academy" view="post" />
-    </fieldset>
-  </fields>
-  <fields name="media" label="COM_ACADEMY_FIELD_IMAGE_OPTIONS">
-    <fieldset name="image-featured" label="COM_ACADEMY_FIELD_FEATURED_LABEL">
-      <field name="featured_image" type="media" label="COM_ACADEMY_FIELD_FEATURED_LABEL" schemes="http,https,ftp,ftps,data,file" validate="url" relative="true" />
-      <field name="featured_image_alt" type="text" label="COM_ACADEMY_FIELD_IMAGE_ALT_LABEL" />
-      <field name="featured_image_alt_empty" type="checkbox" label="COM_ACADEMY_FIELD_IMAGE_ALT_EMPTY_LABEL" description="COM_ACADEMY_FIELD_IMAGE_ALT_EMPTY_DESC" />
-      <field name="featured_image_class" type="text" label="COM_ACADEMY_FIELD_IMAGE_CLASS_LABEL" description="COM_ACADEMY_FIELD_IMAGE_CLASS_DESC" useglobal="true" validate="CssIdentifier" />
-      <field name="featured_image_caption" type="text" label="COM_ACADEMY_FIELD_IMAGE_CAPTION_LABEL" />
-    </fieldset>
-  </fields>
-  <fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-    <fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-      <field name="robots" type="list" label="JFIELD_METADATA_ROBOTS_LABEL" validate="options">
-        <option value="">JGLOBAL_USE_GLOBAL</option>
-        <option value="index, follow" />
-        <option value="noindex, follow" />
-        <option value="index, nofollow" />
-        <option value="noindex, nofollow" />
-      </field>
+      <field name="show_date" type="hidden" /><field name="date_type" type="hidden" />
       <field name="author" type="text" label="JAUTHOR" />
       <field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL" filter="string" cols="30" rows="2" />
     </fieldset>

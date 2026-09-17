@@ -127,7 +127,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                     <th scope="col" id="categorylist_header_title">
                         <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
                     </th>
-                    <?php if ($date = $this->params->get('list_show_date')) : ?>
+                    <?php if ($date = (\Joomla\Component\Academy\Site\Helper\DateHelper::options($this->params)[0] ? \Joomla\Component\Academy\Site\Helper\DateHelper::options($this->params)[1] : null)) : ?>
                         <th scope="col" id="categorylist_header_date">
                             <?php if ($date === 'created') : ?>
                                 <?php echo HTMLHelper::_('grid.sort', 'COM_ACADEMY_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
@@ -240,12 +240,12 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         </div>
                     <?php endif; ?>
                 </th>
-                <?php if ($this->params->get('list_show_date')) : ?>
+                <?php if (\Joomla\Component\Academy\Site\Helper\DateHelper::options($this->params)[0]) : ?>
                     <td class="list-date small">
                         <?php
                         echo HTMLHelper::_(
                             'date',
-                            $post->displayDate,
+                            \Joomla\Component\Academy\Site\Helper\DateHelper::value($post, $this->params),
                             $this->escape($this->params->get('date_format', Text::_('DATE_FORMAT_LC3')))
                         ); ?>
                     </td>

@@ -34,7 +34,11 @@ final class HtmlView extends BaseHtmlView
         $factory = Factory::getContainer()->get(FormFactoryInterface::class);
         $this->form = $factory->createForm('com_academy.settings', ['control' => 'jform']);
         $this->form->loadFile(JPATH_COMPONENT_ADMINISTRATOR . '/forms/settings.xml');
-        $this->form->bind(['params' => ComponentHelper::getParams('com_academy')->toArray()]);
+        $dateParams = clone ComponentHelper::getParams('com_academy');
+        [$showDate, $dateType] = \Joomla\Component\Academy\Site\Helper\DateHelper::options($dateParams);
+        $dateParams->set('show_date', (int) $showDate);
+        $dateParams->set('date_type', $dateType);
+        $this->form->bind(['params' => $dateParams->toArray()]);
 
         ToolbarHelper::title('Academy Settings', 'cog');
         ToolbarHelper::apply('settings.save');

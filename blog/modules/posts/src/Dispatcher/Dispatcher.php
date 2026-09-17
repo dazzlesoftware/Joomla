@@ -34,7 +34,7 @@ final class Dispatcher extends AbstractModuleDispatcher
         } elseif ($mode === 'tagssimilar') {
             $input = Factory::getApplication()->getInput();
             if ($input->getCmd('option') === 'com_blog' && $input->getCmd('view') === 'post' && ($current = $input->getInt('id'))) {
-                $q = $db->createQuery()->select(['p.id','p.title','p.alias','p.catid','COUNT(DISTINCT other.tag_id) AS count'])->from('#__blog_tag_map AS current')->join('INNER', '#__blog_tag_map AS other ON other.tag_id=current.tag_id AND other.type_alias='.$db->quote('com_blog.post'))->join('INNER', '#__blog_tags AS t ON t.id=current.tag_id')->join('INNER', '#__blog AS p ON p.id=other.content_item_id')->where('current.type_alias='.$db->quote('com_blog.post'))->where('current.content_item_id='.$current)->where('t.published=1')->whereIn('t.access', $groups)->where('t.language IN ('.$db->quote('*').','.$db->quote(Factory::getApplication()->getLanguage()->getTag()).')')->where('p.id<>'.$current)->where('p.state=1')->whereIn('p.access', $groups)->where('(p.publish_up IS NULL OR p.publish_up <= UTC_TIMESTAMP())')->where('(p.publish_down IS NULL OR p.publish_down >= UTC_TIMESTAMP())')->where('EXISTS (SELECT 1 FROM #__blog_categories c WHERE c.id=p.catid AND c.published=1 AND c.access IN ('.implode(',', $groups).'))')->group(['p.id','p.title','p.alias','p.catid'])->order('count DESC');
+                $q = $db->createQuery()->select(['p.id','p.title','p.alias','p.catid','p.created','p.modified','p.publish_up','COUNT(DISTINCT other.tag_id) AS count'])->from('#__blog_tag_map AS current')->join('INNER', '#__blog_tag_map AS other ON other.tag_id=current.tag_id AND other.type_alias='.$db->quote('com_blog.post'))->join('INNER', '#__blog_tags AS t ON t.id=current.tag_id')->join('INNER', '#__blog AS p ON p.id=other.content_item_id')->where('current.type_alias='.$db->quote('com_blog.post'))->where('current.content_item_id='.$current)->where('t.published=1')->whereIn('t.access', $groups)->where('t.language IN ('.$db->quote('*').','.$db->quote(Factory::getApplication()->getLanguage()->getTag()).')')->where('p.id<>'.$current)->where('p.state=1')->whereIn('p.access', $groups)->where('(p.publish_up IS NULL OR p.publish_up <= UTC_TIMESTAMP())')->where('(p.publish_down IS NULL OR p.publish_down >= UTC_TIMESTAMP())')->where('EXISTS (SELECT 1 FROM #__blog_categories c WHERE c.id=p.catid AND c.published=1 AND c.access IN ('.implode(',', $groups).'))')->group(['p.id','p.title','p.alias','p.catid','p.created','p.modified','p.publish_up'])->order('count DESC');
                 $items = $db->setQuery($q, 0, $limit)->loadObjectList();
                 foreach ($items as $item) {
                     $item->link = Route::_('index.php?option=com_blog&view=post&id='.$item->id.':'.$item->alias.'&catid='.$item->catid);
@@ -48,7 +48,7 @@ final class Dispatcher extends AbstractModuleDispatcher
                 $item->link = Route::_('index.php?option=com_blog&view=archive&year='.$item->year.'&month='.$item->month);
             }
         } else {
-            $q = $db->createQuery()->select(['p.id','p.title','p.alias','p.catid','p.summary','p.created','p.hits'])->from('#__blog AS p')->where('p.state=1')->whereIn('p.access', $groups);
+            $q = $db->createQuery()->select(['p.id','p.title','p.alias','p.catid','p.summary','p.created','p.modified','p.publish_up','p.hits'])->from('#__blog AS p')->where('p.state=1')->whereIn('p.access', $groups);
             $catids = array_values(array_filter(array_map('intval', (array)$params->get('catid', []))));
             if ($catids) {
                 $q->whereIn('p.catid', $catids);
@@ -63,6 +63,13 @@ final class Dispatcher extends AbstractModuleDispatcher
                 $item->link = Route::_('index.php?option=com_blog&view=post&id='.$item->id.':'.$item->alias.'&catid='.$item->catid);
             }
         }
+        Factory::getApplication()->bootComponent('com_blog');
+        $dateParams = clone \Joomla\CMS\Component\ComponentHelper::getParams('com_blog');
+        foreach (['show_date', 'date_type'] as $key) {
+            $value = $params->get($key);
+            if ($value !== null && $value !== '') { $dateParams->set($key, $value); }
+        }
+        $data['dateParams'] = $dateParams;
         $data['list'] = $items;
         $data['mode'] = $mode;
         return$data;

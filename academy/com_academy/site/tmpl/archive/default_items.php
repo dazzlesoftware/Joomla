@@ -36,7 +36,7 @@ $params = $this->params;
                 <?php echo $item->event->afterDisplayTitle; ?>
 
             </div>
-        <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
+        <?php $useDefList = (\Joomla\Component\Academy\Site\Helper\DateHelper::options($params)[0]
             || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
         <?php if ($useDefList) : ?>
             <?php echo LayoutHelper::render('academy.content.info_block', ['item' => $item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>

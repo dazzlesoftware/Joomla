@@ -731,20 +731,7 @@ class PostsModel extends ListModel
             }
 
             // Get display date
-            switch ($item->params->get('list_show_date')) {
-                case 'modified':
-                    $item->displayDate = $item->modified;
-                    break;
-
-                case 'published':
-                    $item->displayDate = ($item->publish_up == 0) ? $item->created : $item->publish_up;
-                    break;
-
-                default:
-                case 'created':
-                    $item->displayDate = $item->created;
-                    break;
-            }
+            $item->displayDate = \Joomla\Component\Academy\Site\Helper\DateHelper::value($item, $item->params);
 
             /**
              * Compute the asset access permissions.

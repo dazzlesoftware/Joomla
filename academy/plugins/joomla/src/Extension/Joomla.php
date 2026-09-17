@@ -514,13 +514,10 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $schema['postSection'] = implode(', ', $categories);
         }
 
-        // Dates
-        if ($post->params->get('show_publish_date')) {
-            $schema['dateCreated'] = Factory::getDate($post->created)->toISO8601();
-        }
-
-        if ($post->params->get('show_modify_date')) {
-            $schema['dateModified'] = Factory::getDate($post->modified)->toISO8601();
+        // Structured dates follow the selected public date without changing its meaning.
+        if ($dateValue = \Joomla\Component\Academy\Site\Helper\DateHelper::value($post, $post->params)) {
+            [, $dateType] = \Joomla\Component\Academy\Site\Helper\DateHelper::options($post->params);
+            $schema[['created' => 'dateCreated', 'modified' => 'dateModified', 'published' => 'datePublished'][$dateType]] = Factory::getDate($dateValue)->toISO8601();
         }
 
         // Hits

@@ -21,7 +21,7 @@ $avatarItem = (object) ['created_by' => $this->author->id];
         <?php foreach ($this->posts as $post) : ?>
             <article class="author-profile-post py-3 border-top">
                 <h2 class="h4"><a href="<?php echo Route::_(RouteHelper::getPostRoute($post->id . ':' . $post->alias, $post->catid, $post->language)); ?>"><?php echo $this->escape($post->title); ?></a></h2>
-                <time class="text-muted small" datetime="<?php echo $this->escape($post->publish_up ?: $post->created); ?>"><?php echo $this->escape($post->publish_up ?: $post->created); ?></time>
+                <?php echo \Joomla\Component\Blog\Site\Helper\DateHelper::render($post, $post->params ?? null, false); ?>
                 <?php if ($post->summary !== '') : ?><div class="mt-2"><?php echo $post->summary; ?></div><?php endif; ?>
             </article>
         <?php endforeach; ?>

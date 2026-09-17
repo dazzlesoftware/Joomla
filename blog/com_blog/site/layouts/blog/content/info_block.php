@@ -50,16 +50,8 @@ use Joomla\CMS\Language\Text;
         <?php echo $this->sublayout('associations', $displayData); ?>
     <?php endif; ?>
 
-    <?php if ($displayData['params']->get('show_publish_date')) : ?>
-        <?php echo $this->sublayout('publish_date', $displayData); ?>
-    <?php endif; ?>
-
-    <?php if ($displayData['params']->get('show_create_date')) : ?>
-        <?php echo $this->sublayout('create_date', $displayData); ?>
-    <?php endif; ?>
-
-    <?php if ($displayData['params']->get('show_modify_date')) : ?>
-        <?php echo $this->sublayout('modify_date', $displayData); ?>
+    <?php if ($dateHtml = \Joomla\Component\Blog\Site\Helper\DateHelper::render($displayData['item'], $displayData['params'])) : ?>
+        <dd class="date"><span class="fa-solid fa-calendar me-1" aria-hidden="true"></span><?php echo $dateHtml; ?></dd>
     <?php endif; ?>
 
     <?php if ($displayData['params']->get('show_hits')) : ?>
