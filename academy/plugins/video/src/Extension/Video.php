@@ -31,6 +31,7 @@ final class Video extends CMSPlugin implements SubscriberInterface
         }
 
         $wa = $this->getApplication()->getDocument()->getWebAssetManager();
+        $wa->useStyle('fontawesome');
         $assetName = 'editor-button.' . $this->_type . '_' . $this->_name;
 
         if (!$wa->assetExists('script', $assetName)) {
@@ -50,7 +51,7 @@ final class Video extends CMSPlugin implements SubscriberInterface
                 'action'  => 'insert-' . $this->_type . '-video',
                 'text'    => Text::_('PLG_' . strtoupper($this->_type) . '_VIDEO_BUTTON'),
                 'icon'    => 'play',
-                'iconSVG' => '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M4 2v28l24-14L4 2zm4 7l12 7-12 7V9z"></path></svg>',
+                'iconSVG' => '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M4 2v28l24-14L4 2zm4 7l12 7-12 7V9z"></path></svg>', 
                 'name'    => $this->_type . '_' . $this->_name,
             ]
         ));

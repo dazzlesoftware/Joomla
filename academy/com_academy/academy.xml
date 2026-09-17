@@ -34,6 +34,7 @@
       <menu link="option=com_academy&amp;view=autopostlogs">COM_ACADEMY_AUTOPOST_LOGS</menu>
       <menu link="option=com_academy&amp;view=categories&amp;extension=com_academy">JCATEGORIES</menu>
       <menu link="option=com_academy&amp;view=tags">JTAG</menu>
+      <menu link="option=com_academy&amp;view=votes">Votes</menu>
       <menu link="option=com_academy&amp;view=comments">COM_ACADEMY_COMMENTS_SETTINGS</menu>
       <menu link="option=com_academy&amp;view=polls">COM_ACADEMY_POLLS</menu>
       <menu type="heading" alias="academy-marketing-group">COM_ACADEMY_MARKETING_GROUP</menu>

@@ -46,8 +46,8 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $wa = $document->getWebAssetManager();
         $buttons = [
             'tabs' => ['Tabs', 'folder'], 'columns' => ['Columns', 'columns'],
-            'section' => ['Section', 'square'], 'accordion' => ['Accordion', 'arrow-down-4'],
-            'alert' => ['Alert', 'warning'], 'quote' => ['Quote', 'quote'], 'button' => ['Button', 'square'],
+            'section' => ['Section', 'window-maximize'], 'accordion' => ['Accordion', 'arrow-down-4'],
+            'alert' => ['Alert', 'warning'], 'quote' => ['Quote', 'quote'], 'button' => ['Button', 'hand-pointer'],
             'audio' => ['Audio', 'music'],
             'comparison' => ['Comparison', 'images'],
             'rule' => ['Rule', 'minus'], 'polls' => ['Poll', 'question'], 'embed' => ['Embed', 'share-alt'],
@@ -60,9 +60,29 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             }
             $event->getButtonsRegistry()->add(new Button($name, [
                 'action' => 'insert-' . self::FAMILY . '-' . $type,
-                'text' => $label, 'icon' => $icon, 'name' => $name,
+                'text' => $label, 'icon' => $icon, 'iconSVG' => self::editorIcon($type), 'name' => $name,
             ]));
         }
+    }
+
+    /** SVG is required for reliable icons in TinyMCE's CMS Content menu. */
+    private static function editorIcon(string $type): string
+    {
+        $shapes = [
+            'tabs' => '<path d="M3 8V4h6l2 4h10v12H3z"/><path d="M12 4h6v4"/>',
+            'columns' => '<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M9 4v16M15 4v16"/>',
+            'section' => '<rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 8h18"/>',
+            'accordion' => '<path d="M3 4h18M3 12h18M3 20h18M8 7l4 3 4-3M8 15l4 3 4-3"/>',
+            'alert' => '<path d="M12 3 2 21h20zM12 9v5M12 17v1"/>',
+            'quote' => '<path d="M4 6h6v7H5c0 3 2 4 4 4M14 6h6v7h-5c0 3 2 4 4 4"/>',
+            'button' => '<rect x="2" y="6" width="20" height="12" rx="3"/><path d="M7 12h10m-3-3 3 3-3 3"/>',
+            'audio' => '<path d="M10 17V5l10-2v12M10 8l10-2"/><ellipse cx="6" cy="18" rx="4" ry="3"/><ellipse cx="16" cy="16" rx="4" ry="3"/>',
+            'comparison' => '<rect x="3" y="4" width="18" height="16"/><path d="M12 2v20M6 12h3m6 0h3"/>',
+            'rule' => '<path d="M3 12h18"/>',
+            'polls' => '<path d="M3 3v18h18M7 17v-6h3v6M13 17V5h3v12M19 17V9h3v8"/>',
+            'embed' => '<path d="m8 5-6 7 6 7m8-14 6 7-6 7M14 3l-4 18"/>',
+        ];
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" style="fill:none;stroke:currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $shapes[$type] . '</svg>';
     }
 
     public function onContentPrepare(ContentPrepareEvent $event): void
@@ -891,7 +911,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         if (!$hasVoted) {
             $html .= '<form method="post" action="' . htmlspecialchars(Uri::base() . 'index.php?option=com_' . self::FAMILY . '&task=polls.vote', ENT_QUOTES, 'UTF-8') . '">';
             foreach ($options as $option) {
-                $html .= '<label class="d-block mb-2"><input type="'.$type.'" name="choice[]" value="'.(int)$option->id.'"> '.htmlspecialchars($option->title, ENT_QUOTES, 'UTF-8').'</label>';
+                $html .= '<label class="form-check mb-2"><input class="form-check-input" type="'.$type.'" name="choice[]" value="'.(int)$option->id.'"><span class="form-check-label">'.htmlspecialchars($option->title, ENT_QUOTES, 'UTF-8').'</span></label>';
             }
             return $html.'<input type="hidden" name="poll_id" value="'.$pollId.'"><input type="hidden" name="return" value="'.htmlspecialchars(base64_encode(Uri::getInstance()->toString()), ENT_QUOTES, 'UTF-8').'">'.HTMLHelper::_('form.token').'<button class="btn btn-primary" type="submit">Vote</button></form></section>';
         }

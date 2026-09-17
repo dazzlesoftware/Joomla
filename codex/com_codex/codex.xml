@@ -34,6 +34,7 @@
       <menu link="option=com_codex&amp;view=autopostlogs">COM_CODEX_AUTOPOST_LOGS</menu>
       <menu link="option=com_codex&amp;view=categories&amp;extension=com_codex">JCATEGORIES</menu>
       <menu link="option=com_codex&amp;view=tags">JTAG</menu>
+      <menu link="option=com_codex&amp;view=votes">Votes</menu>
       <menu link="option=com_codex&amp;view=comments">COM_CODEX_COMMENTS_SETTINGS</menu>
       <menu link="option=com_codex&amp;view=polls">COM_CODEX_POLLS</menu>
       <menu type="heading" alias="codex-marketing-group">COM_CODEX_MARKETING_GROUP</menu>

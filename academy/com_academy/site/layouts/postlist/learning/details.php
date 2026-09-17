@@ -7,8 +7,8 @@ use Joomla\Component\Academy\Site\Helper\RouteHelper;
 
 $item = $displayData;
 ?>
-<div class="learning-item-details">
-    <div class="learning-item-author">
+<div class="learning-item-details d-flex flex-column gap-2 text-muted small">
+    <div class="learning-item-author d-flex align-items-center gap-2">
         <?php echo LayoutHelper::render('postlist.learning.avatar', $item, JPATH_COMPONENT . '/layouts'); ?>
         <span><?php echo htmlspecialchars((string) ($item->author ?? ''), ENT_QUOTES, 'UTF-8'); ?></span>
     </div>

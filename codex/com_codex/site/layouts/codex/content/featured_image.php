@@ -30,6 +30,7 @@ if (empty($featuredImages->featured_image)) {
 
 $imageClass = empty($featuredImages->featured_image_class) ? $params->get('featured_image_class') : $featuredImages->featured_image_class;
 $layoutAttr = [
+    'class' => 'img-fluid w-100',
     'src' => $featuredImages->featured_image,
     'alt' => empty($featuredImages->featured_image_alt) && empty($featuredImages->featured_image_alt_empty) ? false : $featuredImages->featured_image_alt,
 ];

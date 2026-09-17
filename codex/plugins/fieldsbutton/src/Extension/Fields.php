@@ -94,6 +94,8 @@ final class Fields extends CMSPlugin implements SubscriberInterface
         $link = 'index.php?option=com_fields&view=fields&layout=modal&tmpl=component&context='
             . $context . '&editor=' . $name . '&' . Session::getFormToken() . '=1';
 
+        $this->getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
+
         $button = new Button(
             'fields',
             [

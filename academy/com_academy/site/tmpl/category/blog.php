@@ -80,9 +80,9 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if (!empty($this->lead_items)) : ?>
-        <div class="com-academy-category-blog__items blog-items items-leading post-style-<?php echo $listStyle; ?>">
+        <div class="com-academy-category-blog__items post-list-items items-leading row row-cols-1 g-4 mb-4 post-style-<?php echo $listStyle; ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
-                <div class="com-academy-category-blog__item blog-item">
+                <div class="com-academy-category-blog__item post-list-item col">
                     <?php
                     $this->item = &$item;
                 echo $this->loadTemplate('item');
@@ -93,13 +93,13 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if (!empty($this->intro_items)) : ?>
-        <?php $blogClass = ''; ?>
+        <?php $blogClass = ' row row-cols-1 g-4'; ?>
         <?php if ((int) $this->params->get('num_columns') > 1) : ?>
-            <?php $blogClass = ' columns-' . (int) $this->params->get('num_columns'); ?>
+            <?php $blogClass .= ' row-cols-md-' . max(1, min(6, (int) $this->params->get('num_columns'))); ?>
         <?php endif; ?>
-        <div class="com-academy-category-blog__items blog-items post-style-<?php echo $listStyle; ?><?php echo $blogClass; ?>">
+        <div class="com-academy-category-blog__items post-list-items post-style-<?php echo $listStyle; ?><?php echo $blogClass; ?>">
         <?php foreach ($this->intro_items as &$item) : ?>
-            <div class="com-academy-category-blog__item blog-item">
+            <div class="com-academy-category-blog__item post-list-item col">
                 <?php
                 $this->item = &$item;
             echo $this->loadTemplate('item');

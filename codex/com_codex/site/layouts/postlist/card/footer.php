@@ -10,8 +10,8 @@ $item = $displayData;
 $date = $item->publish_up ?: $item->created;
 $category = trim((string) ($item->category_title ?? ''));
 ?>
-<footer class="post-card-footer">
-    <div class="post-card-footer-details">
+<footer class="post-card-footer d-flex align-items-end justify-content-between gap-3 border-top pt-3 mt-3 text-muted">
+    <div class="post-card-footer-details d-flex flex-column gap-1 small">
         <?php if ($date) : ?>
             <time class="post-card-footer-date" datetime="<?php echo HTMLHelper::_('date', $date, 'c'); ?>">
                 <?php echo HTMLHelper::_('date', $date, 'l, d F Y'); ?>
@@ -23,7 +23,7 @@ $category = trim((string) ($item->category_title ?? ''));
             </span>
         <?php endif; ?>
     </div>
-    <span class="post-card-footer-author">
+    <span class="post-card-footer-author ms-auto">
         <?php echo LayoutHelper::render('postlist.card.avatar', $item, JPATH_COMPONENT . '/layouts'); ?>
     </span>
 </footer>

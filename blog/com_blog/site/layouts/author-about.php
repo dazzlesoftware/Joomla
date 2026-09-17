@@ -52,7 +52,7 @@ $posts = $model->getItems();
             <a href="<?php echo $profileUrl; ?>" class="text-reset" aria-label="View author profile" title="View author profile"><span class="fa-solid fa-user" aria-hidden="true"></span></a>
         </div>
     </div>
-    <div class="bg-light text-dark rounded p-3 p-md-4">
+    <div class="card card-body p-3 p-md-4">
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
             <h3 class="h4 mb-0">Author's recent posts</h3>
             <a href="<?php echo $profileUrl; ?>">More posts from author</a>

@@ -27,9 +27,9 @@ use Joomla\CMS\Layout\LayoutHelper;
     <?php endif; ?>
 
     <?php if (!empty($this->lead_items)) : ?>
-        <div class="blog-items items-leading post-style-<?php echo $this->params->get('list_item_style', 'standard'); ?> <?php echo $this->params->get('blog_class_leading'); ?>">
+        <div class="post-list-items items-leading row row-cols-1 g-4 mb-4 post-style-<?php echo $this->params->get('list_item_style', 'standard'); ?> <?php echo $this->params->get('blog_class_leading'); ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
-                <div class="blog-item">
+                <div class="post-list-item col">
                         <?php
                         $this->item = & $item;
                 echo $this->loadTemplate('item');
@@ -46,17 +46,13 @@ use Joomla\CMS\Layout\LayoutHelper;
         $columnsPerRow = max(2, min(6, (int) $this->params->get('columns_per_row', 2)));
         $postStyle = $this->params->get('list_item_style', 'standard'); ?>
         <?php if ($listingLayout === 'rows') {
-            $blogClass .= ' columns-1 post-listing-rows';
+            $blogClass .= ' row row-cols-1 g-4';
         } else {
-            $blogClass .= ' post-listing-columns post-listing-' . $columnStyle . ' columns-' . $columnsPerRow;
+            $blogClass .= $columnStyle === 'masonry' ? ' post-listing-masonry' : ' row row-cols-1 row-cols-md-' . $columnsPerRow . ' g-4';
         } $blogClass .= ' post-style-' . $postStyle; ?>
-        <?php if (false) : ?>
-            <?php $blogClass .= (int) $this->params->get('multi_column_order', 0) === 0 ? ' masonry-' : ' columns-'; ?>
-            <?php $blogClass .= (int) $this->params->get('num_columns'); ?>
-        <?php endif; ?>
-        <div class="blog-items <?php echo $blogClass; ?>" style="--post-listing-columns:<?php echo (int) $columnsPerRow; ?>">
+        <div class="post-list-items <?php echo $blogClass; ?>" style="--post-listing-columns:<?php echo (int) $columnsPerRow; ?>">
         <?php foreach ($this->intro_items as $key => &$item) : ?>
-            <div class="blog-item">
+            <div class="post-list-item col">
                     <?php
                     $this->item = & $item;
             echo $this->loadTemplate('item');

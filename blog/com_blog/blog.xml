@@ -34,6 +34,7 @@
       <menu link="option=com_blog&amp;view=autopostlogs">COM_BLOG_AUTOPOST_LOGS</menu>
       <menu link="option=com_blog&amp;view=categories&amp;extension=com_blog">JCATEGORIES</menu>
       <menu link="option=com_blog&amp;view=tags">JTAG</menu>
+      <menu link="option=com_blog&amp;view=votes">Votes</menu>
       <menu link="option=com_blog&amp;view=comments">COM_BLOG_COMMENTS_SETTINGS</menu>
       <menu link="option=com_blog&amp;view=polls">COM_BLOG_POLLS</menu>
       <menu type="heading" alias="blog-marketing-group">COM_BLOG_MARKETING_GROUP</menu>

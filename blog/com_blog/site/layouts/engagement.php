@@ -23,6 +23,7 @@ $db = Factory::getContainer()->get(DatabaseInterface::class);
 $rating = $db->setQuery($db->createQuery()->select(['rating_sum', 'rating_count'])->from('#__' . $family . '_rating')->where('content_id=' . $postId))->loadObject();
 $count = (int) ($rating->rating_count ?? 0);
 $average = $count ? round((int) $rating->rating_sum / $count, 1) : 0;
+$filledStars = $count ? (int) round((int) $rating->rating_sum / $count) : 0;
 $ratingLabel = (string) $params->get('rating_label', 'Rate this post:');
 $subscribeHeading = (string) $params->get('subscribe_heading', 'Stay Informed');
 $subscribeText = (string) $params->get('subscribe_text', 'Subscribe for updates and new posts.');
@@ -33,7 +34,7 @@ $consentText = (string) $params->get('subscribe_consent', 'I agree to receive em
 <?php if ($params->get('engagement_ratings', 1)): ?>
 <form method="post" action="<?php echo htmlspecialchars(Uri::base().'index.php?option=com_'.$family.'&task=engagement.rate', ENT_QUOTES, 'UTF-8'); ?>" class="post-rating d-flex flex-wrap align-items-center gap-1 mb-3">
     <span class="me-2"><?php echo htmlspecialchars($ratingLabel, ENT_QUOTES, 'UTF-8'); ?></span>
-    <?php for ($star = 1; $star <= 5; $star++): ?><button class="btn btn-link text-warning fs-4 lh-1 p-1" type="submit" name="rating" value="<?php echo $star; ?>" aria-label="Rate <?php echo $star; ?> out of 5 stars">&#9734;</button><?php endfor; ?>
+    <?php for ($star = 1; $star <= 5; $star++): ?><button class="btn btn-link text-warning text-decoration-none fs-4 lh-1 p-1" type="submit" name="rating" value="<?php echo $star; ?>" aria-label="Rate <?php echo $star; ?> out of 5 stars"><span class="<?php echo $star <= $filledStars ? 'fa-solid' : 'fa-regular'; ?> fa-star" aria-hidden="true"></span></button><?php endfor; ?>
     <span class="badge bg-secondary ms-2" aria-live="polite"><?php echo $average; ?> / 5 &middot; <?php echo $count; ?> vote<?php echo $count === 1 ? '' : 's'; ?></span>
     <input type="hidden" name="post_id" value="<?php echo $postId; ?>"><input type="hidden" name="return" value="<?php echo htmlspecialchars(base64_encode($url), ENT_QUOTES, 'UTF-8'); ?>"><?php echo HTMLHelper::_('form.token'); ?>
 </form>
@@ -48,7 +49,7 @@ $consentText = (string) $params->get('subscribe_consent', 'I agree to receive em
 </nav>
 <?php endif; ?>
 <?php if ($params->get('engagement_subscribe', 1)): ?>
-<div class="post-subscribe card card-body bg-light text-dark p-3 p-md-5"><div class="mx-auto w-100" style="max-width:650px"><h2 class="text-center"><?php echo htmlspecialchars($subscribeHeading, ENT_QUOTES, 'UTF-8'); ?></h2><p class="text-center"><?php echo nl2br(htmlspecialchars($subscribeText, ENT_QUOTES, 'UTF-8')); ?></p>
+<div class="post-subscribe card card-body p-3 p-md-5"><div class="mx-auto col-12 col-lg-8"><h2 class="text-center"><?php echo htmlspecialchars($subscribeHeading, ENT_QUOTES, 'UTF-8'); ?></h2><p class="text-center"><?php echo nl2br(htmlspecialchars($subscribeText, ENT_QUOTES, 'UTF-8')); ?></p>
 <form method="post" action="<?php echo htmlspecialchars(Uri::base().'index.php?option=com_'.$family.'&task=engagement.subscribe', ENT_QUOTES, 'UTF-8'); ?>">
     <label class="form-label" for="subscribe-name-<?php echo $postId; ?>">Name</label><input id="subscribe-name-<?php echo $postId; ?>" class="form-control mb-3" name="name" autocomplete="name" required>
     <label class="form-label" for="subscribe-email-<?php echo $postId; ?>">Email address</label><input id="subscribe-email-<?php echo $postId; ?>" class="form-control mb-3" name="email" type="email" autocomplete="email" inputmode="email" required>

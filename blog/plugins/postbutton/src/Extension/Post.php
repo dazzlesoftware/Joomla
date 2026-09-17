@@ -97,6 +97,8 @@ final class Post extends CMSPlugin implements SubscriberInterface
         $link = 'index.php?option=com_blog&view=posts&layout=modal&tmpl=component&'
             . Session::getFormToken() . '=1&editor=' . $name;
 
+        $this->getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
+
         $button = new Button(
             'post',
             [

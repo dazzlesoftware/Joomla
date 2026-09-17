@@ -11,6 +11,7 @@ $cards = [
     'trashed' => ['Trashed', 'view=posts&filter[published]=-2&filter[featured]=', 'trash'],
     'featured' => ['Featured', 'view=posts&filter[published]=*&filter[featured]=1', 'star'],
     'categories' => ['Categories', 'view=categories', 'folder'],
+    'votes' => ['Votes', 'view=votes', 'star'],
     'tags' => ['Tags', 'view=tags', 'tag'],
 ];
 

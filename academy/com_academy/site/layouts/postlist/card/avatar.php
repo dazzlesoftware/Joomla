@@ -1,5 +1,6 @@
 <?php
 defined('_JEXEC') or die;
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
@@ -23,11 +24,11 @@ $avatarHelper = '\\Joomla\\Plugin\\User\\GenesisProfile\\Helper\\GenesisProfileH
 $avatarHtml   = '';
 
 if (class_exists($avatarHelper)) {
-    $avatarHtml = $avatarHelper::renderImgTag($authorId, $email, 40, ['class' => 'postmeta-avatar-img', 'alt' => '']);
+    $avatarHtml = $avatarHelper::renderImgTag($authorId, $email, 40, ['class' => 'postmeta-avatar-img rounded object-fit-cover', 'alt' => '']);
 } else {
     ob_start(); ?>
-    <span class="postmeta-avatar" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.24-8 5v1a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1c0-2.76-3.58-5-8-5Z"/></svg>
+    <span class="postmeta-avatar d-inline-flex align-items-center justify-content-center rounded bg-body-secondary text-body-secondary p-2" aria-hidden="true">
+        <span class="fa-solid fa-user fa-lg" aria-hidden="true"></span>
     </span>
     <?php $avatarHtml = (string) ob_get_clean();
 }
@@ -35,12 +36,7 @@ if (class_exists($avatarHelper)) {
 $option = Factory::getApplication()->getInput()->getCmd('option');
 
 if ($authorId > 0 && in_array($option, ['com_academy', 'com_blog', 'com_codex'], true)) : ?>
-    <a class="postmeta-avatar-link" href="<?php echo Route::_('index.php?option=' . $option . '&view=author&id=' . $authorId); ?>" aria-label="View author profile"><?php echo $avatarHtml; ?></a>
+    <a class="postmeta-avatar-link d-inline-flex rounded" href="<?php echo Route::_('index.php?option=' . $option . '&view=author&id=' . $authorId); ?>" aria-label="View author profile"><?php echo $avatarHtml; ?></a>
 <?php else :
     echo $avatarHtml;
 endif; ?>
-<style>
-.postmeta-avatar,.postmeta-avatar-img{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;flex:0 0 auto;border-radius:.375rem;background:#e9ecef;color:#adb5bd;object-fit:cover}
-.postmeta-avatar-link{display:inline-flex;border-radius:.375rem;line-height:0}
-.postmeta-avatar-link:focus-visible{outline:3px solid currentColor;outline-offset:3px}
-</style>

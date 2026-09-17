@@ -53,7 +53,8 @@
     <fieldset name="options" label="COM_ACADEMY_ATTRIBS_FIELDSET_LABEL">
       <fieldset name="basic" label="JFIELD_ALT_LAYOUT_LABEL">
         <field name="post_layout" type="componentlayout" label="JFIELD_ALT_LAYOUT_LABEL" class="form-select" useglobal="true" extension="com_academy" view="post" />
-        <field name="show_title" type="list" label="JGLOBAL_SHOW_TITLE_LABEL" useglobal="true" validate="options">
+        <field name="show_wiki_details" type="list" class="form-select" useglobal="true" validate="options" label="COM_ACADEMY_WIKI_DETAILS_LABEL" description="COM_ACADEMY_WIKI_DETAILS_DESC"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="show_title" type="list" label="JGLOBAL_SHOW_TITLE_LABEL" useglobal="true" validate="options">
           <option value="1">JSHOW</option>
           <option value="0">JHIDE</option>
         </field>

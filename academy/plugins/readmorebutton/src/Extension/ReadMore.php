@@ -90,6 +90,8 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
 
         Text::script('PLG_READMORE_ALREADY_EXISTS');
 
+        $this->getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
+
         $button = new Button(
             'readmore',
             [

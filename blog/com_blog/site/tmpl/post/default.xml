@@ -36,7 +36,8 @@
 			addfieldprefix="Joomla\Component\Blog\Administrator\Field"
 		>
 
-			<field
+			<field name="show_wiki_details" type="list" class="form-select" useglobal="true" validate="options" label="COM_BLOG_WIKI_DETAILS_LABEL" description="COM_BLOG_WIKI_DETAILS_DESC"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field
 				name="show_title"
 				type="list"
 				label="JGLOBAL_SHOW_TITLE_LABEL"

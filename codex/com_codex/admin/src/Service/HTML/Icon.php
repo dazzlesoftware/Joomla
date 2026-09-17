@@ -150,6 +150,6 @@ class Icon
     {
         $text = LayoutHelper::render('joomla.content.icons.print_screen', ['params' => $params, 'legacy' => $legacy]);
 
-        return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
+        return '<button type="button" class="btn btn-outline-secondary" onclick="window.print();return false;">' . $text . '</button>';
     }
 }

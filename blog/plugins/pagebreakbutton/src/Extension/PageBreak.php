@@ -110,6 +110,8 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
         $app->getDocument()->addScriptOptions('xtd-pagebreak', ['editor' => $name]);
         $link = 'index.php?option=com_blog&view=post&layout=pagebreak&tmpl=component&e_name=' . $name;
 
+        $this->getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
+
         $button = new Button(
             'pagebreak',
             [

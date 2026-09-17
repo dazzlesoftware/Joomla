@@ -28,6 +28,7 @@ final class HtmlView extends BaseHtmlView
         $this->stats['featured'] = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__blog_frontpage')))->loadResult();
         $this->stats['categories'] = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__blog_categories')))->loadResult();
         $this->stats['tags'] = (int) $db->setQuery($db->createQuery()->select('COUNT(DISTINCT tag_id)')->from($db->quoteName('#__blog_tag_map'))->where($db->quoteName('type_alias') . " = 'com_blog.post'"))->loadResult();
+        $this->stats['votes'] = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from('#__blog_rating_votes'))->loadResult();
         $this->stats['subscribers'] = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__blog_subscribers'))->where($db->quoteName('state') . ' = 1'))->loadResult();
         $this->stats['mail_queued'] = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__blog_mail_queue'))->where($db->quoteName('state') . ' = 0'))->loadResult();
         $this->stats['mail_failed'] = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from($db->quoteName('#__blog_mail_queue'))->where($db->quoteName('state') . ' = -1'))->loadResult();

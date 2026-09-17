@@ -56,9 +56,9 @@ if (!empty($this->item->pagination) && !$this->item->paginationposition && $this
 || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam; ?>
 
     <div class="post-print-toolbar d-flex flex-wrap align-items-baseline gap-3 mb-3">
-        <button type="button" class="post-print-button" data-post-print><span class="fa-solid fa-print me-2" aria-hidden="true"></span>Print</button>
+        <button type="button" class="post-print-button btn btn-link p-0" data-post-print><span class="fa-solid fa-print me-2" aria-hidden="true"></span>Print</button>
         <?php if (!$isWikiLayout) : ?>
-        <div class="post-details-row text-muted small ms-auto">
+        <div class="post-details-row d-flex flex-wrap align-items-baseline gap-2 text-muted small ms-auto">
         <?php if ($params->get('show_create_date')) : ?><span>Created: <?php echo HTMLHelper::_('date', $this->item->created, 'DATE_FORMAT_LC3'); ?></span><?php endif; ?>
         <?php if ($params->get('show_modify_date') && !empty($this->item->modified)) : ?><span>Last Updated: <?php echo HTMLHelper::_('date', $this->item->modified, 'DATE_FORMAT_LC3'); ?></span><?php endif; ?>
         </div>

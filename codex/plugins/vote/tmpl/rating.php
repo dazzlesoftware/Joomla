@@ -10,16 +10,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * @var Joomla\CMS\WebAsset\WebAssetManager $wa
  * @var \Joomla\Plugin\Codex\Vote\Extension\Vote $this
  */
 $wa = $this->getApplication()->getDocument()->getWebAssetManager();
-$wa->registerAndUseStyle('plg_codex_vote', 'plg_codex_vote/rating.css');
+$wa->useStyle('fontawesome');
 
 /**
  * Layout variables
@@ -36,23 +34,6 @@ if ($context === 'com_codex.categories') {
     return;
 }
 
-// Get the icons
-$iconStar     = HTMLHelper::_('image', 'plg_codex_vote/vote-star.svg', '', '', true, true);
-$iconHalfstar = HTMLHelper::_('image', 'plg_codex_vote/vote-star-half.svg', '', '', true, true);
-
-// If you can't find the icons then skip it
-if ($iconStar === null || $iconHalfstar === null) {
-    return;
-}
-
-// Get paths to icons
-$pathStar     = JPATH_ROOT . substr($iconStar, strlen(Uri::root(true)));
-$pathHalfstar = JPATH_ROOT . substr($iconHalfstar, strlen(Uri::root(true)));
-
-// Write inline '<svg>' elements
-$star     = file_exists($pathStar) ? file_get_contents($pathStar) : '';
-$halfstar = file_exists($pathHalfstar) ? file_get_contents($pathHalfstar) : '';
-
 // Get rating
 $rating = (float) $row->rating;
 $rcount = (int) $row->rating_count;
@@ -60,23 +41,11 @@ $rcount = (int) $row->rating_count;
 // Round to 0.5
 $rating = round($rating / 0.5) * 0.5;
 
-// Determine number of stars
-$stars = $rating;
-$img   = '';
-
-for ($i = 0; $i < floor($stars); $i++) {
-    $img .= '<li class="vote-star">' . $star . '</li>';
-}
-
-if (($stars - floor($stars)) >= 0.5) {
-    $img .= '<li class="vote-star-empty">' . $star . '</li>';
-    $img .= '<li class="vote-star-half">' . $halfstar . '</li>';
-
-    ++$stars;
-}
-
-for ($i = $stars; $i < 5; $i++) {
-    $img .= '<li class="vote-star-empty">' . $star . '</li>';
+// Render five Font Awesome stars, including a half star where appropriate.
+$img = '';
+for ($i = 1; $i <= 5; $i++) {
+    $icon = $rating >= $i ? 'fa-solid fa-star' : ($rating >= $i - 0.5 ? 'fa-solid fa-star-half-stroke' : 'fa-regular fa-star');
+    $img .= '<li><span class="' . $icon . ' text-warning" aria-hidden="true"></span></li>';
 }
 
 ?>
@@ -93,7 +62,7 @@ for ($i = $stars; $i < 5; $i++) {
             <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
         <?php endif; ?>
     <?php endif; ?>
-    <ul>
+    <ul class="list-unstyled d-inline-flex gap-1 mb-0">
         <?php echo $img; ?>
     </ul>
 </div>
