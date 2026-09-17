@@ -57,6 +57,9 @@ if (!empty($this->item->pagination) && !$this->item->paginationposition && $this
 
     <div class="post-print-toolbar d-flex flex-wrap align-items-baseline gap-3 mb-3">
         <button type="button" class="post-print-button btn btn-link p-0" data-post-print><span class="fa-solid fa-print me-2" aria-hidden="true"></span>Print</button>
+        <?php if (!$isWikiLayout && ($dateHtml = \Joomla\Component\Codex\Site\Helper\DateHelper::render($this->item, $params))) : ?>
+            <span class="post-display-date text-muted small ms-auto"><span class="fa-solid fa-calendar me-1" aria-hidden="true"></span><?php echo $dateHtml; ?></span>
+        <?php endif; ?>
 
     </div>
     <?php if ($params->get('show_title')) : ?>
