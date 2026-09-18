@@ -97,15 +97,9 @@ final class HtmlView extends BaseHtmlView
         // Blog pages must count exactly the items their leading/intro/link groups render.
         $limit = max(1, (int) $app->get('list_limit', 20));
         if ($layoutName !== 'default') {
-            $leading = max(0, (int) $this->params->get('num_leading_posts', 1));
-            $intro = max(0, (int) $this->params->get('num_intro_posts', 4));
+            $posts = \Joomla\Component\Academy\Site\Helper\ListingSettingsHelper::count($this->params);
             $links = \Joomla\Component\Academy\Site\Helper\CompactPostsHelper::visible($this->params) && $this->params->get('compact_selection', 'next') === 'next' ? max(0, (int) $this->params->get('num_links', 4)) : 0;
-            if ($leading + $intro + $links === 0) {
-                $intro = 1;
-            }
-            $this->params->set('num_leading_posts', $leading);
-            $this->params->set('num_intro_posts', $intro);
-            $limit = $leading + $intro + $links;
+            $limit = $posts + $links;
         }
         $start = $app->getInput()->getUint('limitstart', 0);
         $this->pagination = new Pagination(count($all), $start, $limit);
@@ -176,13 +170,13 @@ final class HtmlView extends BaseHtmlView
 
     /**
      * Buckets the current page's items into lead/intro/link groups for the
-     * Blog layout, per the num_leading_posts / num_intro_posts / num_links
+     * Blog layout, using the main post count and compact post count
      * menu params. Harmless no-op for the List layout, which ignores them.
      */
     private function splitBlogGroups(): void
     {
-        $numLeading = (int) $this->params->def('num_leading_posts', 1);
-        $numIntro   = (int) $this->params->def('num_intro_posts', 4);
+        $numLeading = 0;
+        $numIntro = \Joomla\Component\Academy\Site\Helper\ListingSettingsHelper::count($this->params);
         $numLinks   = (int) $this->params->def('num_links', 4);
         $max        = count($this->items);
 

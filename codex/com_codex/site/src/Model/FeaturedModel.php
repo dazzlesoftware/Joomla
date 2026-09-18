@@ -72,7 +72,7 @@ class FeaturedModel extends PostsModel
 
         $this->setState('params', $mergedParams);
 
-        $limit = $params->get('num_leading_posts') + $params->get('num_intro_posts') + (\Joomla\Component\Codex\Site\Helper\CompactPostsHelper::visible($params) && $params->get('compact_selection', 'next') === 'next' ? $params->get('num_links') : 0);
+        $limit = \Joomla\Component\Codex\Site\Helper\ListingSettingsHelper::count($params) + (\Joomla\Component\Codex\Site\Helper\CompactPostsHelper::visible($params) && $params->get('compact_selection', 'next') === 'next' ? $params->get('num_links') : 0);
         $this->setState('list.limit', $limit);
         $this->setState('list.links', $params->get('num_links'));
 
@@ -117,7 +117,7 @@ class FeaturedModel extends PostsModel
     public function getItems()
     {
         $params = clone $this->getState('params');
-        $limit  = $params->get('num_leading_posts') + $params->get('num_intro_posts') + (\Joomla\Component\Codex\Site\Helper\CompactPostsHelper::visible($params) && $params->get('compact_selection', 'next') === 'next' ? $params->get('num_links') : 0);
+        $limit  = \Joomla\Component\Codex\Site\Helper\ListingSettingsHelper::count($params) + (\Joomla\Component\Codex\Site\Helper\CompactPostsHelper::visible($params) && $params->get('compact_selection', 'next') === 'next' ? $params->get('num_links') : 0);
 
         if ($limit > 0) {
             $this->setState('list.limit', $limit);

@@ -198,7 +198,7 @@ class CategoryModel extends ListModel
 
         // Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
         if (($app->getInput()->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
-            $limit = $params->get('num_leading_posts') + $params->get('num_intro_posts') + $params->get('num_links');
+            $limit = \Joomla\Component\Blog\Site\Helper\ListingSettingsHelper::count($params) + $params->get('num_links');
             $this->setState('list.links', $params->get('num_links'));
         } else {
             $limit = $app->getUserStateFromRequest('com_blog.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');

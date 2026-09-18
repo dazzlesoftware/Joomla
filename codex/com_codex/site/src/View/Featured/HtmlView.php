@@ -128,8 +128,8 @@ class HtmlView extends BaseHtmlView
         // PREPARE THE DATA
 
         // Get the metrics for the structural page layout.
-        $numLeading = (int) $params->def('num_leading_posts', 1);
-        $numIntro   = (int) $params->def('num_intro_posts', 4);
+        $numLeading = 0;
+        $numIntro = \Joomla\Component\Codex\Site\Helper\ListingSettingsHelper::count($params);
 
         PluginHelper::importPlugin('codex');
 

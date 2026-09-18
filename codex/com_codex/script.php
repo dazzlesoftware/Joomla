@@ -12,7 +12,7 @@ class Com_CodexInstallerScript
     {
         // Joomla recreates manifest submenu rows after install/update handlers.
         // Apply the second-level hierarchy only once those rows exist.
-        return $this->repairAdminMenu();
+        return $this->repairAdminMenu() && $this->migrateListingSettings();
     }
 
     public function install(InstallerAdapter $adapter): bool
@@ -23,6 +23,42 @@ class Com_CodexInstallerScript
     public function update(InstallerAdapter $adapter): bool
     {
         return $this->ensureNativeCategories() && $this->ensureNativeTags() && $this->ensureExcerptSchema() && $this->ensureSubscriberSchema() && $this->ensureCampaignSchema() && $this->ensureAutopostSchema() && $this->registerContentTypes() && $this->repairAdminMenu() && $this->seedComponentDefaults();
+    }
+
+    /** Convert saved counts once, including menu overrides, without changing page sizes. */
+    public function migrateListingSettings(): bool
+    {
+        $db = Joomla\CMS\Factory::getContainer()->get(DatabaseInterface::class);
+        $row = $db->setQuery("SELECT extension_id, params FROM #__extensions WHERE element = 'com_codex' AND type = 'component'")->loadObject();
+        if (!$row) { return true; }
+        $global = json_decode($row->params, true) ?: [];
+        $convert = static function (array $values, array $fallback, bool $component): array {
+            $has = static fn($key) => isset($values[$key]) && $values[$key] !== '';
+            if (!$has('posts_per_page') && ($component || $has('num_leading_posts') || $has('num_intro_posts'))) {
+                $leading = $has('num_leading_posts') ? $values['num_leading_posts'] : ($fallback['num_leading_posts'] ?? 1);
+                $intro = $has('num_intro_posts') ? $values['num_intro_posts'] : ($fallback['num_intro_posts'] ?? 4);
+                $values['posts_per_page'] = max(1, max(0, (int) $leading) + max(0, (int) $intro));
+            }
+            foreach (['num_leading_posts', 'num_intro_posts', 'num_columns', 'multi_column_order', 'blog_class_leading'] as $key) {
+                unset($values[$key]);
+            }
+            return $values;
+        };
+        $db->transactionStart();
+        try {
+            $menus = $db->setQuery("SELECT id, params FROM #__menu WHERE client_id = 0 AND component_id = " . (int) $row->extension_id)->loadObjectList();
+            foreach ($menus as $menu) {
+                $values = $convert(json_decode($menu->params, true) ?: [], $global, false);
+                $db->setQuery('UPDATE #__menu SET params = ' . $db->quote(json_encode($values)) . ' WHERE id = ' . (int) $menu->id)->execute();
+            }
+            $values = $convert($global, [], true);
+            $db->setQuery('UPDATE #__extensions SET params = ' . $db->quote(json_encode($values)) . ' WHERE extension_id = ' . (int) $row->extension_id)->execute();
+            $db->transactionCommit();
+        } catch (\Throwable $e) {
+            $db->transactionRollback();
+            throw $e;
+        }
+        return true;
     }
 
     public function uninstall(InstallerAdapter $adapter): bool

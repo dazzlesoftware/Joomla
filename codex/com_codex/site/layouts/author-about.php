@@ -43,7 +43,7 @@ $posts = $model->getItems();
 <section class="post-author my-5" aria-labelledby="post-author-heading-<?php echo (int) $item->id; ?>">
     <h2 id="post-author-heading-<?php echo (int) $item->id; ?>" class="h5 text-uppercase border-bottom pb-3 mb-4">About the author</h2>
     <div class="mb-4">
-        <?php echo LayoutHelper::render('postlist.card.avatar', $item, __DIR__); ?>
+        <?php echo LayoutHelper::render('post.avatar', $item, __DIR__); ?>
         <h3 class="h5 mt-3 mb-2"><a class="text-reset text-decoration-none" href="<?php echo $profileUrl; ?>"><?php echo $escape($authorName); ?></a></h3>
         <div class="d-flex align-items-center gap-3">
             <?php if (!empty($item->contact_link)) : ?>

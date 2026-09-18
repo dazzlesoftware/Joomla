@@ -45,7 +45,7 @@ $itemClasses = match ($listStyle) {
 <?php
 $featuredImages = json_decode((string) ($this->item->media ?? '{}'));
 if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->featured_image)) {
-    echo LayoutHelper::render('postlist.card.placeholder', $this->item, JPATH_COMPONENT . '/layouts');
+    echo LayoutHelper::render('post.image-placeholder', $this->item, JPATH_COMPONENT . '/layouts');
 } else {
     echo LayoutHelper::render('codex.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts');
 }
@@ -54,7 +54,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 <?php if ($listStyle === 'learning') : ?>
 <div class="item-content learning-item-content card-body">
     <?php echo LayoutHelper::render('codex.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
-    <?php echo LayoutHelper::render('postlist.learning.details', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo LayoutHelper::render('post.learning-details', $this->item, JPATH_COMPONENT . '/layouts'); ?>
 </div>
 <?php else : ?>
 
@@ -78,6 +78,8 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
     <?php endif; ?>
     <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
         <?php echo LayoutHelper::render('posttags', $this->item->tags->itemTags, JPATH_COMPONENT . '/layouts'); ?>
+    <?php elseif ($listStyle === 'card' && $params->get('show_tags', 1)) : ?>
+        <ul class="tags list-inline invisible" aria-hidden="true"><li class="list-inline-item"><span class="btn btn-sm btn-info">&nbsp;</span></li></ul>
     <?php endif; ?>
 
     <?php if (!$params->get('show_intro')) : ?>
@@ -105,10 +107,12 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 
     <?php endif; ?>
 
-    <?php echo LayoutHelper::render('postlist.' . $listStyle . '.meta', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php if ($listStyle === 'card') : ?><div class="mt-auto"><?php endif; ?>
+    <?php echo LayoutHelper::render(in_array($listStyle, ['simple', 'compact'], true) ? 'post.basic-meta' : 'post.meta', $this->item, JPATH_COMPONENT . '/layouts'); ?>
     <?php if ($listStyle === 'card') {
-        echo LayoutHelper::render('postlist.card.footer', $this->item, JPATH_COMPONENT . '/layouts');
+        echo LayoutHelper::render('post.card-footer', $this->item, JPATH_COMPONENT . '/layouts');
     } ?>
+    <?php if ($listStyle === 'card') : ?></div><?php endif; ?>
 
     <?php if ($isUnpublished) : ?>
         </div>

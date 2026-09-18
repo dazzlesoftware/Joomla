@@ -10,7 +10,7 @@ $avatarItem = (object) ['created_by' => $this->author->id];
 <?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
 <div class="content-view-author">
     <header class="author-profile-header d-flex align-items-center gap-3 mb-4">
-        <?php echo LayoutHelper::render('postlist.card.avatar', $avatarItem, JPATH_COMPONENT . '/layouts'); ?>
+        <?php echo LayoutHelper::render('post.avatar', $avatarItem, JPATH_COMPONENT . '/layouts'); ?>
         <div>
             <h1 class="mb-1"><?php echo $this->escape($this->author->name); ?></h1>
             <div class="text-muted"><?php echo count($this->posts); ?> published post<?php echo count($this->posts) === 1 ? '' : 's'; ?></div>

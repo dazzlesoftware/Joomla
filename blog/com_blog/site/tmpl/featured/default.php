@@ -11,7 +11,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
-\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseStyle('com_blog.post-list-styles', 'com_blog/post-list-styles.css', ['version' => 'auto']);
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseStyle('com_blog.post-list-styles', 'com_blog/post-list-styles.css', ['version' => hash_file('sha256', JPATH_ROOT . '/media/com_blog/css/post-list-styles.css')]);
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('com_blog.post-masonry', 'com_blog/post-masonry.js', ['version' => hash_file('sha256', JPATH_ROOT . '/media/com_blog/js/post-masonry.js')], ['defer' => true]);
 
 /** @var \Joomla\Component\Blog\Site\View\Featured\HtmlView $this */
 ?>
@@ -26,41 +27,27 @@ use Joomla\CMS\Layout\LayoutHelper;
     </div>
     <?php endif; ?>
 
-    <?php if (!empty($this->lead_items)) : ?>
-        <div class="post-list-items items-leading row row-cols-1 g-4 mb-4 post-style-<?php echo $this->params->get('list_item_style', 'standard'); ?> <?php echo $this->params->get('blog_class_leading'); ?>">
-            <?php foreach ($this->lead_items as &$item) : ?>
-                <div class="post-list-item col">
-                        <?php
-                        $this->item = & $item;
-                echo $this->loadTemplate('item');
-                ?>
+    <?php
+    $isColumns = $this->params->get('post_listing_layout', 'rows') === 'columns';
+    $isMasonry = $isColumns && $this->params->get('column_style', 'grid') === 'masonry';
+    $columns = max(2, min(6, (int) $this->params->get('columns_per_row', 2)));
+    // Keep leading and intro posts in one continuous grid, independent of compact posts.
+    $groups = [array_merge($this->lead_items, $this->intro_items)];
+    $gridClass = 'row row-cols-1 g-4' . ($isColumns ? ' row-cols-md-' . $columns : '');
+    ?>
+    <?php foreach ($groups as $groupIndex => $group) : ?>
+        <?php if (empty($group)) { continue; } ?>
+        <div class="post-list-items mb-4 post-style-<?php echo $this->escape((string) $this->params->get('list_item_style', 'standard')); ?> <?php echo $gridClass; ?>" <?php echo $isMasonry ? 'data-post-masonry' : ''; ?>>
+            <?php foreach ($group as $index => $item) : ?>
+                <div class="post-list-item col <?php echo $this->escape((string) $this->params->get('blog_class', '')); ?>">
+                    <?php
+                    $this->item = $item;
+                    echo $this->loadTemplate('item');
+                    ?>
                 </div>
             <?php endforeach; ?>
         </div>
-    <?php endif; ?>
-
-    <?php if (!empty($this->intro_items)) : ?>
-        <?php $blogClass = $this->params->get('blog_class', ''); ?>
-        <?php $listingLayout = $this->params->get('post_listing_layout', 'rows');
-        $columnStyle = $this->params->get('column_style', 'grid');
-        $columnsPerRow = max(2, min(6, (int) $this->params->get('columns_per_row', 2)));
-        $postStyle = $this->params->get('list_item_style', 'standard'); ?>
-        <?php if ($listingLayout === 'rows') {
-            $blogClass .= ' row row-cols-1 g-4';
-        } else {
-            $blogClass .= $columnStyle === 'masonry' ? ' post-listing-masonry' : ' row row-cols-1 row-cols-md-' . $columnsPerRow . ' g-4';
-        } $blogClass .= ' post-style-' . $postStyle; ?>
-        <div class="post-list-items <?php echo $blogClass; ?>" style="--post-listing-columns:<?php echo (int) $columnsPerRow; ?>">
-        <?php foreach ($this->intro_items as $key => &$item) : ?>
-            <div class="post-list-item col">
-                    <?php
-                    $this->item = & $item;
-            echo $this->loadTemplate('item');
-            ?>
-            </div>
-        <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
+    <?php endforeach; ?>
 
     <?php if ((!empty($this->link_items) || ($this->params->get('compact_selection', 'next') !== 'next' && $this->params->get('num_links', 4) > 0))) : ?>
         <div class="items-more">

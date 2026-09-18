@@ -1,4 +1,8 @@
-/* Bootstrap supplies grid and card styling. Masonry has no Bootstrap CSS equivalent. */
-.blog-featured .post-listing-masonry{column-count:var(--post-listing-columns,2);column-gap:1.5rem}
-.blog-featured .post-listing-masonry>.post-list-item{display:inline-block;width:100%;break-inside:avoid;margin-bottom:1.5rem}
-@media(max-width:767.98px){.blog-featured .post-listing-masonry{column-count:1}}
+/* Bootstrap owns responsive widths and gutters; JS only positions masonry cards. */
+.post-list-items.post-masonry-active { position: relative; display: block; }
+.post-list-items.post-masonry-active > .post-list-item { position: absolute; }
+.post-list-items.post-masonry-active > .post-list-item > .h-100 { height: auto !important; }
+@media print {
+    .post-list-items.post-masonry-active { display: flex; height: auto !important; }
+    .post-list-items.post-masonry-active > .post-list-item { position: static; }
+}

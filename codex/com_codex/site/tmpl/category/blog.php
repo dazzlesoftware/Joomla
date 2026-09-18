@@ -19,7 +19,8 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\Component\Codex\Site\View\Category\HtmlView $this */
 
 $app = Factory::getApplication();
-$app->getDocument()->getWebAssetManager()->registerAndUseStyle('com_codex.post-list-styles', 'com_codex/post-list-styles.css', ['version' => 'auto']);
+$app->getDocument()->getWebAssetManager()->registerAndUseStyle('com_codex.post-list-styles', 'com_codex/post-list-styles.css', ['version' => hash_file('sha256', JPATH_ROOT . '/media/com_codex/css/post-list-styles.css')]);
+$app->getDocument()->getWebAssetManager()->registerAndUseScript('com_codex.post-masonry', 'com_codex/post-masonry.js', ['version' => hash_file('sha256', JPATH_ROOT . '/media/com_codex/js/post-masonry.js')], ['defer' => true]);
 $listStyle = (string) $this->params->get('list_item_style', 'standard');
 if (!in_array($listStyle, ['standard', 'card', 'learning', 'simple', 'nickel', 'compact'], true)) {
     $listStyle = 'standard';
@@ -80,35 +81,27 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         <?php endif; ?>
     <?php endif; ?>
 
-    <?php if (!empty($this->lead_items)) : ?>
-        <div class="content-view-category-blog__items post-list-items items-leading row row-cols-1 g-4 mb-4 post-style-<?php echo $listStyle; ?>">
-            <?php foreach ($this->lead_items as &$item) : ?>
-                <div class="content-view-category-blog__item post-list-item col">
+    <?php
+    $isColumns = $this->params->get('post_listing_layout', 'rows') === 'columns';
+    $isMasonry = $isColumns && $this->params->get('column_style', 'grid') === 'masonry';
+    $columns = max(2, min(6, (int) $this->params->get('columns_per_row', 2)));
+    // Keep leading and intro posts in one continuous grid, independent of compact posts.
+    $groups = [array_merge($this->lead_items, $this->intro_items)];
+    $gridClass = 'row row-cols-1 g-4' . ($isColumns ? ' row-cols-md-' . $columns : '');
+    ?>
+    <?php foreach ($groups as $groupIndex => $group) : ?>
+        <?php if (empty($group)) { continue; } ?>
+        <div class="post-list-items mb-4 post-style-<?php echo $this->escape((string) $this->params->get('list_item_style', 'standard')); ?> <?php echo $gridClass; ?>" <?php echo $isMasonry ? 'data-post-masonry' : ''; ?>>
+            <?php foreach ($group as $index => $item) : ?>
+                <div class="post-list-item col <?php echo $this->escape((string) $this->params->get('blog_class', '')); ?>">
                     <?php
-                    $this->item = &$item;
-                echo $this->loadTemplate('item');
-                ?>
+                    $this->item = $item;
+                    echo $this->loadTemplate('item');
+                    ?>
                 </div>
             <?php endforeach; ?>
         </div>
-    <?php endif; ?>
-
-    <?php if (!empty($this->intro_items)) : ?>
-        <?php $blogClass = ' row row-cols-1 g-4'; ?>
-        <?php if ((int) $this->params->get('num_columns') > 1) : ?>
-            <?php $blogClass .= ' row-cols-md-' . max(1, min(6, (int) $this->params->get('num_columns'))); ?>
-        <?php endif; ?>
-        <div class="content-view-category-blog__items post-list-items post-style-<?php echo $listStyle; ?><?php echo $blogClass; ?>">
-        <?php foreach ($this->intro_items as &$item) : ?>
-            <div class="content-view-category-blog__item post-list-item col">
-                <?php
-                $this->item = &$item;
-            echo $this->loadTemplate('item');
-            ?>
-            </div>
-        <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
+    <?php endforeach; ?>
 
     <?php if ((!empty($this->link_items) || ($this->params->get('compact_selection', 'next') !== 'next' && $this->params->get('num_links', 4) > 0))) : ?>
         <div class="items-more">
