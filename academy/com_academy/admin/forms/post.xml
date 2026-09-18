@@ -187,4 +187,13 @@
     <field name="summary" label="COM_ACADEMY_FIELD_SUMMARY" filter="\Joomla\CMS\Component\ComponentHelper::filterText" />
     <field name="body" label="COM_ACADEMY_FIELD_BODY" filter="\Joomla\CMS\Component\ComponentHelper::filterText" />
   </fields>
+  <fields name="media" label="COM_ACADEMY_FIELD_IMAGE_OPTIONS">
+    <fieldset name="image-featured" label="COM_ACADEMY_FIELD_FEATURED_LABEL">
+      <field name="featured_image" type="media" label="COM_ACADEMY_FIELD_FEATURED_LABEL" schemes="http,https,ftp,ftps,data,file" validate="url" relative="true" />
+      <field name="featured_image_alt" type="text" label="COM_ACADEMY_FIELD_IMAGE_ALT_LABEL" />
+      <field name="featured_image_alt_empty" type="checkbox" label="COM_ACADEMY_FIELD_IMAGE_ALT_EMPTY_LABEL" description="COM_ACADEMY_FIELD_IMAGE_ALT_EMPTY_DESC" />
+      <field name="featured_image_class" type="text" label="COM_ACADEMY_FIELD_IMAGE_CLASS_LABEL" description="COM_ACADEMY_FIELD_IMAGE_CLASS_DESC" useglobal="true" validate="CssIdentifier" />
+      <field name="featured_image_caption" type="text" label="COM_ACADEMY_FIELD_IMAGE_CAPTION_LABEL" />
+    </fieldset>
+  </fields>
 </form>

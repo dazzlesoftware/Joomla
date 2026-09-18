@@ -49,7 +49,6 @@
       </field>
       <field name="compact_show" type="list" label="COM_BLOG_COMPACT_SHOW" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 <field name="compact_layout" type="list" label="COM_BLOG_COMPACT_LAYOUT" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="rows">COM_BLOG_COMPACT_ROWS</option><option value="columns">COM_BLOG_COMPACT_COLUMNS_LAYOUT</option></field>
-<field name="compact_column_style" type="list" label="COM_BLOG_COMPACT_COLUMN_STYLE" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="grid">COM_BLOG_COMPACT_GRID</option><option value="masonry">COM_BLOG_COMPACT_MASONRY</option></field>
 <field name="compact_columns" type="list" label="COM_BLOG_COMPACT_COLUMNS" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
 <field name="compact_show_title" type="list" label="COM_BLOG_COMPACT_SHOW_TITLE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 <field name="compact_selection" type="list" label="COM_BLOG_COMPACT_SELECTION" description="COM_BLOG_COMPACT_SELECTION_DESC" useglobal="true">

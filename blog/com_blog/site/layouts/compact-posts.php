@@ -2,18 +2,15 @@
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Blog\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseInterface;
 $items = $displayData['items'];
 $params = $displayData['params'];
 if (!$items || !\Joomla\Component\Blog\Site\Helper\CompactPostsHelper::visible($params)) { return; }
-Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome')
-    ->registerAndUseStyle('com_blog.compact-posts', 'com_blog/compact-posts.css', ['version' => 'auto']);
+Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
 $columns = max(2, min(6, (int) $params->get('compact_columns', 2)));
 $isColumns = $params->get('compact_layout', 'columns') === 'columns';
-$isMasonry = $isColumns && $params->get('compact_column_style', 'grid') === 'masonry';
-$listClass = $isMasonry ? 'compact-masonry compact-columns-' . $columns : 'row row-cols-1 g-3' . ($isColumns ? ' row-cols-md-' . $columns : '');
+$listClass = 'row row-cols-1 g-3' . ($isColumns ? ' row-cols-md-' . $columns : '');
 $escape = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 $ratings = [];
 if ($params->get('compact_show_rating', 1)) {
@@ -27,12 +24,11 @@ if ($params->get('compact_show_rating', 1)) {
     $url = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language));
     $media = json_decode($item->media ?? '{}');
     $image = $media->featured_image ?? '';
-    if (!$image && !empty($item->category_default_image)) { $image = Uri::root() . $item->category_default_image; }
     $rating = $ratings[$item->id] ?? null;
     $count = (int) ($rating->rating_count ?? 0);
     $average = $count ? round($rating->rating_sum / $count, 1) : 0;
 ?>
-<li class="<?php echo $isMasonry ? 'compact-masonry-item mb-3' : 'col'; ?>">
+<li class="col">
     <div class="d-flex align-items-center gap-3 border rounded p-3 h-100">
     <?php if ($params->get('compact_show_image', 1)) : ?>
         <a href="<?php echo $escape($url); ?>" class="flex-shrink-0" aria-label="<?php echo $escape($item->title); ?>">
