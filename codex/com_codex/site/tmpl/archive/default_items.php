@@ -17,7 +17,7 @@ use Joomla\Component\Codex\Site\Helper\RouteHelper;
 /** @var \Joomla\Component\Codex\Site\View\Archive\HtmlView $this */
 $params = $this->params;
 ?>
-<div id="archive-items" class="com-content-archive__items">
+<div id="archive-items" class="content-view-archive__items">
     <?php foreach ($this->items as $i => $item) : ?>
         <div class="row<?php echo $i % 2; ?>">
             <?php echo LayoutHelper::render('codex.content.featured_image', $item, JPATH_COMPONENT . '/layouts'); ?>
@@ -53,13 +53,13 @@ $params = $this->params;
         </div>
     <?php endforeach; ?>
 </div>
-<div class="com-content-archive__navigation w-100">
+<div class="content-view-archive__navigation w-100">
     <?php if ($this->params->def('show_pagination_results', 1)) : ?>
-        <p class="com-content-archive__counter counter float-end pt-3 pe-2">
+        <p class="content-view-archive__counter counter float-end pt-3 pe-2">
             <?php echo $this->pagination->getPagesCounter(); ?>
         </p>
     <?php endif; ?>
-    <div class="com-content-archive__pagination">
+    <div class="content-view-archive__pagination">
         <?php echo $this->pagination->getPagesLinks(); ?>
     </div>
 </div>

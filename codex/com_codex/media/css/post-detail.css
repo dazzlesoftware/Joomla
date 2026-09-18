@@ -3,7 +3,7 @@
   body:has(.genesis-print-article),body *:has(.genesis-print-article){display:block!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important;background:white!important;color:black!important;position:static!important}
   body:has(.genesis-print-article)>:not(.genesis-print-article):not(:has(.genesis-print-article)),body *:has(.genesis-print-article)>:not(.genesis-print-article):not(:has(.genesis-print-article)){display:none!important}
   .genesis-print-article{width:100%!important;color:black!important;background:white!important}
-  .genesis-print-article .post-print-toolbar,.genesis-print-article .post-engagement,.genesis-print-article .post-comments,.genesis-print-article .post-author,.genesis-print-article .icons,.genesis-print-article .pagination,.genesis-print-article .pagenavigation,.genesis-print-article form,.genesis-print-article iframe,.genesis-print-article button{display:none!important}
+  .genesis-print-article .postmeta-share,.genesis-print-article .post-print-toolbar,.genesis-print-article .post-engagement,.genesis-print-article .post-comments,.genesis-print-article .post-author,.genesis-print-article .icons,.genesis-print-article .pagination,.genesis-print-article .pagenavigation,.genesis-print-article form,.genesis-print-article iframe,.genesis-print-article button{display:none!important}
   .genesis-print-article img{max-width:100%!important;height:auto;break-inside:avoid}
   .genesis-print-article h1,.genesis-print-article h2,.genesis-print-article h3{break-after:avoid}
   .genesis-print-article a{color:black!important;text-decoration:none}

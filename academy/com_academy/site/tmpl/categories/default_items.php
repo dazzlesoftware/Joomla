@@ -18,12 +18,12 @@ use Joomla\Component\Academy\Site\Helper\RouteHelper;
 /** @var \Joomla\Component\Academy\Site\View\Categories\HtmlView $this */
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
     ?>
-    <div class="com-content-categories__items">
+    <div class="content-view-categories__items">
         <?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
             <?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
-            <div class="com-content-categories__item">
-                <div class="com-content-categories__item-title-wrapper">
-                    <div class="com-content-categories__item-title">
+            <div class="content-view-categories__item">
+                <div class="content-view-categories__item-title-wrapper">
+                    <div class="content-view-categories__item-title">
                         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
                         <?php echo $this->escape($item->title); ?></a>
                         <?php if ($this->params->get('show_cat_num_posts_cat') == 1) :?>
@@ -51,14 +51,14 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                 <?php endif; ?>
                 <?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
                     <?php if ($item->description) : ?>
-                        <div class="com-content-categories__description category-desc">
+                        <div class="content-view-categories__description category-desc">
                             <?php echo HTMLHelper::_('content.prepare', $item->description, '', 'com_academy.categories'); ?>
                         </div>
                     <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-                    <div class="com-content-categories__children" id="category-<?php echo $item->id; ?>" hidden="">
+                    <div class="content-view-categories__children" id="category-<?php echo $item->id; ?>" hidden="">
                     <?php
                     $this->items[$item->id] = $item->getChildren();
                     $this->parent = $item;

@@ -62,7 +62,7 @@ use Joomla\CMS\Layout\LayoutHelper;
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($this->link_items)) : ?>
+    <?php if ((!empty($this->link_items) || ($this->params->get('compact_selection', 'next') !== 'next' && $this->params->get('num_links', 4) > 0))) : ?>
         <div class="items-more">
             <?php echo $this->loadTemplate('links'); ?>
         </div>

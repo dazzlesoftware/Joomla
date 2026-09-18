@@ -40,7 +40,7 @@ $isNotPublishedYet = $this->item->publish_up > $currentDate;
 $isExpired         = !is_null($this->item->publish_down) && $this->item->publish_down < $currentDate;
 ?>
 <?php echo LayoutHelper::render('postnav', ['params' => $this->item->params], JPATH_COMPONENT . '/layouts'); ?>
-<div class="com-content-post genesis-print-article item-page<?php echo $this->pageclass_sfx; ?>">
+<div class="content-view-post genesis-print-article item-page<?php echo $this->pageclass_sfx; ?>">
     <meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
     <?php if ($this->params->get('show_page_heading')) : ?>
     <div class="page-header">
@@ -106,7 +106,7 @@ if (!empty($this->item->pagination) && !$this->item->paginationposition && $this
         <?php if (isset($this->item->toc)) :
             echo $this->item->toc;
         endif; ?>
-    <div class="com-content-post__body">
+    <div class="content-view-post__body">
         <?php echo $isWikiLayout ? LayoutHelper::render('wiki-body', $this->item, JPATH_COMPONENT . '/layouts') : $this->item->text; ?>
     </div>
 

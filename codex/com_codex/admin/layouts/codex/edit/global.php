@@ -18,10 +18,10 @@ use Joomla\CMS\Language\Text;
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $input     = $app->getInput();
-$component = $input->getCmd('option', 'com_content');
+$component = $input->getCmd('option', 'com_codex');
 
 if ($component === 'com_categories') {
-    $extension = $input->getCmd('extension', 'com_content');
+    $extension = $input->getCmd('extension', 'com_codex');
     $parts     = explode('.', $extension);
     $component = $parts[0];
 }

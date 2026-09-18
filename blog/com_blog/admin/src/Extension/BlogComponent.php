@@ -127,7 +127,7 @@ class BlogComponent extends MVCComponent implements
      */
     public function boot(ContainerInterface $container)
     {
-        Factory::getLanguage()->load('com_content', JPATH_SITE);
+        Factory::getLanguage()->load('com_blog', JPATH_SITE);
         $this->getRegistry()->register('blogadministrator', new AdministratorService());
         // Deliberately NOT also registered under the shared, unnamespaced
         // 'icon' key: academy/blog/codex/content are siblings whose icon

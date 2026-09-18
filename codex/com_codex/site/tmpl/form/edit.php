@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_codex.form-edit');
 
-$this->tab_name = 'com-content-form';
+$this->tab_name = 'content-view-form';
 $this->ignore_fieldsets = ['image-featured', 'jmetadata', 'item_associations'];
 $this->useCoreUI = true;
 

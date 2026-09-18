@@ -6,7 +6,7 @@ use Joomla\CMS\Router\Route;
 $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 ?>
 <?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
-<div class="com-codex-categories">
+<div class="content-view-categories">
     <h1>Categories</h1>
     <ul>
         <?php foreach ($this->items as $item) : ?>

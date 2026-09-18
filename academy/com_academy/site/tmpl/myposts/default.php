@@ -16,7 +16,7 @@ $stateLabels = [
 ];
 ?>
 <?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
-<div class="com-academy-myposts">
+<div class="content-view-myposts">
     <h1 class="mb-4"><?php echo $escape(Text::_('COM_ACADEMY_MY_POSTS_LABEL')); ?></h1>
     <table class="table">
         <thead>

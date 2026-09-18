@@ -28,7 +28,7 @@ use Joomla\CMS\Language\Text;
         <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
             <?php echo '<span class="visually-hidden">'; ?>
         <?php endif; ?>
-        <?php echo Text::_('COM_CONTENT_ARTICLE_INFO'); ?>
+        <?php echo Text::_('COM_CODEX_ARTICLE_INFO'); ?>
         <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
             <?php echo '</span>'; ?>
         <?php endif; ?>

@@ -80,10 +80,6 @@ final class HtmlView extends BaseHtmlView
             $item->readmore = 0;
         }
 
-        $limit = max(1, (int) $app->get('list_limit', 20));
-        $start = $app->getInput()->getUint('limitstart', 0);
-        $this->items = array_slice($all, $start, $limit);
-        $this->pagination = new Pagination(count($all), $start, $limit);
         $this->params = clone $app->getParams();
         $requestedLayout = $app->getInput()->getCmd('layout', '');
         $layout = (string) $this->params->get('category_layout', '');
@@ -98,6 +94,23 @@ final class HtmlView extends BaseHtmlView
         if (in_array($layoutName, ['default', 'blog', 'standard', 'card', 'learning', 'simple', 'nickel'], true)) {
             $this->setLayout($layout);
         }
+        // Blog pages must count exactly the items their leading/intro/link groups render.
+        $limit = max(1, (int) $app->get('list_limit', 20));
+        if ($layoutName !== 'default') {
+            $leading = max(0, (int) $this->params->get('num_leading_posts', 1));
+            $intro = max(0, (int) $this->params->get('num_intro_posts', 4));
+            $links = \Joomla\Component\Codex\Site\Helper\CompactPostsHelper::visible($this->params) && $this->params->get('compact_selection', 'next') === 'next' ? max(0, (int) $this->params->get('num_links', 4)) : 0;
+            if ($leading + $intro + $links === 0) {
+                $intro = 1;
+            }
+            $this->params->set('num_leading_posts', $leading);
+            $this->params->set('num_intro_posts', $intro);
+            $limit = $leading + $intro + $links;
+        }
+        $start = $app->getInput()->getUint('limitstart', 0);
+        $this->pagination = new Pagination(count($all), $start, $limit);
+        $this->items = array_slice($all, $this->pagination->limitstart, $limit);
+
         foreach ($this->items as $item) {
             $merged = clone $this->params;
             $merged->merge($item->params);

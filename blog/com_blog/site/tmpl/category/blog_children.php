@@ -25,7 +25,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
         <?php // Check whether category access level allows access to subcategories.?>
         <?php if (in_array($child->access, $groups)) : ?>
             <?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
-            <div class="com-content-category-blog__child">
+            <div class="content-view-category-blog__child">
                 <?php if ($lang->isRtl()) : ?>
                 <h3 class="page-header item-title">
                     <?php if ($this->params->get('show_cat_num_posts', 1)) : ?>
@@ -58,14 +58,14 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 
                 <?php if ($this->params->get('show_subcat_desc') == 1) : ?>
                     <?php if ($child->description) : ?>
-                    <div class="com-content-category-blog__description category-desc">
+                    <div class="content-view-category-blog__description category-desc">
                         <?php echo HTMLHelper::_('content.prepare', $child->description, '', 'com_blog.category'); ?>
                     </div>
                     <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-                <div class="com-content-category-blog__children collapse fade" id="category-<?php echo $child->id; ?>">
+                <div class="content-view-category-blog__children collapse fade" id="category-<?php echo $child->id; ?>">
                     <?php
                     $this->children[$child->id] = $child->getChildren();
                     $this->category = $child;

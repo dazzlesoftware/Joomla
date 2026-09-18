@@ -33,27 +33,38 @@
         <option value="">JOPTION_ALL_CATEGORIES</option>
       </field>
       <field name="layout_type" type="hidden" default="blog" />
-      <field name="num_leading_posts" type="number" label="JGLOBAL_NUM_LEADING_POSTS_LABEL" filter="integer" validate="number" min="0" useglobal="true" parentclass="stack span-1" />
+      <field name="num_leading_posts" type="number" label="COM_BLOG_LEADING_POSTS" filter="integer" validate="number" min="0" useglobal="true" parentclass="stack span-1" />
       <field name="blog_class_leading" type="text" label="JGLOBAL_BLOG_CLASS_LEADING" parentclass="stack span-2-inline" useglobal="true" validate="CssIdentifier" />
-      <field name="num_intro_posts" type="number" label="JGLOBAL_NUM_INTRO_POSTS_LABEL" filter="integer" validate="number" min="0" useglobal="true" parentclass="stack span-1" />
+      <field name="num_intro_posts" type="number" label="COM_BLOG_INTRO_POSTS" filter="integer" validate="number" min="0" useglobal="true" parentclass="stack span-1" />
       <field name="blog_class" type="text" label="JGLOBAL_BLOG_CLASS" description="JGLOBAL_BLOG_CLASS_NOTE_DESC" parentclass="stack span-2-inline" useglobal="true" validate="CssIdentifier" />
       <field name="num_columns" type="number" label="JGLOBAL_NUM_COLUMNS_LABEL" filter="integer" validate="number" min="0" parentclass="stack span-1-inline" useglobal="true" />
       <field name="multi_column_order" type="list" label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL" parentclass="stack span-2-inline" useglobal="true" validate="options">
         <option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
         <option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
       </field>
-      <field name="num_links" type="number" label="JGLOBAL_NUM_LINKS_LABEL" filter="integer" validate="number" min="0" parentclass="stack span-1" useglobal="true" />
+      <field name="num_links" type="number" label="COM_BLOG_COMPACT_COUNT" filter="integer" validate="number" min="0" parentclass="stack span-1" useglobal="true" />
       <field name="link_featured_image" type="list" label="COM_BLOG_LINKED_FEATURED_IMAGE_LABEL" useglobal="true" validate="options" parentclass="stack span-2-inline">
         <option value="0">JNO</option>
         <option value="1">JYES</option>
       </field>
+      <field name="compact_show" type="list" label="COM_BLOG_COMPACT_SHOW" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="compact_layout" type="list" label="COM_BLOG_COMPACT_LAYOUT" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="rows">COM_BLOG_COMPACT_ROWS</option><option value="columns">COM_BLOG_COMPACT_COLUMNS_LAYOUT</option></field>
+<field name="compact_column_style" type="list" label="COM_BLOG_COMPACT_COLUMN_STYLE" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="grid">COM_BLOG_COMPACT_GRID</option><option value="masonry">COM_BLOG_COMPACT_MASONRY</option></field>
+<field name="compact_columns" type="list" label="COM_BLOG_COMPACT_COLUMNS" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="compact_show_title" type="list" label="COM_BLOG_COMPACT_SHOW_TITLE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="compact_selection" type="list" label="COM_BLOG_COMPACT_SELECTION" description="COM_BLOG_COMPACT_SELECTION_DESC" useglobal="true">
+        <option value="">JGLOBAL_USE_GLOBAL</option><option value="next">COM_BLOG_COMPACT_NEXT</option><option value="latest">COM_BLOG_COMPACT_LATEST</option><option value="featured">COM_BLOG_COMPACT_FEATURED</option><option value="random">COM_BLOG_COMPACT_RANDOM</option><option value="related">COM_BLOG_COMPACT_RELATED</option>
+      </field>
+      <field name="compact_show_image" type="list" label="COM_BLOG_COMPACT_SHOW_IMAGE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+      <field name="compact_show_rating" type="list" label="COM_BLOG_COMPACT_SHOW_RATING" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+
       <field name="orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" useglobal="true" validate="options" parentclass="stack span-2">
         <option value="none">JGLOBAL_NO_ORDER</option>
         <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
         <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
         <option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
       </field>
-      <field name="orderby_sec" type="list" label="JGLOBAL_POST_ORDER_LABEL" useglobal="true" validate="options" parentclass="stack span-2-inline">
+      <field name="orderby_sec" type="list" label="COM_BLOG_POST_ORDER" useglobal="true" validate="options" parentclass="stack span-2-inline">
         <option value="front">COM_BLOG_FEATURED_ORDER</option>
         <option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
         <option value="date">JGLOBAL_OLDEST_FIRST</option>

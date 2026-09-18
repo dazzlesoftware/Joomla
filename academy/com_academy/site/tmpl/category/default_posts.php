@@ -58,9 +58,9 @@ if (!empty($this->items)) {
 $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 ?>
 
-<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-content-category__posts">
+<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="content-view-category__posts">
     <?php if ($this->params->get('filter_field') !== 'hide') : ?>
-        <div class="com-content__filter btn-group">
+        <div class="content-view__filter btn-group">
             <?php if ($this->params->get('filter_field') === 'tag') : ?>
                 <span class="visually-hidden">
                     <label class="filter-search-lbl" for="filter-search">
@@ -102,7 +102,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
     <?php endif; ?>
 
     <?php if ($this->params->get('show_pagination_limit')) : ?>
-        <div class="com-content-category__pagination btn-group float-end">
+        <div class="content-view-category__pagination btn-group float-end">
             <label for="limit" class="visually-hidden">
                 <?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
             </label>
@@ -118,7 +118,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
             </div>
         <?php endif; ?>
     <?php else : ?>
-        <table class="com-content-category__table category table table-striped table-bordered table-hover">
+        <table class="content-view-category__table category table table-striped table-bordered table-hover">
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_ACADEMY_POSTS_TABLE_CAPTION'); ?>
             </caption>
@@ -325,13 +325,13 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
     <?php // Add pagination links?>
     <?php if (!empty($this->items)) : ?>
         <?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-            <div class="com-content-category__navigation w-100">
+            <div class="content-view-category__navigation w-100">
                 <?php if ($this->params->def('show_pagination_results', 1)) : ?>
-                    <p class="com-content-category__counter counter float-end pt-3 pe-2">
+                    <p class="content-view-category__counter counter float-end pt-3 pe-2">
                         <?php echo $this->pagination->getPagesCounter(); ?>
                     </p>
                 <?php endif; ?>
-                <div class="com-content-category__pagination">
+                <div class="content-view-category__pagination">
                     <?php echo $this->pagination->getPagesLinks(); ?>
                 </div>
             </div>

@@ -5,7 +5,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 ?>
 <?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
-<div class="com-codex-authors">
+<div class="content-view-authors">
     <h1 class="mb-4"><?php echo $this->escape($this->getDocument()->getTitle()); ?></h1>
     <ul class="list-unstyled">
         <?php foreach ($this->items as $author) : ?>

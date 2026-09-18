@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Codex\Site\View\Archive\HtmlView $this */
 ?>
 <?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
-<div class="com-content-archive archive">
+<div class="content-view-archive archive">
 <?php if ($this->params->get('show_page_heading')) : ?>
     <div class="page-header">
         <h1>
@@ -26,8 +26,8 @@ use Joomla\CMS\Router\Route;
     </div>
 <?php endif; ?>
 
-<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-content-archive__form">
-    <fieldset class="com-content-archive__filters filters">
+<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="content-view-archive__form">
+    <fieldset class="content-view-archive__filters filters">
         <legend class="visually-hidden">
             <?php echo Text::_('COM_CODEX_FORM_FILTER_LEGEND'); ?>
         </legend>

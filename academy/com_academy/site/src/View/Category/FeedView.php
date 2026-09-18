@@ -1,82 +1,86 @@
 <?php
 
-/**
- * @package     Joomla.Site
- * @subpackage  com_academy
- *
- * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
 namespace Joomla\Component\Academy\Site\View\Category;
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\CategoryFeedView;
+use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Academy\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Academy\Site\Helper\ListExcerptHelper;
 use Joomla\Component\Academy\Site\Helper\RouteHelper;
 
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
-
-/**
- * HTML View class for the Content component
- *
- * @since  1.5
- */
-class FeedView extends CategoryFeedView
+/** Feeds use the same family tables and visibility rules as category pages. */
+class FeedView extends AbstractView
 {
-    /**
-     * @var    string  The name of the view to link individual items to
-     *
-     * @since  3.2
-     */
-    protected $viewName = 'post';
-
-    /**
-     * Method to reconcile non-standard names from components to usage in this class.
-     * Typically overridden in the component feed view class.
-     *
-     * @param   object  $item  The item for a feed, an element of the $items array.
-     *
-     * @return  void
-     *
-     * @since   3.2
-     */
-    protected function reconcileNames($item)
+    public function display($tpl = null)
     {
-        // Get description, featured_image, author and date
-        $app               = Factory::getApplication();
-        $params            = $app->getParams();
-        $this->getDocument()->setGenerator('Genesis Academy');
-        $item->description = '';
-        $obj               = json_decode($item->media);
-
-        if (!empty($obj->featured_image)) {
-            $item->description = '<p>' . HTMLHelper::_('image', $obj->featured_image, $obj->featured_image_alt) . '</p>';
+        $app = Factory::getApplication();
+        $params = $app->getParams();
+        if (!$params->get('show_feed_link', 1)) {
+            throw new \RuntimeException(Text::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
         }
 
-        $item->description .= ($params->get('feed_summary', 0) ? $item->summary . $item->body : $item->summary);
-
-        // Add readmore link to description if summary is shown, show_readmore is true and body exists
-        if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->body) {
-            // Compute the post slug
-            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-
-            // URL link to post
-            $link = Route::_(
-                RouteHelper::getPostRoute($item->slug, $item->catid, $item->language),
-                true,
-                $app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE,
-                true
-            );
-
-            $item->description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
-                . Text::_('COM_ACADEMY_FEED_READMORE') . '</a></p>';
+        $db = CategoriesHelper::db();
+        $levels = $app->getIdentity()->getAuthorisedViewLevels();
+        $id = $app->getInput()->getInt('id');
+        $category = $db->setQuery($db->createQuery()->select('*')->from('#__academy_categories')
+            ->where('id=' . $id)->where('published=1')->whereIn('access', $levels))->loadObject();
+        if (!$category) {
+            throw new \RuntimeException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
         }
 
-        $item->author = $item->created_by_alias ?: $item->author;
+        $query = $db->createQuery()->select('p.*, u.name AS author, u.email AS author_email')
+            ->from('#__academy AS p')->join('LEFT', '#__users AS u ON u.id=p.created_by')
+            ->where('p.catid=' . $id)->where('p.state=1')->whereIn('p.access', $levels)
+            ->where('(p.publish_up IS NULL OR p.publish_up<=UTC_TIMESTAMP())')
+            ->where('(p.publish_down IS NULL OR p.publish_down>=UTC_TIMESTAMP())')
+            ->order('CASE WHEN p.publish_up IS NULL THEN p.created ELSE p.publish_up END DESC');
+        if ($app->getLanguageFilter()) {
+            $query->where('p.language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+        }
+        $items = $db->setQuery($query, 0, max(1, (int) $app->get('feed_limit', 10)))->loadObjectList();
+        $document = $this->getDocument();
+        $document->setTitle($category->title);
+        $document->setDescription(strip_tags($category->description ?? ''));
+        $document->setGenerator('Genesis Academy');
+        $document->link = Route::_(RouteHelper::getCategoryRoute($id, $category->language), false, Route::TLS_IGNORE, true);
+        $document->editor = $app->get('fromname');
+        $feedEmail = $app->get('feed_email', 'none');
+        if ($feedEmail !== 'none') {
+            $document->editorEmail = $app->get('mailfrom');
+        }
+
+        foreach ($items as $item) {
+            $feed = new FeedItem();
+            $feed->title = $item->title;
+            $feed->link = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language), false, Route::TLS_IGNORE, true);
+            $item->readmore = !empty($item->body);
+            $feed->description = $params->get('feed_summary', 0)
+                ? (string) $item->summary . (string) $item->body
+                : ListExcerptHelper::render($item, $params);
+            if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 1) && $item->readmore) {
+                $feed->description .= '<p><a href="' . htmlspecialchars($feed->link, ENT_QUOTES, 'UTF-8') . '">'
+                    . Text::_('COM_ACADEMY_FEED_READMORE') . '</a></p>';
+            }
+            $media = json_decode($item->media ?? '{}');
+            if (!empty($media->featured_image)) {
+                $feed->description = '<p>' . HTMLHelper::_('image', $media->featured_image, $media->featured_image_alt ?? '') . '</p>' . $feed->description;
+            }
+            $feed->author = $item->created_by_alias ?: ($item->author ?? '');
+            $feed->category = $category->title;
+            // Syndication timestamps describe publication, independently of display preferences.
+            $feed->date = $item->publish_up ?: $item->created;
+            if ($feedEmail === 'site') {
+                $feed->authorEmail = $app->get('mailfrom');
+            } elseif ($feedEmail === 'author') {
+                $feed->authorEmail = $item->author_email ?? '';
+            }
+            $document->addItem($feed);
+        }
     }
 }
