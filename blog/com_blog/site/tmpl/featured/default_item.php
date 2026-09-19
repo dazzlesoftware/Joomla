@@ -37,17 +37,18 @@ $isUnpublished     = $this->item->state == BlogComponent::CONDITION_UNPUBLISHED 
 <?php
 $itemClasses = match ($listStyle) {
     'card', 'learning' => 'card h-100 overflow-hidden',
-    'simple' => 'h-100 d-flex flex-column',
-    'nickel' => 'border-start border-4 border-secondary p-3 bg-body-tertiary',
+    'simple', 'standard' => 'h-100 d-flex flex-column',
+    'nickel' => 'card h-100 overflow-hidden',
     default => '',
 };
 ?>
 <div class="<?php echo $itemClasses; ?>">
+<?php if ($listStyle === 'nickel') { echo LayoutHelper::render('post.nickel-header', $this->item, JPATH_COMPONENT . '/layouts'); } ?>
 <?php
 $featuredImages = json_decode((string) ($this->item->media ?? '{}'));
 if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->featured_image)) {
     echo LayoutHelper::render('post.image-placeholder', $this->item, JPATH_COMPONENT . '/layouts');
-} elseif ($listStyle !== 'simple') {
+} elseif (!in_array($listStyle, ['simple', 'standard', 'nickel'], true)) {
     echo LayoutHelper::render('blog.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts');
 }
 ?>
@@ -59,16 +60,16 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 </div>
 <?php else : ?>
 
-<div class="item-content <?php echo $listStyle === 'card' ? 'card-body d-flex flex-column' : ($listStyle === 'simple' ? 'd-flex flex-column flex-grow-1' : ''); ?>">
+<div class="item-content <?php echo in_array($listStyle, ['card', 'nickel'], true) ? 'card-body d-flex flex-column' : (in_array($listStyle, ['simple', 'standard'], true) ? 'd-flex flex-column flex-grow-1' : ''); ?>">
     <?php if ($isUnpublished) : ?>
         <div class="system-unpublished">
     <?php endif; ?>
 
-    <?php if ($listStyle === 'simple') : ?>
-        <?php echo LayoutHelper::render('post.simple-header', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php if (in_array($listStyle, ['simple', 'standard'], true)) : ?>
+        <?php echo LayoutHelper::render('post.' . $listStyle . '-header', $this->item, JPATH_COMPONENT . '/layouts'); ?>
     <?php else : ?>
     <?php if ($params->get('show_title', 1)) : ?>
-        <h2 class="item-title d-flex align-items-center gap-2"><?php if (in_array($listStyle, ['standard', 'nickel'], true)) {
+        <h2 class="item-title d-flex align-items-center gap-2"><?php if (in_array($listStyle, ['standard'], true)) {
             echo LayoutHelper::render('post.avatar', $this->item, JPATH_COMPONENT . '/layouts');
         } ?><span>
         <?php if ($params->get('link_titles', 1) && $params->get('access-view')) : ?>
@@ -93,6 +94,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
         <span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
     <?php endif; ?>
 
+    <?php if ($listStyle === 'nickel') { echo LayoutHelper::render('post.nickel-category', $this->item, JPATH_COMPONENT . '/layouts'); } ?>
     <?php if ($canEdit) : ?>
         <?php echo LayoutHelper::render('blog.content.icons', ['params' => $params, 'item' => $this->item], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
@@ -104,7 +106,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
     <?php $useDefList = (\Joomla\Component\Blog\Site\Helper\DateHelper::options($params)[0]
         || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
-    <?php if ($useDefList && $listStyle !== 'simple') : ?>
+    <?php if ($useDefList && !in_array($listStyle, ['simple', 'standard', 'nickel'], true)) : ?>
         <?php echo LayoutHelper::render('blog.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
     <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
@@ -133,12 +135,18 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 
     <?php endif; ?>
 
-    <?php if (in_array($listStyle, ['card', 'simple'], true)) : ?><div class="mt-auto pt-2"><?php endif; ?>
+    <?php if (in_array($listStyle, ['card', 'simple', 'standard', 'nickel'], true)) : ?><div class="mt-auto pt-2"><?php endif; ?>
+    <?php if ($listStyle === 'simple') : ?>
+        <?php if (\Joomla\Component\Blog\Site\Helper\DateHelper::value($this->item, $params)) : ?>
+            <div class="small text-muted"><span class="fa-solid fa-calendar me-1" aria-hidden="true"></span><?php echo \Joomla\Component\Blog\Site\Helper\DateHelper::render($this->item, $params); ?></div>
+        <?php endif; ?>
+    <?php else : ?>
     <?php echo LayoutHelper::render($listStyle === 'compact' ? 'post.basic-meta' : 'post.meta', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php endif; ?>
     <?php if ($listStyle === 'card') {
         echo LayoutHelper::render('post.card-footer', $this->item, JPATH_COMPONENT . '/layouts');
     } ?>
-    <?php if (in_array($listStyle, ['card', 'simple'], true)) : ?></div><?php endif; ?>
+    <?php if (in_array($listStyle, ['card', 'simple', 'standard', 'nickel'], true)) : ?></div><?php endif; ?>
 
     <?php if ($isUnpublished) : ?>
         </div>
@@ -150,4 +158,5 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 <?php echo $this->item->event->afterDisplayContent; ?>
 <?php endif; ?>
 
+<?php if ($listStyle === 'nickel') : ?><footer class="card-footer"><?php echo LayoutHelper::render('post.basic-meta', $this->item, JPATH_COMPONENT . '/layouts'); ?></footer><?php endif; ?>
 </div>

@@ -10,10 +10,7 @@ $item = $displayData;
 $date = \Joomla\Component\Blog\Site\Helper\DateHelper::value($item, $item->params ?? null);
 $category = trim((string) ($item->category_title ?? ''));
 ?>
-<header class="d-flex align-items-start gap-2 mb-3">
-    <?php if ($item->params->get('show_author', 1)) : ?>
-        <div class="flex-shrink-0"><?php echo LayoutHelper::render('post.avatar', $item, JPATH_COMPONENT . '/layouts'); ?></div>
-    <?php endif; ?>
+<header class="mb-3">
     <div class="flex-grow-1" style="min-width:0">
         <?php if ($item->params->get('show_title', 1)) : ?>
             <h2 class="h5 fw-bold mb-2 text-break">
@@ -24,14 +21,14 @@ $category = trim((string) ($item->category_title ?? ''));
                 <?php endif; ?>
             </h2>
         <?php endif; ?>
-    <div class="d-flex flex-wrap gap-2 small text-muted">
+    <div class="d-flex align-items-center flex-wrap gap-2 small text-muted">
         <?php if ($item->params->get('show_author', 1)) : ?>
-            <span><span class="fa-solid fa-user me-1" aria-hidden="true"></span><?php
+            <span class="d-inline-flex align-items-center gap-1"><?php echo LayoutHelper::render('post.avatar', $item, JPATH_COMPONENT . '/layouts'); ?><?php
                 $author = htmlspecialchars((string) ($item->created_by_alias ?: ($item->author ?? '')), ENT_QUOTES, 'UTF-8');
                 if ($item->params->get('link_author', 1)) {
                     $author = HTMLHelper::_('link', Route::_('index.php?option=com_blog&view=author&id=' . (int) $item->created_by), $author);
                 }
-                echo \Joomla\CMS\Language\Text::sprintf('COM_BLOG_WRITTEN_BY', $author);
+                echo $author;
             ?></span>
         <?php endif; ?>
         <?php if ($item->params->get('show_category', 1) && $category !== '') : ?>
@@ -40,11 +37,8 @@ $category = trim((string) ($item->category_title ?? ''));
                 if ($item->params->get('link_category', 1)) {
                     $categoryText = HTMLHelper::_('link', Route::_(RouteHelper::getCategoryRoute((int) $item->catid, $item->language)), $categoryText);
                 }
-                echo \Joomla\CMS\Language\Text::sprintf('COM_BLOG_CATEGORY', $categoryText);
+                echo $categoryText;
             ?></span>
-        <?php endif; ?>
-        <?php if ($date) : ?>
-            <span class="post-card-footer-date"><span class="fa-solid fa-calendar me-1" aria-hidden="true"></span><?php echo \Joomla\Component\Blog\Site\Helper\DateHelper::render($item, $item->params); ?></span>
         <?php endif; ?>
     </div>
     </div>
