@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <layout title="Card Layout" option="Card Layout">
+  <layout title="COM_CODEX_CATEGORY_POSTS_MENU_TITLE" option="Card Layout">
     <help key="Menu_Item:_Category_Blog" />
-    <message>Card category post layout.</message>
+    <message>COM_CODEX_CATEGORY_POSTS_MENU_DESC</message>
   </layout>
   <!-- Add fields to the request variables for the layout. -->
   <fields name="request">
@@ -62,20 +62,21 @@
       </field>
     </fieldset>
     <fieldset name="advanced" label="COM_CODEX_POST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL" addfieldprefix="Joomla\Component\Codex\Administrator\Field">
+      <field name="category_layout" type="componentlayout" class="form-select" label="COM_CODEX_CATEGORY_STYLE_LABEL" useglobal="true" extension="com_codex" view="category" />
+      <field name="post_listing_layout" type="list" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
+        <option value="rows">COM_CODEX_POST_LISTING_LAYOUT_ROWS</option>
+        <option value="columns">COM_CODEX_POST_LISTING_LAYOUT_COLUMNS</option>
+      </field>
+      <field name="column_style" type="list" label="COM_CODEX_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
+        <option value="grid">COM_CODEX_COLUMN_STYLE_GRID</option>
+        <option value="masonry">COM_CODEX_COLUMN_STYLE_MASONRY</option>
+      </field>
       <field name="columns_per_row" type="list" label="COM_CODEX_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
         <option value="2">2 Columns</option>
         <option value="3">3 Columns</option>
         <option value="4">4 Columns</option>
         <option value="5">5 Columns</option>
         <option value="6">6 Columns</option>
-      </field>
-      <field name="column_style" type="list" label="COM_CODEX_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
-        <option value="grid">COM_CODEX_COLUMN_STYLE_GRID</option>
-        <option value="masonry">COM_CODEX_COLUMN_STYLE_MASONRY</option>
-      </field>
-      <field name="post_listing_layout" type="list" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
-        <option value="rows">COM_CODEX_POST_LISTING_LAYOUT_ROWS</option>
-        <option value="columns">COM_CODEX_POST_LISTING_LAYOUT_COLUMNS</option>
       </field>
       <field name="posts_per_page" type="number" label="COM_CODEX_POSTS_PER_PAGE" description="COM_CODEX_POSTS_PER_PAGE_DESC" filter="integer" validate="number" min="1" useglobal="true" />
 

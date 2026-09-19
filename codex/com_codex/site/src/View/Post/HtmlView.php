@@ -151,6 +151,9 @@ class HtmlView extends BaseHtmlView
         ) {
             $this->menuItemMatchPost = true;
 
+            // Menu overrides must be merged before resolving the selected post style.
+            $item->params->merge($temp);
+
             // Load layout from active query (in case it is an alternative menu item)
             if (isset($active->query['layout'])) {
                 $this->setLayout($active->query['layout']);
@@ -159,9 +162,6 @@ class HtmlView extends BaseHtmlView
                 $this->setLayout($layout);
             }
 
-            // $item->params are the post params, $temp are the menu item params
-            // Merge so that the menu item params take priority
-            $item->params->merge($temp);
         } else {
             // The active menu item is not linked to this post, so the post params take priority here
             // Merge the menu item params with the post params so that the post params take priority

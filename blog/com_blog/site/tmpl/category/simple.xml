@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <layout title="Simple Layout" option="Simple Layout">
+  <layout hidden="true" title="Simple Layout" option="Simple Layout">
     <help key="Menu_Item:_Category_Blog" />
     <message>Simple category post layout.</message>
   </layout>

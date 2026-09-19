@@ -83,8 +83,8 @@ final class HtmlView extends BaseHtmlView
         $this->params = clone $app->getParams();
         $requestedLayout = $app->getInput()->getCmd('layout', '');
         $layout = (string) $this->params->get('category_layout', '');
-        // Named style menu types are explicit; Blog/List can inherit the component setting.
-        if (in_array($requestedLayout, ['standard', 'card', 'learning', 'simple', 'nickel'], true)) {
+        // Alternative URLs remain valid; the Category Posts menu uses its style setting.
+        if (in_array($requestedLayout, ['standard', 'learning', 'simple', 'nickel'], true)) {
             $layout = $requestedLayout;
         } elseif ($layout === '') {
             $layout = $requestedLayout ?: 'card';

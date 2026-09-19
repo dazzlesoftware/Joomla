@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <layout title="Nickel Layout" option="Nickel Layout">
+  <layout hidden="true" title="Nickel Layout" option="Nickel Layout">
     <help key="Menu_Item:_Category_Blog" />
     <message>Nickel category post layout.</message>
   </layout>

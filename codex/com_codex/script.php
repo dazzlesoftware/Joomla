@@ -52,9 +52,21 @@ class Com_CodexInstallerScript
         try {
             $menus = $db->setQuery("SELECT id, link, params FROM #__menu WHERE client_id = 0 AND component_id = " . (int) $row->extension_id)->loadObjectList();
             foreach ($menus as $menu) {
-                $link = preg_replace('/([?&]layout=)blog(?=&|$)/', '${1}card', $menu->link);
-                $db->setQuery('UPDATE #__menu SET link = ' . $db->quote($link) . ' WHERE id = ' . (int) $menu->id)->execute();
+                $link = $menu->link;
                 $values = $convert(json_decode($menu->params, true) ?: [], $global, false);
+                parse_str((string) parse_url($link, PHP_URL_QUERY), $query);
+                $oldLayout = $query['layout'] ?? '';
+                if (($query['view'] ?? '') === 'category' && in_array($oldLayout, ['blog', 'card', 'learning', 'nickel', 'simple', 'standard'], true)) {
+                    // Preserve the previously explicit style when consolidating menu types.
+                    if ($oldLayout !== 'card' || !array_key_exists('category_layout', $values)) {
+                        $values['category_layout'] = '_:' . ($oldLayout === 'blog' ? 'card' : $oldLayout);
+                    }
+                    $link = preg_replace('/([?&]layout=)[^&]+/', '${1}card', $link);
+                } elseif (($query['view'] ?? '') === 'post' && $oldLayout === 'wiki') {
+                    $values['post_layout'] = '_:wiki';
+                    $link = preg_replace('/&layout=wiki(?=&|$)/', '', $link);
+                }
+                $db->setQuery('UPDATE #__menu SET link = ' . $db->quote($link) . ' WHERE id = ' . (int) $menu->id)->execute();
                 $db->setQuery('UPDATE #__menu SET params = ' . $db->quote(json_encode($values)) . ' WHERE id = ' . (int) $menu->id)->execute();
             }
             $values = $convert($global, [], true);

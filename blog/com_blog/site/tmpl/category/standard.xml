@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <layout title="Standard Layout" option="Standard Layout">
+  <layout hidden="true" title="Standard Layout" option="Standard Layout">
     <help key="Menu_Item:_Category_Blog" />
     <message>Standard category post layout.</message>
   </layout>

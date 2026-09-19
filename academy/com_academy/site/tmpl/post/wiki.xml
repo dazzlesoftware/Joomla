@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<layout title="Wiki" option="Wiki">
+	<layout hidden="true" title="Wiki" option="Wiki">
 		<help
 			key = "Menu_Item:_Single_Post"
 		/>

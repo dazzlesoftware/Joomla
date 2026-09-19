@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<layout title="COM_CODEX_POST_VIEW_DEFAULT_TITLE" option="COM_CODEX_POST_VIEW_DEFAULT_OPTION">
+	<layout title="COM_CODEX_POST_VIEW_DEFAULT_TITLE" option="Default">
 		<help
 			key = "Menu_Item:_Single_Post"
 		/>
@@ -36,6 +36,7 @@
 			addfieldprefix="Joomla\Component\Codex\Administrator\Field"
 		>
 
+			<field name="post_layout" type="componentlayout" class="form-select" label="COM_CODEX_SINGLE_POST_STYLE_LABEL" useglobal="true" extension="com_codex" view="post" />
 			<field name="show_wiki_details" type="list" class="form-select" useglobal="true" validate="options" label="COM_CODEX_WIKI_DETAILS_LABEL" description="COM_CODEX_WIKI_DETAILS_DESC"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field
 				name="show_title"

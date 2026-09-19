@@ -2,7 +2,7 @@
 <form>
   <fields name="params">
     <fieldset name="posts" label="JGLOBAL_POSTS" description="COM_ACADEMY_CONFIG_POST_SETTINGS_DESC">
-      <field name="post_layout" type="componentlayout" label="JGLOBAL_FIELD_LAYOUT_LABEL" class="form-select" menuitems="true" extension="com_academy" view="post" />
+      <field name="post_layout" type="componentlayout" label="COM_ACADEMY_SINGLE_POST_STYLE_LABEL" class="form-select" menuitems="true" extension="com_academy" view="post" />
       <field name="show_wiki_details" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_ACADEMY_WIKI_DETAILS_LABEL" description="COM_ACADEMY_WIKI_DETAILS_DESC"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="show_title" type="radio" label="JGLOBAL_SHOW_TITLE_LABEL" layout="joomla.form.field.radio.switcher" default="1">
         <option value="0">JHIDE</option>
@@ -139,7 +139,7 @@
       <field name="featured_image_class" type="text" label="COM_ACADEMY_IMAGE_FEATURED_CLASS_LABEL" validate="CssIdentifier" showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1" />
     </fieldset>
     <fieldset name="category" label="JCATEGORY" description="COM_ACADEMY_CONFIG_CATEGORY_SETTINGS_DESC">
-      <field name="category_layout" type="componentlayout" default="_:card" label="JGLOBAL_FIELD_LAYOUT_LABEL" class="form-select" menuitems="true" extension="com_academy" view="category" />
+      <field name="category_layout" type="componentlayout" default="_:card" label="COM_ACADEMY_CATEGORY_STYLE_LABEL" class="form-select" menuitems="true" extension="com_academy" view="category" />
       <field name="show_category_title" type="radio" label="JGLOBAL_SHOW_CATEGORY_TITLE" layout="joomla.form.field.radio.switcher" default="1">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
@@ -666,7 +666,7 @@
         <option value="6">6 Columns</option>
       </field>
       <field name="list_excerpt_length" type="number" default="400" filter="integer" min="0" label="COM_ACADEMY_LIST_EXCERPT_LENGTH_LABEL" description="COM_ACADEMY_LIST_EXCERPT_LENGTH_DESC" />
-      <field name="list_item_style" type="hidden" />
+      <field name="list_item_style" type="list" default="card" label="COM_ACADEMY_LIST_ITEM_STYLE_LABEL"><option value="card">Card Layout</option><option value="standard">Standard Layout</option><option value="simple">Simple Layout</option><option value="nickel">Nickel Layout</option><option value="learning">Learning Layout</option></field>
     </fieldset>
   </fields>
 </form>

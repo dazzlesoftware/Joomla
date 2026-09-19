@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <layout title="Learning Layout" option="Learning Layout">
+  <layout hidden="true" title="Learning Layout" option="Learning Layout">
     <help key="Menu_Item:_Category_Blog" />
     <message>Learning category post layout.</message>
   </layout>
