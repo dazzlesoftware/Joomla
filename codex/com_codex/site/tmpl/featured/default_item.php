@@ -54,9 +54,9 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 ?>
 
 <?php if ($listStyle === 'learning') : ?>
-<div class="item-content learning-item-content card-body">
+<div class="item-content learning-item-content card-body d-flex flex-column">
     <?php echo LayoutHelper::render('codex.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
-    <?php echo LayoutHelper::render('post.learning-details', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo LayoutHelper::render('post.card-footer', $this->item, JPATH_COMPONENT . '/layouts'); ?>
 </div>
 <?php else : ?>
 
