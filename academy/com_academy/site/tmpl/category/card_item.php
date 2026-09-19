@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Site
- * @subpackage  com_blog
+ * @subpackage  com_academy
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,10 +15,10 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Blog\Administrator\Extension\BlogComponent;
-use Joomla\Component\Blog\Site\Helper\RouteHelper;
+use Joomla\Component\Academy\Administrator\Extension\AcademyComponent;
+use Joomla\Component\Academy\Site\Helper\RouteHelper;
 
-/** @var \Joomla\Component\Blog\Site\View\Category\HtmlView $this */
+/** @var \Joomla\Component\Academy\Site\View\Category\HtmlView $this */
 // Create a shortcut for params.
 $params = $this->item->params;
 $listStyle = $params->get('list_item_style', 'standard');
@@ -28,7 +28,7 @@ $canEdit = $this->item->params->get('access-edit');
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 $currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
-$isUnpublished = ($this->item->state == BlogComponent::CONDITION_UNPUBLISHED || $this->item->publish_up > $currentDate)
+$isUnpublished = ($this->item->state == AcademyComponent::CONDITION_UNPUBLISHED || $this->item->publish_up > $currentDate)
     || ($this->item->publish_down < $currentDate && $this->item->publish_down !== null);
 
 ?>
@@ -36,7 +36,7 @@ $isUnpublished = ($this->item->state == BlogComponent::CONDITION_UNPUBLISHED || 
 <?php
 $itemClasses = match ($listStyle) {
     'card', 'learning' => 'card h-100 overflow-hidden',
-    'simple' => 'border-bottom py-3',
+    'simple' => 'h-100 d-flex flex-column',
     'nickel' => 'border-start border-4 border-secondary p-3 bg-body-tertiary',
     default => '',
 };
@@ -46,35 +46,39 @@ $itemClasses = match ($listStyle) {
 $featuredImages = json_decode((string) ($this->item->media ?? '{}'));
 if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->featured_image)) {
     echo LayoutHelper::render('post.image-placeholder', $this->item, JPATH_COMPONENT . '/layouts');
-} else {
-    echo LayoutHelper::render('blog.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts');
+} elseif ($listStyle !== 'simple') {
+    echo LayoutHelper::render('academy.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts');
 }
 ?>
 
 <?php if ($listStyle === 'learning') : ?>
 <div class="item-content learning-item-content card-body">
-    <?php echo LayoutHelper::render('blog.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo LayoutHelper::render('academy.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
     <?php echo LayoutHelper::render('post.learning-details', $this->item, JPATH_COMPONENT . '/layouts'); ?>
 </div>
 <?php else : ?>
 
-<div class="item-content <?php echo $listStyle === 'card' ? 'card-body d-flex flex-column' : ''; ?>">
+<div class="item-content <?php echo $listStyle === 'card' ? 'card-body d-flex flex-column' : ($listStyle === 'simple' ? 'd-flex flex-column flex-grow-1' : ''); ?>">
     <?php if ($isUnpublished) : ?>
         <div class="system-unpublished">
     <?php endif; ?>
 
-    <?php echo LayoutHelper::render('blog.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php if ($listStyle === 'simple') : ?>
+        <?php echo LayoutHelper::render('post.simple-header', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php else : ?>
+    <?php echo LayoutHelper::render('academy.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php endif; ?>
 
     <?php if ($canEdit) : ?>
-        <?php echo LayoutHelper::render('blog.content.icons', ['params' => $params, 'item' => $this->item], JPATH_COMPONENT . '/layouts'); ?>
+        <?php echo LayoutHelper::render('academy.content.icons', ['params' => $params, 'item' => $this->item], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
 
     <?php // @todo Not that elegant would be nice to group the params?>
-    <?php $useDefList = (\Joomla\Component\Blog\Site\Helper\DateHelper::options($params)[0]
+    <?php $useDefList = (\Joomla\Component\Academy\Site\Helper\DateHelper::options($params)[0]
         || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
-    <?php if ($useDefList && $listStyle !== 'card') : ?>
-        <?php echo LayoutHelper::render('blog.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
+    <?php if ($useDefList && !in_array($listStyle, ['card', 'simple'], true)) : ?>
+        <?php echo LayoutHelper::render('academy.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
     <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
         <?php echo LayoutHelper::render('posttags', $this->item->tags->itemTags, JPATH_COMPONENT . '/layouts'); ?>
@@ -103,16 +107,16 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
             $link->setVar('return', base64_encode(RouteHelper::getPostRoute($this->item->slug, $this->item->catid, $this->item->language)));
         endif; ?>
 
-        <?php echo LayoutHelper::render('blog.content.readmore', ['item' => $this->item, 'params' => $params, 'link' => $link]); ?>
+        <?php echo LayoutHelper::render('academy.content.readmore', ['item' => $this->item, 'params' => $params, 'link' => $link]); ?>
 
     <?php endif; ?>
 
-    <?php if ($listStyle === 'card') : ?><div class="mt-auto"><?php endif; ?>
-    <?php echo LayoutHelper::render(in_array($listStyle, ['simple', 'compact'], true) ? 'post.basic-meta' : 'post.meta', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php if (in_array($listStyle, ['card', 'simple'], true)) : ?><div class="mt-auto pt-2"><?php endif; ?>
+    <?php echo LayoutHelper::render($listStyle === 'compact' ? 'post.basic-meta' : 'post.meta', $this->item, JPATH_COMPONENT . '/layouts'); ?>
     <?php if ($listStyle === 'card') {
         echo LayoutHelper::render('post.card-footer', $this->item, JPATH_COMPONENT . '/layouts');
     } ?>
-    <?php if ($listStyle === 'card') : ?></div><?php endif; ?>
+    <?php if (in_array($listStyle, ['card', 'simple'], true)) : ?></div><?php endif; ?>
 
     <?php if ($isUnpublished) : ?>
         </div>

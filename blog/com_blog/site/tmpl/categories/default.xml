@@ -202,7 +202,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 	</fieldset>
-	<fieldset name="blog" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
+	<fieldset name="blog" label="COM_BLOG_POST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
 				name="blog_class"

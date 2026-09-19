@@ -42,12 +42,18 @@ class Com_AcademyInstallerScript
             foreach (['num_leading_posts', 'num_intro_posts', 'num_columns', 'multi_column_order', 'blog_class_leading'] as $key) {
                 unset($values[$key]);
             }
+            if (in_array($values['category_layout'] ?? '', ['blog', '_:blog'], true) || ($component && empty($values['category_layout']))) {
+                $values['category_layout'] = '_:card';
+            }
+            if (($values['layout_type'] ?? '') === 'blog') { $values['layout_type'] = 'card'; }
             return $values;
         };
         $db->transactionStart();
         try {
-            $menus = $db->setQuery("SELECT id, params FROM #__menu WHERE client_id = 0 AND component_id = " . (int) $row->extension_id)->loadObjectList();
+            $menus = $db->setQuery("SELECT id, link, params FROM #__menu WHERE client_id = 0 AND component_id = " . (int) $row->extension_id)->loadObjectList();
             foreach ($menus as $menu) {
+                $link = preg_replace('/([?&]layout=)blog(?=&|$)/', '${1}card', $menu->link);
+                $db->setQuery('UPDATE #__menu SET link = ' . $db->quote($link) . ' WHERE id = ' . (int) $menu->id)->execute();
                 $values = $convert(json_decode($menu->params, true) ?: [], $global, false);
                 $db->setQuery('UPDATE #__menu SET params = ' . $db->quote(json_encode($values)) . ' WHERE id = ' . (int) $menu->id)->execute();
             }

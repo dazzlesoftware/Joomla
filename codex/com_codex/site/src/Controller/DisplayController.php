@@ -82,7 +82,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         if (
             $user->id
             || ($this->input->getMethod() === 'POST'
-            && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
+            && (($vName === 'category' && $this->input->get('layout') !== 'card') || $vName === 'archive'))
         ) {
             $cachable = false;
         }

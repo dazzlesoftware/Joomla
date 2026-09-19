@@ -197,7 +197,7 @@ class CategoryModel extends ListModel
         $this->setState('list.start', $app->getInput()->get('limitstart', 0, 'uint'));
 
         // Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-        if (($app->getInput()->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
+        if (($app->getInput()->get('layout') === 'card') || $params->get('layout_type') === 'card') {
             $limit = \Joomla\Component\Academy\Site\Helper\ListingSettingsHelper::count($params) + $params->get('num_links');
             $this->setState('list.links', $params->get('num_links'));
         } else {
@@ -248,7 +248,7 @@ class CategoryModel extends ListModel
              * Special case for blog layout with limit 0 - don't load posts for performance reasons. We also need to
              * create an empty pagination object to avoid fatal errors in the view.
              */
-            if ($limit == 0 && $this->getState('view.layout') === 'blog') {
+            if ($limit == 0 && $this->getState('view.layout') === 'card') {
                 $this->_posts   = [];
                 $this->_pagination = new Pagination(0, 0, 0);
 

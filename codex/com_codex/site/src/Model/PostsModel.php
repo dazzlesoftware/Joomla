@@ -700,8 +700,8 @@ class PostsModel extends ListModel
              * If menu item is 'use_post' and there is no post param, use global
              */
             if (
-                ($input->getString('layout') === 'blog') || ($input->getString('view') === 'featured')
-                || ($this->getState('params')->get('layout_type') === 'blog')
+                ($input->getString('layout') === 'card') || ($input->getString('view') === 'featured')
+                || ($this->getState('params')->get('layout_type') === 'card')
             ) {
                 // Create an array of just the params set to 'use_post'
                 $menuParamsArray = $this->getState('params')->toArray();

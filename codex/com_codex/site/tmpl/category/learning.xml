@@ -14,7 +14,7 @@
   <!-- Add fields to the parameters object for the layout. -->
   <fields name="params">
     <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
-      <field name="layout_type" type="hidden" default="blog" />
+      <field name="layout_type" type="hidden" default="card" />
       <field name="show_category_title" type="list" label="JGLOBAL_SHOW_CATEGORY_TITLE" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
@@ -61,7 +61,7 @@
         <option value="1">JSHOW</option>
       </field>
     </fieldset>
-    <fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL" addfieldprefix="Joomla\Component\Codex\Administrator\Field">
+    <fieldset name="advanced" label="COM_CODEX_POST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL" addfieldprefix="Joomla\Component\Codex\Administrator\Field">
       <field name="columns_per_row" type="list" label="COM_CODEX_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
         <option value="2">2 Columns</option>
         <option value="3">3 Columns</option>

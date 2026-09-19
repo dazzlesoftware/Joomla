@@ -87,11 +87,12 @@ final class HtmlView extends BaseHtmlView
         if (in_array($requestedLayout, ['standard', 'card', 'learning', 'simple', 'nickel'], true)) {
             $layout = $requestedLayout;
         } elseif ($layout === '') {
-            $layout = $requestedLayout ?: 'default';
+            $layout = $requestedLayout ?: 'card';
         }
         // Joomla componentlayout stores component selections as _:card, etc.
         $layoutName = str_contains($layout, ':') ? substr($layout, strrpos($layout, ':') + 1) : $layout;
-        if (in_array($layoutName, ['default', 'blog', 'standard', 'card', 'learning', 'simple', 'nickel'], true)) {
+        if ($layoutName === 'blog') { $layout = $layoutName = 'card'; } // Old bookmarks.
+        if (in_array($layoutName, ['default', 'standard', 'card', 'learning', 'simple', 'nickel'], true)) {
             $this->setLayout($layout);
         }
         // Blog pages must count exactly the items their leading/intro/link groups render.
@@ -120,7 +121,7 @@ final class HtmlView extends BaseHtmlView
     }
 
     /**
-     * Adds everything the item templates (blog_item.php, default.php's excerpt,
+     * Adds everything the item templates (card_item.php, default.php's excerpt,
      * postlist tags, etc.) expect beyond the raw post row: view access, tags,
      * and the onContent* plugin event output.
      */

@@ -1,10 +1,5 @@
 <?php
 defined('_JEXEC') or die;
-
-// Reuse the category blog shell and its item/links subtemplates.
-$this->params->set('list_item_style', 'nickel');
-foreach ($this->items as $item) {
-    $item->params->set('list_item_style', 'nickel');
-}
-$this->setLayout('blog');
-require __DIR__ . '/blog.php';
+$categoryItemStyle = 'nickel';
+$this->setLayout('card');
+require __DIR__ . '/card.php';
