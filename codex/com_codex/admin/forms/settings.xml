@@ -214,19 +214,8 @@
       </field>
     </fieldset>
     <fieldset name="blog_default_parameters" label="COM_CODEX_CONFIG_BLOG_SETTINGS_LABEL" description="COM_CODEX_CONFIG_BLOG_SETTINGS_DESC">
-      <field name="posts_per_page" type="number" label="COM_CODEX_POSTS_PER_PAGE" description="COM_CODEX_POSTS_PER_PAGE_DESC" filter="integer" validate="number" min="1" default="5" />
+<field name="blog_class" type="text" label="COM_CODEX_POST_CSS_CLASS" description="COM_CODEX_POST_CSS_CLASS_DESC" validate="CssIdentifier" />
 
-      <field name="blog_class" type="text" label="COM_CODEX_POST_CSS_CLASS" description="COM_CODEX_POST_CSS_CLASS_DESC" validate="CssIdentifier" />
-
-      <field name="show_subcategory_content" type="list" label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL" default="0" validate="options">
-        <option value="0">JNONE</option>
-        <option value="-1">JALL</option>
-        <option value="1">J1</option>
-        <option value="2">J2</option>
-        <option value="3">J3</option>
-        <option value="4">J4</option>
-        <option value="5">J5</option>
-      </field>
 
       <field name="link_featured_image" type="radio" label="COM_CODEX_LINKED_FEATURED_IMAGE_LABEL" layout="joomla.form.field.radio.switcher" default="0">
         <option value="0">JNO</option>
@@ -329,11 +318,7 @@
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
       </field>
-      <field name="show_featured" type="list" label="COM_CODEX_SHOW_FEATURED_POSTS" default="show" validate="options">
-        <option value="show">JSHOW</option>
-        <option value="hide">JHIDE</option>
-        <option value="only">JONLY</option>
-      </field>
+
     </fieldset>
     <fieldset name="integration_newsfeed" label="JGLOBAL_FEED_TITLE">
       <field name="show_feed_link" type="radio" label="JGLOBAL_SHOW_FEED_LINK_LABEL" layout="joomla.form.field.radio.switcher" default="1">
@@ -650,6 +635,8 @@
       </field>
     </fieldset>
     <fieldset name="list_display" label="COM_CODEX_LIST_DISPLAY_SETTINGS">
+<field name="items_limit_source" type="list" label="# Items" default="custom" validate="options"><option value="joomla">Inherit from Joomla global configuration</option><option value="custom">Specify List Limit Per Page</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></field>
+<field name="posts_per_page" type="number" label="Posts per page" filter="integer" min="1" default="5" showon="items_limit_source:custom" />
       <field name="post_listing_layout" type="list" default="rows" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL">
         <option value="rows">COM_CODEX_POST_LISTING_LAYOUT_ROWS</option>
         <option value="columns">COM_CODEX_POST_LISTING_LAYOUT_COLUMNS</option>
@@ -669,4 +656,14 @@
       <field name="list_item_style" type="list" default="card" label="COM_CODEX_LIST_ITEM_STYLE_LABEL"><option value="card">Card Layout</option><option value="standard">Standard Layout</option><option value="simple">Simple Layout</option><option value="nickel">Nickel Layout</option><option value="learning">Learning Layout</option></field>
     </fieldset>
   </fields>
+<fields name="params"><fieldset name="listing_filters" label="Post Listing Filters"><field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_authors" type="postauthors" label="Exclude Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_categories" type="postcategory" label="Filter by Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_categories" type="postcategory" label="Exclude Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_tags" type="posttags" label="Filter by Tags" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_canonical" type="url" label="Custom Canonical Link" filter="url" relative="false" description="Optional absolute HTTP or HTTPS URL for this listing page." />
+<field name="listing_subcategories" type="list" label="Include Subcategories" default="0" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="listing_include_featured" type="list" label="Include Featured Posts" default="1" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="listing_pin_featured" type="list" label="Pin Featured Posts" default="0" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+</fieldset></fields>
 </form>

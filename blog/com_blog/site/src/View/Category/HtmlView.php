@@ -41,41 +41,41 @@ final class HtmlView extends BaseHtmlView
         $user = $app->getIdentity();
         $db   = CategoriesHelper::db();
 
-        $id = $app->getInput()->getInt('id');
-        $this->category = $db->setQuery(
-            $db->createQuery()->select('*')->from('#__blog_categories')
-                ->where('id=' . (int) $id)
-                ->where('published=1')
-                ->whereIn('access', $user->getAuthorisedViewLevels())
-        )->loadObject();
-
-        if (!$this->category) {
-            throw new \RuntimeException('Category not found', 404);
+        $this->params = clone $app->getParams();
+        $id = $app->getInput()->getInt('id', 0);
+        if (!$this->params->get('listing_tags') && $app->getInput()->get('filter_tag', [], 'array')) {
+            $this->params->set('listing_tags', $app->getInput()->get('filter_tag', [], 'array'));
         }
-
-        $q = $db->createQuery()->select('p.*, u.name AS author')->from('#__blog AS p')
-            ->join('LEFT', '#__users AS u ON u.id = p.created_by')
-            ->where('p.catid=' . (int) $id)
-            ->where('p.state=1')
-            ->whereIn('p.access', $user->getAuthorisedViewLevels())
+        $selected = \Joomla\Component\Blog\Site\Helper\ListingFilterHelper::ids($this->params->get('listing_categories', []));
+        $headerId = $id ?: (count($selected) === 1 ? $selected[0] : 0);
+        $this->category = (object) ['id' => 0, 'title' => $this->params->get('page_heading', 'Posts'), 'description' => '', 'default_image' => '', 'language' => '*'];
+        if ($headerId) {
+            $categoryQuery = $db->createQuery()->select('*')->from('#__blog_categories')
+                ->where('id=' . $headerId)->where('published=1')->whereIn('access', $user->getAuthorisedViewLevels());
+            if ($app->getLanguageFilter()) {
+                $categoryQuery->where('language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+            }
+            $this->category = $db->setQuery($categoryQuery)->loadObject();
+            if (!$this->category) { throw new \RuntimeException('Category not found', 404); }
+        }
+        $q = $db->createQuery()->select('p.*, u.name AS author, c.title AS category_title, c.language AS category_language, c.default_image AS category_default_image')
+            ->from('#__blog AS p')->join('LEFT', '#__users AS u ON u.id=p.created_by')
+            ->join('INNER', '#__blog_categories AS c ON c.id=p.catid')
+            ->where('p.state=1 AND c.published=1')->whereIn('p.access', $user->getAuthorisedViewLevels())->whereIn('c.access', $user->getAuthorisedViewLevels())
             ->where('(p.publish_up IS NULL OR p.publish_up<=UTC_TIMESTAMP())')
-            ->where('(p.publish_down IS NULL OR p.publish_down>=UTC_TIMESTAMP())')
-            ->order('CASE WHEN p.publish_up IS NULL THEN p.created ELSE p.publish_up END DESC');
-
+            ->where('(p.publish_down IS NULL OR p.publish_down>=UTC_TIMESTAMP())');
+        \Joomla\Component\Blog\Site\Helper\ListingFilterHelper::apply($q, $this->params, 'p', $id);
+        $q->order('COALESCE(p.publish_up,p.created) DESC, p.id DESC');
         if ($app->getLanguageFilter()) {
-            $q->where('p.language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+            foreach (['p.language', 'c.language'] as $field) {
+                $q->where($field . ' IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+            }
         }
-
         $all = $db->setQuery($q)->loadObjectList() ?: [];
 
         foreach ($all as $item) {
             $item->params = new Registry($item->options ?? '{}');
             $item->slug = $item->id . ':' . $item->alias;
-            // Lets the featured_image layout fall back to the category's own
-            // "Default Post Cover" when a post has no image of its own.
-            $item->category_default_image = $this->category->default_image ?? '';
-            $item->category_title = $this->category->title;
-            $item->category_language = $this->category->language;
             $item->parent_id = null;
             $item->readmore = 0;
         }
@@ -96,7 +96,7 @@ final class HtmlView extends BaseHtmlView
             $this->setLayout($layout);
         }
         // Blog pages must count exactly the items their leading/intro/link groups render.
-        $limit = max(1, (int) $app->get('list_limit', 20));
+        $limit = \Joomla\Component\Blog\Site\Helper\ListingSettingsHelper::count($this->params);
         if ($layoutName !== 'default') {
             $posts = \Joomla\Component\Blog\Site\Helper\ListingSettingsHelper::count($this->params);
             $links = \Joomla\Component\Blog\Site\Helper\CompactPostsHelper::visible($this->params) && $this->params->get('compact_selection', 'next') === 'next' ? max(0, (int) $this->params->get('num_links', 4)) : 0;
@@ -117,6 +117,7 @@ final class HtmlView extends BaseHtmlView
 
         $this->getDocument()->setTitle($this->category->title);
 
+        \Joomla\Component\Blog\Site\Helper\ListingFilterHelper::canonical($this->getDocument(), $this->params);
         parent::display($tpl);
     }
 

@@ -5,14 +5,37 @@
     <message>Simple category post layout.</message>
   </layout>
   <!-- Add fields to the request variables for the layout. -->
-  <fields name="request">
-    <fieldset name="request">
-      <field name="id" type="postcategory" addfieldprefix="Joomla\Component\Academy\Administrator\Field" label="JGLOBAL_CHOOSE_CATEGORY_LABEL" required="true" />
-      <field name="filter_tag" type="posttags" addfieldprefix="Joomla\Component\Academy\Administrator\Field" label="JTAG" multiple="true" mode="nested" custom="deny" />
-    </fieldset>
-  </fields>
   <!-- Add fields to the parameters object for the layout. -->
   <fields name="params">
+<fieldset name="request">
+<field name="category_layout" type="componentlayout" class="form-select" label="COM_ACADEMY_CATEGORY_STYLE_LABEL" useglobal="true" extension="com_academy" view="category" />
+<field name="post_listing_layout" type="list" label="COM_ACADEMY_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
+        <option value="rows">COM_ACADEMY_POST_LISTING_LAYOUT_ROWS</option>
+        <option value="columns">COM_ACADEMY_POST_LISTING_LAYOUT_COLUMNS</option>
+      </field>
+<field name="column_style" type="list" label="COM_ACADEMY_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
+        <option value="grid">COM_ACADEMY_COLUMN_STYLE_GRID</option>
+        <option value="masonry">COM_ACADEMY_COLUMN_STYLE_MASONRY</option>
+      </field>
+<field name="columns_per_row" type="list" label="COM_ACADEMY_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
+        <option value="2">2 Columns</option>
+        <option value="3">3 Columns</option>
+        <option value="4">4 Columns</option>
+        <option value="5">5 Columns</option>
+        <option value="6">6 Columns</option>
+      </field>
+<field name="items_limit_source" type="list" label="# Items" default="component" validate="options"><option value="component">Inherit from component settings</option><option value="joomla">Inherit from Joomla global configuration</option><option value="custom">Specify List Limit Per Page</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></field>
+<field name="posts_per_page" type="number" label="Posts per page" filter="integer" min="1" default="5" showon="items_limit_source:custom" />
+<field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_authors" type="postauthors" label="Exclude Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_categories" type="postcategory" label="Filter by Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_categories" type="postcategory" label="Exclude Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_tags" type="posttags" label="Filter by Tags" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_canonical" type="url" label="Custom Canonical Link" filter="url" relative="false" description="Optional absolute HTTP or HTTPS URL for this listing page." />
+<field name="listing_subcategories" type="list" label="Include Subcategories" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="listing_include_featured" type="list" label="Include Featured Posts" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="listing_pin_featured" type="list" label="Pin Featured Posts" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+</fieldset>
     <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
       <field name="layout_type" type="hidden" default="card" />
       <field name="show_category_title" type="list" label="JGLOBAL_SHOW_CATEGORY_TITLE" useglobal="true" class="form-select-color-state" validate="options">
@@ -62,31 +85,12 @@
       </field>
     </fieldset>
     <fieldset name="advanced" label="COM_ACADEMY_POST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL" addfieldprefix="Joomla\Component\Academy\Administrator\Field">
-      <field name="columns_per_row" type="list" label="COM_ACADEMY_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
-        <option value="2">2 Columns</option>
-        <option value="3">3 Columns</option>
-        <option value="4">4 Columns</option>
-        <option value="5">5 Columns</option>
-        <option value="6">6 Columns</option>
-      </field>
-      <field name="column_style" type="list" label="COM_ACADEMY_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
-        <option value="grid">COM_ACADEMY_COLUMN_STYLE_GRID</option>
-        <option value="masonry">COM_ACADEMY_COLUMN_STYLE_MASONRY</option>
-      </field>
-      <field name="post_listing_layout" type="list" label="COM_ACADEMY_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
-        <option value="rows">COM_ACADEMY_POST_LISTING_LAYOUT_ROWS</option>
-        <option value="columns">COM_ACADEMY_POST_LISTING_LAYOUT_COLUMNS</option>
-      </field>
-      <field name="posts_per_page" type="number" label="COM_ACADEMY_POSTS_PER_PAGE" description="COM_ACADEMY_POSTS_PER_PAGE_DESC" filter="integer" validate="number" min="1" useglobal="true" />
+<field name="blog_class" type="text" label="COM_ACADEMY_POST_CSS_CLASS" description="COM_ACADEMY_POST_CSS_CLASS_DESC" parentclass="stack span-2-inline" useglobal="true" validate="CssIdentifier" />
+<field name="num_links" type="number" label="COM_ACADEMY_COMPACT_COUNT" filter="integer" validate="number" min="0" parentclass="stack span-1" useglobal="true" />
 
-      <field name="blog_class" type="text" label="COM_ACADEMY_POST_CSS_CLASS" description="COM_ACADEMY_POST_CSS_CLASS_DESC" parentclass="stack span-2-inline" useglobal="true" validate="CssIdentifier" />
 
-      <field name="num_links" type="number" label="COM_ACADEMY_COMPACT_COUNT" filter="integer" validate="number" min="0" parentclass="stack span-1" useglobal="true" />
-      <field name="show_featured" type="list" label="COM_ACADEMY_SHOW_FEATURED_POSTS" default="" useglobal="true" class="form-select-color-state" validate="options" parentclass="stack span-1">
-        <option value="show">JSHOW</option>
-        <option value="hide">JHIDE</option>
-        <option value="only">JONLY</option>
-      </field>
+
+
       <field name="compact_show" type="list" label="COM_ACADEMY_COMPACT_SHOW" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 <field name="compact_layout" type="list" label="COM_ACADEMY_COMPACT_LAYOUT" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="rows">COM_ACADEMY_COMPACT_ROWS</option><option value="columns">COM_ACADEMY_COMPACT_COLUMNS_LAYOUT</option></field>
 <field name="compact_columns" type="list" label="COM_ACADEMY_COMPACT_COLUMNS" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
@@ -107,15 +111,7 @@
         <option value="0">JNO</option>
         <option value="1">JYES</option>
       </field>
-      <field name="show_subcategory_content" type="list" label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL" useglobal="true" validate="options" parentclass="stack span-1-inline">
-        <option value="0">JNONE</option>
-        <option value="-1">JALL</option>
-        <option value="1">J1</option>
-        <option value="2">J2</option>
-        <option value="3">J3</option>
-        <option value="4">J4</option>
-        <option value="5">J5</option>
-      </field>
+
       <field name="orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" useglobal="true" validate="options" parentclass="stack span-2">
         <option value="none">JGLOBAL_NO_ORDER</option>
         <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>

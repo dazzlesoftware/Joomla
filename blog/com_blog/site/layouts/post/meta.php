@@ -70,7 +70,7 @@ $title   = (string) $item->title;
 
     </span>
 
-    <?php if ($params->get('list_item_style') !== 'nickel') : ?>
+
     <span class="postmeta-hits">
 
         <span class="fa-solid fa-eye align-middle me-1" aria-hidden="true"></span>
@@ -87,7 +87,6 @@ $title   = (string) $item->title;
 
     </span>
 
-<?php endif; ?>
 </div>
 
 <nav class="postmeta-share d-flex flex-wrap gap-2 mb-3" aria-label="Share this post">

@@ -39,6 +39,15 @@ class Com_AcademyInstallerScript
                 $intro = $has('num_intro_posts') ? $values['num_intro_posts'] : ($fallback['num_intro_posts'] ?? 4);
                 $values['posts_per_page'] = max(1, max(0, (int) $leading) + max(0, (int) $intro));
             }
+            if (!array_key_exists('items_limit_source', $values)) {
+                $values['items_limit_source'] = ($component || $has('posts_per_page')) ? 'custom' : 'component';
+            }
+            if (!array_key_exists('listing_include_featured', $values) && $has('show_featured')) {
+                $values['listing_include_featured'] = $values['show_featured'] === 'hide' ? 0 : 1;
+            }
+            if (!array_key_exists('listing_subcategories', $values) && $has('show_subcategory_content')) {
+                $values['listing_subcategories'] = (int) $values['show_subcategory_content'] !== 0 ? 1 : 0;
+            }
             foreach (['num_leading_posts', 'num_intro_posts', 'num_columns', 'multi_column_order', 'blog_class_leading'] as $key) {
                 unset($values[$key]);
             }
@@ -56,6 +65,28 @@ class Com_AcademyInstallerScript
                 $values = $convert(json_decode($menu->params, true) ?: [], $global, false);
                 parse_str((string) parse_url($link, PHP_URL_QUERY), $query);
                 $oldLayout = $query['layout'] ?? '';
+                if (in_array($query['view'] ?? '', ['category', 'featured'], true)) {
+                    if (!array_key_exists('listing_categories', $values)) {
+                        $values['listing_categories'] = !empty($query['id']) && ($query['view'] ?? '') === 'category'
+                            ? [(int) $query['id']] : ($values['featured_categories'] ?? []);
+                    }
+                    if (!array_key_exists('listing_tags', $values) && !empty($query['filter_tag'])) {
+                        $values['listing_tags'] = (array) $query['filter_tag'];
+                    }
+                    if (!array_key_exists('listing_include_featured', $values) && isset($values['show_featured']) && $values['show_featured'] !== '') {
+                        $values['listing_include_featured'] = $values['show_featured'] === 'hide' ? 0 : 1;
+                    }
+                    if (!array_key_exists('listing_subcategories', $values) && isset($values['show_subcategory_content']) && $values['show_subcategory_content'] !== '') {
+                        $values['listing_subcategories'] = (int) $values['show_subcategory_content'] !== 0 ? 1 : 0;
+                    }
+                    // The table-list menu retains its single-category request field.
+                    if (($query['view'] ?? '') === 'category' && in_array($query['layout'] ?? '', ['blog', 'card', 'learning', 'nickel', 'simple', 'standard'], true)) {
+                        $link = preg_replace('/&id=[^&]*/', '', $link);
+                        $link = preg_replace('/&filter_tag(?:%5B[^&=]*%5D|\[[^\]]*\])?=[^&]*/i', '', $link);
+                    }
+                    if (($query['view'] ?? '') === 'featured') { unset($values['featured_categories']); }
+                }
+
                 if (($query['view'] ?? '') === 'category' && in_array($oldLayout, ['blog', 'card', 'learning', 'nickel', 'simple', 'standard'], true)) {
                     // Preserve the previously explicit style when consolidating menu types.
                     if ($oldLayout !== 'card' || !array_key_exists('category_layout', $values)) {

@@ -43,7 +43,6 @@ $itemClasses = match ($listStyle) {
 };
 ?>
 <div class="<?php echo $itemClasses; ?>">
-<?php if ($listStyle === 'nickel') { echo LayoutHelper::render('post.nickel-header', $this->item, JPATH_COMPONENT . '/layouts'); } ?>
 <?php
 $featuredImages = json_decode((string) ($this->item->media ?? '{}'));
 if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->featured_image)) {
@@ -94,7 +93,6 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
         <span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
     <?php endif; ?>
 
-    <?php if ($listStyle === 'nickel') { echo LayoutHelper::render('post.nickel-category', $this->item, JPATH_COMPONENT . '/layouts'); } ?>
     <?php if ($canEdit) : ?>
         <?php echo LayoutHelper::render('blog.content.icons', ['params' => $params, 'item' => $this->item], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
@@ -111,7 +109,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
     <?php endif; ?>
     <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
         <?php echo LayoutHelper::render('posttags', $this->item->tags->itemTags, JPATH_COMPONENT . '/layouts'); ?>
-    <?php elseif ($listStyle === 'card' && $params->get('show_tags', 1)) : ?>
+    <?php elseif (in_array($listStyle, ['card', 'nickel'], true) && $params->get('show_tags', 1)) : ?>
         <ul class="tags list-inline invisible" aria-hidden="true"><li class="list-inline-item"><span class="btn btn-sm btn-info">&nbsp;</span></li></ul>
     <?php endif; ?>
 
@@ -143,7 +141,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
     <?php else : ?>
     <?php echo LayoutHelper::render($listStyle === 'compact' ? 'post.basic-meta' : 'post.meta', $this->item, JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
-    <?php if ($listStyle === 'card') {
+    <?php if (in_array($listStyle, ['card', 'nickel'], true)) {
         echo LayoutHelper::render('post.card-footer', $this->item, JPATH_COMPONENT . '/layouts');
     } ?>
     <?php if (in_array($listStyle, ['card', 'simple', 'standard', 'nickel'], true)) : ?></div><?php endif; ?>
@@ -158,5 +156,4 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 <?php echo $this->item->event->afterDisplayContent; ?>
 <?php endif; ?>
 
-<?php if ($listStyle === 'nickel') : ?><footer class="card-footer"><?php echo LayoutHelper::render('post.basic-meta', $this->item, JPATH_COMPONENT . '/layouts'); ?></footer><?php endif; ?>
 </div>

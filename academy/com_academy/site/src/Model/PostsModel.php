@@ -158,6 +158,8 @@ class PostsModel extends ListModel
      */
     protected function getStoreId($id = '')
     {
+        // Listing parameters distinguish cached queries with different menu filters.
+        $id .= ":" . serialize($this->getState('params'));
         // Compile the store id.
         $id .= ':' . serialize($this->getState('filter.published'));
         $id .= ':' . $this->getState('filter.access');
@@ -651,6 +653,8 @@ class PostsModel extends ListModel
                 ->where($db->quoteName('tagmap.tag_id') . ' = :tagId')
                 ->bind(':tagId', $tagId, ParameterType::INTEGER);
         }
+
+        \Joomla\Component\Academy\Site\Helper\ListingFilterHelper::apply($query, $this->getState('params'), 'a');
 
         // Add the list ordering clause.
         $query->order(

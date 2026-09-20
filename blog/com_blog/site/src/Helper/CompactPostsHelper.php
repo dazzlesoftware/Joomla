@@ -43,6 +43,7 @@ final class CompactPostsHelper
             if (!$categories) { return []; }
             $q->whereIn('p.catid', $categories);
         }
+        ListingFilterHelper::apply($q, $params, 'p');
         $q->order($mode === 'random' ? 'RAND()' : 'COALESCE(p.publish_up,p.created) DESC, p.id DESC');
         return $db->setQuery($q, 0, $limit)->loadObjectList() ?: [];
     }

@@ -201,6 +201,7 @@ class HtmlView extends BaseHtmlView
 
         $this->_prepareDocument();
 
+        \Joomla\Component\Codex\Site\Helper\ListingFilterHelper::canonical($this->getDocument(), $this->params);
         parent::display($tpl);
     }
 

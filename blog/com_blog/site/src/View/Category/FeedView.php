@@ -27,28 +27,35 @@ class FeedView extends AbstractView
 
         $db = CategoriesHelper::db();
         $levels = $app->getIdentity()->getAuthorisedViewLevels();
-        $id = $app->getInput()->getInt('id');
-        $category = $db->setQuery($db->createQuery()->select('*')->from('#__blog_categories')
-            ->where('id=' . $id)->where('published=1')->whereIn('access', $levels))->loadObject();
-        if (!$category) {
-            throw new \RuntimeException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+        $id = $app->getInput()->getInt('id', 0);
+        $selected = \Joomla\Component\Blog\Site\Helper\ListingFilterHelper::ids($params->get('listing_categories', []));
+        $headerId = $id ?: (count($selected) === 1 ? $selected[0] : 0);
+        $category = (object) ['title' => $params->get('page_heading', 'Posts'), 'description' => '', 'language' => '*'];
+        if ($headerId) {
+            $cq = $db->createQuery()->select('*')->from('#__blog_categories')->where('id=' . $headerId)->where('published=1')->whereIn('access', $levels);
+            if ($app->getLanguageFilter()) { $cq->where('language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')'); }
+            $category = $db->setQuery($cq)->loadObject();
+            if (!$category) { throw new \RuntimeException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404); }
         }
-
-        $query = $db->createQuery()->select('p.*, u.name AS author, u.email AS author_email')
+        $query = $db->createQuery()->select('p.*, u.name AS author, u.email AS author_email, c.title AS category_title')
             ->from('#__blog AS p')->join('LEFT', '#__users AS u ON u.id=p.created_by')
-            ->where('p.catid=' . $id)->where('p.state=1')->whereIn('p.access', $levels)
+            ->join('INNER', '#__blog_categories AS c ON c.id=p.catid')
+            ->where('p.state=1 AND c.published=1')->whereIn('p.access', $levels)->whereIn('c.access', $levels)
             ->where('(p.publish_up IS NULL OR p.publish_up<=UTC_TIMESTAMP())')
-            ->where('(p.publish_down IS NULL OR p.publish_down>=UTC_TIMESTAMP())')
-            ->order('CASE WHEN p.publish_up IS NULL THEN p.created ELSE p.publish_up END DESC');
+            ->where('(p.publish_down IS NULL OR p.publish_down>=UTC_TIMESTAMP())');
+        \Joomla\Component\Blog\Site\Helper\ListingFilterHelper::apply($query, $params, 'p', $id);
+        $query->order('COALESCE(p.publish_up,p.created) DESC, p.id DESC');
         if ($app->getLanguageFilter()) {
-            $query->where('p.language IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+            foreach (['p.language', 'c.language'] as $field) {
+                $query->where($field . ' IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
+            }
         }
         $items = $db->setQuery($query, 0, max(1, (int) $app->get('feed_limit', 10)))->loadObjectList();
         $document = $this->getDocument();
         $document->setTitle($category->title);
         $document->setDescription(strip_tags($category->description ?? ''));
         $document->setGenerator('Genesis Blog');
-        $document->link = Route::_(RouteHelper::getCategoryRoute($id, $category->language), false, Route::TLS_IGNORE, true);
+        $document->link = Route::_('index.php?option=com_blog&view=category&layout=card' . ($id ? '&id=' . $id : '') . '&Itemid=' . $app->getInput()->getInt('Itemid'), false, Route::TLS_IGNORE, true);
         $document->editor = $app->get('fromname');
         $feedEmail = $app->get('feed_email', 'none');
         if ($feedEmail !== 'none') {
@@ -72,7 +79,7 @@ class FeedView extends AbstractView
                 $feed->description = '<p>' . HTMLHelper::_('image', $media->featured_image, $media->featured_image_alt ?? '') . '</p>' . $feed->description;
             }
             $feed->author = $item->created_by_alias ?: ($item->author ?? '');
-            $feed->category = $category->title;
+            $feed->category = $item->category_title;
             // Syndication timestamps describe publication, independently of display preferences.
             $feed->date = $item->publish_up ?: $item->created;
             if ($feedEmail === 'site') {

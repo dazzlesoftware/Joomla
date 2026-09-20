@@ -82,6 +82,15 @@ class Router extends RouterView
         $this->categoryFactory = $categoryFactory;
         $this->db              = $db;
 
+        // A single-category filter is still a category route. Preserve existing
+        // post URLs even though the menu stores its selection in params now.
+        foreach ($menu->getItems('component', 'com_blog') ?: [] as $item) {
+            if (($item->query['view'] ?? '') === 'category' && empty($item->query['id'])) {
+                $ids = array_values(array_filter(array_map('intval', (array) $item->getParams()->get('listing_categories', []))));
+                if (count($ids) === 1) { $item->query['id'] = $ids[0]; }
+            }
+        }
+
         $params      = ComponentHelper::getParams('com_blog');
         $this->noIDs = (bool) $params->get('sef_ids');
         $categories  = new RouterViewConfiguration('categories');
