@@ -23,6 +23,7 @@ $avatarItem = (object) ['created_by' => $this->author->id];
                 <h2 class="h4"><a href="<?php echo Route::_(RouteHelper::getPostRoute($post->id . ':' . $post->alias, $post->catid, $post->language)); ?>"><?php echo $this->escape($post->title); ?></a></h2>
                 <?php echo \Joomla\Component\Codex\Site\Helper\DateHelper::render($post, $post->params ?? null, false); ?>
                 <?php if ($post->summary !== '') : ?><div class="mt-2"><?php echo $post->summary; ?></div><?php endif; ?>
+                <?php if (!empty($post->readmore) && $this->params->get('show_readmore', 1)) : ?><p><a class="btn btn-secondary" href="<?php echo Route::_(RouteHelper::getPostRoute($post->id . ':' . $post->alias, $post->catid, $post->language)); ?>"><?php echo \Joomla\CMS\Language\Text::_('JGLOBAL_READ_MORE'); ?></a></p><?php endif; ?>
             </article>
         <?php endforeach; ?>
         <?php if (!$this->posts) : ?><p class="alert alert-info">This author has no published posts.</p><?php endif; ?>

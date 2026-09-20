@@ -9,6 +9,31 @@
     </fieldset>
   </fields>
   <fields name="params">
+<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts and Read More splits take precedence. Featured slider content uses its own settings.">
+<field name="truncation_enabled" type="list" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_readmore" type="list" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_image_position" type="list" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_video_position" type="list" label="Position of Videos After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_audio_position" type="list" label="Position of Audio Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_gallery_position" type="list" label="Position of Gallery After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_accordion_position" type="list" label="Position of Accordion After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_alert_position" type="list" label="Position of Alert After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_button_position" type="list" label="Position of Button After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_columns_position" type="list" label="Position of Columns After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_comparison_position" type="list" label="Position of Comparison After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_embed_position" type="list" label="Position of Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_poll_position" type="list" label="Position of Poll After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_quote_position" type="list" label="Position of Quote After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_rule_position" type="list" label="Position of Rule After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_section_position" type="list" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_tabs_position" type="list" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_type" type="list" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
+<field name="truncation_content_override" type="radio" default="0" label="Maximum Content (Characters or Words)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="list_excerpt_length" type="number" filter="integer" min="0" label="Maximum Content (Characters or Words)" description="0 displays all content without automatic truncation." hint="400" showon="truncation_content_override:1" />
+<field name="truncation_paragraph_override" type="radio" default="0" label="Maximum Paragraph (Paragraph or Break Tags)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="truncation_paragraphs" type="number" filter="integer" min="0" label="Maximum Paragraph (Paragraph or Break Tags)" description="0 displays all content without automatic truncation." hint="1" showon="truncation_paragraph_override:1" />
+</fieldset>
+
     <fieldset name="pagevars" label="COM_MENUS_PAGE_DISPLAY_OPTIONS_FIELDSET_LABEL">
       <field name="show_postnav" type="list" label="COM_BLOG_SHOW_POSTNAV_LABEL" description="COM_BLOG_SHOW_POSTNAV_DESC" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>

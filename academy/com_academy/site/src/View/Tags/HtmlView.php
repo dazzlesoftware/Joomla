@@ -59,9 +59,11 @@ class HtmlView extends BaseHtmlView
             // content plugins - before the shortcodes expand into large
             // widgets that would otherwise fool the length check into
             // skipping truncation entirely.
+            PluginHelper::importPlugin('content');
             PluginHelper::importPlugin('academy');
             foreach ($this->items as $item) {
-                $item->text = ListExcerptHelper::render($item, $item->params);
+                $item->readmore = !empty($item->body);
+                $item->text = ListExcerptHelper::render($item, $this->params);
                 $app->triggerEvent('onContentPrepare', ['com_academy.tags', &$item, &$item->params, 0]);
                 $item->summary = $item->text;
             }

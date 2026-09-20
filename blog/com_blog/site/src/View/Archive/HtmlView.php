@@ -135,6 +135,7 @@ class HtmlView extends BaseHtmlView
         // Get the page/component configuration
         $params = $state->get('params');
 
+        PluginHelper::importPlugin('content');
         PluginHelper::importPlugin('blog');
 
         foreach ($items as $item) {

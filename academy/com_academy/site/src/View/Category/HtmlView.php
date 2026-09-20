@@ -138,6 +138,7 @@ final class HtmlView extends BaseHtmlView
         $tagsByItem = (new TagsHelper())->getMultipleItemTags('com_academy.post', $ids);
 
         $app = Factory::getApplication();
+        PluginHelper::importPlugin('content');
         PluginHelper::importPlugin('academy');
 
         foreach ($this->items as $item) {

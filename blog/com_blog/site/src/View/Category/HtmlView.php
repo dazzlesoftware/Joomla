@@ -138,6 +138,7 @@ final class HtmlView extends BaseHtmlView
         $tagsByItem = (new TagsHelper())->getMultipleItemTags('com_blog.post', $ids);
 
         $app = Factory::getApplication();
+        PluginHelper::importPlugin('content');
         PluginHelper::importPlugin('blog');
 
         foreach ($this->items as $item) {

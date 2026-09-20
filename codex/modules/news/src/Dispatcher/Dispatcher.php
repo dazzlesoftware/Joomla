@@ -48,7 +48,7 @@ final class Dispatcher extends AbstractModuleDispatcher
                 $item->link = Route::_('index.php?option=com_codex&view=archive&year='.$item->year.'&month='.$item->month);
             }
         } else {
-            $q = $db->createQuery()->select(['p.id','p.title','p.alias','p.catid','p.summary','p.created','p.modified','p.publish_up','p.hits'])->from('#__codex AS p')->where('p.state=1')->whereIn('p.access', $groups);
+            $q = $db->createQuery()->select(['p.id','p.title','p.alias','p.catid','p.summary','p.excerpt','p.body','p.created','p.modified','p.publish_up','p.hits'])->from('#__codex AS p')->where('p.state=1')->whereIn('p.access', $groups);
             $catids = array_values(array_filter(array_map('intval', (array)$params->get('catid', []))));
             if ($catids) {
                 $q->whereIn('p.catid', $catids);
@@ -68,6 +68,15 @@ final class Dispatcher extends AbstractModuleDispatcher
         foreach (['show_date', 'date_type'] as $key) {
             $value = $params->get($key);
             if ($value !== null && $value !== '') { $dateParams->set($key, $value); }
+        }
+        $excerptParams = \Joomla\Component\Codex\Site\Helper\ListExcerptHelper::settings($params);
+        \Joomla\CMS\Plugin\PluginHelper::importPlugin('content');
+        \Joomla\CMS\Plugin\PluginHelper::importPlugin('codex');
+        foreach ($items as $item) {
+            $item->readmore = !empty($item->body);
+            $item->text = \Joomla\Component\Codex\Site\Helper\ListExcerptHelper::render($item, $excerptParams);
+            Factory::getApplication()->triggerEvent('onContentPrepare', ['com_codex.module', &$item, &$excerptParams, 0]);
+            $item->summary = $item->text;
         }
         $data['dateParams'] = $dateParams;
         $data['list'] = $items;

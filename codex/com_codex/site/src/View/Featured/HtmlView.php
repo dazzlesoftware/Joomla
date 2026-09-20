@@ -131,6 +131,7 @@ class HtmlView extends BaseHtmlView
         $numLeading = 0;
         $numIntro = \Joomla\Component\Codex\Site\Helper\ListingSettingsHelper::count($params);
 
+        PluginHelper::importPlugin('content');
         PluginHelper::importPlugin('codex');
 
         // Compute the post slugs and prepare summary (runs content plugins).

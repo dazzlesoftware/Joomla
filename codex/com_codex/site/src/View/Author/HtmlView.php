@@ -39,7 +39,7 @@ final class HtmlView extends BaseHtmlView
         $levels = array_map('intval', $app->getIdentity()->getAuthorisedViewLevels());
         $now = Factory::getDate()->toSql();
         $query = $db->createQuery()
-            ->select(['id', 'title', 'alias', 'catid', 'summary', 'media', 'publish_up', 'created', 'language'])
+            ->select(['id', 'title', 'alias', 'catid', 'summary', 'excerpt', 'body', 'media', 'publish_up', 'created', 'language'])
             ->from('#__codex')
             ->where('created_by=' . $authorId)
             ->where('state=1')
@@ -49,6 +49,14 @@ final class HtmlView extends BaseHtmlView
             ->order('publish_up DESC, created DESC');
         $this->posts = $db->setQuery($query)->loadObjectList();
 
+        \Joomla\CMS\Plugin\PluginHelper::importPlugin('content');
+        \Joomla\CMS\Plugin\PluginHelper::importPlugin('codex');
+        foreach ($this->posts as $post) {
+            $post->readmore = !empty($post->body);
+            $post->text = \Joomla\Component\Codex\Site\Helper\ListExcerptHelper::render($post, $this->params);
+            $app->triggerEvent('onContentPrepare', ['com_codex.author', &$post, &$this->params, 0]);
+            $post->summary = $post->text;
+        }
         $this->document->setTitle($this->author->name);
         parent::display($tpl);
     }

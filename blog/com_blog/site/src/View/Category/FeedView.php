@@ -70,6 +70,13 @@ class FeedView extends AbstractView
             $feed->description = $params->get('feed_summary', 0)
                 ? (string) $item->summary . (string) $item->body
                 : ListExcerptHelper::render($item, $params);
+            if (!$params->get('feed_summary', 0)) {
+                \Joomla\CMS\Plugin\PluginHelper::importPlugin('content');
+                \Joomla\CMS\Plugin\PluginHelper::importPlugin('blog');
+                $item->text = $feed->description;
+                $app->triggerEvent('onContentPrepare', ['com_blog.category', &$item, &$params, 0]);
+                $feed->description = $item->text;
+            }
             if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 1) && $item->readmore) {
                 $feed->description .= '<p><a href="' . htmlspecialchars($feed->link, ENT_QUOTES, 'UTF-8') . '">'
                     . Text::_('COM_BLOG_FEED_READMORE') . '</a></p>';
