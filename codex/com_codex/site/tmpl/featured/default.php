@@ -27,6 +27,7 @@ use Joomla\CMS\Layout\LayoutHelper;
     </div>
     <?php endif; ?>
 
+<?php echo \Joomla\Component\Codex\Site\Helper\FeaturedSliderHelper::render($this->params, 0, (int) ($this->pagination->limitstart ?? 0)); ?>
     <?php
     $isColumns = $this->params->get('post_listing_layout', 'rows') === 'columns';
     $isMasonry = $isColumns && $this->params->get('column_style', 'grid') === 'masonry';

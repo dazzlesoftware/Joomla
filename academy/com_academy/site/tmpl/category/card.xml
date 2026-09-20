@@ -7,6 +7,27 @@
   <!-- Add fields to the request variables for the layout. -->
   <!-- Add fields to the parameters object for the layout. -->
   <fields name="params">
+<fieldset name="featured_slider" label="Featured">
+<field name="featured_slider_enabled" type="list" label="Display Featured Slider" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_style" type="list" label="Featured Style" useglobal="true"><option value="card">Card</option><option value="default">Default</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
+<field name="featured_slider_all_pages" type="list" label="Display on All Pages" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_auto" type="list" label="Auto Sliding" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_interval" type="number" label="Auto Sliding Interval (Seconds)" min="1" hint="8" />
+<field name="featured_slider_image" type="list" label="Show Post Image" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_title" type="list" label="Show Post Title" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_category" type="list" label="Show Post Category" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_author" type="list" label="Show Post Author" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_avatar" type="list" label="Show Author Avatar" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_readmore" type="list" label="Show Readmore" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_navigation" type="list" label="Show Navigation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content" type="list" label="Show Post Content" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_ratings" type="list" label="Show Post Ratings" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_date" type="list" label="Show Post Date" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content_length" type="number" label="Maximum Content (Characters)" description="0 displays the complete text. Empty inherits the component setting." min="0" hint="250" />
+<field name="featured_slider_count" type="number" label="Maximum Featured Posts" min="1" max="50" hint="5" />
+<field name="featured_slider_date_source" type="list" label="Post Date Source" useglobal="true"><option value="created">Created Date</option><option value="modified">Modified Date</option><option value="published">Published Date</option></field>
+</fieldset>
+
 <fieldset name="request">
 <field name="category_layout" type="componentlayout" class="form-select" label="COM_ACADEMY_CATEGORY_STYLE_LABEL" useglobal="true" extension="com_academy" view="category" />
       <field name="post_listing_layout" type="list" label="COM_ACADEMY_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">

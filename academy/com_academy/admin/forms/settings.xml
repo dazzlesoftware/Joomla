@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
   <fields name="params">
+<fieldset name="featured_slider" label="Featured">
+<field name="featured_slider_enabled" type="list" label="Display Featured Slider" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_style" type="list" label="Featured Style" default="card"><option value="card">Card</option><option value="default">Default</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
+<field name="featured_slider_all_pages" type="list" label="Display on All Pages" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_auto" type="list" label="Auto Sliding" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_interval" type="number" label="Auto Sliding Interval (Seconds)" min="1" default="8" />
+<field name="featured_slider_image" type="list" label="Show Post Image" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_title" type="list" label="Show Post Title" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_category" type="list" label="Show Post Category" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_author" type="list" label="Show Post Author" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_avatar" type="list" label="Show Author Avatar" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_readmore" type="list" label="Show Readmore" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_navigation" type="list" label="Show Navigation" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content" type="list" label="Show Post Content" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_ratings" type="list" label="Show Post Ratings" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_date" type="list" label="Show Post Date" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content_length" type="number" label="Maximum Content (Characters)" description="0 displays the complete text. Empty inherits the component setting." min="0" default="250" />
+<field name="featured_slider_count" type="number" label="Maximum Featured Posts" min="1" max="50" default="5" />
+<field name="featured_slider_date_source" type="list" label="Post Date Source" default="created"><option value="created">Created Date</option><option value="modified">Modified Date</option><option value="published">Published Date</option></field>
+</fieldset>
+
     <fieldset name="posts" label="JGLOBAL_POSTS" description="COM_ACADEMY_CONFIG_POST_SETTINGS_DESC">
       <field name="post_layout" type="componentlayout" label="COM_ACADEMY_SINGLE_POST_STYLE_LABEL" class="form-select" menuitems="true" extension="com_academy" view="post" />
       <field name="show_wiki_details" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_ACADEMY_WIKI_DETAILS_LABEL" description="COM_ACADEMY_WIKI_DETAILS_DESC"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
