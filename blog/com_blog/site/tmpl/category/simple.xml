@@ -9,7 +9,7 @@
   <fields name="params">
 <fieldset name="featured_slider" label="Featured">
 <field name="featured_slider_enabled" type="list" label="Display Featured Slider" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="featured_slider_style" type="list" label="Featured Style" useglobal="true"><option value="card">Card</option><option value="default">Default</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
+<field name="featured_slider_style" type="list" label="Featured Style" useglobal="true"><option value="default">Default</option><option value="card">Card</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
 <field name="featured_slider_all_pages" type="list" label="Display on All Pages" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="featured_slider_auto" type="list" label="Auto Sliding" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="featured_slider_interval" type="number" label="Auto Sliding Interval (Seconds)" min="1" hint="8" />

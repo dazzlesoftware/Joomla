@@ -79,8 +79,8 @@ final class FeaturedSliderHelper
             $limit = max(0, (int) $params->get('featured_slider_content_length', 250));
             $item->sliderText = $limit && mb_strlen($plain) > $limit ? mb_substr($plain, 0, $limit) . '…' : $plain;
         }
-        $style = (string) $params->get('featured_slider_style', 'card');
-        if (!in_array($style, ['card', 'default', 'hero', 'magazine', 'side-navigation', 'slick', 'thumbnail'], true)) { $style = 'card'; }
+        $style = (string) $params->get('featured_slider_style', 'default');
+        if (!in_array($style, ['card', 'default', 'hero', 'magazine', 'side-navigation', 'slick', 'thumbnail'], true)) { $style = 'default'; }
         return LayoutHelper::render('featured.' . $style, ['items' => $items, 'params' => $params], JPATH_ROOT . '/components/com_codex/layouts');
     }
 }
