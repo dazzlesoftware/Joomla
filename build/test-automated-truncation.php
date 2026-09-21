@@ -42,9 +42,9 @@ foreach (['academy', 'blog', 'codex'] as $family) {
     check($render('Full long summary', ['truncation_readmore' => 0])[1], 0, 'hide automated readmore');
     $media = '<div class="post-gallery"><img src="gallery.jpg"></div><img src="cover.jpg">{video url="video.mp4"}{audio url="song.mp3" title="Song" autoplay="0"}<p>One two three four five</p>';
     $html = $render($media, ['truncation_gallery_position' => 'top', 'truncation_video_position' => 'bottom', 'truncation_audio_position' => 'bottom'])[0];
-    check(str_starts_with($html, '<div class="post-gallery">'), true, 'gallery retained as unit');
+    check(str_starts_with($html, '<div class="excerpt-block my-3"><div class="post-gallery">'), true, 'gallery retained as unit');
     check(str_contains($html, 'cover.jpg'), false, 'image hidden separately');
-    check(str_ends_with($html, '{video url="video.mp4"}{audio url="song.mp3" title="Song" autoplay="0"}'), true, 'plugin media complete and ordered');
+    check(str_ends_with($html, '<div class="excerpt-block my-3">{video url="video.mp4"}</div><div class="excerpt-block my-3">{audio url="song.mp3" title="Song" autoplay="0"}</div>'), true, 'plugin media complete and ordered');
     check(str_contains($html, 'data-excerpt-media'), false, 'no internal tokens');
     check(str_contains($render('<script>Bad()</script><p>One two three four</p>')[0], 'Bad'), false, 'nonvisible content excluded');
     Joomla\CMS\Plugin\PluginHelper::importPlugin($family);
@@ -57,13 +57,13 @@ foreach (['academy', 'blog', 'codex'] as $family) {
     foreach (['accordion', 'alert', 'button', 'columns', 'quote', 'section', 'tabs'] as $kind) {
         $block = '{' . $kind . ' template="global"}Long block content with several words{/'. $kind . '}';
         $result = $render($block . '<p>Outside text is long enough</p>', ['truncation_' . $kind . '_position' => 'top'])[0];
-        check(str_starts_with($result, $block), true, $kind . ' retained whole');
+        check(str_starts_with($result, '<div class="excerpt-block my-3">' . $block . '</div>'), true, $kind . ' retained whole');
         check(str_contains($render($block . '<p>Outside text is long enough</p>')[0], 'Long block'), false, $kind . ' hidden');
     }
     $nested = '{section title="Outer"}{quote template="global"}Nested content{/quote}{/section}';
-    check(str_starts_with($render($nested . '<p>Outside text is long enough</p>', ['truncation_section_position' => 'top', 'truncation_quote_position' => 'hide'])[0], $nested), true, 'outer block owns nested content');
+    check(str_starts_with($render($nested . '<p>Outside text is long enough</p>', ['truncation_section_position' => 'top', 'truncation_quote_position' => 'hide'])[0], '<div class="excerpt-block my-3">' . $nested . '</div>'), true, 'outer block owns nested content');
     foreach (['comparison' => '{comparison before="one.jpg" after="two.jpg"}', 'embed' => '{embed provider="youtube" url="https://example.com"}', 'poll' => '{embed provider="polls" url="1"}', 'rule' => '<hr>'] as $kind => $block) {
-        check(str_ends_with($render($block . '<p>Outside text is long enough</p>', ['truncation_' . $kind . '_position' => 'bottom'])[0], $block), true, $kind . ' bottom');
+        check(str_ends_with($render($block . '<p>Outside text is long enough</p>', ['truncation_' . $kind . '_position' => 'bottom'])[0], '<div class="excerpt-block my-3">' . $block . '</div>'), true, $kind . ' bottom');
     }
     // Retained content still passes through the real block plugin.
     $blockItem = (object) ['text' => $render('{alert type="info"}A complete alert{/alert}<p>Outside text is long enough</p>', ['truncation_alert_position' => 'top'])[0]];

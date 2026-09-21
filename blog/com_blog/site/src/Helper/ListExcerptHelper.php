@@ -178,8 +178,9 @@ final class ListExcerptHelper
         $removedContent = $needsTextTruncation;
         foreach ($media as [$kind, $markup]) {
             $position = $params->get('truncation_' . $kind . '_position', 'hide');
-            if ($position === 'top') { $top .= $markup; }
-            if ($position === 'bottom') { $bottom .= $markup; }
+            $block = '<div class="excerpt-block my-3">' . $markup . '</div>';
+            if ($position === 'top') { $top .= $block; }
+            if ($position === 'bottom') { $bottom .= $block; }
             if (!in_array($position, ['top', 'bottom'], true)) { $removedContent = true; }
         }
         $item->readmore = $removedContent ? (int) $params->get('truncation_readmore', 1) : 0;
