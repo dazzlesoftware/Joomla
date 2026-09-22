@@ -48,7 +48,8 @@ final class CategoriesHelper
         if ($title === '') {
             throw new \InvalidArgumentException('A category title is required.');
         }
-        $alias = ApplicationHelper::stringURLSafe((string)($data['alias'] ?? $title));
+        $aliasInput = trim((string) ($data['alias'] ?? ''));
+        $alias = ApplicationHelper::stringURLSafe($aliasInput !== '' ? $aliasInput : $title);
         if ($alias === '') {
             $alias = 'category-'.bin2hex(random_bytes(4));
         } $base = mb_substr($alias, 0, 185);

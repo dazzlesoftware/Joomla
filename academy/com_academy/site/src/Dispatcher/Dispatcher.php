@@ -54,5 +54,22 @@ class Dispatcher extends ComponentDispatcher
         }
 
         parent::dispatch();
+
+        // Append once outside view templates, preserving their overrides and markup.
+        if ($this->app->isClient('site')
+            && $this->app->getDocument()->getType() === 'html'
+            && $this->input->getCmd('format', 'html') === 'html'
+            && $this->input->getCmd('task', '') === ''
+            && !in_array($this->input->getCmd('layout', ''), ['modal', 'pagebreak'], true)
+            && \Joomla\CMS\Component\ComponentHelper::getParams('com_academy')->get('show_powered_by', 1)
+        ) {
+            $this->app->getDocument()->getWebAssetManager()->registerAndUseStyle(
+                'com_academy.post-list-styles',
+                'com_academy/post-list-styles.css',
+                ['version' => hash_file('sha256', JPATH_ROOT . '/media/com_academy/css/post-list-styles.css')]
+            );
+            echo \Joomla\CMS\Layout\LayoutHelper::render('powered-by', [], JPATH_COMPONENT . '/layouts');
+        }
+
     }
 }

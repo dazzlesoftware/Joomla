@@ -129,22 +129,22 @@ class Router extends RouterView
      */
     public function getCategorySegment($id, $query)
     {
-        $category = $this->getCategories(['access' => true])->get($id);
-
-        if ($category) {
-            $path    = array_reverse($category->getPath(), true);
-            $path[0] = '1:root';
-
-            if ($this->noIDs) {
-                foreach ($path as &$segment) {
-                    [, $segment] = explode(':', $segment, 2);
-                }
-            }
-
-            return $path;
+        // These components own their category tables; Joomla's shared category
+        // tree cannot resolve their IDs and would silently discard the URL ID.
+        $path = [];
+        $current = (int) $id;
+        while ($current > 0 && !isset($path[$current])) {
+            $row = $this->db->setQuery($this->db->createQuery()
+                ->select('id, alias, parent_id')->from('#__codex_categories')->where('id=' . $current))->loadObject();
+            if (!$row) { break; }
+            $path[$current] = $this->noIDs ? $row->alias : $current . ':' . $row->alias;
+            $current = (int) $row->parent_id;
         }
-
-        return [];
+        // Preserve an invalid requested ID so the category view returns 404,
+        // rather than turning a category link into an unfiltered post listing.
+        if (!$path && (int) $id > 0) { $path[(int) $id] = (string) (int) $id; }
+        $path[0] = '0:root';
+        return $path;
     }
 
     /**
@@ -204,39 +204,21 @@ class Router extends RouterView
      */
     public function getCategoryId($segment, $query)
     {
-        if (isset($query['id'])) {
-            $category = $this->getCategories(['access' => false])->get($query['id']);
-
-            if ($category) {
-                if ($this->noIDs) {
-                    foreach ($category->getChildren() as $child) {
-                        if ($child->alias == $segment) {
-                            return $child->id;
-                        }
-                    }
-
-                    // We haven't found a matching category, but maybe we turned off IDs?
-                    foreach ($category->getChildren() as $child) {
-                        if ($child->id == (int) $segment) {
-                            $this->app->getRouter()->setTainted();
-
-                            return $child->id;
-                        }
-                    }
-                } else {
-                    foreach ($category->getChildren() as $child) {
-                        if ($child->id == (int) $segment) {
-                            if ($child->id . '-' . $child->alias != $segment) {
-                                $this->app->getRouter()->setTainted();
-                            }
-
-                            return $child->id;
-                        }
-                    }
-                }
+        $parent = (int) ($query['id'] ?? 0);
+        $base = $this->db->createQuery()->select('id, alias')->from('#__codex_categories')->where('parent_id=' . $parent);
+        if ($this->noIDs) {
+            $lookup = clone $base;
+            $row = $this->db->setQuery($lookup->where('alias=' . $this->db->quote($segment)))->loadObject();
+            if ($row) { return (int) $row->id; }
+        }
+        $id = (int) $segment;
+        if ($id > 0) {
+            $row = $this->db->setQuery($base->where('id=' . $id))->loadObject();
+            if ($row) {
+                if ($this->noIDs || $id . '-' . $row->alias !== $segment) { $this->app->getRouter()->setTainted(); }
+                return $id;
             }
         }
-
         return false;
     }
 

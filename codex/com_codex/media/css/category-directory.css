@@ -1,0 +1,6 @@
+.category-directory-image { display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:var(--bs-tertiary-bg,#f4f5f6); overflow:hidden; border-radius:var(--bs-card-inner-border-radius,.25rem) var(--bs-card-inner-border-radius,.25rem) 0 0; }
+.category-directory-image img { width:100%; height:100%; object-fit:cover; }
+.category-directory-image .fa-image { font-size:3rem; color:var(--bs-secondary-color,#6c757d); }
+.category-directory.post-masonry-active { position:relative; display:block; }
+.category-directory.post-masonry-active > .col { position:absolute; }
+.category-directory-card { overflow:hidden; }

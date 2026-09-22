@@ -179,6 +179,11 @@
       <field name="featured_image_class" type="text" label="COM_CODEX_IMAGE_FEATURED_CLASS_LABEL" validate="CssIdentifier" showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1" />
     </fieldset>
     <fieldset name="category" label="JCATEGORY" description="COM_CODEX_CONFIG_CATEGORY_SETTINGS_DESC">
+      <field name="subcategories_style" type="list" label="Subcategories Layout" default="list"><option value="list">Default List</option><option value="image_grid">Image Grid</option></field>
+      <field name="subcategories_listing_layout" type="list" label="Subcategories Listing Style" default="columns"><option value="rows">Rows</option><option value="columns">Columns</option></field>
+      <field name="subcategories_column_style" type="list" label="Subcategories Column Style" default="grid"><option value="grid">Grid Layout</option><option value="masonry">Masonry Layout</option></field>
+      <field name="subcategories_columns" type="list" label="Subcategories Columns Per Row" default="3"><option value="2">2 Columns</option><option value="3">3 Columns</option><option value="4">4 Columns</option><option value="5">5 Columns</option><option value="6">6 Columns</option></field>
+
       <field name="category_layout" type="componentlayout" default="_:card" label="COM_CODEX_CATEGORY_STYLE_LABEL" class="form-select" menuitems="true" extension="com_codex" view="category" />
       <field name="show_category_title" type="radio" label="JGLOBAL_SHOW_CATEGORY_TITLE" layout="joomla.form.field.radio.switcher" default="1">
         <option value="0">JHIDE</option>
@@ -227,6 +232,11 @@
       </field>
     </fieldset>
     <fieldset name="categories" label="JCATEGORIES" description="COM_CODEX_CONFIG_CATEGORIES_SETTINGS_DESC">
+      <field name="categories_style" type="list" label="Categories Layout" default="list"><option value="list">Default Link List</option><option value="image_grid">Image Grid</option></field>
+      <field name="categories_listing_layout" type="list" label="Category Listing Style" default="columns"><option value="rows">Rows</option><option value="columns">Columns</option></field>
+      <field name="categories_column_style" type="list" label="Column Style" default="grid"><option value="grid">Grid Layout</option><option value="masonry">Masonry Layout</option></field>
+      <field name="categories_columns" type="list" label="Columns Per Row" default="3"><option value="2">2 Columns</option><option value="3">3 Columns</option><option value="4">4 Columns</option><option value="5">5 Columns</option><option value="6">6 Columns</option></field>
+
       <field name="show_base_description" type="radio" label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL" layout="joomla.form.field.radio.switcher" default="1">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
@@ -655,6 +665,10 @@
       <field name="campaign_postmark_stream" type="text" label="Postmark message stream" showon="campaign_mail_service:postmark" default="outbound" />
     </fieldset>
     <fieldset name="postnav" label="COM_CODEX_POSTNAV_SETTINGS" description="COM_CODEX_POSTNAV_SETTINGS_DESC">
+      <field name="show_powered_by" type="radio" label="COM_CODEX_SHOW_POWERED_BY_LABEL" description="COM_CODEX_SHOW_POWERED_BY_DESC" default="1" layout="joomla.form.field.radio.switcher">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
       <field name="show_postnav" type="radio" label="COM_CODEX_SHOW_POSTNAV_LABEL" description="COM_CODEX_SHOW_POSTNAV_DESC" layout="joomla.form.field.radio.switcher" default="1">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>

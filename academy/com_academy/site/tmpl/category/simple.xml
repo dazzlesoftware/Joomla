@@ -58,6 +58,11 @@
 <field name="listing_pin_featured" type="list" label="Pin Featured Posts" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
 </fieldset>
     <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+      <field name="subcategories_style" type="list" label="Subcategories Layout" useglobal="true"><option value="list">Default List</option><option value="image_grid">Image Grid</option></field>
+      <field name="subcategories_listing_layout" type="list" label="Subcategories Listing Style" useglobal="true"><option value="rows">Rows</option><option value="columns">Columns</option></field>
+      <field name="subcategories_column_style" type="list" label="Subcategories Column Style" useglobal="true"><option value="grid">Grid Layout</option><option value="masonry">Masonry Layout</option></field>
+      <field name="subcategories_columns" type="list" label="Subcategories Columns Per Row" useglobal="true"><option value="2">2 Columns</option><option value="3">3 Columns</option><option value="4">4 Columns</option><option value="5">5 Columns</option><option value="6">6 Columns</option></field>
+
       <field name="layout_type" type="hidden" default="card" />
       <field name="show_category_title" type="list" label="JGLOBAL_SHOW_CATEGORY_TITLE" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>

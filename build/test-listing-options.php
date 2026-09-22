@@ -28,8 +28,8 @@ foreach (['academy','blog','codex'] as $f) {
     require $base . '/site/src/Helper/ListingSettingsHelper.php';
     $helper = 'Joomla\\Component\\'.ucfirst($f).'\\Site\\Helper\\ListingFilterHelper';
     $count = 'Joomla\\Component\\'.ucfirst($f).'\\Site\\Helper\\ListingSettingsHelper';
-    $db->setQuery("CREATE TEMPORARY TABLE #__{$f}_categories (id INT,lft INT,rgt INT)")->execute();
-    $db->setQuery("INSERT INTO #__{$f}_categories VALUES (1,1,6),(2,2,3),(3,4,5),(4,7,8)")->execute();
+    $db->setQuery("CREATE TEMPORARY TABLE #__{$f}_categories (id INT,lft INT,rgt INT,parent_id INT)")->execute();
+    $db->setQuery("INSERT INTO #__{$f}_categories VALUES (1,1,6,0),(2,2,3,1),(3,4,5,1),(4,7,8,0),(5,0,0,0),(6,0,0,0)")->execute();
     $db->setQuery("CREATE TEMPORARY TABLE #__{$f} (id INT,catid INT,created_by INT,featured INT)")->execute();
     $db->setQuery("INSERT INTO #__{$f} VALUES (1,1,10,0),(2,2,20,1),(3,3,10,0),(4,4,30,1)")->execute();
     $db->setQuery("CREATE TEMPORARY TABLE #__{$f}_tags (id INT,published INT)")->execute();
@@ -41,6 +41,7 @@ foreach (['academy','blog','codex'] as $f) {
         $helper::apply($q,new Registry($params),'p',$category,$db);$q->order('p.id');
         return array_map('intval',$db->setQuery($q)->loadColumn());
     };
+    verify($select(['listing_subcategories'=>1],5),[],'empty zero-coordinate category excludes unrelated categories');
     verify($select(['listing_categories'=>[1,4]]),[1,4],'multiple categories');
     verify($select(['listing_categories'=>[1], 'listing_subcategories'=>1]),[1,2,3],'descendants');
     verify($select(['listing_categories'=>[1], 'listing_subcategories'=>1,'listing_exclude_categories'=>[2]]),[1,3],'exclude wins');

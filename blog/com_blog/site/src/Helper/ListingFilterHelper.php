@@ -16,12 +16,18 @@ final class ListingFilterHelper
     private static function categories(array $ids, bool $children, $db): array
     {
         if (!$ids || !$children) { return $ids; }
-        $parents = $db->setQuery($db->createQuery()->select('lft,rgt')->from('#__blog_categories')->whereIn('id', $ids))->loadObjectList();
-        $ranges = [];
-        foreach ($parents as $parent) { $ranges[] = '(lft >= ' . (int) $parent->lft . ' AND rgt <= ' . (int) $parent->rgt . ')'; }
-        if (!$ranges) { return $ids; }
-        $query = $db->createQuery()->select('id')->from('#__blog_categories')->where('(' . implode(' OR ', $ranges) . ')');
-        return array_values(array_unique(array_merge($ids, array_map('intval', $db->setQuery($query)->loadColumn()))));
+        $rows = $db->setQuery($db->createQuery()->select('id,parent_id')->from('#__blog_categories'))->loadObjectList();
+        $childrenByParent = [];
+        foreach ($rows as $row) { $childrenByParent[(int) $row->parent_id][] = (int) $row->id; }
+        $found = array_fill_keys($ids, true);
+        $pending = $ids;
+        while ($pending) {
+            $parent = array_pop($pending);
+            foreach ($childrenByParent[$parent] ?? [] as $child) {
+                if (!isset($found[$child])) { $found[$child] = true; $pending[] = $child; }
+            }
+        }
+        return array_keys($found);
     }
 
     public static function apply($query, $params, string $alias = 'p', int $categoryId = 0, ?DatabaseInterface $db = null): void

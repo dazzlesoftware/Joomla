@@ -25,6 +25,7 @@ final class HtmlView extends BaseHtmlView
 {
     public $category;
     public array $items = [];
+    public array $subcategories = [];
     public $pagination;
     public $params;
 
@@ -111,6 +112,8 @@ final class HtmlView extends BaseHtmlView
             $merged->merge($item->params);
             $item->params = $merged;
         }
+
+        $this->subcategories = \Joomla\Component\Blog\Site\Helper\SubcategoriesHelper::load((int) $this->category->id, $this->params);
 
         $this->enrichItems();
         $this->splitBlogGroups();

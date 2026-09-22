@@ -6,3 +6,15 @@
     .post-list-items.post-masonry-active { display: flex; height: auto !important; }
     .post-list-items.post-masonry-active > .post-list-item { position: static; }
 }
+
+/* Optional product credit below the component output. */
+.dazzle-credit {
+    text-align: center;
+    font-size: 0.875rem;
+    opacity: 0.75;
+    margin-block-start: 1rem;
+}
+.dazzle-credit a { text-decoration: none; }
+.dazzle-credit a:hover { text-decoration: underline; }
+
+.dazzle-credit-copyright { margin-block-start: 0.25rem; font-size: 0.8125rem; }
