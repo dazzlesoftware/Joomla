@@ -9,6 +9,7 @@
   <description>PKG_ACADEMY_XML_DESCRIPTION</description>
   <scriptfile>script.php</scriptfile>
   <files>
+    <file type="plugin" id="modelcatalog" group="neuralnetwork">plg_neuralnetwork_modelcatalog.zip</file>
     <file type="component" id="com_academy">com_academy.zip</file>
     <file type="package" id="pkg_academy_integrations">plugins.zip</file>
     <file type="package" id="pkg_academy_modules">modules.zip</file>

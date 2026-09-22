@@ -75,6 +75,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const enhanceTemplateSelectors=()=>['quote','tabs','accordion','columns','polls'].forEach(type=>canvas.querySelectorAll(`.post-block--${type}:not([data-template-field])`).forEach(el=>{const block=blocks[Number(el.dataset.index)];if(!block)return;el.dataset.templateField='1';el.querySelector('.post-block-actions')?.insertAdjacentHTML('afterend',templateSelect(type,block.data.template));const input=el.querySelector('[data-field="template"]');input?.addEventListener('change',()=>{block.data.template=input.value;sync()})}));
   new MutationObserver(()=>{enhanceSlideShare();enhanceTed();enhanceVideoEmbeds();enhanceFacebook();enhanceTabs();enhanceTemplateSelectors()}).observe(canvas,{childList:true});
   const sync=()=>{if(dataField)dataField.value=JSON.stringify(blocks);setEditorValue(editorId,blocks.map(blockHtml).join('\n'))};
+  // AI writes through the composer so its next sync cannot discard an applied draft.
+  if (configuredMode === 'blocks') root.aiEditor = {
+    getValue: () => blocks.map(blockHtml).join('\n'),
+    addImage: (url, alt) => { blocks.push({id:uid(),type:'image',data:{url,alt}});render();sync(); },
+    rewriteTargets: () => blocks.flatMap((block, index) => {
+      const targets=[];
+      const add=(data,key,label,html=false)=>targets.push({
+        label:`Block ${index+1}: ${block.type} — ${label}`,
+        getValue:()=>html?String(data[key]||''):`<p>${esc(data[key]||'').replace(/\n/g,'<br>')}</p>`,
+        setValue:value=>{
+          if(!blocks.includes(block)||(data!==block.data&&!(block.data.items||[]).includes(data)))throw new Error('This block field was removed. Generate a new preview.');
+          data[key]=html?value:new DOMParser().parseFromString(value.replace(/<br\s*\/?\s*>/gi,'\n').replace(/<\/p>/gi,'\n'),'text/html').body.textContent.trim();
+          render();sync();
+        }
+      });
+      if(['text','heading','quote','alert','button','link','notes','html','section','columns'].includes(block.type))add(block.data,'text','Text',['html','quote','alert','columns'].includes(block.type));
+      if(['section','columns'].includes(block.type))add(block.data,'content','Content',true);
+      if(['tabs','accordion'].includes(block.type)) (block.data.items||[]).forEach((item,i)=>{add(item,'title',`Item ${i+1} title`);add(item,'content',`Item ${i+1} content`,true);});
+      return targets;
+    })
+  };
   canvas.addEventListener('input',event=>{const name=event.target.dataset.slideshareField;if(!name)return;const block=blocks[Number(event.target.closest('[data-index]')?.dataset.index)];if(!block)return;block.data[name]=event.target.value;sync()});
   canvas.addEventListener('change',event=>{if(event.target.type!=='checkbox'||!event.target.dataset.field)return;const holder=event.target.closest('[data-index]'),block=blocks[Number(holder?.dataset.index)];if(!block)return;block.data[event.target.dataset.field]=event.target.checked?'1':'';sync()});
   root.querySelectorAll('[data-add-block]').forEach(button=>button.onclick=()=>{const type=button.dataset.addBlock;blocks.push({id:uid(),type,data:{level:2,text:'',content:'',url:'',url2:'',alt:'',caption:'',title:'',alias:'',style:'info'}});render();sync()});

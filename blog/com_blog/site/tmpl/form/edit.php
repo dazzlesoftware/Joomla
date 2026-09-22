@@ -9,6 +9,7 @@
  */
 
 defined('_JEXEC') or die;
+\Joomla\Component\Blog\Administrator\Helper\NeuralNetworkEditorHelper::load();
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -56,6 +57,7 @@ if (!$params->exists('show_publishing_options')) {
 
 
                 <?php echo $this->form->renderField('post_content'); ?>
+<?php echo $this->form->renderField('excerpt'); ?>
                 <?php if ($params->get('show_urls_images_frontend')) : ?>
                     <fieldset id="fieldset-image-featured" class="options-form mt-4">
                         <legend><?php echo Text::_('Featured Image'); ?></legend>
@@ -111,6 +113,7 @@ if (!$params->exists('show_publishing_options')) {
                             <legend><?php echo Text::_('COM_BLOG_METADATA'); ?></legend>
                             <?php echo $this->form->renderField('metadesc'); ?>
                             <?php echo $this->form->renderField('metakey'); ?>
+<?php foreach ($this->form->getFieldset('jmetadata') as $seoField) { echo $seoField->renderField(); } ?>
                         </fieldset>
                     <?php echo HTMLHelper::_('uitab.endTab'); ?>
                 <?php endif; ?>

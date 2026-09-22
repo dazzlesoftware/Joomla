@@ -91,7 +91,7 @@ foreach ($f in $families) {
 }
 
 # Shared plugins use the standard Joomla group/element directory layout.
-foreach ($relativePath in @('content/video', 'editors-xtd/video', 'user/genesisprofile')) {
+foreach ($relativePath in @('content/video', 'editors-xtd/video', 'user/genesisprofile', 'neuralnetwork/modelcatalog')) {
     Invoke-Robocopy "$dist/plugins/$relativePath" "$site/plugins/$relativePath"
 }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+  <field name="provider" type="list" label="Provider" default="openai"><option value="openai">OpenAI</option><option value="claude">Claude</option></field>
+  <field name="kind" type="list" label="Task" default="text"><option value="text">Text</option><option value="image">Image (OpenAI)</option></field>
+  <field name="id" type="text" label="Model ID" required="true" maxlength="256" />
+  <field name="label" type="text" label="Display name" required="true" maxlength="120" />
+</form>

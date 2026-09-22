@@ -6,7 +6,8 @@
     <field name="asset_id" type="hidden" filter="unset" />
     <field name="title" type="text" label="JGLOBAL_TITLE" size="30" required="true" />
     <field name="alias" type="text" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" size="45" />
-    <field name="post_content" type="editor" label="COM_CODEX_FIELD_POST_CONTENT_LABEL" hiddenLabel="true" buttons="true" filter="\Joomla\CMS\Component\ComponentHelper::filterText" asset_id="com_codex" />
+    <field name="excerpt" type="textarea" label="Excerpt" rows="4" filter="string" />
+<field name="post_content" type="editor" label="COM_CODEX_FIELD_POST_CONTENT_LABEL" hiddenLabel="true" buttons="true" filter="\Joomla\CMS\Component\ComponentHelper::filterText" asset_id="com_codex" />
     <field name="state" type="list" label="JSTATUS" class="form-select-color-state" size="1" default="1" validate="options">
       <option value="1">JPUBLISHED</option>
       <option value="0">JUNPUBLISHED</option>
@@ -45,21 +46,18 @@
       <field name="featured_image_class" type="text" label="COM_CODEX_FIELD_IMAGE_CLASS_LABEL" size="20" useglobal="true" validate="CssIdentifier" />
     </fieldset>
   </fields>
-  <fields name="metadata">
-    <fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-      <field name="robots" type="hidden" label="JFIELD_METADATA_ROBOTS_LABEL" filter="unset">
-        <option value="">JGLOBAL_USE_GLOBAL</option>
-        <option value="index, follow">
-        </option>
-        <option value="noindex, follow">
-        </option>
-        <option value="index, nofollow">
-        </option>
-        <option value="noindex, nofollow">
-        </option>
-      </field>
-      <field name="author" type="hidden" label="JAUTHOR" filter="unset" size="20" />
-      <field name="rights" type="hidden" label="JFIELD_META_RIGHTS_LABEL" filter="unset" />
-    </fieldset>
-  </fields>
+
+<fields name="metadata"><fieldset name="jmetadata" label="SEO and Social Sharing">
+<field name="seo_title" type="text" label="SEO title" maxlength="255" description="Leave blank to use the post title and existing page-title settings." />
+<field name="robots" type="list" label="Robots" validate="options" description="Per-page indexing directives. This does not edit the site robots.txt file."><option value="">JGLOBAL_USE_GLOBAL</option><option value="index, follow">index, follow</option><option value="noindex, follow">noindex, follow</option><option value="index, nofollow">index, nofollow</option><option value="noindex, nofollow">noindex, nofollow</option></field>
+<field name="canonical" type="url" label="Canonical URL" filter="url" description="Optional absolute preferred URL for this post." />
+<field name="og_type" type="list" label="Open Graph Type" default="" validate="options"><option value="">Article (default)</option><option value="website">Website</option><option value="article">Article</option><option value="video.movie">Video: Movie</option><option value="video.tv_show">Video: TV Show</option><option value="music.album">Music: Album</option><option value="book">Book</option><option value="profile">Profile</option></field>
+<field name="og_title" type="text" label="Open Graph Title" maxlength="255" />
+<field name="og_description" type="textarea" label="Open Graph Description" maxlength="500" rows="3" />
+<field name="og_image" type="media" label="Open Graph Image" directory="" description="Leave empty to use the featured image." />
+<field name="image_alt" type="text" label="Open Graph Image Alt Text" maxlength="255" />
+<field name="twitter_card" type="list" label="Social card format" default="summary_large_image" validate="options"><option value="summary_large_image">Large image</option><option value="summary">Summary</option></field>
+<field name="author" type="text" label="JAUTHOR" />
+<field name="rights" type="text" label="JFIELD_META_RIGHTS_LABEL" />
+</fieldset></fields>
 </form>

@@ -349,7 +349,7 @@ class HtmlView extends BaseHtmlView
         $mdata = $this->item->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
-            if ($v) {
+            if ($v && !in_array($k, ['seo_title','canonical','og_type','og_title','og_description','og_image','image_alt','twitter_card'], true)) {
                 $this->getDocument()->setMetaData($k, $v);
             }
         }
@@ -361,6 +361,8 @@ class HtmlView extends BaseHtmlView
                 $this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
             );
         }
+
+        \Joomla\Component\Blog\Site\Helper\SeoHelper::apply($this->getDocument(), $this->item);
 
         if ($this->print) {
             $this->getDocument()->setMetaData('robots', 'noindex, nofollow');

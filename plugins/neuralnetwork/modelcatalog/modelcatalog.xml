@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="neuralnetwork" method="upgrade">
+  <name>Neural Network - Model Catalog</name>
+  <author>Genesis</author><version>1.0.0</version>
+  <description>Add text and image model choices for Academy, Blog and Codex. Models use the existing OpenAI Responses, OpenAI Images or Claude Messages connection and credentials.</description>
+  <namespace path="src">Joomla\Plugin\Neuralnetwork\Modelcatalog</namespace>
+  <files><folder plugin="modelcatalog">services</folder><folder>src</folder><folder>forms</folder></files>
+  <config><fields name="params"><fieldset name="basic">
+    <field name="models" type="subform" label="Additional models" formsource="plugins/neuralnetwork/modelcatalog/forms/model.xml" multiple="true" layout="joomla.form.field.subform.repeatable-table" />
+  </fieldset></fields></config>
+</extension>

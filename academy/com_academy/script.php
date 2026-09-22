@@ -10,6 +10,16 @@ class Com_AcademyInstallerScript
 {
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
+        // Remove obsolete integration files after the NeuralNetwork rename on upgrades.
+        foreach ([
+            JPATH_ADMINISTRATOR . '/components/com_academy/src/Helper/AiService.php',
+            JPATH_ADMINISTRATOR . '/components/com_academy/src/Helper/AiUiHelper.php',
+            JPATH_ADMINISTRATOR . '/components/com_academy/src/Controller/AiController.php',
+            JPATH_ROOT . '/components/com_academy/src/Controller/AiController.php',
+            JPATH_ROOT . '/media/com_academy/js/ai-editor.js',
+        ] as $obsolete) {
+            if (is_file($obsolete) && !unlink($obsolete)) { return false; }
+        }
         // Joomla recreates manifest submenu rows after install/update handlers.
         // Apply the second-level hierarchy only once those rows exist.
         return $this->repairAdminMenu() && $this->migrateListingSettings();

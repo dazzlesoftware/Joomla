@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
   <fields name="params">
+<fieldset name="ai_tools" label="AI Writing and Images" description="AI drafts are reviewed before applying. Requests send the selected content to your provider and may incur API charges. Server environment variables OPENAI_API_KEY and ANTHROPIC_API_KEY take precedence over saved keys.">
+<field name="ai_enabled" type="list" default="0" label="Enable AI tools"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="ai_provider" type="list" default="openai" label="Text provider"><option value="openai">OpenAI</option><option value="claude">Claude</option></field>
+<field name="ai_openai_key" type="password" maxlength="2048" label="OpenAI API key" autocomplete="new-password" description="Stored encrypted. Leave blank to keep the saved key." filter="raw" />
+<field name="ai_openai_clear" type="checkbox" class="form-check-input" label="Remove saved OpenAI key" value="1" />
+<field name="ai_claude_key" type="password" maxlength="2048" label="Claude API key" autocomplete="new-password" description="Stored encrypted. Leave blank to keep the saved key." filter="raw" />
+<field name="ai_claude_clear" type="checkbox" class="form-check-input" label="Remove saved Claude key" value="1" />
+<field name="ai_openai_model" type="neuralnetworkmodel" addfieldprefix="Joomla\Component\Codex\Administrator\Field" provider="openai" kind="text" label="OpenAI text model" default="gpt-4.1-mini" />
+<field name="ai_openai_model_custom" type="text" label="Custom OpenAI text model ID" maxlength="256" showon="ai_openai_model:__custom__" description="Enter the exact model ID. It must support the selected provider API and this task." />
+<field name="ai_claude_model" type="neuralnetworkmodel" addfieldprefix="Joomla\Component\Codex\Administrator\Field" provider="claude" kind="text" label="Claude text model" default="claude-sonnet-4-6" />
+<field name="ai_claude_model_custom" type="text" label="Custom Claude text model ID" maxlength="256" showon="ai_claude_model:__custom__" description="Enter the exact model ID. It must support the selected provider API and this task." />
+<field name="ai_images" type="list" default="0" label="Enable OpenAI image generation"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="ai_image_model" type="neuralnetworkmodel" addfieldprefix="Joomla\Component\Codex\Administrator\Field" provider="openai" kind="image" label="OpenAI image model" default="gpt-image-1.5" />
+<field name="ai_image_model_custom" type="text" label="Custom OpenAI image model ID" maxlength="256" showon="ai_image_model:__custom__" description="Enter the exact model ID. It must support the selected provider API and this task." />
+<field name="ai_max_tokens" type="number" label="Maximum output tokens" default="4096" min="256" max="16000" filter="integer" />
+<field name="ai_hourly_limit" type="number" label="Requests per user session per hour" default="20" min="1" max="100" filter="integer" />
+<field name="ai_permissions_note" type="note" label="Permissions" description="Grant the Use AI tools permission in component permissions. Users also need post editing permission; image generation requires Joomla Media create permission." />
+</fieldset>
+
 <fieldset name="featured_slider" label="Featured">
 <field name="featured_slider_enabled" type="list" label="Display Featured Slider" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="featured_slider_style" type="list" label="Featured Style" default="default"><option value="default">Default</option><option value="card">Card</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
@@ -698,7 +717,9 @@
       <field name="list_item_style" type="list" default="card" label="COM_CODEX_LIST_ITEM_STYLE_LABEL"><option value="card">Card Layout</option><option value="standard">Standard Layout</option><option value="simple">Simple Layout</option><option value="nickel">Nickel Layout</option><option value="learning">Learning Layout</option></field>
     </fieldset>
   </fields>
-<fields name="params"><fieldset name="listing_filters" label="Post Listing Filters"><field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<fields name="params">
+
+<fieldset name="listing_filters" label="Post Listing Filters"><field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
 <field name="listing_exclude_authors" type="postauthors" label="Exclude Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
 <field name="listing_categories" type="postcategory" label="Filter by Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
 <field name="listing_exclude_categories" type="postcategory" label="Exclude Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />

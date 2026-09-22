@@ -60,6 +60,8 @@ function Build-GenesisProfilePackage([string]$RepoRoot) {
 
 Build-VideoFeaturePackage $RepoRoot
 Build-GenesisProfilePackage $RepoRoot
+$modelCatalogZip = Join-Path $RepoRoot "dist/plg_neuralnetwork_modelcatalog.zip"
+New-Zip "$RepoRoot/plugins/neuralnetwork/modelcatalog" $modelCatalogZip
 
 foreach ($family in @('academy', 'blog', 'codex')) {
     $title = (Get-Culture).TextInfo.ToTitleCase($family)
@@ -180,6 +182,7 @@ $($moduleFiles -join "`r`n")
     Copy-Item -LiteralPath $componentZip -Destination $packageRoot -Force
     Copy-Item -LiteralPath $pluginsZip -Destination $packageRoot -Force
     Copy-Item -LiteralPath $modulesZip -Destination $packageRoot -Force
+    Copy-Item -LiteralPath $modelCatalogZip -Destination $packageRoot -Force
 
     $manifest = @"
 <?xml version="1.0" encoding="UTF-8"?>
@@ -193,6 +196,7 @@ $($moduleFiles -join "`r`n")
   <description>PKG_${upper}_XML_DESCRIPTION</description>
   <scriptfile>script.php</scriptfile>
   <files>
+    <file type="plugin" id="modelcatalog" group="neuralnetwork">plg_neuralnetwork_modelcatalog.zip</file>
     <file type="component" id="com_$family">com_$family.zip</file>
     <file type="package" id="pkg_${family}_integrations">plugins.zip</file>
     <file type="package" id="pkg_${family}_modules">modules.zip</file>

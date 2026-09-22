@@ -11,6 +11,7 @@
 /** @var \Joomla\Component\Blog\Administrator\View\Post\HtmlView $this */
 
 defined('_JEXEC') or die;
+\Joomla\Component\Blog\Administrator\Helper\NeuralNetworkEditorHelper::load();
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -196,7 +197,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
                 </div>
                 <div class="col-12 col-lg-6">
                     <fieldset id="fieldset-metadata" class="options-form">
-                        <legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+                        <legend><?php echo Text::_('SEO and Social Sharing'); ?></legend>
                         <div>
                         <?php echo LayoutHelper::render('blog.edit.metadata', $this); ?>
                         </div>

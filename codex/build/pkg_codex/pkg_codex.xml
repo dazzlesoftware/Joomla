@@ -9,6 +9,7 @@
   <description>PKG_CODEX_XML_DESCRIPTION</description>
   <scriptfile>script.php</scriptfile>
   <files>
+    <file type="plugin" id="modelcatalog" group="neuralnetwork">plg_neuralnetwork_modelcatalog.zip</file>
     <file type="component" id="com_codex">com_codex.zip</file>
     <file type="package" id="pkg_codex_integrations">plugins.zip</file>
     <file type="package" id="pkg_codex_modules">modules.zip</file>

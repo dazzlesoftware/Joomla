@@ -9,6 +9,7 @@
   <description>PKG_BLOG_XML_DESCRIPTION</description>
   <scriptfile>script.php</scriptfile>
   <files>
+    <file type="plugin" id="modelcatalog" group="neuralnetwork">plg_neuralnetwork_modelcatalog.zip</file>
     <file type="component" id="com_blog">com_blog.zip</file>
     <file type="package" id="pkg_blog_integrations">plugins.zip</file>
     <file type="package" id="pkg_blog_modules">modules.zip</file>

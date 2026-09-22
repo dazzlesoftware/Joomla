@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>AI editor offline regression</title>
+<link rel="stylesheet" href="http://localhost/Joomla/media/templates/administrator/atum/css/template.min.css">
+<style>body{padding:24px;max-width:1000px;margin:auto}textarea{width:100%}#results{white-space:pre-wrap}.post-block{border:1px solid #ccc;padding:12px;margin:12px 0}</style>
+<script type="importmap">{"imports":{"editor-api":"./fixtures/neural-network-editor-api.js"}}</script>
+<h1>AI editor offline regression</h1><p>Fixture content and mocked provider responses. No API calls or saved site changes.</p>
+<button class="btn btn-primary" id="run">Run regression checks</button><pre id="results" role="status">Ready</pre>
+<form id="item-form" onsubmit="event.preventDefault()">
+<input name="jform[id]" value="0" type="hidden"><input name="jform[catid]" value="1" type="hidden">
+<div data-post-block-editor data-editor-id="jform_post_content"><input id="jform_block_data" type="hidden">
+<div data-classic-editor><label>Post content<textarea name="jform[post_content]" id="jform_post_content" rows="5"><p>Original text.</p></textarea></label></div>
+<div data-block-composer hidden><div data-block-canvas></div><button type="button" data-add-block="text">Add text</button></div></div>
+<label>Excerpt<textarea name="jform[excerpt]"></textarea></label>
+<div class="control-group"><label>Featured image<input class="form-control" name="jform[media][featured_image]"></label><input name="jform[media][featured_image_alt]" aria-label="Featured alt"></div>
+<div class="control-group"><label>Open Graph image<input class="form-control" name="jform[metadata][og_image]"></label><input name="jform[metadata][image_alt]" aria-label="OG alt"></div>
+<div id="seo"></div></form>
+<script>
+const family=new URLSearchParams(location.search).get('family')||'academy';
+const blocks=new URLSearchParams(location.search).get('mode')==='blocks';
+document.querySelector('[data-post-block-editor]').dataset.defaultMode=blocks?'blocks':'classic';
+document.querySelector('#jform_block_data').value=blocks?JSON.stringify([{id:'text1',type:'text',data:{text:'Original text.'}},{id:'video1',type:'video',data:{url:'https://example.com/video'}}]):'[]';
+for(const key of ['seo_title','metakey','metadesc','og_type','og_title','og_description']){const input=document.createElement('input');input.name=['metakey','metadesc'].includes(key)?`jform[${key}]`:`jform[metadata][${key}]`;input.setAttribute('aria-label',key);document.querySelector('#seo').append(input);}
+const textarea=document.querySelector('#jform_post_content');
+window.Joomla={getOptions:()=>({endpoint:'/fixture?format=json',token:'fixturetoken',images:true}),editors:{instances:{jform_post_content:{getValue:()=>textarea.value,setValue:v=>textarea.value=v,getSelection:()=>'',replaceSelection:v=>textarea.value+=v}}}};
+window.savedImages=0;
+window.fetch=async(url,{body})=>{
+if(!url.includes('task=neuralnetwork.'))throw new Error('Incorrect controller route');
+ if(body.get('fixturetoken')!=='1')throw new Error('Missing CSRF token');
+ let data;
+ if(url.includes('saveImage')){savedImages++;data={path:'images/generated/fixture.png',url:'https://example.com/fixture.png'};}
+ else if(body.get('action')==='seo')data={fields:{seo_title:'Suggested title',metadesc:'Suggested description',og_type:'article',image_alt:'Suggested alt'}};
+ else if(body.get('action')==='image')data={image_id:'fixture',preview:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6VioAAAAASUVORK5CYII='};
+ else data={text:body.get('action')==='excerpt'?'Suggested excerpt.':'<p>Rewritten text.</p>'};
+ return {ok:true,json:async()=>({success:true,data})};
+};
+document.write(`<script src="../${family}/com_${family}/media/js/admin-block-editor.js"><\/script>`);
+// Load the production module only after the composer has initialized.
+window.addEventListener('load',async()=>{
+ await import(`../${family}/com_${family}/media/js/neural-network-editor.js`);
+ const {JoomlaEditorButton}=await import('editor-api');
+ const result=document.querySelector('#results');
+ const check=(value,label)=>{if(!value)throw new Error(label);result.textContent+='\nPASS '+label;};
+ const click=label=>[...document.querySelectorAll('button')].find(button=>button.textContent===label).click();
+ const settle=()=>new Promise(resolve=>setTimeout(resolve,40));
+ const generate=async()=>{document.querySelector('#ai-instruction').value='Fixture instructions';document.querySelector('[data-generate]').click();for(let i=0;i<20&&document.querySelector('[data-apply]').hidden;i++)await new Promise(resolve=>setTimeout(resolve,10));check(!document.querySelector('[data-apply]').hidden,'preview received');};
+ document.querySelector('#run').onclick=async()=>{
+  result.textContent=`Testing ${family} ${blocks?'blocks':'classic'}`;
+  try{
+   const original=textarea.value;click('AI Rewrite');await generate();check(textarea.value===original,'preview does not modify post');document.querySelector('[data-apply]').click();await settle();check(textarea.value.includes('Rewritten text.'),'rewrite applied');
+   if(blocks){document.querySelector('#item-form').dispatchEvent(new Event('submit',{cancelable:true}));const data=JSON.parse(document.querySelector('#jform_block_data').value);check(data[0].type==='text'&&data[1].type==='video'&&data[0].data.text==='Rewritten text.','block types preserved after save synchronization');}
+   click('AI Excerpt');await generate();document.querySelector('[data-apply]').click();await settle();check(document.querySelector('[name="jform[excerpt]"]').value==='Suggested excerpt.','excerpt applied');
+   click('AI SEO');await generate();document.querySelector('[data-apply]').click();await settle();check(document.querySelector('[name="jform[metadata][seo_title]"]').value==='Suggested title','SEO mapped to fields');
+   const active=Joomla.editors.instances.jform_post_content;
+   JoomlaEditorButton.getActionHandler('modal-media')(active,{});document.querySelector('[data-browse]').click();await settle();check(window.browsed,'original Media browse preserved');
+   if(blocks)click('AI Image block');else {JoomlaEditorButton.getActionHandler('modal-media')(active,{});document.querySelector('[data-ai]').click();await settle();}
+   await generate();check(savedImages===0,'image preview not saved');document.querySelector('#ai-alt').value='Fixture alt';document.querySelector('[data-apply]').click();await settle();for(let i=0;i<20&&document.querySelector('dialog');i++)await new Promise(resolve=>setTimeout(resolve,10));check(savedImages===1&&textarea.value.includes('Fixture alt'),'image saved and inserted');
+   if(blocks)check(JSON.parse(document.querySelector('#jform_block_data').value).at(-1).type==='image','generated image remains an image block');
+   result.textContent+='\nALL CHECKS PASSED';
+  }catch(error){result.textContent+='\nFAIL '+error.message;}
+ };
+});
+</script></html>

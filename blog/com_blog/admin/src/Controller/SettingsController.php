@@ -46,6 +46,12 @@ final class SettingsController extends BaseController
         $values    = (array) ($submitted['params'] ?? []);
         $params    = clone ComponentHelper::getParams('com_blog');
 
+        foreach (['openai', 'claude'] as $provider) {
+            $key = trim((string) ($values['ai_' . $provider . '_key'] ?? ''));
+            if (!empty($values['ai_' . $provider . '_clear'])) { $params->set('ai_' . $provider . '_secret', ''); }
+            if ($key !== '') { $params->set('ai_' . $provider . '_secret', \Joomla\Component\Blog\Administrator\Helper\NeuralNetworkService::seal($key)); }
+            unset($values['ai_' . $provider . '_key'], $values['ai_' . $provider . '_clear'], $values['ai_' . $provider . '_secret']);
+        }
         foreach ($values as $name => $value) {
             $params->set((string) $name, $value);
         }
