@@ -18,7 +18,7 @@ $active = array_key_first($this->sections);
                 <div class="list-group list-group-flush" role="tablist">
                     <?php foreach ($this->sections as $key => $section) : ?>
                         <button class="list-group-item list-group-item-action<?php echo $key === $active ? ' active' : ''; ?>" data-bs-toggle="list" data-bs-target="#settings-<?php echo $key; ?>" type="button" role="tab">
-                            <span class="icon-<?php echo $section['icon']; ?> me-2" aria-hidden="true"></span><?php echo $section['label']; ?>
+                            <span class="<?php echo $section['icon_class'] ?? 'icon-' . $section['icon']; ?> me-2" aria-hidden="true"></span><?php echo $section['label']; ?>
                         </button>
                     <?php endforeach; ?>
                 </div>
