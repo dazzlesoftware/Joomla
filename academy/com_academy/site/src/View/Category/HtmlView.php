@@ -88,7 +88,7 @@ final class HtmlView extends BaseHtmlView
         if (in_array($requestedLayout, ['standard', 'learning', 'simple', 'nickel'], true)) {
             $layout = $requestedLayout;
         } elseif ($layout === '') {
-            $layout = $requestedLayout ?: 'card';
+            $layout = $requestedLayout !== '' && $requestedLayout !== 'category_posts' ? $requestedLayout : 'card';
         }
         // Joomla componentlayout stores component selections as _:card, etc.
         $layoutName = str_contains($layout, ':') ? substr($layout, strrpos($layout, ':') + 1) : $layout;

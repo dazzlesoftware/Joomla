@@ -7,9 +7,9 @@ use Joomla\CMS\Uri\Uri;
 
 $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 ?>
-<?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
+<?php echo $this->loadTemplate('navigation'); ?>
 <div class="content-view-category genesis-print-article">
-<?php echo LayoutHelper::render('category-actions', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
+<?php echo $this->loadTemplate('actions'); ?>
     <?php if ($this->params->get('show_page_heading')) : ?>
         <h1><?php echo $escape($this->params->get('page_heading', $this->category->title)); ?></h1>
     <?php endif; ?>
@@ -28,7 +28,7 @@ $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'U
         <div class="category-desc clearfix mb-4"><?php echo \Joomla\CMS\HTML\HTMLHelper::_('content.prepare', $this->category->description, '', 'com_blog.category'); ?></div>
     <?php endif; ?>
 
-<?php echo LayoutHelper::render('category-subcategories', ['items' => $this->subcategories, 'params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
+<?php echo $this->loadTemplate('subcategories'); ?>
 
     <?php foreach ($this->items as $item) : ?>
         <?php $url = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language ?? '*')); ?>

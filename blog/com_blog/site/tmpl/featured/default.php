@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /** @var \Joomla\Component\Blog\Site\View\Featured\HtmlView $this */
 ?>
 <div class="blog-featured">
-    <?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo $this->loadTemplate('navigation'); ?>
     <?php echo LayoutHelper::render('rsslink', $this->params, JPATH_COMPONENT . '/layouts'); ?>
     <?php if ($this->params->get('show_page_heading') != 0) : ?>
     <div class="page-header">

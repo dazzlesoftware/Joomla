@@ -45,17 +45,17 @@ $itemClasses = match ($listStyle) {
 <div class="<?php echo $itemClasses; ?>">
 <?php
 $featuredImages = json_decode((string) ($this->item->media ?? '{}'));
-if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->featured_image)) {
-    echo LayoutHelper::render('post.image-placeholder', $this->item, JPATH_COMPONENT . '/layouts');
+if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->featured_image) && empty($this->item->category_default_image)) {
+    echo $this->loadTemplate('placeholder');
 } elseif (!in_array($listStyle, ['simple', 'standard', 'nickel'], true)) {
-    echo LayoutHelper::render('academy.content.featured_image', $this->item, JPATH_COMPONENT . '/layouts');
+    echo $this->loadTemplate('image');
 }
 ?>
 
 <?php if ($listStyle === 'learning') : ?>
 <div class="item-content learning-item-content card-body d-flex flex-column">
-    <?php echo LayoutHelper::render('academy.content.blog_style_default_item_title', $this->item, JPATH_COMPONENT . '/layouts'); ?>
-    <?php echo LayoutHelper::render('post.card-footer', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo $this->loadTemplate('title'); ?>
+    <?php echo $this->loadTemplate('footer'); ?>
 </div>
 <?php else : ?>
 
@@ -65,7 +65,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
     <?php endif; ?>
 
     <?php if (in_array($listStyle, ['simple', 'standard'], true)) : ?>
-        <?php echo LayoutHelper::render('post.' . $listStyle . '-header', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+        <?php echo $this->loadTemplate('header'); ?>
     <?php else : ?>
     <?php if ($params->get('show_title', 1)) : ?>
         <h2 class="item-title d-flex align-items-center gap-2"><?php if (in_array($listStyle, ['standard'], true)) {
@@ -108,7 +108,7 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
         <?php echo LayoutHelper::render('academy.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
     <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-        <?php echo LayoutHelper::render('posttags', $this->item->tags->itemTags, JPATH_COMPONENT . '/layouts'); ?>
+        <?php echo $this->loadTemplate('tags'); ?>
     <?php elseif (in_array($listStyle, ['card', 'nickel'], true) && $params->get('show_tags', 1)) : ?>
         <ul class="tags list-inline invisible" aria-hidden="true"><li class="list-inline-item"><span class="btn btn-sm btn-info">&nbsp;</span></li></ul>
     <?php endif; ?>
@@ -139,10 +139,10 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
             <div class="small text-muted"><span class="fa-solid fa-calendar me-1" aria-hidden="true"></span><?php echo \Joomla\Component\Academy\Site\Helper\DateHelper::render($this->item, $params); ?></div>
         <?php endif; ?>
     <?php else : ?>
-    <?php echo LayoutHelper::render($listStyle === 'compact' ? 'post.basic-meta' : 'post.meta', $this->item, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo $this->loadTemplate('meta'); ?>
     <?php endif; ?>
     <?php if (in_array($listStyle, ['card', 'nickel'], true)) {
-        echo LayoutHelper::render('post.card-footer', $this->item, JPATH_COMPONENT . '/layouts');
+        echo $this->loadTemplate('footer');
     } ?>
     <?php if (in_array($listStyle, ['card', 'simple', 'standard', 'nickel'], true)) : ?></div><?php endif; ?>
 

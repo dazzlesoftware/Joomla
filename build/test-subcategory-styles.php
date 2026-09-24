@@ -20,10 +20,11 @@ foreach (['academy','blog','codex'] as $family) {
     $root=__DIR__.'/../'.$family.'/com_'.$family;
     $child=(object)['id'=>0,'title'=>'Child <safe>','language'=>'*','numitems'=>0,'description'=>'Child description','default_image'=>'images/cover.jpg','children'=>[]];
     $parent=clone $child;$parent->title='Parent';$parent->default_image='';$parent->children=[$child];
-    foreach ([[],['subcategories_style'=>'image_grid'],['subcategories_style'=>'image_grid','subcategories_column_style'=>'masonry','subcategories_columns'=>4],['subcategories_style'=>'image_grid','subcategories_listing_layout'=>'rows']] as $values) {
+    foreach ([[],['subcategories_style'=>'link_list','subcategories_listing_layout'=>'rows'],['subcategories_style'=>'link_list','subcategories_column_style'=>'masonry','subcategories_columns'=>4],['subcategories_style'=>'link_list','subcategories_columns'=>2],['subcategories_style'=>'image_grid'],['subcategories_style'=>'image_grid','subcategories_column_style'=>'masonry','subcategories_columns'=>4],['subcategories_style'=>'image_grid','subcategories_listing_layout'=>'rows']] as $values) {
         $displayData=['items'=>[$parent], 'params'=>new Registry($values)];
         ob_start();include $root.'/site/layouts/category-subcategories.php';$html=ob_get_clean();
-        $grid=($values['subcategories_style']??'list')==='image_grid';
+        if (!str_contains($html, 'row-cols-md-' . (($values['subcategories_listing_layout'] ?? 'columns') === 'rows' ? 1 : ($values['subcategories_columns'] ?? 3)))) { throw new RuntimeException('Column count'); }
+        $grid=($values['subcategories_style']??'link_list')==='image_grid';
         if (str_contains($html,'category-directory-card')!==$grid) { throw new RuntimeException('Wrong style'); }
         if (!str_contains($html,'Child &lt;safe&gt;')) { throw new RuntimeException('Child rendering/escaping'); }
         if ($grid && (!str_contains($html,'images/cover.jpg') || !str_contains($html,'fa-solid fa-image'))) { throw new RuntimeException('Image/placeholder'); }

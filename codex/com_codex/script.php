@@ -102,7 +102,7 @@ class Com_CodexInstallerScript
                     if ($oldLayout !== 'card' || !array_key_exists('category_layout', $values)) {
                         $values['category_layout'] = '_:' . ($oldLayout === 'blog' ? 'card' : $oldLayout);
                     }
-                    $link = preg_replace('/([?&]layout=)[^&]+/', '${1}card', $link);
+                    $link = preg_replace('/([?&]layout=)[^&]+/', '${1}category_posts', $link);
                 } elseif (($query['view'] ?? '') === 'post' && $oldLayout === 'wiki') {
                     $values['post_layout'] = '_:wiki';
                     $link = preg_replace('/&layout=wiki(?=&|$)/', '', $link);

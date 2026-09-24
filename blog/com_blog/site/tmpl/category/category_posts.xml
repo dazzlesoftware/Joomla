@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <layout title="COM_BLOG_CATEGORY_POSTS_MENU_TITLE" option="Category Posts">
+    <help key="Menu_Item:_Category_Blog" />
+    <message>COM_BLOG_CATEGORY_POSTS_MENU_DESC</message>
+  </layout>
+  <!-- Add fields to the request variables for the layout. -->
+  <!-- Add fields to the parameters object for the layout. -->
+  <fields name="params">
+<fieldset name="featured_slider" label="Featured">
+<field name="featured_slider_enabled" type="list" label="Display Featured Slider" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_style" type="list" label="Featured Style" useglobal="true"><option value="default">Default</option><option value="card">Card</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
+<field name="featured_slider_all_pages" type="list" label="Display on All Pages" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_auto" type="list" label="Auto Sliding" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_interval" type="number" label="Auto Sliding Interval (Seconds)" min="1" hint="8" />
+<field name="featured_slider_image" type="list" label="Show Post Image" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_title" type="list" label="Show Post Title" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_category" type="list" label="Show Post Category" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_author" type="list" label="Show Post Author" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_avatar" type="list" label="Show Author Avatar" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_readmore" type="list" label="Show Readmore" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_navigation" type="list" label="Show Navigation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content" type="list" label="Show Post Content" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_ratings" type="list" label="Show Post Ratings" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_date" type="list" label="Show Post Date" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content_length" type="number" label="Maximum Content (Characters)" description="0 displays the complete text. Empty inherits the component setting." min="0" hint="250" />
+<field name="featured_slider_count" type="number" label="Maximum Featured Posts" min="1" max="50" hint="5" />
+<field name="featured_slider_date_source" type="list" label="Post Date Source" useglobal="true"><option value="created">Created Date</option><option value="modified">Modified Date</option><option value="published">Published Date</option></field>
+</fieldset>
+
+<fieldset name="request">
+<field name="category_layout" type="componentlayout" class="form-select" label="COM_BLOG_CATEGORY_STYLE_LABEL" useglobal="true" extension="com_blog" view="category" />
+      <field name="post_listing_layout" type="list" label="COM_BLOG_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
+        <option value="rows">COM_BLOG_POST_LISTING_LAYOUT_ROWS</option>
+        <option value="columns">COM_BLOG_POST_LISTING_LAYOUT_COLUMNS</option>
+      </field>
+
+<field name="column_style" type="list" label="COM_BLOG_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
+        <option value="grid">COM_BLOG_COLUMN_STYLE_GRID</option>
+        <option value="masonry">COM_BLOG_COLUMN_STYLE_MASONRY</option>
+      </field>
+<field name="columns_per_row" type="list" label="COM_BLOG_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
+        <option value="2">2 Columns</option>
+        <option value="3">3 Columns</option>
+        <option value="4">4 Columns</option>
+        <option value="5">5 Columns</option>
+        <option value="6">6 Columns</option>
+      </field>
+<field name="items_limit_source" type="list" label="# Items" default="component" validate="options"><option value="component">Inherit from component settings</option><option value="joomla">Inherit from Joomla global configuration</option><option value="custom">Specify List Limit Per Page</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></field>
+<field name="posts_per_page" type="number" label="Posts per page" filter="integer" min="1" default="5" showon="items_limit_source:custom" />
+<field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_authors" type="postauthors" label="Exclude Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_categories" type="postcategory" label="Filter by Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_categories" type="postcategory" label="Exclude Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_tags" type="posttags" label="Filter by Tags" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_canonical" type="url" label="Custom Canonical Link" filter="url" relative="false" description="Optional absolute HTTP or HTTPS URL for this listing page." />
+<field name="listing_subcategories" type="list" label="Include Subcategories" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="listing_include_featured" type="list" label="Include Featured Posts" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="listing_pin_featured" type="list" label="Pin Featured Posts" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+</fieldset>
+    <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+      <field name="subcategories_style" type="list" label="Subcategories Layout" useglobal="true"><option value="link_list">Link List</option><option value="image_grid">Image Grid</option></field>
+      <field name="subcategories_listing_layout" type="list" label="Subcategories Listing Style" useglobal="true"><option value="rows">Rows</option><option value="columns">Columns</option></field>
+      <field name="subcategories_column_style" type="list" label="Subcategories Column Style" useglobal="true"><option value="grid">Grid Layout</option><option value="masonry">Masonry Layout</option></field>
+      <field name="subcategories_columns" type="list" label="Subcategories Columns Per Row" useglobal="true"><option value="2">2 Columns</option><option value="3">3 Columns</option><option value="4">4 Columns</option><option value="5">5 Columns</option><option value="6">6 Columns</option></field>
+
+      <field name="layout_type" type="hidden" default="card" />
+      <field name="show_category_title" type="list" label="JGLOBAL_SHOW_CATEGORY_TITLE" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_description" type="list" label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_description_image" type="list" label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="maxLevel" type="list" label="JGLOBAL_MAXLEVEL_LABEL" description="JGLOBAL_MAXLEVEL_DESC" useglobal="true" validate="options">
+        <option value="-1">JALL</option>
+        <option value="0">JNONE</option>
+        <option value="1">J1</option>
+        <option value="2">J2</option>
+        <option value="3">J3</option>
+        <option value="4">J4</option>
+        <option value="5">J5</option>
+      </field>
+      <field name="show_empty_categories" type="list" label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_no_posts" type="list" label="COM_BLOG_NO_POSTS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_category_heading_title_text" type="list" label="JGLOBAL_SHOW_SUBCATEGORY_HEADING" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_subcat_desc" type="list" label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_cat_num_posts" type="list" label="COM_BLOG_NUMBER_CATEGORY_ITEMS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_cat_tags" type="list" label="COM_BLOG_FIELD_SHOW_CAT_TAGS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
+    <fieldset name="advanced" label="COM_BLOG_POST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL" addfieldprefix="Joomla\Component\Blog\Administrator\Field">
+
+
+
+
+
+      <field name="compact_show" type="list" label="COM_BLOG_COMPACT_SHOW" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="num_links" type="number" label="COM_BLOG_COMPACT_COUNT" filter="integer" validate="number" min="0" useglobal="true" />
+<field name="compact_layout" type="list" label="COM_BLOG_COMPACT_LAYOUT" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="rows">COM_BLOG_COMPACT_ROWS</option><option value="columns">COM_BLOG_COMPACT_COLUMNS_LAYOUT</option></field>
+<field name="compact_columns" type="list" label="COM_BLOG_COMPACT_COLUMNS" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="compact_show_title" type="list" label="COM_BLOG_COMPACT_SHOW_TITLE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="compact_selection" type="list" label="COM_BLOG_COMPACT_SELECTION" description="COM_BLOG_COMPACT_SELECTION_DESC" useglobal="true">
+        <option value="">JGLOBAL_USE_GLOBAL</option><option value="next">COM_BLOG_COMPACT_NEXT</option><option value="latest">COM_BLOG_COMPACT_LATEST</option><option value="featured">COM_BLOG_COMPACT_FEATURED</option><option value="random">COM_BLOG_COMPACT_RANDOM</option><option value="related">COM_BLOG_COMPACT_RELATED</option>
+      </field>
+      <field name="compact_show_image" type="list" label="COM_BLOG_COMPACT_SHOW_IMAGE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+      <field name="compact_show_rating" type="list" label="COM_BLOG_COMPACT_SHOW_RATING" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+
+      <field name="list_author_filtering_type" type="list" label="COM_BLOG_FIELD_AUTHORFILTERING_LABEL" default="1" filter="integer">
+        <option value="0">COM_BLOG_OPTION_EXCLUSIVE_VALUE</option>
+        <option value="1">COM_BLOG_OPTION_INCLUSIVE_VALUE</option>
+        <option value="2">COM_BLOG_OPTION_ONLYCURRENTUSER_VALUE</option>
+      </field>
+      <field name="list_author" type="author" label="COM_BLOG_FIELD_AUTHOR_LABEL" multiple="true" layout="joomla.form.field.list-fancy-select" filter="intarray" class="multipleAuthors" showon="list_author_filtering_type!:2" />
+      <field name="link_featured_image" type="list" label="COM_BLOG_LINKED_FEATURED_IMAGE_LABEL" useglobal="true" validate="options" parentclass="stack span-1-inline">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+
+      <field name="orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" useglobal="true" validate="options" parentclass="stack span-2">
+        <option value="none">JGLOBAL_NO_ORDER</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+      </field>
+      <field name="orderby_sec" type="list" label="COM_BLOG_POST_ORDER" useglobal="true" validate="options" parentclass="stack span-2-inline">
+        <option value="front">COM_BLOG_FEATURED_ORDER</option>
+        <option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+        <option value="date">JGLOBAL_OLDEST_FIRST</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+        <option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+        <option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+        <option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
+        <option value="random">JGLOBAL_RANDOM_ORDER</option>
+        <option value="order">JGLOBAL_ORDERING</option>
+        <option value="rorder">JGLOBAL_REVERSE_ORDERING</option>
+        <option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+        <option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+        <option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+        <option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+      </field>
+      <field name="order_date" type="list" label="JGLOBAL_ORDERING_DATE_LABEL" useglobal="true" validate="options" parentclass="stack span-2-inline">
+        <option value="created">JGLOBAL_CREATED</option>
+        <option value="modified">JGLOBAL_MODIFIED</option>
+        <option value="published">JPUBLISHED</option>
+        <option value="unpublished">JUNPUBLISHED</option>
+      </field>
+      <field name="show_pagination" type="list" label="JGLOBAL_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options" parentclass="stack span-1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+        <option value="2">JGLOBAL_AUTO</option>
+      </field>
+      <field name="show_pagination_results" type="list" label="JGLOBAL_PAGINATION_RESULTS_LABEL" useglobal="true" class="form-select-color-state" validate="options" parentclass="stack span-1-inline">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
+    <fieldset name="post" label="COM_BLOG_ATTRIBS_FIELDSET_LABEL" addfieldprefix="Joomla\Component\Blog\Administrator\Field">
+      <field name="post_layout" type="componentlayout" useglobal="true" label="JGLOBAL_FIELD_LAYOUT_LABEL" description="JGLOBAL_FIELD_LAYOUT_DESC" class="form-select" menuitems="true" extension="com_blog" view="post" />
+      <field name="show_wiki_details" type="list" class="form-select" useglobal="true" validate="options" label="COM_BLOG_WIKI_DETAILS_LABEL" description="COM_BLOG_WIKI_DETAILS_DESC"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="show_title" type="list" label="JGLOBAL_SHOW_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_titles" type="list" label="JGLOBAL_LINKED_TITLES_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_intro" type="list" label="COM_BLOG_SHOW_EXCERPT_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="info_block_show_title" type="list" label="COM_BLOG_FIELD_INFOBLOCK_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_category" type="list" label="JGLOBAL_SHOW_CATEGORY_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_category" type="list" label="JGLOBAL_LINK_CATEGORY_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_parent_category" type="list" label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_parent_category" type="list" label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_associations" type="assoc" label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL" useglobal="true" class="form-select-color-state">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_author" type="list" label="JGLOBAL_SHOW_AUTHOR_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="link_author" type="list" label="JGLOBAL_LINK_AUTHOR_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_date" type="list" useglobal="true" class="form-select" validate="options" label="Show Date" translate_label="false"><option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+      <field name="date_type" type="list" class="form-select" useglobal="true" label="Date Type" translate_label="false" validate="options"><option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option><option value="created">JGLOBAL_SHOW_CREATE_DATE_LABEL</option><option value="modified">JGLOBAL_SHOW_MODIFY_DATE_LABEL</option><option value="published">JGLOBAL_SHOW_PUBLISH_DATE_LABEL</option></field>
+
+      <field name="show_item_navigation" type="list" label="COM_BLOG_SHOW_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_vote" type="votelist" label="JGLOBAL_SHOW_VOTE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_readmore" type="list" label="JGLOBAL_SHOW_READMORE_LABEL" description="JGLOBAL_SHOW_READMORE_DESC" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_readmore_title" type="list" label="JGLOBAL_SHOW_READMORE_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_hits" type="list" label="JGLOBAL_SHOW_HITS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_tags" type="list" label="COM_BLOG_FIELD_SHOW_TAGS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="show_noauth" type="list" label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL" description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+      <field name="show_postnav" type="list" label="COM_BLOG_SHOW_POSTNAV_LABEL" description="COM_BLOG_SHOW_POSTNAV_DESC" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+    </fieldset>
+<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts and Read More splits take precedence. Featured slider content uses its own settings.">
+<field name="truncation_enabled" type="list" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_readmore" type="list" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_image_position" type="list" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_video_position" type="list" label="Position of Videos After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_audio_position" type="list" label="Position of Audio Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_gallery_position" type="list" label="Position of Gallery After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_accordion_position" type="list" label="Position of Accordion After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_alert_position" type="list" label="Position of Alert After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_button_position" type="list" label="Position of Button After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_columns_position" type="list" label="Position of Columns After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_comparison_position" type="list" label="Position of Comparison After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_embed_position" type="list" label="Position of Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_poll_position" type="list" label="Position of Poll After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_quote_position" type="list" label="Position of Quote After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_rule_position" type="list" label="Position of Rule After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_section_position" type="list" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_tabs_position" type="list" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_type" type="list" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
+<field name="truncation_content_override" type="radio" default="0" label="Maximum Content (Characters or Words)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="list_excerpt_length" type="number" filter="integer" min="0" label="Maximum Content (Characters or Words)" description="0 displays all content without automatic truncation." hint="400" showon="truncation_content_override:1" />
+<field name="truncation_paragraph_override" type="radio" default="0" label="Maximum Paragraph (Paragraph or Break Tags)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="truncation_paragraphs" type="number" filter="integer" min="0" label="Maximum Paragraph (Paragraph or Break Tags)" description="0 displays all content without automatic truncation." hint="1" showon="truncation_paragraph_override:1" />
+</fieldset>
+    <fieldset name="integration" label="COM_MENUS_INTEGRATION_FIELDSET_LABEL">
+      <field name="show_feed_link" type="list" label="JGLOBAL_SHOW_FEED_LINK_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+      <field name="feed_summary" type="list" label="JGLOBAL_FEED_SUMMARY_LABEL" useglobal="true" validate="options">
+        <option value="0">COM_BLOG_OPTION_EXCERPT</option>
+        <option value="1">COM_BLOG_OPTION_POST_TEXT</option>
+      </field>
+    </fieldset>
+  </fields>
+</metadata>

@@ -23,11 +23,13 @@ $app->getLanguage()->load('com_'.$family,JPATH_BASE);
 require __DIR__.'/../'.$family.'/com_'.$family.'/site/src/View/Category/HtmlView.php';
 $class='Joomla\\Component\\'.ucfirst($family).'\\Site\\View\\Category\\HtmlView';
 $view=new $class();
+$view->addTemplatePath(__DIR__.'/../'.$family.'/com_'.$family.'/site/tmpl/category');
 $view->category=(object)['id'=>0,'title'=>'Fixture','description'=>'','default_image'=>'','language'=>'*'];
 $view->pagination=new Joomla\CMS\Pagination\Pagination(0,0,10);
 $view->subcategories=[];
 foreach (['default','card','standard','learning','simple','nickel'] as $layout) {
     foreach ([0,1] as $show) {
+        $view->setLayout($layout);
         $view->params=new Registry(['show_no_posts'=>$show,'featured_slider_enabled'=>0,'num_links'=>0,'show_category_title'=>0]);
         $render=function($path){include $path;};
         ob_start();$render->call($view,__DIR__.'/../'.$family.'/com_'.$family.'/site/tmpl/category/'.$layout.'.php');$html=ob_get_clean();

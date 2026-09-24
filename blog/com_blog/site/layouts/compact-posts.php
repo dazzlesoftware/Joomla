@@ -31,13 +31,15 @@ if ($params->get('compact_show_rating', 1)) {
 <li class="col">
     <div class="d-flex align-items-center gap-3 border rounded p-3 h-100">
     <?php if ($params->get('compact_show_image', 1)) : ?>
+        <?php if ($params->get('link_featured_image', 0)) : ?>
         <a href="<?php echo $escape($url); ?>" class="flex-shrink-0" aria-label="<?php echo $escape($item->title); ?>">
+        <?php else : ?><span class="flex-shrink-0"><?php endif; ?>
         <?php if ($image) : ?>
             <img src="<?php echo $escape($image); ?>" alt="" width="72" height="72" class="rounded object-fit-cover" loading="lazy">
         <?php else : ?>
             <span class="fa-regular fa-image fa-3x text-muted" aria-hidden="true"></span>
         <?php endif; ?>
-        </a>
+        <?php if ($params->get('link_featured_image', 0)) : ?></a><?php else : ?></span><?php endif; ?>
     <?php endif; ?>
     <div class="text-break">
         <?php if ($params->get('compact_show_title', 1)) : ?>

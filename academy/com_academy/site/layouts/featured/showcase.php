@@ -25,9 +25,11 @@ HTMLHelper::_('bootstrap.carousel', '#' . $id, ['interval' => $auto ? max(1, (in
 <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>" role="group" aria-label="<?php echo ($index + 1) . ' of ' . count($items); ?>">
 <article class="card overflow-hidden featured-article"><div class="row g-0 featured-row">
 <?php if ($show('image')) : ?><div class="col-md-5 bg-body-tertiary featured-media">
+<?php if ($params->get('link_featured_image', 0)) : ?><a class="d-block h-100" href="<?php echo $escape($link); ?>" aria-label="<?php echo $escape($item->title); ?>"><?php endif; ?>
 <?php if ($image !== '') : ?>
 <img class="img-fluid w-100 h-100 object-fit-cover" src="<?php echo $escape($image); ?>" alt="<?php echo $escape($media->featured_image_alt ?? ''); ?>">
 <?php else : ?><div class="ratio ratio-4x3 h-100"><div class="d-flex align-items-center justify-content-center"><span class="fa-regular fa-image fa-5x text-body-secondary" aria-hidden="true"></span><span class="visually-hidden">No post image</span></div></div><?php endif; ?>
+<?php if ($params->get('link_featured_image', 0)) : ?></a><?php endif; ?>
 </div><?php endif; ?>
 <div class="<?php echo $show('image') ? 'col-md-7' : 'col-12'; ?> featured-copy"><div class="card-body d-flex flex-column">
 <?php if ($show('title')) : ?><h2 class="h4"><a href="<?php echo $escape($link); ?>"><?php echo $escape($item->title); ?></a></h2><?php endif; ?>

@@ -48,9 +48,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 
 $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 ?>
-<?php echo LayoutHelper::render('postnav', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
+<?php echo $this->loadTemplate('navigation'); ?>
 <div class="content-view-category-blog blog genesis-print-article">
-<?php echo LayoutHelper::render('category-actions', ['params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
+<?php echo $this->loadTemplate('actions'); ?>
     <?php if ($this->params->get('show_page_heading')) : ?>
         <div class="page-header">
             <h1><?php echo $this->escape($this->params->get('page_heading', $this->category->title)); ?></h1>
@@ -79,7 +79,7 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         </div>
     <?php endif; ?>
 
-<?php echo LayoutHelper::render('category-subcategories', ['items' => $this->subcategories, 'params' => $this->params], JPATH_COMPONENT . '/layouts'); ?>
+<?php echo $this->loadTemplate('subcategories'); ?>
 
 <?php echo \Joomla\Component\Academy\Site\Helper\FeaturedSliderHelper::render($this->params, (int) ($this->category->id ?? 0), (int) ($this->pagination->limitstart ?? 0)); ?>
     <?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>

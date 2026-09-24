@@ -55,7 +55,7 @@ foreach (['academy','blog','codex'] as $family) {
     foreach (['card.php','default.php'] as $name) {
         $template=file_get_contents($root.'/site/tmpl/category/'.$name);
         check(str_contains($template,"get('show_no_posts', 1)"),true,'correct no-post setting');
-        check(str_contains($template,"LayoutHelper::render('category-subcategories'"),true,'subcategory render connected');
+        check(str_contains($template,"loadTemplate('subcategories')"),true,'subcategory render connected');
     }
     echo "$family: subcategory depth, empty branches, access, publication and settings wiring passed.\n";
 }
