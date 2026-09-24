@@ -213,8 +213,6 @@
 
 			<field name="posts_per_page" type="number" label="COM_CODEX_POSTS_PER_PAGE" description="COM_CODEX_POSTS_PER_PAGE_DESC" filter="integer" validate="number" min="1" useglobal="true" />
 
-			
-
 			<field
 				name="show_subcategory_content"
 				type="list"
@@ -230,22 +228,6 @@
 				<option value="4">J4</option>
 				<option value="5">J5</option>
 			</field>
-      <field name="compact_show" type="list" label="COM_CODEX_COMPACT_SHOW" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-<field
-				name="num_links"
-				type="number"
-				label="COM_CODEX_COMPACT_COUNT"
-				filter="integer"
-				useglobal="true"
-			/>
-<field name="compact_layout" type="list" label="COM_CODEX_COMPACT_LAYOUT" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="rows">COM_CODEX_COMPACT_ROWS</option><option value="columns">COM_CODEX_COMPACT_COLUMNS_LAYOUT</option></field>
-<field name="compact_columns" type="list" label="COM_CODEX_COMPACT_COLUMNS" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
-<field name="compact_show_title" type="list" label="COM_CODEX_COMPACT_SHOW_TITLE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-<field name="compact_selection" type="list" label="COM_CODEX_COMPACT_SELECTION" description="COM_CODEX_COMPACT_SELECTION_DESC" useglobal="true">
-        <option value="">JGLOBAL_USE_GLOBAL</option><option value="next">COM_CODEX_COMPACT_NEXT</option><option value="latest">COM_CODEX_COMPACT_LATEST</option><option value="featured">COM_CODEX_COMPACT_FEATURED</option><option value="random">COM_CODEX_COMPACT_RANDOM</option><option value="related">COM_CODEX_COMPACT_RELATED</option>
-      </field>
-      <field name="compact_show_image" type="list" label="COM_CODEX_COMPACT_SHOW_IMAGE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-      <field name="compact_show_rating" type="list" label="COM_CODEX_COMPACT_SHOW_RATING" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 
 			<field
 				name="spacer5"
@@ -302,6 +284,24 @@
 				<option value="published">JPUBLISHED</option>
 			</field>
 	</fieldset>
+<fieldset name="compact_posts" label="COM_CODEX_COMPACT_POSTS_TAB">
+<field name="compact_show" type="list" label="COM_CODEX_COMPACT_SHOW" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field
+				name="num_links"
+				type="number"
+				label="COM_CODEX_COMPACT_COUNT"
+				filter="integer"
+				useglobal="true"
+			/>
+<field name="compact_layout" type="list" label="COM_CODEX_COMPACT_LAYOUT" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="rows">COM_CODEX_COMPACT_ROWS</option><option value="columns">COM_CODEX_COMPACT_COLUMNS_LAYOUT</option></field>
+<field name="compact_columns" type="list" label="COM_CODEX_COMPACT_COLUMNS" useglobal="true" showon="compact_layout:columns,"><option value="">JGLOBAL_USE_GLOBAL</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="compact_show_title" type="list" label="COM_CODEX_COMPACT_SHOW_TITLE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="compact_selection" type="list" label="COM_CODEX_COMPACT_SELECTION" description="COM_CODEX_COMPACT_SELECTION_DESC" useglobal="true">
+        <option value="">JGLOBAL_USE_GLOBAL</option><option value="next">COM_CODEX_COMPACT_NEXT</option><option value="latest">COM_CODEX_COMPACT_LATEST</option><option value="featured">COM_CODEX_COMPACT_FEATURED</option><option value="random">COM_CODEX_COMPACT_RANDOM</option><option value="related">COM_CODEX_COMPACT_RELATED</option>
+      </field>
+<field name="compact_show_image" type="list" label="COM_CODEX_COMPACT_SHOW_IMAGE" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="compact_show_rating" type="list" label="COM_CODEX_COMPACT_SHOW_RATING" useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+</fieldset>
 
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
