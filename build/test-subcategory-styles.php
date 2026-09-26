@@ -35,6 +35,7 @@ foreach (['academy','blog','codex'] as $family) {
     ob_start();include $root.'/site/layouts/category-subcategories.php';$html=ob_get_clean();
     if (trim($html)!=='') { throw new RuntimeException('Empty tree must stay hidden'); }
     foreach (array_merge([$root.'/admin/forms/settings.xml'],glob($root.'/site/tmpl/category/*.xml')) as $file) {
+        if (basename($file) === 'metadata.xml') { continue; }
         $xml=simplexml_load_file($file);
         foreach (['subcategories_style','subcategories_listing_layout','subcategories_column_style','subcategories_columns'] as $name) {
             $fields=$xml->xpath('//field[@name="'.$name.'"]');

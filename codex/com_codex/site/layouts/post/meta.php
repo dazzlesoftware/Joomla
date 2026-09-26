@@ -50,7 +50,7 @@ $commentCount = (int) $db->setQuery($db->createQuery()->select('COUNT(*)')->from
 
 
 
-$postUrl = Uri::root() . Route::_(RouteHelper::getPostRoute($item->slug, $item->catid, $item->language), false);
+$postUrl = Route::_(RouteHelper::getPostRoute($item->slug, $item->catid, $item->language), false, Route::TLS_IGNORE, true);
 
 $title   = (string) $item->title;
 
@@ -58,6 +58,7 @@ $title   = (string) $item->title;
 
 <div class="postmeta-row d-flex flex-wrap align-items-center gap-3 mb-2 text-muted small">
 
+    <?php if ($params->get('engagement_ratings', 1)) : ?>
     <span class="postmeta-rating" aria-label="Rating: <?php echo $ratingAverage; ?> out of 5, <?php echo $ratingCount; ?> vote<?php echo $ratingCount === 1 ? '' : 's'; ?>">
 
         <?php for ($star = 1; $star <= 5; $star++) : ?>
@@ -71,6 +72,8 @@ $title   = (string) $item->title;
     </span>
 
 
+    <?php endif; ?>
+    <?php if ($params->get('show_hits', 1)) : ?>
     <span class="postmeta-hits">
 
         <span class="fa-solid fa-eye align-middle me-1" aria-hidden="true"></span>
@@ -79,6 +82,7 @@ $title   = (string) $item->title;
 
     </span>
 
+    <?php endif; ?>
     <span class="postmeta-comments">
 
         <span class="fa-solid fa-comment align-middle me-1" aria-hidden="true"></span>
@@ -89,6 +93,7 @@ $title   = (string) $item->title;
 
 </div>
 
+<?php if ($params->get('engagement_sharing', 1)) : ?>
 <nav class="postmeta-share d-flex flex-wrap gap-2 mb-3" aria-label="Share this post">
 
     <?php if ($params->get('share_facebook', 1)) : ?>
@@ -132,3 +137,4 @@ $title   = (string) $item->title;
     <?php endif; ?>
 
 </nav>
+<?php endif; ?>

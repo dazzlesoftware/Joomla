@@ -771,6 +771,16 @@ class PostModel extends AdminModel implements WorkflowModelInterface, Versionabl
             }
         }
 
+        // Every new frontend submission requires review, including copies.
+        if ($app->isClient('site') && empty($data['id'])) {
+            $user = $app->getIdentity();
+            if (!\Joomla\Component\Blog\Site\Helper\SubmissionHelper::hasAccess($user)) {
+                $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+                return false;
+            }
+            $data['state'] = -3;
+        }
+
         if (parent::save($data)) {
             // Check if featured is set and if not managed by workflow
             if (isset($data['featured']) && !$this->bootComponent('com_blog')->isFunctionalityUsed('core.featured', 'com_blog.post')) {

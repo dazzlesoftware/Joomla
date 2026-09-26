@@ -48,7 +48,7 @@ class VotelistField extends ListField
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
         // Requires vote plugin enabled
-        if (!PluginHelper::isEnabled('content', 'vote')) {
+        if (!PluginHelper::isEnabled('academy', 'vote')) {
             return false;
         }
 

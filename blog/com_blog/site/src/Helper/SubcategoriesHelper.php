@@ -7,10 +7,10 @@ use Joomla\Registry\Registry;
 
 final class SubcategoriesHelper
 {
-    public static function load(int $parentId, Registry $params): array
+    public static function load(int $parentId, Registry $params, bool $allowRoot = false): array
     {
         $depth = (int) $params->get('maxLevel', 1);
-        if ($parentId <= 0 || $depth === 0) { return []; }
+        if (($parentId <= 0 && !$allowRoot) || $depth === 0) { return []; }
         $app = Factory::getApplication();
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $access = $app->getIdentity()->getAuthorisedViewLevels();

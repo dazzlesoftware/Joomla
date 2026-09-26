@@ -122,7 +122,7 @@ class QueryHelper
             case 'vote':
                 $orderby = 'a.id DESC ';
 
-                if (PluginHelper::isEnabled('content', 'vote')) {
+                if (PluginHelper::isEnabled('academy', 'vote')) {
                     $orderby = 'rating_count DESC ';
                 }
                 break;
@@ -130,7 +130,7 @@ class QueryHelper
             case 'rvote':
                 $orderby = 'a.id ASC ';
 
-                if (PluginHelper::isEnabled('content', 'vote')) {
+                if (PluginHelper::isEnabled('academy', 'vote')) {
                     $orderby = 'rating_count ASC ';
                 }
                 break;
@@ -138,7 +138,7 @@ class QueryHelper
             case 'rank':
                 $orderby = 'a.id DESC ';
 
-                if (PluginHelper::isEnabled('content', 'vote')) {
+                if (PluginHelper::isEnabled('academy', 'vote')) {
                     $orderby = 'rating DESC ';
                 }
                 break;
@@ -146,7 +146,7 @@ class QueryHelper
             case 'rrank':
                 $orderby = 'a.id ASC ';
 
-                if (PluginHelper::isEnabled('content', 'vote')) {
+                if (PluginHelper::isEnabled('academy', 'vote')) {
                     $orderby = 'rating ASC ';
                 }
                 break;

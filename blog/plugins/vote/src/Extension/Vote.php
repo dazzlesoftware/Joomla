@@ -111,6 +111,16 @@ final class Vote extends CMSPlugin implements SubscriberInterface
             return '';
         }
 
+        // Lightweight category/author views do not join the ratings table.
+        // Resolve their rating before rendering the shared plugin layout.
+        if (!isset($row->rating, $row->rating_count) && !empty($row->id)) {
+            $db = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+            $rating = $db->setQuery($db->createQuery()->select('rating_sum, rating_count')
+                ->from('#__blog_rating')->where('content_id=' . (int) $row->id))->loadObject();
+            $row->rating_count = (int) ($rating->rating_count ?? 0);
+            $row->rating = $row->rating_count ? (float) $rating->rating_sum / $row->rating_count : 0;
+        }
+
         // Load plugin language files only when needed (ex: they are not needed if show_vote is not active).
         $this->loadLanguage();
 

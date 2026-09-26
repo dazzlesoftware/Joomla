@@ -93,7 +93,7 @@ echo ModuleHelper::renderModule($loginModule, ['style' => 'none']);
 $loginModalBody = ob_get_clean();
 $user = $app->getIdentity();
 $isGuest = $user->guest;
-$canCreatePost = !$isGuest && $user->authorise('core.create', 'com_' . $family);
+$canCreatePost = \Joomla\Component\Codex\Site\Helper\SubmissionHelper::hasAccess($user) && $user->authorise('core.create', 'com_' . $family);
 
 // Without an Itemid, Joomla's SEF router has no menu item to build a
 // friendly path from and falls back to the raw "component/codex" URL

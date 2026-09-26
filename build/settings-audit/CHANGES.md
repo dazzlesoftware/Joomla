@@ -1,0 +1,56 @@
+# Modified and added source files
+
+- `academy/com_academy/admin/src/Field/VotelistField.php`
+- `academy/com_academy/admin/src/Field/VoteradioField.php`
+- `academy/com_academy/admin/src/Model/PostsModel.php`
+- `academy/com_academy/admin/src/View/Posts/HtmlView.php`
+- `academy/com_academy/site-language/en-GB/com_academy.ini`
+- `academy/com_academy/site/layouts/academy/content/readmore.php`
+- `academy/com_academy/site/layouts/post/meta.php`
+- `academy/com_academy/site/src/Helper/ListingSettingsHelper.php`
+- `academy/com_academy/site/src/Helper/QueryHelper.php`
+- `academy/com_academy/site/src/Helper/SubcategoriesHelper.php`
+- `academy/com_academy/site/src/Model/PostsModel.php`
+- `academy/com_academy/site/src/View/Categories/HtmlView.php`
+- `academy/com_academy/site/src/View/Category/HtmlView.php`
+- `academy/com_academy/site/tmpl/categories/default.php`
+- `academy/plugins/vote/src/Extension/Vote.php`
+- `academy/plugins/vote/tmpl/rating.php`
+- `blog/com_blog/admin/src/Field/VotelistField.php`
+- `blog/com_blog/admin/src/Field/VoteradioField.php`
+- `blog/com_blog/admin/src/Model/PostsModel.php`
+- `blog/com_blog/admin/src/View/Posts/HtmlView.php`
+- `blog/com_blog/site-language/en-GB/com_blog.ini`
+- `blog/com_blog/site/layouts/blog/content/readmore.php`
+- `blog/com_blog/site/layouts/post/meta.php`
+- `blog/com_blog/site/src/Helper/ListingSettingsHelper.php`
+- `blog/com_blog/site/src/Helper/QueryHelper.php`
+- `blog/com_blog/site/src/Helper/SubcategoriesHelper.php`
+- `blog/com_blog/site/src/Model/PostsModel.php`
+- `blog/com_blog/site/src/View/Categories/HtmlView.php`
+- `blog/com_blog/site/src/View/Category/HtmlView.php`
+- `blog/com_blog/site/tmpl/categories/default.php`
+- `blog/plugins/vote/src/Extension/Vote.php`
+- `blog/plugins/vote/tmpl/rating.php`
+- `build/test-subcategory-styles.php`
+- `codex/com_codex/admin/src/Field/VotelistField.php`
+- `codex/com_codex/admin/src/Field/VoteradioField.php`
+- `codex/com_codex/admin/src/Model/PostsModel.php`
+- `codex/com_codex/admin/src/View/Posts/HtmlView.php`
+- `codex/com_codex/site-language/en-GB/com_codex.ini`
+- `codex/com_codex/site/layouts/codex/content/readmore.php`
+- `codex/com_codex/site/layouts/post/meta.php`
+- `codex/com_codex/site/src/Helper/ListingSettingsHelper.php`
+- `codex/com_codex/site/src/Helper/QueryHelper.php`
+- `codex/com_codex/site/src/Helper/SubcategoriesHelper.php`
+- `codex/com_codex/site/src/Model/PostsModel.php`
+- `codex/com_codex/site/src/View/Categories/HtmlView.php`
+- `codex/com_codex/site/src/View/Category/HtmlView.php`
+- `codex/com_codex/site/tmpl/categories/default.php`
+- `codex/plugins/vote/src/Extension/Vote.php`
+- `codex/plugins/vote/tmpl/rating.php`
+- `academy/com_academy/site/tmpl/category/metadata.xml`
+- `blog/com_blog/site/tmpl/category/metadata.xml`
+- `codex/com_codex/site/tmpl/category/metadata.xml`
+
+Audit tools and reports are in `build/settings-audit/`. Generated local results and fixture IDs are ignored by Git. Installers were rebuilt locally; ZIP files remain ignored by Git.

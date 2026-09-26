@@ -79,6 +79,9 @@ if (!$params->exists('show_publishing_options')) {
             <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'options', Text::_('JOPTIONS')); ?>
                 <?php echo $this->form->renderField('transition'); ?>
                     <?php echo $this->form->renderField('state'); ?>
+                    <?php if (empty($this->item->id)) : ?>
+                        <p class="alert alert-info"><?php echo \Joomla\CMS\Language\Text::_('COM_CODEX_FRONTEND_REVIEW_NOTICE'); ?></p>
+                    <?php endif; ?>
                     <?php echo $this->form->renderField('catid'); ?>
                     <?php if ($this->item->params->get('access-change')) : ?>
                         <?php echo $this->form->renderField('featured'); ?>

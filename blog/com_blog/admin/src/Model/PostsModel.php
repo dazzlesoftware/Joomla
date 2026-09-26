@@ -279,7 +279,7 @@ class PostsModel extends ListModel
             ->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
             ->join('LEFT', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
-        if (PluginHelper::isEnabled('content', 'vote')) {
+        if (PluginHelper::isEnabled('blog', 'vote')) {
             $query->select(
                 [
                     'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'

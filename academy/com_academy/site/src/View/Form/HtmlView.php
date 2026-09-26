@@ -133,6 +133,10 @@ class HtmlView extends BaseHtmlView
             $authorised = $this->item->params->get('access-edit');
         }
 
+        if (empty($this->item->id)) {
+            $authorised = (bool) $authorised && \Joomla\Component\Academy\Site\Helper\SubmissionHelper::hasAccess($user);
+        }
+
         if ($authorised !== true) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
@@ -187,6 +191,7 @@ class HtmlView extends BaseHtmlView
         // If the post is being edited and the current user has permission to create post
         if (
             $this->item->id
+            && \Joomla\Component\Academy\Site\Helper\SubmissionHelper::hasAccess($user)
             && ($user->authorise('core.create', 'com_academy') || \count($user->getAuthorisedCategories('com_academy', 'core.create')))
         ) {
             $this->showSaveAsCopy = true;

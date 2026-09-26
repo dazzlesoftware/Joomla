@@ -11,13 +11,32 @@ use Joomla\Registry\Registry;
 final class HtmlView extends BaseHtmlView
 {
     public array $items = [];
+    public string $baseDescription = "";
     public ?Registry $params = null;
     public function display($tpl = null): void
     {
         $app = Factory::getApplication();
-        $this->params = $app->getParams();
+        $this->params = \Joomla\Component\Codex\Site\Helper\ListExcerptHelper::settings($app->getParams());
         $db = CategoriesHelper::db();
-        $this->items = $db->setQuery($db->createQuery()->select('c.*,COUNT(p.id) AS numitems')->from('#__codex_categories AS c')->join('LEFT', '#__codex AS p ON p.catid=c.id AND p.state=1')->where('c.published=1')->whereIn('c.access', $app->getIdentity()->getAuthorisedViewLevels())->group('c.id')->order('c.title'))->loadObjectList() ?: [];
+        $parentId = $app->getInput()->getInt('id', 0);
+        $treeParams = clone $this->params;
+        $treeParams->set('maxLevel', (int) $this->params->get('maxLevelcat', -1));
+        $treeParams->set('show_empty_categories', $this->params->get('show_empty_categories_cat', 0));
+        $tree = \Joomla\Component\Codex\Site\Helper\SubcategoriesHelper::load($parentId, $treeParams, true);
+        $this->items = [];
+        $flatten = function (array $nodes, int $depth = 0) use (&$flatten): void {
+            foreach ($nodes as $node) {
+                $node->directoryDepth = $depth;
+                $this->items[] = $node;
+                $flatten($node->children, $depth + 1);
+            }
+        };
+        $flatten($tree);
+        $this->baseDescription = $parentId > 0 ? (string) $db->setQuery(
+            $db->createQuery()->select('description')->from('#__codex_categories')->where('id=' . $parentId)
+                ->where('published=1')->whereIn('access', $app->getIdentity()->getAuthorisedViewLevels())
+        )->loadResult() : '';
+
         $this->getDocument()->setTitle('Categories');
         parent::display($tpl);
     }

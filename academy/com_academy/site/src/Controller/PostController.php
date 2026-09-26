@@ -97,6 +97,10 @@ class PostController extends FormController
     protected function allowAdd($data = [])
     {
         $user       = $this->app->getIdentity();
+        if (!\Joomla\Component\Academy\Site\Helper\SubmissionHelper::hasAccess($user)) {
+            return false;
+        }
+
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
         $allow      = null;
 

@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-        $this->vote          = PluginHelper::isEnabled('content', 'vote');
+        $this->vote          = PluginHelper::isEnabled('codex', 'vote');
         $this->hits          = ComponentHelper::getParams('com_codex')->get('record_hits', 1) == 1;
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {

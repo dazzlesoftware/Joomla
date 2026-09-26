@@ -48,7 +48,7 @@ class VoteradioField extends RadioField
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
         // Requires vote plugin enabled
-        if (!PluginHelper::isEnabled('content', 'vote')) {
+        if (!PluginHelper::isEnabled('codex', 'vote')) {
             return false;
         }
 

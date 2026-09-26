@@ -246,6 +246,12 @@ class FormModel extends \Joomla\Component\Codex\Administrator\Model\PostModel
         // On edit post, we get ID of post from post.id state, but on save, we use data from input
         $id = (int) $this->getState('post.id', $app->getInput()->getInt('a_id'));
 
+        if ($id === 0) {
+            $form->setFieldAttribute('state', 'type', 'hidden');
+            $form->setFieldAttribute('state', 'default', '-3');
+            $form->setValue('state', null, -3);
+        }
+
         // Existing record. We can't edit the category in frontend if not edit.state.
         if ($id > 0 && !$user->authorise('core.edit.state', 'com_codex.post.' . $id)) {
             $form->setFieldAttribute('catid', 'readonly', 'true');

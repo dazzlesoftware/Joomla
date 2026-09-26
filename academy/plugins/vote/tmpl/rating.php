@@ -35,8 +35,8 @@ if ($context === 'com_academy.categories') {
 }
 
 // Get rating
-$rating = (float) $row->rating;
-$rcount = (int) $row->rating_count;
+$rating = (float) ($row->rating ?? 0);
+$rcount = (int) ($row->rating_count ?? 0);
 
 // Round to 0.5
 $rating = round($rating / 0.5) * 0.5;

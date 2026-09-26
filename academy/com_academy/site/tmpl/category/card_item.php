@@ -73,13 +73,6 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
         <?php echo LayoutHelper::render('academy.content.icons', ['params' => $params, 'item' => $this->item], JPATH_COMPONENT . '/layouts'); ?>
     <?php endif; ?>
 
-    <?php // @todo Not that elegant would be nice to group the params?>
-    <?php $useDefList = (\Joomla\Component\Academy\Site\Helper\DateHelper::options($params)[0]
-        || $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
-
-    <?php if ($useDefList && !in_array($listStyle, ['card', 'simple', 'standard', 'nickel'], true)) : ?>
-        <?php echo LayoutHelper::render('academy.content.info_block', ['item' => $this->item, 'params' => $params, 'position' => 'above'], JPATH_COMPONENT . '/layouts'); ?>
-    <?php endif; ?>
     <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
         <?php echo $this->loadTemplate('tags'); ?>
     <?php elseif (in_array($listStyle, ['card', 'nickel'], true) && $params->get('show_tags', 1)) : ?>

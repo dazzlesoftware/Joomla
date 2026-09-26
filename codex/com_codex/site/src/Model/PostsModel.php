@@ -302,7 +302,7 @@ class PostsModel extends ListModel
 
         $query->join($frontpageJoin, $db->quoteName('#__codex_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'));
 
-        if (PluginHelper::isEnabled('content', 'vote')) {
+        if (PluginHelper::isEnabled('codex', 'vote')) {
             // Join on voting table
             $query->select(
                 [

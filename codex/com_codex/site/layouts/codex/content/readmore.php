@@ -25,7 +25,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
             <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
             <?php echo Text::_('JGLOBAL_REGISTER_TO_READ_MORE'); ?>
         </a>
-    <?php elseif ($readmore = $item->alternative_readmore) : ?>
+    <?php elseif ($readmore = ($item->alternative_readmore ?? '')) : ?>
         <a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" aria-label="<?php echo $this->escape($readmore . ' ' . $item->title); ?>">
             <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
             <?php echo $readmore; ?>

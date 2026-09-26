@@ -66,7 +66,7 @@ final class HtmlView extends BaseHtmlView
             ->where('(p.publish_up IS NULL OR p.publish_up<=UTC_TIMESTAMP())')
             ->where('(p.publish_down IS NULL OR p.publish_down>=UTC_TIMESTAMP())');
         \Joomla\Component\Academy\Site\Helper\ListingFilterHelper::apply($q, $this->params, 'p', $id);
-        $q->order('COALESCE(p.publish_up,p.created) DESC, p.id DESC');
+        \Joomla\Component\Academy\Site\Helper\ListingSettingsHelper::order($q, $this->params);
         if ($app->getLanguageFilter()) {
             foreach (['p.language', 'c.language'] as $field) {
                 $q->where($field . ' IN (' . $db->quote('*') . ',' . $db->quote($app->getLanguage()->getTag()) . ')');
