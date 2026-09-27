@@ -16,9 +16,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Adds a Profile Picture upload to the user account form, and generically
- * persists any other simple fields later added to forms/genesisprofile.xml
- * under the same 'genesisprofile.<name>' key namespace.
+ * Adds a profile picture and permission-controlled personal AI settings.
  */
 final class GenesisProfile extends CMSPlugin implements SubscriberInterface
 {
@@ -45,6 +43,25 @@ final class GenesisProfile extends CMSPlugin implements SubscriberInterface
         FormHelper::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
         $form->loadFile('genesisprofile');
 
+        $user = $this->getApplication()->getIdentity();
+        $data = $event->getData();
+        $targetId = (int) (is_array($data) ? ($data['id'] ?? 0) : ($data->id ?? 0));
+        if ($name !== 'com_users.registration' && ($targetId === 0 || $targetId === (int) $user->id)
+            && \Joomla\Plugin\User\GenesisProfile\Helper\AiProfileHelper::canConfigure($user)
+            && ($this->getApplication()->isClient('administrator') || ($this->getApplication()->getInput()->getCmd('layout') === 'edit'
+                || $this->getApplication()->getInput()->getCmd('task') === 'profile.save'))) {
+            $form->loadFile('genesisai');
+            $personal = \Joomla\Plugin\User\GenesisProfile\Helper\AiProfileHelper::load((int) $user->id);
+            foreach (['openai', 'claude'] as $provider) {
+                if ($personal->get('ai_' . $provider . '_secret', '') !== '') {
+                    $form->setFieldAttribute($provider . '_key', 'description', 'PLG_USER_GENESISPROFILE_AI_KEY_SAVED', 'genesisai');
+                }
+            }
+            foreach (['provider', 'openai_model', 'claude_model', 'image_model'] as $field) {
+                $form->setFieldAttribute($field, 'default', (string) $personal->get('ai_' . $field, $field === 'provider' ? 'openai' : ''), 'genesisai');
+            }
+        }
+
         $form->setFieldAttribute('image', 'max_size', (int) $this->params->get('max_size', 8), 'genesisprofile');
         $form->setFieldAttribute('image', 'dimension', (int) $this->params->get('dimension', 200), 'genesisprofile');
     }
@@ -59,8 +76,8 @@ final class GenesisProfile extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        \Joomla\Plugin\User\GenesisProfile\Helper\AiProfileHelper::save($userId, (array) ($data['genesisai'] ?? []));
         $this->processAvatarUpload($userId);
-        $this->processOtherFields($userId, (array) ($data['genesisprofile'] ?? []));
     }
 
     private function processAvatarUpload(int $userId): void
@@ -169,26 +186,6 @@ final class GenesisProfile extends CMSPlugin implements SubscriberInterface
         $this->upsertProfileValue($db, $userId, 'genesisprofile.avatar', json_encode($relativePath));
 
         $app->enqueueMessage(Text::_('PLG_USER_GENESISPROFILE_UPLOAD_SUCCESS'));
-    }
-
-    /**
-     * Persists any other simple fields defined later in forms/genesisprofile.xml.
-     * File uploads (like the avatar) never arrive here - only normal field
-     * values do - so this never touches the 'avatar' key.
-     */
-    private function processOtherFields(int $userId, array $fields): void
-    {
-        unset($fields['image']);
-
-        if (!$fields) {
-            return;
-        }
-
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-
-        foreach ($fields as $name => $value) {
-            $this->upsertProfileValue($db, $userId, 'genesisprofile.' . $name, json_encode($value));
-        }
     }
 
     private function upsertProfileValue(DatabaseInterface $db, int $userId, string $key, string $jsonValue): void

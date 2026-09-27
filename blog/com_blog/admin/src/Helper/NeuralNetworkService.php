@@ -23,7 +23,7 @@ final class NeuralNetworkService
     private function key(string $provider): string
     {
         $env = getenv($provider === 'openai' ? 'OPENAI_API_KEY' : 'ANTHROPIC_API_KEY');
-        if ($env) { return $env; }
+        if ($env && !$this->settings->get('ai_personal_credentials', false)) { return $env; }
         $raw = base64_decode((string) $this->settings->get('ai_' . $provider . '_secret', ''), true);
         if (!$raw || strlen($raw) < 29) { throw new \RuntimeException('Configure the provider API key in component AI settings.'); }
         $key = openssl_decrypt(substr($raw, 28), 'aes-256-gcm', hash('sha256', Factory::getApplication()->get('secret'), true), OPENSSL_RAW_DATA, substr($raw, 0, 12), substr($raw, 12, 16));

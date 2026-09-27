@@ -11,6 +11,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Component\Blog\Administrator\Helper\NeuralNetworkService;
+use Joomla\Component\Blog\Administrator\Helper\NeuralNetworkAccessHelper;
 
 class NeuralNetworkController extends BaseController
 {
@@ -19,8 +20,8 @@ class NeuralNetworkController extends BaseController
         $token = Session::getFormToken();
         if (!$this->input->post->get($token, '', 'alnum') && !hash_equals($token, $this->input->server->getString('HTTP_X_CSRF_TOKEN', ''))) { throw new \RuntimeException('Invalid session token.', 403); }
         $app = Factory::getApplication(); $user = $app->getIdentity();
-        $params = ComponentHelper::getParams('com_blog');
-        if ($user->guest || !$params->get('ai_enabled', 0) || !$user->authorise('ai.generate', 'com_blog')) { throw new \RuntimeException('AI tools are disabled or you do not have permission to use them.', 403); }
+        $params = NeuralNetworkAccessHelper::settings(ComponentHelper::getParams('com_blog'), $user, $image);
+        if ($params === null) { throw new \RuntimeException('AI tools are disabled or you do not have permission to use them.', 403); }
         $id = $this->input->post->getInt('post_id');
         $catid = $this->input->post->getInt('catid');
         if ($id) {

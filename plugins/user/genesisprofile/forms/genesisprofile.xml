@@ -11,11 +11,7 @@
                 dimension="200"
             />
 
-            <!--
-                Add more account fields here later - they will automatically be
-                saved to #__user_profiles under 'genesisprofile.<name>' by the
-                same onUserAfterSave handler, alongside the avatar.
-            -->
+
         </fieldset>
     </fields>
 </form>

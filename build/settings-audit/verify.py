@@ -40,6 +40,9 @@ for f in ('academy','blog','codex'):
     if name.endswith('.zip'):results.append(dict(check=f'{f}/{bundle}/{name}',files=1,mismatches=[] if z.read(name)==(dist/name).read_bytes() else [name]))
 for group,element in [('content','video'),('editors-xtd','video'),('user','genesisprofile'),('neuralnetwork','modelcatalog')]:
  src=ROOT/'plugins'/group/element;verify_deploy(src,SITE/'plugins'/group/element)
+ if (src/'language').exists():
+  for lang in (src/'language').iterdir():
+   if lang.is_dir():verify_deploy(lang,SITE/'administrator/language'/lang.name)
  if element!='video':verify_zip(ROOT/'dist'/f'plg_{group}_{element}.zip',src)
  else:
   with zipfile.ZipFile(ROOT/'dist/pkg_video_feature.zip') as z:verify_zip(io.BytesIO(z.read(f'plg_{group}_{element}.zip')),src)

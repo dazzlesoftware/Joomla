@@ -102,6 +102,15 @@ foreach ($f in $families) {
 # Shared plugins use the standard Joomla group/element directory layout.
 foreach ($relativePath in @('content/video', 'editors-xtd/video', 'user/genesisprofile', 'neuralnetwork/modelcatalog')) {
     Invoke-Robocopy "$dist/plugins/$relativePath" "$site/plugins/$relativePath"
+    # Joomla loads installed plugin translations from administrator/language first.
+    $sharedLanguageRoot = Join-Path "$dist/plugins/$relativePath" 'language'
+    if (Test-Path -LiteralPath $sharedLanguageRoot) {
+        Get-ChildItem -LiteralPath $sharedLanguageRoot -Directory | ForEach-Object {
+            $languageDestination = Join-Path "$site/administrator/language" $_.Name
+            New-Item -ItemType Directory -Path $languageDestination -Force | Out-Null
+            Copy-Item -Path (Join-Path $_.FullName '*.ini') -Destination $languageDestination -Force
+        }
+    }
 }
 
 Write-Output "=== All families and shared plugins deployed ==="

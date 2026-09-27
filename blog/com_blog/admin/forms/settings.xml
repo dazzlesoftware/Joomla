@@ -3,6 +3,7 @@
   <fields name="params">
 <fieldset name="ai_tools" label="AI Writing and Images" description="AI drafts are reviewed before applying. Requests send the selected content to your provider and may incur API charges. Server environment variables OPENAI_API_KEY and ANTHROPIC_API_KEY take precedence over saved keys.">
 <field name="ai_enabled" type="list" default="0" label="Enable AI tools"><option value="0">JNO</option><option value="1">JYES</option></field>
+<field name="ai_frontend_groups" type="usergrouplist" multiple="true" default="4" filter="int_array" label="COM_BLOG_AI_FRONTEND_GROUPS" description="COM_BLOG_AI_FRONTEND_GROUPS_DESC" />
 <field name="ai_provider" type="list" default="openai" label="Text provider"><option value="openai">OpenAI</option><option value="claude">Claude</option></field>
 <field name="ai_openai_key" type="password" maxlength="2048" label="OpenAI API key" autocomplete="new-password" description="Stored encrypted. Leave blank to keep the saved key." filter="raw" />
 <field name="ai_openai_clear" type="checkbox" class="form-check-input" label="Remove saved OpenAI key" value="1" />

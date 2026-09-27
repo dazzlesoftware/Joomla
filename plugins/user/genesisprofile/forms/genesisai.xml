@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form><fields name="genesisai"><fieldset name="genesisai" label="PLG_USER_GENESISPROFILE_AI_LABEL">
+<field name="note" type="note" description="PLG_USER_GENESISPROFILE_AI_DESC" />
+<field name="provider" type="list" default="openai" label="PLG_USER_GENESISPROFILE_AI_PROVIDER"><option value="openai">OpenAI</option><option value="claude">Claude</option></field>
+<field name="openai_key" type="password" label="PLG_USER_GENESISPROFILE_AI_OPENAI_KEY" description="PLG_USER_GENESISPROFILE_AI_KEY_DESC" filter="raw" maxlength="2048" autocomplete="new-password" />
+<field name="openai_clear" type="checkbox" class="form-check-input" label="PLG_USER_GENESISPROFILE_AI_OPENAI_CLEAR" value="1" />
+<field name="claude_key" type="password" label="PLG_USER_GENESISPROFILE_AI_CLAUDE_KEY" description="PLG_USER_GENESISPROFILE_AI_KEY_DESC" filter="raw" maxlength="2048" autocomplete="new-password" />
+<field name="claude_clear" type="checkbox" class="form-check-input" label="PLG_USER_GENESISPROFILE_AI_CLAUDE_CLEAR" value="1" />
+<field name="openai_model" type="aimodel" addfieldprefix="Joomla\Plugin\User\GenesisProfile\Field" provider="openai" kind="text" label="PLG_USER_GENESISPROFILE_AI_OPENAI_MODEL" description="PLG_USER_GENESISPROFILE_AI_MODEL_DESC" default=""><option value="">PLG_USER_GENESISPROFILE_AI_COMPONENT_MODEL</option></field>
+<field name="openai_model_custom" type="text" label="PLG_USER_GENESISPROFILE_AI_CUSTOM_ID" maxlength="256" showon="openai_model:__custom__" />
+<field name="claude_model" type="aimodel" addfieldprefix="Joomla\Plugin\User\GenesisProfile\Field" provider="claude" kind="text" label="PLG_USER_GENESISPROFILE_AI_CLAUDE_MODEL" description="PLG_USER_GENESISPROFILE_AI_MODEL_DESC" default=""><option value="">PLG_USER_GENESISPROFILE_AI_COMPONENT_MODEL</option></field>
+<field name="claude_model_custom" type="text" label="PLG_USER_GENESISPROFILE_AI_CUSTOM_ID" maxlength="256" showon="claude_model:__custom__" />
+<field name="image_model" type="aimodel" addfieldprefix="Joomla\Plugin\User\GenesisProfile\Field" provider="openai" kind="image" label="PLG_USER_GENESISPROFILE_AI_IMAGE_MODEL" description="PLG_USER_GENESISPROFILE_AI_MODEL_DESC" default=""><option value="">PLG_USER_GENESISPROFILE_AI_COMPONENT_MODEL</option></field>
+<field name="image_model_custom" type="text" label="PLG_USER_GENESISPROFILE_AI_CUSTOM_ID" maxlength="256" showon="image_model:__custom__" />
+</fieldset></fields></form>

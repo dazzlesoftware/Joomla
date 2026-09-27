@@ -52,6 +52,8 @@ final class SettingsController extends BaseController
             if ($key !== '') { $params->set('ai_' . $provider . '_secret', \Joomla\Component\Blog\Administrator\Helper\NeuralNetworkService::seal($key)); }
             unset($values['ai_' . $provider . '_key'], $values['ai_' . $provider . '_clear'], $values['ai_' . $provider . '_secret']);
         }
+        // An empty multiple-select is omitted from the browser submission.
+        $values['ai_frontend_groups'] = array_values(array_filter(array_map('intval', (array) ($values['ai_frontend_groups'] ?? [])), static fn ($id) => $id > 0));
         foreach ($values as $name => $value) {
             $params->set((string) $name, $value);
         }

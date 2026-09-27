@@ -39,6 +39,7 @@ foreach(['academy','blog','codex'] as $f) {
     require $base.'/admin/src/Helper/NeuralNetworkModelRegistry.php';
     require $base.'/admin/src/Field/NeuralnetworkmodelField.php';
     require $base.'/admin/src/Helper/NeuralNetworkService.php';
+    require $base.'/admin/src/Helper/NeuralNetworkAccessHelper.php';
     require $base.'/admin/src/Controller/NeuralNetworkController.php';
     require $base.'/site/src/Helper/SeoHelper.php';
     $ns='Joomla\\Component\\'.ucfirst($f);
@@ -126,11 +127,11 @@ foreach(['academy','blog','codex'] as $f) {
     $guard=new ReflectionMethod($controller,'guard');
     fails(fn()=>$guard->invoke($controller),'Invalid session token');
     $params=ComponentHelper::getParams('com_'.$f);$params->set('ai_enabled',1);$params->set('ai_images',1);
-    $user=new NeuralNetworkTestUser();$user->guest=0;$user->id=999999;$user->grants=['ai.generate','core.create'];$app->loadIdentity($user);
+    $user=new NeuralNetworkTestUser();$user->guest=0;$user->id=999999;$user->grants=['ai.generate','core.create','core.login.admin','core.manage'];$app->loadIdentity($user);
     $app->getInput()->post->set(Joomla\CMS\Session\Session::getFormToken(),1);
-    check($guard->invoke($controller)===$params,true,'authorized create');
+    check($guard->invoke($controller)->toArray()===$params->toArray(),true,'authorized create');
     $user->grants=['core.create'];fails(fn()=>$guard->invoke($controller),'permission');
-    $user->grants=['ai.generate','core.create'];$params->set('ai_images',0);fails(fn()=>$guard->invoke($controller,true),'permission');
+    $user->grants=['ai.generate','core.create','core.login.admin','core.manage'];$params->set('ai_images',0);fails(fn()=>$guard->invoke($controller,true),'permission');
     $params->set('ai_enabled',0);fails(fn()=>$guard->invoke($controller),'disabled');
     $app->getInput()->post->set(Joomla\CMS\Session\Session::getFormToken(),0);
     echo "$f: provider fixtures, secrets, HTML/media preservation, SEO, forms and access guards passed\n";
