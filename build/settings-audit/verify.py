@@ -1,5 +1,6 @@
 from pathlib import Path
 import zipfile,json,hashlib,io
+import xml.etree.ElementTree as ET
 ROOT=Path(__file__).resolve().parents[2];SITE=Path('C:/wamp64/www/Joomla');results=[]
 def verify_zip(path,source):
  with zipfile.ZipFile(path) as z:
@@ -22,6 +23,10 @@ for f in ('academy','blog','codex'):
   if not p.is_dir():continue
   group,element={'mailqueue':('task',f+'_mailqueue'),'branding':('system',f+'branding'),'loader':('system',f+'loader')}.get(p.name,(f,p.name))
   verify_zip(dist/f'plg_{group}_{element}.zip',p);verify_deploy(p,SITE/'plugins'/group/element,SITE/'administrator/language/en-GB')
+  manifest=p/(p.name+'.xml')
+  if manifest.is_file():
+   for media in ET.parse(manifest).findall('./media'):
+    verify_deploy(p/media.get('folder','media'),SITE/'media'/media.get('destination',''))
  for p in (base/'modules').iterdir():
   if not p.is_dir():continue
   name=f'mod_{f}_{p.name}';verify_zip(dist/(name+'.zip'),p);verify_deploy(p,SITE/'modules'/name,SITE/'language/en-GB')

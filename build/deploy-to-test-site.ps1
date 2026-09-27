@@ -50,6 +50,15 @@ foreach ($f in $families) {
             Copy-Item -Path "$langDir\*" -Destination "$site\administrator\language\en-GB\" -Force
         }
         Invoke-Robocopy $_.FullName "$site\plugins\$name\$el" @('/XD', 'language')
+        $manifestPath = Join-Path $_.FullName "$el.xml"
+        if (Test-Path -LiteralPath $manifestPath) {
+            [xml]$manifest = Get-Content -LiteralPath $manifestPath -Raw
+            foreach ($media in $manifest.SelectNodes('/extension/media')) {
+                $mediaSource = Join-Path $_.FullName $media.GetAttribute('folder')
+                $mediaDestination = Join-Path "$site\media" $media.GetAttribute('destination')
+                Invoke-Robocopy $mediaSource $mediaDestination
+            }
+        }
     }
 
     # --- Mail queue task plugin ---

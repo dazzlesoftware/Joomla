@@ -410,128 +410,7 @@
         <option value="blocks">COM_BLOG_EDITOR_BLOCKS</option>
       </field>
     </fieldset>
-    <fieldset name="quote_settings" label="Quote Settings">
-      <field name="quote_template" type="list" default="simple" label="Quote Template">
-        <option value="simple">Simple Bootstrap</option>
-        <option value="color">Color Block</option>
-        <option value="framed">Framed</option>
-        <option value="card">Quote Card</option>
-        <option value="panel">Dark Panel</option>
-        <option value="minimal">Minimal</option>
-      </field>
-      <field name="quote_color_mode" type="list" default="bootstrap" label="Quote Color Source">
-        <option value="bootstrap">Bootstrap Color</option>
-        <option value="custom">Custom Color</option>
-      </field>
-      <field name="quote_bootstrap_color" type="list" default="primary" label="Bootstrap Quote Color" showon="quote_color_mode:bootstrap">
-        <option value="primary">Primary</option>
-        <option value="secondary">Secondary</option>
-        <option value="success">Success</option>
-        <option value="danger">Danger</option>
-        <option value="warning">Warning</option>
-        <option value="info">Info</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </field>
-      <field name="quote_custom_color" type="color" default="#0d6efd" label="Custom Quote Color" showon="quote_color_mode:custom" />
-    </fieldset>
-    <fieldset name="tab_settings" label="Tab Settings">
-      <field name="tab_template" type="list" default="classic" label="Tab Template">
-        <option value="classic">Classic Bootstrap</option>
-        <option value="pills">Pills</option>
-        <option value="underline">Underline</option>
-        <option value="cards">Card Tabs</option>
-        <option value="colorbar">Color Bar</option>
-        <option value="icons">Icon Tabs</option>
-      </field>
-      <field name="tab_mode" type="list" default="horizontal" label="Tab Orientation">
-        <option value="horizontal">Horizontal</option>
-        <option value="vertical">Vertical</option>
-      </field>
-      <field name="tab_color_mode" type="list" default="bootstrap" label="Tab Color Source">
-        <option value="bootstrap">Bootstrap Color</option>
-        <option value="custom">Custom Color</option>
-      </field>
-      <field name="tab_bootstrap_color" type="list" default="primary" label="Bootstrap Tab Color" showon="tab_color_mode:bootstrap">
-        <option value="primary">Primary</option>
-        <option value="secondary">Secondary</option>
-        <option value="success">Success</option>
-        <option value="danger">Danger</option>
-        <option value="warning">Warning</option>
-        <option value="info">Info</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </field>
-      <field name="tab_custom_color" type="color" default="#0d6efd" label="Custom Tab Color" showon="tab_color_mode:custom" />
-    </fieldset>
-    <fieldset name="accordion_settings" label="Accordion Settings">
-      <field name="accordion_template" type="list" default="classic" label="Accordion Template">
-        <option value="classic">Classic Bootstrap</option>
-        <option value="separated">Separated Cards</option>
-        <option value="numbered">Numbered Process</option>
-        <option value="minimal">Minimal FAQ</option>
-        <option value="color-panel">Color Panel</option>
-        <option value="gradient-card">Gradient Card</option>
-        <option value="compact">Compact Dark</option>
-        <option value="two-column">Two Columns</option>
-      </field>
-      <field name="accordion_color_mode" type="list" default="bootstrap" label="Accordion Color Source">
-        <option value="bootstrap">Bootstrap Color</option>
-        <option value="custom">Custom Color</option>
-      </field>
-      <field name="accordion_bootstrap_color" type="list" default="primary" label="Bootstrap Accordion Color" showon="accordion_color_mode:bootstrap">
-        <option value="primary">Primary</option>
-        <option value="secondary">Secondary</option>
-        <option value="success">Success</option>
-        <option value="danger">Danger</option>
-        <option value="warning">Warning</option>
-        <option value="info">Info</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </field>
-      <field name="accordion_custom_color" type="color" default="#0d6efd" label="Custom Accordion Color" showon="accordion_color_mode:custom" />
-    </fieldset>
-    <fieldset name="column_settings" label="Column Settings">
-      <field name="column_template" type="list" default="equal" label="Column Template">
-        <option value="equal">Equal Columns</option>
-        <option value="sidebar-left">Left Sidebar (1/3 + 2/3)</option>
-        <option value="sidebar-right">Right Sidebar (2/3 + 1/3)</option>
-        <option value="cards">Card Columns</option>
-        <option value="bordered">Bordered Columns</option>
-        <option value="color">Color Columns</option>
-        <option value="gapless">Gapless Split</option>
-        <option value="feature">Feature + Supporting</option>
-      </field>
-      <field name="column_gap" type="list" default="3" label="Column Gap">
-        <option value="0">None</option>
-        <option value="1">Extra Small</option>
-        <option value="2">Small</option>
-        <option value="3">Medium</option>
-        <option value="4">Large</option>
-        <option value="5">Extra Large</option>
-      </field>
-      <field name="column_vertical_align" type="list" default="start" label="Vertical Alignment">
-        <option value="start">Top</option>
-        <option value="center">Center</option>
-        <option value="end">Bottom</option>
-        <option value="stretch">Stretch</option>
-      </field>
-      <field name="column_color_mode" type="list" default="bootstrap" label="Column Color Source">
-        <option value="bootstrap">Bootstrap Color</option>
-        <option value="custom">Custom Color</option>
-      </field>
-      <field name="column_bootstrap_color" type="list" default="primary" label="Bootstrap Column Color" showon="column_color_mode:bootstrap">
-        <option value="primary">Primary</option>
-        <option value="secondary">Secondary</option>
-        <option value="success">Success</option>
-        <option value="danger">Danger</option>
-        <option value="warning">Warning</option>
-        <option value="info">Info</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </field>
-      <field name="column_custom_color" type="color" default="#0d6efd" label="Custom Column Color" showon="column_color_mode:custom" />
-    </fieldset>
+
     <fieldset name="comments" label="COM_BLOG_COMMENTS_SETTINGS">
       <field name="comments_provider" type="list" default="disabled" label="COM_BLOG_COMMENTS_PROVIDER">
         <option value="disabled">JDISABLED</option>
@@ -564,32 +443,13 @@
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
       </field>
-      <field name="poll_results_style" type="list" default="progress" label="COM_BLOG_POLL_RESULTS_STYLE">
-        <option value="progress">COM_BLOG_POLL_STYLE_PROGRESS</option>
-        <option value="simple">COM_BLOG_POLL_STYLE_SIMPLE</option>
-        <option value="badges">COM_BLOG_POLL_STYLE_BADGES</option>
-      </field>
-      <field name="poll_progress_labels" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_POLL_PROGRESS_LABELS" showon="poll_results_style:progress">
-        <option value="0">JNO</option>
-        <option value="1">JYES</option>
-      </field>
-      <field name="poll_progress_striped" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_POLL_PROGRESS_STRIPED" showon="poll_results_style:progress">
-        <option value="0">JNO</option>
-        <option value="1">JYES</option>
-      </field>
-      <field name="poll_progress_color_mode" type="list" default="palette" label="COM_BLOG_POLL_PROGRESS_COLOR_MODE" showon="poll_results_style:progress">
-        <option value="palette">COM_BLOG_POLL_COLOR_PALETTE</option>
-        <option value="primary">COM_BLOG_POLL_COLOR_PRIMARY</option>
-        <option value="custom">COM_BLOG_POLL_COLOR_CUSTOM</option>
-      </field>
-      <field name="poll_progress_custom_color" type="color" default="#0d6efd" label="COM_BLOG_POLL_PROGRESS_CUSTOM_COLOR" showon="poll_results_style:progress[AND]poll_progress_color_mode:custom" />
-    </fieldset>
-    <fieldset name="poll_access" label="Poll Access">
-      <field name="poll_guest_voting" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Allow guest voting">
+
+          <field name="poll_guest_voting" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="Allow guest voting">
         <option value="0">JNO</option>
         <option value="1">JYES</option>
       </field>
     </fieldset>
+
     <fieldset name="engagement" label="COM_BLOG_ENGAGEMENT_SETTINGS">
       <field name="engagement_ratings" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="COM_BLOG_ENABLE_RATINGS">
         <option value="0">JNO</option>

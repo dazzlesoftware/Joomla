@@ -56,7 +56,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             $name = self::FAMILY . '_' . $type;
             $asset = 'editor-button.' . $name;
             if (!$wa->assetExists('script', $asset)) {
-                $wa->registerScript($asset, 'plg_' . self::FAMILY . '_blocks/blocks-button.js', ['version' => '1.2.0'], ['type' => 'module'], ['editors']);
+                $wa->registerScript($asset, 'plg_' . self::FAMILY . '_blocks/blocks-button.js', ['version' => '1.3.0'], ['type' => 'module'], ['editors']);
             }
             $event->getButtonsRegistry()->add(new Button($name, [
                 'action' => 'insert-' . self::FAMILY . '-' . $type,
@@ -104,8 +104,11 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         }
         if (str_contains($item->text, '{tabs')) {
             $item->text = preg_replace_callback(
-                '~(?:<p>\s*)?\{tabs\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/tabs\}(?:\s*</p>)?~is',
-                fn ($match) => $this->renderTabs($match[2], $match[1]),
+                '~(?:<p>\s*)?\{tabs\s+([^}]+)\}(.*?)\{/tabs\}(?:\s*</p>)?~is',
+                function ($match) {
+                    $settings = $this->attributes($match[1]);
+                    return $this->renderTabs($match[2], $settings['template'] ?? '', $settings);
+                },
                 $item->text
             );
         }
@@ -125,8 +128,11 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         }
         if (str_contains($item->text, '{quote')) {
             $item->text = preg_replace_callback(
-                '~(?:<p>\s*)?\{quote(?:\s+cite=(?:"|&quot;)(.*?)(?:"|&quot;))?\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/quote\}(?:\s*</p>)?~is',
-                fn ($match) => $this->renderQuote($match[1] ?? '', $match[3], $match[2]),
+                '~(?:<p>\s*)?\{quote\s+([^}]+)\}(.*?)\{/quote\}(?:\s*</p>)?~is',
+                function ($match) {
+                    $settings = $this->attributes($match[1]);
+                    return $this->renderQuote($settings['cite'] ?? '', $match[2], $settings['template'] ?? '', $settings);
+                },
                 $item->text
             );
         }
@@ -146,8 +152,11 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         }
         if (str_contains($item->text, '{columns')) {
             $item->text = preg_replace_callback(
-                '~(?:<p>\s*)?\{columns\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/columns\}(?:\s*</p>)?~is',
-                fn ($match) => $this->renderColumns($match[2], $match[1]),
+                '~(?:<p>\s*)?\{columns\s+([^}]+)\}(.*?)\{/columns\}(?:\s*</p>)?~is',
+                function ($match) {
+                    $settings = $this->attributes($match[1]);
+                    return $this->renderColumns($match[2], $settings['template'] ?? '', $settings);
+                },
                 $item->text
             );
         }
@@ -160,8 +169,11 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         }
         if (str_contains($item->text, '{accordion')) {
             $item->text = preg_replace_callback(
-                '~(?:<p>\s*)?\{accordion\s+template=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/accordion\}(?:\s*</p>)?~is',
-                fn ($match) => $this->renderAccordion($match[2], $match[1]),
+                '~(?:<p>\s*)?\{accordion\s+([^}]+)\}(.*?)\{/accordion\}(?:\s*</p>)?~is',
+                function ($match) {
+                    $settings = $this->attributes($match[1]);
+                    return $this->renderAccordion($match[2], $settings['template'] ?? '', $settings);
+                },
                 $item->text
             );
         }
@@ -195,7 +207,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             . '</section>';
     }
 
-    private function renderTabs(string $source, string $override): string
+    private function renderTabs(string $source, string $override, array $settings = []): string
     {
         preg_match_all(
             '~\{tab\s+title=(?:"|&quot;)(.*?)(?:"|&quot;)(?:\s+icon=(?:"|&quot;)(.*?)(?:"|&quot;))?\}(.*?)\{/tab\}~is',
@@ -207,10 +219,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             return '';
         }
 
-        $params = ComponentHelper::getParams('com_' . self::FAMILY);
+        $params = new \Joomla\Registry\Registry($settings);
         $templates = ['classic', 'pills', 'underline', 'cards', 'colorbar', 'icons'];
-        $globalTemplate = (string) $params->get('tab_template', 'classic');
-        $template = $override !== 'global' && in_array($override, $templates, true) ? $override : $globalTemplate;
+        $template = $override;
         $template = in_array($template, $templates, true) ? $template : 'classic';
         $vertical = $params->get('tab_mode', 'horizontal') === 'vertical';
         $colorMode = (string) $params->get('tab_color_mode', 'bootstrap');
@@ -269,12 +280,11 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         return $style . '<div class="' . $wrapperClasses . '" id="' . $id . '">' . $navigation . '</div>' . $panes . '</div></div>';
     }
 
-    private function renderQuote(string $citation, string $content, string $override): string
+    private function renderQuote(string $citation, string $content, string $override, array $settings = []): string
     {
-        $params = ComponentHelper::getParams('com_' . self::FAMILY);
+        $params = new \Joomla\Registry\Registry($settings);
         $templates = ['simple', 'color', 'framed', 'card', 'panel', 'minimal'];
-        $globalTemplate = (string) $params->get('quote_template', 'simple');
-        $template = $override !== 'global' && in_array($override, $templates, true) ? $override : $globalTemplate;
+        $template = $override;
         $template = in_array($template, $templates, true) ? $template : 'simple';
         $colorMode = $params->get('quote_color_mode', 'bootstrap');
         $bootstrapColor = $params->get('quote_bootstrap_color', 'primary');
@@ -382,16 +392,15 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             . '</div>';
     }
 
-    private function renderColumns(string $source, string $override): string
+    private function renderColumns(string $source, string $override, array $settings = []): string
     {
         preg_match_all('~\{column\}(.*?)\{/column\}~is', $source, $matches);
         if (empty($matches[1])) {
             return '';
         }
-        $params = ComponentHelper::getParams('com_' . self::FAMILY);
+        $params = new \Joomla\Registry\Registry($settings);
         $templates = ['equal', 'sidebar-left', 'sidebar-right', 'cards', 'bordered', 'color', 'gapless', 'feature'];
-        $globalTemplate = (string) $params->get('column_template', 'equal');
-        $template = $override !== 'global' && in_array($override, $templates, true) ? $override : $globalTemplate;
+        $template = $override;
         $template = in_array($template, $templates, true) ? $template : 'equal';
         $gap = (string) $params->get('column_gap', '3');
         $gap = in_array($gap, ['0', '1', '2', '3', '4', '5'], true) ? $gap : '3';
@@ -442,7 +451,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         return $style . '<div id="' . $id . '" class="row g-' . $gap . $rowAlign . ' post-columns post-columns--' . $template . '">' . implode('', $columns) . '</div>';
     }
 
-    private function renderAccordion(string $source, string $override): string
+    private function renderAccordion(string $source, string $override, array $settings = []): string
     {
         preg_match_all(
             '~\{item\s+title=(?:"|&quot;)(.*?)(?:"|&quot;)\}(.*?)\{/item\}~is',
@@ -454,10 +463,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
             return '';
         }
 
-        $params = ComponentHelper::getParams('com_' . self::FAMILY);
+        $params = new \Joomla\Registry\Registry($settings);
         $templates = ['classic', 'separated', 'numbered', 'minimal', 'color-panel', 'gradient-card', 'compact', 'two-column'];
-        $globalTemplate = (string) $params->get('accordion_template', 'classic');
-        $template = $override !== 'global' && in_array($override, $templates, true) ? $override : $globalTemplate;
+        $template = $override;
         $template = in_array($template, $templates, true) ? $template : 'classic';
         $colorMode = (string) $params->get('accordion_color_mode', 'bootstrap');
         $bootstrapColor = (string) $params->get('accordion_bootstrap_color', 'primary');
@@ -519,6 +527,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
 
     private function attributes(string $source): array
     {
+        $source = html_entity_decode($source, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $out = [];
         preg_match_all('/([a-z][a-z0-9_-]*)\s*=\s*"([^"]*)"/i', $source, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
@@ -532,7 +541,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $provider = strtolower($data['provider'] ?? '');
         $url = trim($data['url'] ?? '');
         if ($provider === 'polls') {
-            return $this->renderPoll((int) $url, (string) ($data['template'] ?? 'global'));
+            return $this->renderPoll((int) $url, (string) ($data['template'] ?? 'progress'), $data);
         }
         if (!filter_var($url, FILTER_VALIDATE_URL) || !in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'], true)) {
             return '';
@@ -881,7 +890,7 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         return '<iframe class="facebook-embed" src="' . $safe . '" width="' . $width . '" height="' . $height . '" scrolling="no" frameborder="0" allowfullscreen loading="lazy" title="Facebook post" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" style="display:block;max-width:100%;border:0;overflow:hidden"></iframe>';
     }
 
-    private function renderPoll(int $pollId, string $override = 'global'): string
+    private function renderPoll(int $pollId, string $override = 'progress', array $settings = []): string
     {
         if ($pollId < 1) {
             return '';
@@ -895,9 +904,9 @@ final class Blocks extends CMSPlugin implements SubscriberInterface
         $total = array_sum(array_map(fn ($option) => (int) $option->votes, $options));
         $params = ComponentHelper::getParams('com_' . self::FAMILY);
         $showVotes = (bool) $params->get('poll_show_votes', 1);
+        $params = new \Joomla\Registry\Registry($settings);
         $styles = ['progress', 'simple', 'badges'];
-        $globalStyle = (string) $params->get('poll_results_style', 'progress');
-        $style = $override !== 'global' && in_array($override, $styles, true) ? $override : $globalStyle;
+        $style = $override;
         $style = in_array($style, $styles, true) ? $style : 'progress';
         $progressLabels = (bool) $params->get('poll_progress_labels', 1);
         $progressStriped = (bool) $params->get('poll_progress_striped', 1);
