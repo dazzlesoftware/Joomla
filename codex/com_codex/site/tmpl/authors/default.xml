@@ -4,6 +4,14 @@
     <message>COM_CODEX_AUTHORS_VIEW_DEFAULT_DESC</message>
   </layout>
   <fields name="params">
+    <fieldset name="authors" label="COM_CODEX_AUTHORS_HEADING">
+      <field name="authors_style" type="list" label="COM_CODEX_AUTHORS_STYLE" useglobal="true"><option value="link_list">COM_CODEX_AUTHORS_LINK_LIST</option><option value="image_grid">COM_CODEX_AUTHORS_IMAGE_GRID</option></field>
+      <field name="authors_listing_layout" type="list" label="COM_CODEX_AUTHORS_LISTING" useglobal="true"><option value="rows">COM_CODEX_AUTHORS_ROWS</option><option value="columns">COM_CODEX_AUTHORS_COLUMNS</option></field>
+      <field name="authors_columns" type="list" showon="authors_listing_layout:columns" label="COM_CODEX_AUTHORS_COLUMNS_COUNT" useglobal="true"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+      <field name="authors_column_style" type="list" showon="authors_listing_layout:columns" label="COM_CODEX_AUTHORS_COLUMN_STYLE" useglobal="true"><option value="grid">COM_CODEX_AUTHORS_GRID</option><option value="masonry">COM_CODEX_AUTHORS_MASONRY</option></field>
+      <field name="authors_per_page" type="number" label="COM_CODEX_AUTHORS_PER_PAGE" min="1" max="100" useglobal="true" />
+      <field name="authors_pagination_summary" type="list" label="COM_CODEX_AUTHORS_PAGINATION_SUMMARY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+    </fieldset>
     <fieldset name="pagevars" label="COM_MENUS_PAGE_DISPLAY_OPTIONS_FIELDSET_LABEL">
       <field name="show_postnav" type="list" label="COM_CODEX_SHOW_POSTNAV_LABEL" description="COM_CODEX_SHOW_POSTNAV_DESC" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>

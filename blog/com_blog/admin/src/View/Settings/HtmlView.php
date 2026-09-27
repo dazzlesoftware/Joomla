@@ -19,6 +19,7 @@ final class HtmlView extends BaseHtmlView
         'posts' => ['label' => 'Post Display', 'icon' => 'file-alt', 'fieldsets' => ['posts']],
         'editor' => ['label' => 'Editor & Authoring', 'icon' => 'edit', 'fieldsets' => ['block_editor', 'quote_settings', 'tab_settings', 'accordion_settings', 'column_settings', 'polls', 'poll_access', 'editinglayout']],
         'lists' => ['label' => 'Post Lists & Blog Layouts', 'icon' => 'list', 'fieldsets' => ['list_display', 'automated_truncation', 'listing_filters', 'featured_slider', 'blog_default_parameters', 'compact_posts', 'list_default_parameters', 'shared']],
+        'authors' => ['label' => 'COM_BLOG_AUTHORS_HEADING', 'icon_class' => 'fa-solid fa-users', 'fieldsets' => ['authors']],
         'categories' => ['label' => 'Category Layouts', 'icon' => 'folder', 'fieldsets' => ['category', 'categories']],
         'engagement' => ['label' => 'Engagement & Sharing', 'icon' => 'share-alt', 'fieldsets' => ['engagement', 'engagement_appearance']],
         'ai' => ['label' => 'AI Writing and Images', 'icon' => 'brain', 'icon_class' => 'fa-solid fa-brain', 'fieldsets' => ['ai_tools']],
@@ -31,6 +32,8 @@ final class HtmlView extends BaseHtmlView
         if (!Factory::getApplication()->getIdentity()->authorise('core.options', 'com_blog')) {
             throw new \RuntimeException('You are not authorised to change these settings.', 403);
         }
+
+        $this->sections['authors']['label'] = \Joomla\CMS\Language\Text::_('COM_BLOG_AUTHORS_HEADING');
 
         $factory = Factory::getContainer()->get(FormFactoryInterface::class);
         $this->form = $factory->createForm('com_blog.settings', ['control' => 'jform']);

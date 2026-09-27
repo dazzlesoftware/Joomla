@@ -232,6 +232,14 @@
         <option value="1">JSHOW</option>
       </field>
     </fieldset>
+    <fieldset name="authors" label="COM_ACADEMY_AUTHORS_HEADING">
+      <field name="authors_style" type="list" label="COM_ACADEMY_AUTHORS_STYLE" default="link_list"><option value="link_list">COM_ACADEMY_AUTHORS_LINK_LIST</option><option value="image_grid">COM_ACADEMY_AUTHORS_IMAGE_GRID</option></field>
+      <field name="authors_listing_layout" type="list" label="COM_ACADEMY_AUTHORS_LISTING" default="rows"><option value="rows">COM_ACADEMY_AUTHORS_ROWS</option><option value="columns">COM_ACADEMY_AUTHORS_COLUMNS</option></field>
+      <field name="authors_columns" type="list" showon="authors_listing_layout:columns" label="COM_ACADEMY_AUTHORS_COLUMNS_COUNT" default="3"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+      <field name="authors_column_style" type="list" showon="authors_listing_layout:columns" label="COM_ACADEMY_AUTHORS_COLUMN_STYLE" default="grid"><option value="grid">COM_ACADEMY_AUTHORS_GRID</option><option value="masonry">COM_ACADEMY_AUTHORS_MASONRY</option></field>
+      <field name="authors_per_page" type="number" label="COM_ACADEMY_AUTHORS_PER_PAGE" min="1" max="100" default="12" />
+      <field name="authors_pagination_summary" type="list" label="COM_ACADEMY_AUTHORS_PAGINATION_SUMMARY" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+</fieldset>
     <fieldset name="categories" label="JCATEGORIES" description="COM_ACADEMY_CONFIG_CATEGORIES_SETTINGS_DESC">
       <field name="categories_style" type="list" label="Categories Layout" default="list"><option value="list">Default Link List</option><option value="image_grid">Image Grid</option></field>
       <field name="categories_listing_layout" type="list" label="Category Listing Style" default="columns"><option value="rows">Rows</option><option value="columns">Columns</option></field>
