@@ -60,7 +60,7 @@ final class FeaturedSliderHelper
         return $db->setQuery($q, 0, max(1, min(50, (int) $params->get('featured_slider_count', 5))))->loadObjectList();
     }
 
-    public static function render($overrides, int $categoryId = 0, int $start = 0): string
+    public static function render($overrides, int $categoryId = 0, int $start = 0, ?callable $renderer = null): string
     {
         $params = self::settings($overrides);
         if (!$params->get('featured_slider_enabled', 0) || ($start > 0 && !$params->get('featured_slider_all_pages', 0))) { return ''; }
@@ -81,6 +81,9 @@ final class FeaturedSliderHelper
         }
         $style = (string) $params->get('featured_slider_style', 'default');
         if (!in_array($style, ['card', 'default', 'hero', 'magazine', 'side-navigation', 'slick', 'thumbnail'], true)) { $style = 'default'; }
+        if ($renderer !== null) {
+            return $renderer($style, ['items' => $items, 'params' => $params]);
+        }
         return LayoutHelper::render('featured.' . $style, ['items' => $items, 'params' => $params], JPATH_ROOT . '/components/com_codex/layouts');
     }
 }

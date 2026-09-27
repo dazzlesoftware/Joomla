@@ -285,6 +285,11 @@
 <field name="compact_selection" type="list" label="COM_BLOG_COMPACT_SELECTION" description="COM_BLOG_COMPACT_SELECTION_DESC" default="next">
         <option value="next">COM_BLOG_COMPACT_NEXT</option><option value="latest">COM_BLOG_COMPACT_LATEST</option><option value="featured">COM_BLOG_COMPACT_FEATURED</option><option value="random">COM_BLOG_COMPACT_RANDOM</option><option value="related">COM_BLOG_COMPACT_RELATED</option>
       </field>
+<field name="compact_heading_alignment" type="list" label="COM_BLOG_COMPACT_HEADING_ALIGNMENT" default="left">
+  <option value="left">COM_BLOG_ALIGN_LEFT</option>
+  <option value="center">COM_BLOG_ALIGN_CENTER</option>
+  <option value="right">COM_BLOG_ALIGN_RIGHT</option>
+</field>
 <field name="compact_show_image" type="list" label="COM_BLOG_COMPACT_SHOW_IMAGE" default="1"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 <field name="link_featured_image" type="radio" label="COM_BLOG_LINKED_FEATURED_IMAGE_LABEL" layout="joomla.form.field.radio.switcher" default="0">
         <option value="0">JNO</option>
@@ -541,6 +546,9 @@
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
       </field>
+<field name="postnav_home" type="list" label="COM_BLOG_POSTNAV_HOME_LABEL" description="COM_BLOG_POSTNAV_HOME_DESC" default="featured"><option value="featured">COM_BLOG_POSTNAV_HOME_FEATURED</option><option value="categories">COM_BLOG_POSTNAV_HOME_CATEGORIES</option><option value="authors">COM_BLOG_POSTNAV_HOME_AUTHORS</option><option value="archive">COM_BLOG_POSTNAV_HOME_ARCHIVE</option><option value="menu">COM_BLOG_POSTNAV_HOME_MENU</option></field>
+<field name="postnav_home_menu" type="menuitem" label="COM_BLOG_POSTNAV_HOME_MENU_LABEL" description="COM_BLOG_POSTNAV_HOME_MENU_DESC" clientid="0" published="1" filter="integer" showon="postnav_home:menu" default="0"><option value="0">COM_BLOG_POSTNAV_HOME_SELECT</option></field>
+
     </fieldset>
     <fieldset name="create_post_redirect" label="COM_BLOG_CREATE_POST_REDIRECT_SETTINGS" description="COM_BLOG_CREATE_POST_REDIRECT_SETTINGS_DESC">
       <field name="default_post_redirect_type" type="list" label="COM_BLOG_DEFAULT_POST_REDIRECT_LABEL" description="COM_BLOG_DEFAULT_POST_REDIRECT_DESC" default="featured" class="form-select" validate="options">
@@ -598,7 +606,94 @@
       </field>
       <field name="list_item_style" type="list" default="card" label="COM_BLOG_LIST_ITEM_STYLE_LABEL"><option value="card">Card Layout</option><option value="standard">Standard Layout</option><option value="simple">Simple Layout</option><option value="nickel">Nickel Layout</option><option value="learning">Learning Layout</option></field>
     </fieldset>
-  </fields>
+
+<fieldset name="author_posts" label="COM_BLOG_AUTHOR_POSTS_SETTINGS">
+<field name="author_list_item_style" type="list" label="COM_BLOG_AUTHOR_ITEM_STYLE" validate="options" default="card">
+        <option value="standard">COM_BLOG_LIST_ITEM_STYLE_STANDARD</option>
+        <option value="card">COM_BLOG_LIST_ITEM_STYLE_CARD</option>
+        <option value="learning">COM_BLOG_LIST_ITEM_STYLE_LEARNING</option>
+        <option value="simple">COM_BLOG_LIST_ITEM_STYLE_SIMPLE</option>
+        <option value="nickel">COM_BLOG_LIST_ITEM_STYLE_NICKEL</option>
+      </field>
+<field name="author_post_listing_layout" type="list" label="COM_BLOG_POST_LISTING_LAYOUT_LABEL" validate="options" default="columns">
+        <option value="rows">COM_BLOG_POST_LISTING_LAYOUT_ROWS</option>
+        <option value="columns">COM_BLOG_POST_LISTING_LAYOUT_COLUMNS</option>
+      </field>
+<field name="author_columns_per_row" type="list" label="COM_BLOG_COLUMNS_PER_ROW_LABEL" validate="options" showon="author_post_listing_layout:columns" default="2">
+        <option value="2">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_2</option>
+        <option value="3">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_3</option>
+        <option value="4">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_4</option>
+        <option value="5">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_5</option>
+        <option value="6">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_6</option>
+      </field>
+<field name="author_column_style" type="list" label="COM_BLOG_COLUMN_STYLE_LABEL" validate="options" showon="author_post_listing_layout:columns" default="grid">
+        <option value="grid">COM_BLOG_COLUMN_STYLE_GRID</option>
+        <option value="masonry">COM_BLOG_COLUMN_STYLE_MASONRY</option>
+      </field>
+<field name="author_items_limit_source" type="list" label="COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_LABEL" validate="options" default="custom"><option value="joomla">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_JOOMLA</option><option value="custom">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_CUSTOM</option><option value="5">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_5</option><option value="10">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_10</option><option value="15">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_15</option><option value="20">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_20</option><option value="25">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_25</option><option value="30">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_30</option><option value="50">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_50</option><option value="100">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_100</option></field>
+<field name="author_posts_per_page" type="number" label="COM_BLOG_AUTHOR_POSTS_PER_PAGE_LABEL" filter="integer" min="1" showon="author_items_limit_source:custom" default="6" />
+<field name="author_listing_exclude_authors" type="postauthors" label="COM_BLOG_AUTHOR_LISTING_EXCLUDE_AUTHORS_LABEL" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="COM_BLOG_AUTHOR_EXCLUDE_DESC" />
+<field name="author_orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" validate="options" default="none">
+        <option value="none">JGLOBAL_NO_ORDER</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+      </field>
+<field name="author_orderby_sec" type="list" label="COM_BLOG_POST_ORDER" validate="options" default="rdate">
+        <option value="front">COM_BLOG_FEATURED_ORDER</option>
+        <option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+        <option value="date">JGLOBAL_OLDEST_FIRST</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+        <option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+        <option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+        <option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
+        <option value="random">JGLOBAL_RANDOM_ORDER</option>
+        <option value="order">JGLOBAL_ORDERING</option>
+        <option value="rorder">JGLOBAL_REVERSE_ORDERING</option>
+        <option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+        <option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+        <option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+        <option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+      </field>
+<field name="author_order_date" type="list" label="JGLOBAL_ORDERING_DATE_LABEL" validate="options" default="published">
+        <option value="created">JGLOBAL_CREATED</option>
+        <option value="modified">JGLOBAL_MODIFIED</option>
+        <option value="published">JPUBLISHED</option>
+        <option value="unpublished">JUNPUBLISHED</option>
+      </field>
+<field name="author_show_pagination" type="list" label="JGLOBAL_PAGINATION_LABEL" class="form-select-color-state" validate="options" default="2">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+        <option value="2">JGLOBAL_AUTO</option>
+      </field>
+<field name="author_show_pagination_results" type="list" label="JGLOBAL_PAGINATION_RESULTS_LABEL" class="form-select-color-state" validate="options" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+</fieldset>
+<fieldset name="author_slider" label="COM_BLOG_AUTHOR_SLIDER_SETTINGS">
+<field name="author_featured_slider_enabled" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_ENABLED_LABEL" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_style" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_LABEL" default="default"><option value="default">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_DEFAULT</option><option value="card">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_CARD</option><option value="hero">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_HERO</option><option value="magazine">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_MAGAZINE</option><option value="side-navigation">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SIDE_NAVIGATION</option><option value="slick">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SLICK</option><option value="thumbnail">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_THUMBNAIL</option></field>
+<field name="author_featured_slider_all_pages" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_ALL_PAGES_LABEL" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_auto" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_AUTO_LABEL" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_interval" type="number" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_INTERVAL_LABEL" min="1" hint="8" default="8" />
+<field name="author_featured_slider_image" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_IMAGE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_title" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_TITLE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_category" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_CATEGORY_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_author" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_AUTHOR_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_avatar" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_AVATAR_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_readmore" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_READMORE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_navigation" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_NAVIGATION_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_content" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_CONTENT_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_ratings" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_RATINGS_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_date" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="author_featured_slider_content_length" type="number" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_LABEL" description="COM_BLOG_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_DESCRIPTION" min="0" hint="250" default="250" />
+<field name="author_featured_slider_count" type="number" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_COUNT_LABEL" min="1" max="50" hint="5" default="5" />
+<field name="author_featured_slider_date_source" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_LABEL" default="created"><option value="created">COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_CREATED</option><option value="modified">COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_MODIFIED</option><option value="published">COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_PUBLISHED</option></field>
+</fieldset>
+</fields>
 <fields name="params">
 
 <fieldset name="listing_filters" label="Post Listing Filters"><field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />

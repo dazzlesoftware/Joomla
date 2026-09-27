@@ -32,6 +32,8 @@ if (!$showPostnav) {
     return;
 }
 
+$home = \Joomla\Component\Academy\Site\Helper\NavigationHelper::home($menuParams);
+
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->useStyle('fontawesome');
 
@@ -123,7 +125,7 @@ if (!$isGuest) {
 ?>
 <nav class="postnav d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom" aria-label="Post navigation">
     <div class="postnav-links d-flex align-items-center flex-wrap gap-1">
-        <a class="postnav-link postnav-icon-link<?php echo $currentView === 'featured' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=featured'); ?>" aria-label="Home" title="Home">
+        <a class="postnav-link postnav-icon-link<?php echo $home['active'] ? ' active' : ''; ?>" href="<?php echo htmlspecialchars(Route::_($home['url'], false), ENT_QUOTES, 'UTF-8'); ?>" aria-label="Home" title="Home">
             <i class="fa-solid fa-house" aria-hidden="true"></i>
         </a>
         <a class="postnav-link<?php echo $currentView === 'categories' ? ' active' : ''; ?>" href="<?php echo Route::_('index.php?option=com_' . $family . '&view=categories'); ?>"><?php echo $links['categories']; ?></a>

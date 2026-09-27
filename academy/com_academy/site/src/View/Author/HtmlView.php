@@ -1,13 +1,13 @@
 <?php
-
 namespace Joomla\Component\Academy\Site\View\Author;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Component\Academy\Site\Helper\ListExcerptHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
@@ -16,46 +16,47 @@ final class HtmlView extends BaseHtmlView
     public ?object $author = null;
     public array $posts = [];
     public ?Registry $params = null;
+    public ?Pagination $pagination = null;
+    public ?object $item = null;
+    public array $sliderData = [];
 
     public function display($tpl = null): void
     {
         $app = Factory::getApplication();
-        $this->params = $app->getParams();
         $authorId = $app->getInput()->getInt('id');
-
-        if ($authorId < 1) {
-            throw new \RuntimeException('Author not found.', 404);
-        }
-
         $db = Factory::getContainer()->get(DatabaseInterface::class);
-        $this->author = $db->setQuery(
-            $db->createQuery()->select(['id', 'name'])->from('#__users')->where('id=' . $authorId)->where('block=0')
-        )->loadObject();
-
+        $this->author = $db->setQuery($db->createQuery()->select(['id', 'name'])->from('#__users')
+            ->where('id=' . $authorId)->where('block=0'))->loadObject();
         if (!$this->author) {
             throw new \RuntimeException('Author not found.', 404);
         }
-
-        $levels = array_map('intval', $app->getIdentity()->getAuthorisedViewLevels());
-        $now = Factory::getDate()->toSql();
-        $query = $db->createQuery()
-            ->select(['id', 'title', 'alias', 'catid', 'summary', 'excerpt', 'body', 'media', 'publish_up', 'created', 'language'])
-            ->from('#__academy')
-            ->where('created_by=' . $authorId)
-            ->where('state=1')
-            ->whereIn('access', $levels)
-            ->where('(publish_up IS NULL OR publish_up <= ' . $db->quote($now) . ')')
-            ->where('(publish_down IS NULL OR publish_down >= ' . $db->quote($now) . ')')
-            ->order('publish_up DESC, created DESC');
-        $this->posts = $db->setQuery($query)->loadObjectList();
-
-        \Joomla\CMS\Plugin\PluginHelper::importPlugin('content');
-        \Joomla\CMS\Plugin\PluginHelper::importPlugin('academy');
+        $model = $this->getModel();
+        $this->params = $model->getState('params');
+        $total = (int) $model->getTotal();
+        $limit = (int) $model->getState('list.limit');
+        $start = (int) $model->getState('list.start');
+        $start = $total ? min(intdiv($start, $limit), intdiv($total - 1, $limit)) * $limit : 0;
+        $model->setState('list.start', $start);
+        $this->posts = $model->getItems();
+        $this->pagination = new Pagination($total, $start, $limit);
+        $this->pagination->hideEmptyLimitstart = true;
+        $this->pagination->setAdditionalUrlParam('option', 'com_academy');
+        $this->pagination->setAdditionalUrlParam('view', 'author');
+        $this->pagination->setAdditionalUrlParam('id', $authorId);
+        PluginHelper::importPlugin('content');
+        PluginHelper::importPlugin('academy');
         foreach ($this->posts as $post) {
-            $post->readmore = !empty($post->body);
-            $post->text = \Joomla\Component\Academy\Site\Helper\ListExcerptHelper::render($post, $this->params);
-            $app->triggerEvent('onContentPrepare', ['com_academy.author', &$post, &$this->params, 0]);
+            $post->slug = $post->id . ':' . $post->alias;
+            if (($post->parent_alias ?? '') === 'root') {
+                $post->parent_id = null;
+            }
+            $post->text = ListExcerptHelper::render($post, $post->params);
+            $app->triggerEvent('onContentPrepare', ['com_academy.author', &$post, &$post->params, 0]);
             $post->summary = $post->text;
+            $post->event = new \stdClass();
+            foreach (['onContentAfterTitle' => 'afterDisplayTitle', 'onContentBeforeDisplay' => 'beforeDisplayContent', 'onContentAfterDisplay' => 'afterDisplayContent'] as $event => $property) {
+                $post->event->$property = trim(implode("\n", $app->triggerEvent($event, ['com_academy.author', &$post, &$post->params, 0])));
+            }
         }
         $this->document->setTitle($this->author->name);
         parent::display($tpl);

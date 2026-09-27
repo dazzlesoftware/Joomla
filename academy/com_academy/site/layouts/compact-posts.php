@@ -18,7 +18,17 @@ if ($params->get('compact_show_rating', 1)) {
     $ratings = $db->setQuery($db->createQuery()->select('*')->from('#__academy_rating')
         ->whereIn('content_id', array_map(static fn($item) => (int) $item->id, $items)))->loadObjectList('content_id');
 }
+$selection = (string) $params->get('compact_selection', 'next');
+if (!in_array($selection, ['next', 'latest', 'featured', 'random', 'related'], true)) {
+    $selection = 'next';
+}
+$headingAlignment = match ((string) $params->get('compact_heading_alignment', 'left')) {
+    'center' => 'text-center',
+    'right' => 'text-end',
+    default => 'text-start',
+};
 ?>
+<h2 class="compact-posts-heading h4 mt-4 mb-3 <?php echo $headingAlignment; ?>"><?php echo \Joomla\CMS\Language\Text::_('COM_ACADEMY_COMPACT_HEADING_' . strtoupper($selection)); ?></h2>
 <ul class="compact-posts list-unstyled my-4 <?php echo $listClass; ?>">
 <?php foreach ($items as $item) :
     $url = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language));

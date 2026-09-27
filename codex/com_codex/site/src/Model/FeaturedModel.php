@@ -74,7 +74,9 @@ class FeaturedModel extends PostsModel
 
         $limit = \Joomla\Component\Codex\Site\Helper\ListingSettingsHelper::count($params) + (\Joomla\Component\Codex\Site\Helper\CompactPostsHelper::visible($params) && $params->get('compact_selection', 'next') === 'next' ? $params->get('num_links') : 0);
         $this->setState('list.limit', $limit);
-        $this->setState('list.links', $params->get('num_links'));
+        // list.limit already includes compact posts only when they consume listing rows.
+        // Joomla subtracts list.links from the pagination limit; do not subtract them again.
+        $this->setState('list.links', 0);
 
         $this->setState('filter.frontpage', true);
 

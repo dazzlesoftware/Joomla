@@ -18,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 ?>
 <div class="blog-featured">
     <?php echo $this->loadTemplate('navigation'); ?>
-    <?php echo LayoutHelper::render('rsslink', $this->params, JPATH_COMPONENT . '/layouts'); ?>
+    <?php echo $this->loadTemplate('actions'); ?>
     <?php if ($this->params->get('show_page_heading') != 0) : ?>
     <div class="page-header">
         <h1>
