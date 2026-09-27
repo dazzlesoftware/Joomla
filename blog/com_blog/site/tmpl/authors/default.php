@@ -24,7 +24,7 @@ $avatarHelper = '\\Joomla\\Plugin\\User\\GenesisProfile\\Helper\\GenesisProfileH
     <?php endif; ?>
     <ul class="list-unstyled row row-cols-1 row-cols-md-<?php echo $columns; ?> g-4" <?php echo $masonry ? 'data-post-masonry' : ''; ?>>
         <?php foreach ($this->items as $author) : ?>
-            <?php $url = Route::_('index.php?option=com_blog&view=author&id=' . (int) $author->id); ?>
+            <?php $url = Route::_('index.php?option=com_blog&view=author&id=' . (int) $author->id, false); ?>
             <li class="col">
                 <div class="<?php echo $images ? 'card card-body text-center' . ($masonry ? '' : ' h-100') : 'd-flex justify-content-between align-items-center py-2 border-top'; ?>">
                     <a href="<?php echo $this->escape($url); ?>">

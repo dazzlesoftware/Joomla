@@ -39,6 +39,7 @@ foreach (['academy','blog','codex'] as $family) {
         $view->items=[$author];
         $view->params->set('authors_style','image_grid');
         $html=$view->loadTemplate();
+        if (str_contains($html, '&amp;amp;')) { throw new RuntimeException('Double-escaped author URL'); }
         if (str_contains($html,'author-directory-avatar-placeholder d-none')!==$hasImage) { throw new RuntimeException('Fallback visibility'); }
         if (!preg_match('~<a href="[^"]+">\s*<span class="d-block mb-3">.*?author-directory-avatar.*?</span>\s*'.preg_quote($author->name,'~').'\s*</a>~s',$html)) { throw new RuntimeException('Image and name must share a link'); }
     }
