@@ -13,6 +13,10 @@ use Joomla\Registry\Registry;
 
 class HtmlView extends BaseHtmlView
 {
+    public array $posts = [];
+    public array $compactItems = [];
+    public array $sliderData = [];
+    public $item;
     public array $tags = [];
     public array $items = [];
     public $tag = null;
@@ -34,33 +38,39 @@ class HtmlView extends BaseHtmlView
             if (!$this->tag) {
                 throw new \RuntimeException('Tag not found', 404);
             }
-            $groups = $app->getIdentity()->getAuthorisedViewLevels();
-            $query = \Joomla\Component\Academy\Site\Helper\TagDirectoryHelper::posts($id)->select('c.default_image AS category_default_image');
-            $query->order('CASE WHEN p.publish_up IS NULL THEN p.created ELSE p.publish_up END DESC');
-            $limit = max(1, (int) $app->get('list_limit', 20));
-            $start = $app->getInput()->getUint('limitstart', 0);
-            $allItems = $db->setQuery($query)->loadObjectList() ?: [];
-            foreach ($allItems as $item) {
-                $item->params = new Registry($item->options ?? '{}');
-                $item->slug = $item->id . ':' . $item->alias;
-                $item->params->set('access-view', true);
+        $model = $this->getModel();
+        $this->params = $model->getState('params');
+        $total = (int) $model->getTotal();
+        $limit = (int) $model->getState('list.limit');
+        $start = (int) $model->getState('list.start');
+        $start = $total ? min(intdiv($start, $limit), intdiv($total - 1, $limit)) * $limit : 0;
+        $model->setState('list.start', $start);
+        $this->posts = $model->getItems();
+        $this->pagination = new Pagination($total, $start, $limit);
+        $this->pagination->hideEmptyLimitstart = true;
+        $this->pagination->setAdditionalUrlParam('option', 'com_academy');
+        $this->pagination->setAdditionalUrlParam('view', 'tags');
+        $this->pagination->setAdditionalUrlParam('tag_id', $id);
+        PluginHelper::importPlugin('content');
+        PluginHelper::importPlugin('academy');
+        foreach ($this->posts as $post) {
+            $post->slug = $post->id . ':' . $post->alias;
+            if (($post->parent_alias ?? '') === 'root') {
+                $post->parent_id = null;
             }
-            $count = count($allItems);
-            $this->items = array_slice($allItems, $start, $limit);
-            $this->pagination = new Pagination($count, $start, $limit);
-
-            // Decide the excerpt from the raw stored summary, then run
-            // content plugins - before the shortcodes expand into large
-            // widgets that would otherwise fool the length check into
-            // skipping truncation entirely.
-            PluginHelper::importPlugin('content');
-            PluginHelper::importPlugin('academy');
-            foreach ($this->items as $item) {
-                $item->readmore = !empty($item->body);
-                $item->text = ListExcerptHelper::render($item, $this->params);
-                $app->triggerEvent('onContentPrepare', ['com_academy.tags', &$item, &$item->params, 0]);
-                $item->summary = $item->text;
+            $post->text = ListExcerptHelper::render($post, $post->params);
+            $app->triggerEvent('onContentPrepare', ['com_academy.tags', &$post, &$post->params, 0]);
+            $post->summary = $post->text;
+            $post->event = new \stdClass();
+            foreach (['onContentAfterTitle' => 'afterDisplayTitle', 'onContentBeforeDisplay' => 'beforeDisplayContent', 'onContentAfterDisplay' => 'afterDisplayContent'] as $event => $property) {
+                $post->event->$property = trim(implode("\n", $app->triggerEvent($event, ['com_academy.tags', &$post, &$post->params, 0])));
             }
+        }
+        $fallbackModel = clone $model;
+        $fallbackModel->setState('list.start', $start + $limit);
+        $fallbackModel->setState('list.limit', max(1, min(100, (int)$this->params->get('num_links',4))));
+        $fallback = $this->params->get('compact_selection','next') === 'next' ? $fallbackModel->getItems() : [];
+        $this->compactItems = \Joomla\Component\Academy\Site\Helper\CompactPostsHelper::select($fallback, $this->posts, $this->params);
         } else {
             $helper = \Joomla\Component\Academy\Site\Helper\TagDirectoryHelper::class;
             $this->search = $this->params->get('tags_show_search', 1) ? trim($app->getInput()->getString('tag_search')) : '';

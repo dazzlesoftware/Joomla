@@ -4,7 +4,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 $columns = $this->params->get('tags_listing_layout','columns') === 'columns' ? max(2,min(6,(int)$this->params->get('tags_columns',3))) : 1;
 $masonry = $columns > 1 && $this->params->get('tags_column_style','grid') === 'masonry';
-$style = $this->params->get('tags_style','link_grid') === 'image_grid' ? 'image' : 'link';
+$style = $this->params->get('tags_style','link_grid') === 'image_grid' ? 'directory_image' : 'link';
 $wa = $this->getDocument()->getWebAssetManager(); $wa->useStyle('fontawesome');
 $wa->registerAndUseStyle('com_academy.category-directory','com_academy/category-directory.css',['version'=>'auto']);
 if ($masonry) { $wa->registerAndUseScript('com_academy.post-masonry','com_academy/post-masonry.js',['version'=>'auto'],['defer'=>true]); }

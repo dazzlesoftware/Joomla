@@ -1,5 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata><layout title="(Tags) Browse Tags"><message>Browse this component's independent tags or posts for a selected tag.</message></layout><fields name="request"><fieldset name="request"><field name="tag_id" type="posttags" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Tag" description="Leave empty to show all tags."><option value="0">All tags</option></field></fieldset></fields><fields name="params">
+<fieldset name="tag_posts" label="Tag Posts">
+<field name="tag_posts_list_item_style" type="list" label="COM_BLOG_AUTHOR_ITEM_STYLE" useglobal="true" validate="options">
+        <option value="standard">COM_BLOG_LIST_ITEM_STYLE_STANDARD</option>
+        <option value="card">COM_BLOG_LIST_ITEM_STYLE_CARD</option>
+        <option value="learning">COM_BLOG_LIST_ITEM_STYLE_LEARNING</option>
+        <option value="simple">COM_BLOG_LIST_ITEM_STYLE_SIMPLE</option>
+        <option value="nickel">COM_BLOG_LIST_ITEM_STYLE_NICKEL</option>
+      </field>
+<field name="tag_posts_post_listing_layout" type="list" label="COM_BLOG_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
+        <option value="rows">COM_BLOG_POST_LISTING_LAYOUT_ROWS</option>
+        <option value="columns">COM_BLOG_POST_LISTING_LAYOUT_COLUMNS</option>
+      </field>
+<field name="tag_posts_columns_per_row" type="list" label="COM_BLOG_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="tag_posts_post_listing_layout:columns">
+        <option value="2">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_2</option>
+        <option value="3">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_3</option>
+        <option value="4">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_4</option>
+        <option value="5">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_5</option>
+        <option value="6">COM_BLOG_AUTHOR_COLUMNS_PER_ROW_OPTION_6</option>
+      </field>
+<field name="tag_posts_column_style" type="list" label="COM_BLOG_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="tag_posts_post_listing_layout:columns">
+        <option value="grid">COM_BLOG_COLUMN_STYLE_GRID</option>
+        <option value="masonry">COM_BLOG_COLUMN_STYLE_MASONRY</option>
+      </field>
+<field name="tag_posts_items_limit_source" type="list" label="COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_LABEL" validate="options" useglobal="true"><option value="joomla">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_JOOMLA</option><option value="custom">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_CUSTOM</option><option value="5">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_5</option><option value="10">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_10</option><option value="15">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_15</option><option value="20">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_20</option><option value="25">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_25</option><option value="30">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_30</option><option value="50">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_50</option><option value="100">COM_BLOG_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_100</option></field>
+<field name="tag_posts_posts_per_page" type="number" label="COM_BLOG_AUTHOR_POSTS_PER_PAGE_LABEL" filter="integer" min="1" showon="tag_posts_items_limit_source:custom" useglobal="true" />
+<field name="tag_posts_orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" useglobal="true" validate="options">
+        <option value="none">JGLOBAL_NO_ORDER</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+      </field>
+<field name="tag_posts_orderby_sec" type="list" label="COM_BLOG_POST_ORDER" useglobal="true" validate="options">
+        <option value="front">COM_BLOG_FEATURED_ORDER</option>
+        <option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+        <option value="date">JGLOBAL_OLDEST_FIRST</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+        <option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+        <option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+        <option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
+        <option value="random">JGLOBAL_RANDOM_ORDER</option>
+        <option value="order">JGLOBAL_ORDERING</option>
+        <option value="rorder">JGLOBAL_REVERSE_ORDERING</option>
+        <option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+        <option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+        <option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+        <option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+      </field>
+<field name="tag_posts_order_date" type="list" label="JGLOBAL_ORDERING_DATE_LABEL" useglobal="true" validate="options">
+        <option value="created">JGLOBAL_CREATED</option>
+        <option value="modified">JGLOBAL_MODIFIED</option>
+        <option value="published">JPUBLISHED</option>
+        <option value="unpublished">JUNPUBLISHED</option>
+      </field>
+<field name="tag_posts_show_pagination" type="list" label="JGLOBAL_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+        <option value="2">JGLOBAL_AUTO</option>
+      </field>
+<field name="tag_posts_show_pagination_results" type="list" label="JGLOBAL_PAGINATION_RESULTS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+</fieldset>
+
+<fieldset name="tag_posts_slider" label="Tag Featured Slider">
+<field name="tag_posts_featured_slider_enabled" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_ENABLED_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_style" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_LABEL" useglobal="true"><option value="default">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_DEFAULT</option><option value="card">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_CARD</option><option value="hero">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_HERO</option><option value="magazine">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_MAGAZINE</option><option value="side-navigation">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SIDE_NAVIGATION</option><option value="slick">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SLICK</option><option value="thumbnail">COM_BLOG_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_THUMBNAIL</option></field>
+<field name="tag_posts_featured_slider_all_pages" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_ALL_PAGES_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_auto" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_AUTO_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_interval" type="number" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_INTERVAL_LABEL" min="1" hint="8" useglobal="true" />
+<field name="tag_posts_featured_slider_image" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_IMAGE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_title" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_TITLE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_category" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_CATEGORY_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_author" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_AUTHOR_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_avatar" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_AVATAR_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_readmore" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_READMORE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_navigation" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_NAVIGATION_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_content" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_CONTENT_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_ratings" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_RATINGS_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_date" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_content_length" type="number" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_LABEL" description="COM_BLOG_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_DESCRIPTION" min="0" hint="250" useglobal="true" />
+<field name="tag_posts_featured_slider_count" type="number" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_COUNT_LABEL" min="1" max="50" hint="5" useglobal="true" />
+<field name="tag_posts_featured_slider_date_source" type="list" label="COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_LABEL" useglobal="true"><option value="created">COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_CREATED</option><option value="modified">COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_MODIFIED</option><option value="published">COM_BLOG_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_PUBLISHED</option></field>
+</fieldset>
+
+
+<fieldset name="tag_posts_compact" label="Tag Compact Posts">
+
+<field name="tag_posts_compact_show" type="list" label="COM_BLOG_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="tag_posts_num_links" type="number" label="COM_BLOG_COMPACT_COUNT" filter="integer" validate="number" min="0" useglobal="true" />
+<field name="tag_posts_compact_layout" type="list" label="COM_BLOG_COMPACT_LAYOUT" useglobal="true"><option value="rows">COM_BLOG_COMPACT_ROWS</option><option value="columns">COM_BLOG_COMPACT_COLUMNS_LAYOUT</option></field>
+<field name="tag_posts_compact_columns" type="list" label="COM_BLOG_COMPACT_COLUMNS" showon="tag_posts_compact_layout:columns" useglobal="true"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="tag_posts_compact_show_title" type="list" label="COM_BLOG_COMPACT_SHOW_TITLE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="tag_posts_compact_selection" type="list" label="COM_BLOG_COMPACT_SELECTION" description="COM_BLOG_COMPACT_SELECTION_DESC" useglobal="true">
+        <option value="next">COM_BLOG_COMPACT_NEXT</option><option value="latest">COM_BLOG_COMPACT_LATEST</option><option value="featured">COM_BLOG_COMPACT_FEATURED</option><option value="random">COM_BLOG_COMPACT_RANDOM</option><option value="related">COM_BLOG_COMPACT_RELATED</option>
+      </field>
+<field name="tag_posts_compact_heading_alignment" type="list" label="COM_BLOG_COMPACT_HEADING_ALIGNMENT" useglobal="true">
+  <option value="left">COM_BLOG_ALIGN_LEFT</option>
+  <option value="center">COM_BLOG_ALIGN_CENTER</option>
+  <option value="right">COM_BLOG_ALIGN_RIGHT</option>
+</field>
+<field name="tag_posts_compact_show_image" type="list" label="COM_BLOG_COMPACT_SHOW_IMAGE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="tag_posts_link_featured_image" type="list" label="COM_BLOG_LINKED_FEATURED_IMAGE_LABEL" useglobal="true">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+<field name="tag_posts_compact_show_rating" type="list" label="COM_BLOG_COMPACT_SHOW_RATING" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+    </fieldset>
+
 <fieldset name="tags_directory" label="COM_BLOG_TAGS_LAYOUT">
 <field name="tags_style" type="list" label="COM_BLOG_TAGS_STYLE" useglobal="true"><option value="link_grid">COM_BLOG_TAGS_LINK</option><option value="image_grid">COM_BLOG_TAGS_IMAGE</option></field>
 <field name="tags_listing_layout" type="list" label="COM_BLOG_TAGS_LISTING" useglobal="true"><option value="rows">COM_BLOG_TAGS_ROWS</option><option value="columns">COM_BLOG_TAGS_COLUMNS_LAYOUT</option></field>

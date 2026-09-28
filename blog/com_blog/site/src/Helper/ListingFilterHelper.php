@@ -46,6 +46,8 @@ final class ListingFilterHelper
                 $included ? $query->whereIn($alias . '.created_by', $ids) : $query->whereNotIn($alias . '.created_by', $ids);
             }
         }
+        $excludedPosts = self::ids($params->get('listing_exclude_posts', []));
+        if ($excludedPosts) { $query->whereNotIn($alias . '.id', $excludedPosts); }
         $tags = self::ids($params->get('listing_tags', []));
         if ($tags) {
             $sub = $db->createQuery()->select('tm.content_item_id')->from('#__blog_tag_map AS tm')

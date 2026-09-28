@@ -12,13 +12,7 @@ $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'U
 <?php if ($this->tag) : ?>
 <p><a href="<?php echo Route::_('index.php?option=com_blog&view=tags'); ?>">All tags</a></p>
 <?php if ($this->tag->description !== '') : ?><p><?php echo nl2br($escape(strip_tags($this->tag->description))); ?></p><?php endif; ?>
-<?php foreach ($this->items as $item) : $url = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language ?? '*')); ?>
-<article class="mb-4"><?php echo LayoutHelper::render('blog.content.featured_image', $item, JPATH_COMPONENT . '/layouts'); ?><h2><a href="<?php echo $url; ?>"><?php echo $escape($item->title); ?></a></h2>
-<?php echo $item->summary; ?>
-<a class="btn btn-outline-primary" href="<?php echo $url; ?>">Read more<span class="visually-hidden">: <?php echo $escape($item->title); ?></span></a></article>
-<?php endforeach; ?>
-<?php if (!$this->items) : ?><p>No published posts with this tag.</p><?php endif; ?>
-<?php echo $this->pagination->getPagesLinks(); ?>
+<?php echo $this->loadTemplate('posts'); ?>
 <?php else : ?>
 <?php echo $this->loadTemplate('directory'); ?>
 <?php endif; ?></div>
