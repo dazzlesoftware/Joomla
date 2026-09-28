@@ -20,6 +20,5 @@ $escape = static fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'U
 <?php if (!$this->items) : ?><p>No published posts with this tag.</p><?php endif; ?>
 <?php echo $this->pagination->getPagesLinks(); ?>
 <?php else : ?>
-<ul class="list-unstyled d-flex flex-wrap gap-2"><?php foreach ($this->tags as $tag) : ?><li><a class="btn btn-outline-primary" href="<?php echo Route::_('index.php?option=com_codex&view=tags&tag_id=' . (int) $tag->id); ?>"><?php echo $escape($tag->title); ?></a></li><?php endforeach; ?></ul>
-<?php if (!$this->tags) : ?><p>No tags yet.</p><?php endif; ?>
+<?php echo $this->loadTemplate('directory'); ?>
 <?php endif; ?></div>

@@ -54,6 +54,9 @@ final class SettingsController extends BaseController
         }
         // An empty multiple-select is omitted from the browser submission.
         $values['ai_frontend_groups'] = array_values(array_filter(array_map('intval', (array) ($values['ai_frontend_groups'] ?? [])), static fn ($id) => $id > 0));
+        foreach (['tags_exclude_tags', 'tags_exclude_categories', 'tags_exclude_posts'] as $key) {
+            $values[$key] = array_values(array_filter(array_map('intval', (array) ($values[$key] ?? [])), static fn ($id) => $id > 0));
+        }
         foreach ($values as $name => $value) {
             $params->set((string) $name, $value);
         }

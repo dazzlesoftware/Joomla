@@ -20,6 +20,7 @@ final class HtmlView extends BaseHtmlView
         'editor' => ['label' => 'Editor & Authoring', 'icon' => 'edit', 'fieldsets' => ['block_editor', 'polls', 'editinglayout']],
         'lists' => ['label' => 'Post Lists & Blog Layouts', 'icon' => 'list', 'fieldsets' => ['list_display', 'automated_truncation', 'listing_filters', 'featured_slider', 'blog_default_parameters', 'compact_posts', 'list_default_parameters', 'shared']],
         'authors' => ['label' => 'COM_ACADEMY_AUTHORS_HEADING', 'icon_class' => 'fa-solid fa-users', 'fieldsets' => ['authors', 'author_posts', 'author_slider']],
+        'tags' => ['label' => 'COM_ACADEMY_TAGS_LAYOUT', 'icon_class' => 'fa-solid fa-tags', 'fieldsets' => ['tags_directory']],
         'categories' => ['label' => 'Category Layouts', 'icon' => 'folder', 'fieldsets' => ['category', 'categories']],
         'engagement' => ['label' => 'Engagement & Sharing', 'icon' => 'share-alt', 'fieldsets' => ['engagement', 'engagement_appearance']],
         'ai' => ['label' => 'AI Writing and Images', 'icon' => 'brain', 'icon_class' => 'fa-solid fa-brain', 'fieldsets' => ['ai_tools']],
@@ -35,6 +36,7 @@ final class HtmlView extends BaseHtmlView
 
         $this->sections['authors']['label'] = \Joomla\CMS\Language\Text::_('COM_ACADEMY_AUTHORS_HEADING');
 
+        $this->sections['tags']['label'] = \Joomla\CMS\Language\Text::_('COM_ACADEMY_TAGS_LAYOUT');
         $factory = Factory::getContainer()->get(FormFactoryInterface::class);
         $this->form = $factory->createForm('com_academy.settings', ['control' => 'jform']);
         $this->form->loadFile(JPATH_COMPONENT_ADMINISTRATOR . '/forms/settings.xml');

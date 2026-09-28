@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
   <fields name="params">
+<fieldset name="tags_directory" label="COM_CODEX_TAGS_LAYOUT">
+<field name="tags_style" type="list" label="COM_CODEX_TAGS_STYLE" default="link_grid"><option value="link_grid">COM_CODEX_TAGS_LINK</option><option value="image_grid">COM_CODEX_TAGS_IMAGE</option></field>
+<field name="tags_listing_layout" type="list" label="COM_CODEX_TAGS_LISTING" default="columns"><option value="rows">COM_CODEX_TAGS_ROWS</option><option value="columns">COM_CODEX_TAGS_COLUMNS_LAYOUT</option></field>
+<field name="tags_columns" type="list" label="COM_CODEX_TAGS_COLUMNS" default="3" showon="tags_listing_layout:columns"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="tags_column_style" type="list" label="COM_CODEX_TAGS_COLUMN_STYLE" default="grid" showon="tags_listing_layout:columns"><option value="grid">COM_CODEX_TAGS_GRID</option><option value="masonry">COM_CODEX_TAGS_MASONRY</option></field>
+<field name="tags_per_page" type="number" filter="integer" min="1" max="100" label="COM_CODEX_TAGS_PER_PAGE" default="12" />
+<field name="tags_show_count" type="list" label="COM_CODEX_TAGS_SHOW_COUNT" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_rss" type="list" label="COM_CODEX_TAGS_SHOW_RSS" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_description" type="list" label="COM_CODEX_TAGS_SHOW_DESCRIPTION" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_description_length" type="number" filter="integer" min="1" max="2000" label="COM_CODEX_TAGS_DESCRIPTION_LENGTH" default="200" />
+<field name="tags_show_empty" type="list" label="COM_CODEX_TAGS_SHOW_EMPTY" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_search" type="list" label="COM_CODEX_TAGS_SHOW_SEARCH" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_sort" type="list" label="COM_CODEX_TAGS_SHOW_SORT" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_order" type="list" label="COM_CODEX_TAGS_ORDER" default="title"><option value="title">COM_CODEX_TAGS_ORDER_TITLE</option><option value="title_desc">COM_CODEX_TAGS_ORDER_TITLE_DESC</option><option value="count">COM_CODEX_TAGS_ORDER_COUNT</option><option value="newest">COM_CODEX_TAGS_ORDER_NEWEST</option></field>
+<field name="tags_pagination" type="list" label="COM_CODEX_TAGS_PAGINATION" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_pagination_summary" type="list" label="COM_CODEX_TAGS_PAGINATION_SUMMARY" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_exclude_tags" type="posttags" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_TAGS" description="COM_CODEX_TAGS_EXCLUDE_TAGS_DESC" />
+<field name="tags_exclude_categories" type="postcategory" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_CATEGORIES" description="COM_CODEX_TAGS_EXCLUDE_CATEGORIES_DESC" />
+<field name="tags_exclude_posts" type="postchoices" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_POSTS" description="COM_CODEX_TAGS_EXCLUDE_POSTS_DESC" />
+</fieldset>
+
 <fieldset name="ai_tools" label="AI Writing and Images" description="AI drafts are reviewed before applying. Requests send the selected content to your provider and may incur API charges. Server environment variables OPENAI_API_KEY and ANTHROPIC_API_KEY take precedence over saved keys.">
 <field name="ai_enabled" type="list" default="0" label="Enable AI tools"><option value="0">JNO</option><option value="1">JYES</option></field>
 <field name="ai_frontend_groups" type="usergrouplist" multiple="true" default="4" filter="int_array" label="COM_CODEX_AI_FRONTEND_GROUPS" description="COM_CODEX_AI_FRONTEND_GROUPS_DESC" />

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata><layout title="(Tags) Browse Tags"><message>Browse this component's independent tags or posts for a selected tag.</message></layout><fields name="request"><fieldset name="request"><field name="tag_id" type="posttags" addfieldprefix="Joomla\Component\Academy\Administrator\Field" label="Tag" description="Leave empty to show all tags."><option value="0">All tags</option></field></fieldset></fields><fields name="params">
+<fieldset name="tags_directory" label="COM_ACADEMY_TAGS_LAYOUT">
+<field name="tags_style" type="list" label="COM_ACADEMY_TAGS_STYLE" useglobal="true"><option value="link_grid">COM_ACADEMY_TAGS_LINK</option><option value="image_grid">COM_ACADEMY_TAGS_IMAGE</option></field>
+<field name="tags_listing_layout" type="list" label="COM_ACADEMY_TAGS_LISTING" useglobal="true"><option value="rows">COM_ACADEMY_TAGS_ROWS</option><option value="columns">COM_ACADEMY_TAGS_COLUMNS_LAYOUT</option></field>
+<field name="tags_columns" type="list" label="COM_ACADEMY_TAGS_COLUMNS" useglobal="true" showon="tags_listing_layout:columns,"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="tags_column_style" type="list" label="COM_ACADEMY_TAGS_COLUMN_STYLE" useglobal="true" showon="tags_listing_layout:columns,"><option value="grid">COM_ACADEMY_TAGS_GRID</option><option value="masonry">COM_ACADEMY_TAGS_MASONRY</option></field>
+<field name="tags_per_page" type="number" filter="integer" min="1" max="100" label="COM_ACADEMY_TAGS_PER_PAGE" useglobal="true" />
+<field name="tags_show_count" type="list" label="COM_ACADEMY_TAGS_SHOW_COUNT" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_rss" type="list" label="COM_ACADEMY_TAGS_SHOW_RSS" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_description" type="list" label="COM_ACADEMY_TAGS_SHOW_DESCRIPTION" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_description_length" type="number" filter="integer" min="1" max="2000" label="COM_ACADEMY_TAGS_DESCRIPTION_LENGTH" useglobal="true" />
+<field name="tags_show_empty" type="list" label="COM_ACADEMY_TAGS_SHOW_EMPTY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_search" type="list" label="COM_ACADEMY_TAGS_SHOW_SEARCH" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_sort" type="list" label="COM_ACADEMY_TAGS_SHOW_SORT" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_order" type="list" label="COM_ACADEMY_TAGS_ORDER" useglobal="true"><option value="title">COM_ACADEMY_TAGS_ORDER_TITLE</option><option value="title_desc">COM_ACADEMY_TAGS_ORDER_TITLE_DESC</option><option value="count">COM_ACADEMY_TAGS_ORDER_COUNT</option><option value="newest">COM_ACADEMY_TAGS_ORDER_NEWEST</option></field>
+<field name="tags_pagination" type="list" label="COM_ACADEMY_TAGS_PAGINATION" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_pagination_summary" type="list" label="COM_ACADEMY_TAGS_PAGINATION_SUMMARY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_exclusions_override" type="list" default="0" label="COM_ACADEMY_TAGS_EXCLUSIONS_MODE"><option value="0">JGLOBAL_USE_GLOBAL</option><option value="1">COM_ACADEMY_TAGS_EXCLUSIONS_CUSTOM</option></field>
+<field name="tags_exclude_tags" type="posttags" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Academy\Administrator\Field" label="COM_ACADEMY_TAGS_EXCLUDE_TAGS" description="COM_ACADEMY_TAGS_EXCLUDE_TAGS_DESC" showon="tags_exclusions_override:1" />
+<field name="tags_exclude_categories" type="postcategory" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Academy\Administrator\Field" label="COM_ACADEMY_TAGS_EXCLUDE_CATEGORIES" description="COM_ACADEMY_TAGS_EXCLUDE_CATEGORIES_DESC" showon="tags_exclusions_override:1" />
+<field name="tags_exclude_posts" type="postchoices" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Academy\Administrator\Field" label="COM_ACADEMY_TAGS_EXCLUDE_POSTS" description="COM_ACADEMY_TAGS_EXCLUDE_POSTS_DESC" showon="tags_exclusions_override:1" />
+</fieldset>
+
 <fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts and Read More splits take precedence. Featured slider content uses its own settings.">
 <field name="truncation_enabled" type="list" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="truncation_readmore" type="list" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
