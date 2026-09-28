@@ -26,20 +26,20 @@ use Joomla\CMS\Router\Route;
     </div>
 <?php endif; ?>
 
-<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="content-view-archive__form">
+<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="get" class="content-view-archive__form">
     <fieldset class="content-view-archive__filters filters">
         <legend class="visually-hidden">
             <?php echo Text::_('COM_ACADEMY_FORM_FILTER_LEGEND'); ?>
         </legend>
-        <div class="filter-search form-inline">
+        <div class="filter-search d-flex flex-wrap align-items-start gap-2 mb-4">
             <?php if ($this->params->get('filter_field') !== 'hide') : ?>
             <div class="mb-2">
                 <label class="filter-search-lbl visually-hidden" for="filter-search"><?php echo Text::_('COM_ACADEMY_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
-                <input type="text" 
-                    name="filter-search" 
-                    id="filter-search" 
-                    value="<?php echo $this->escape($this->filter); ?>" 
-                    class="inputbox col-md-2" 
+                <input type="text"
+                    name="filter-search"
+                    id="filter-search"
+                    value="<?php echo $this->escape($this->filter); ?>"
+                    class="form-control"
                     placeholder="<?php echo Text::_('COM_ACADEMY_TITLE_FILTER_LABEL'); ?>"
                 >
             </div>
@@ -58,12 +58,13 @@ use Joomla\CMS\Router\Route;
                 <?php echo $this->form->limitField; ?>
             </span>
 
-            <button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+            <button type="submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
             <input type="hidden" name="view" value="archive">
             <input type="hidden" name="option" value="com_academy">
+            <input type="hidden" name="Itemid" value="<?php echo (int) \Joomla\CMS\Factory::getApplication()->getInput()->getInt('Itemid'); ?>">
             <input type="hidden" name="limitstart" value="0">
         </div>
     </fieldset>
 </form>
-<?php echo $this->loadTemplate('items'); ?>
+<?php echo $this->loadTemplate('posts'); ?>
 </div>

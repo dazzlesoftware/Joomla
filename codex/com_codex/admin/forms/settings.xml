@@ -1,6 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
   <fields name="params">
+<fieldset name="archive_posts" label="Archive Posts">
+<field name="archive_posts_list_item_style" type="list" label="COM_CODEX_AUTHOR_ITEM_STYLE" validate="options" default="card">
+        <option value="standard">COM_CODEX_LIST_ITEM_STYLE_STANDARD</option>
+        <option value="card">COM_CODEX_LIST_ITEM_STYLE_CARD</option>
+        <option value="learning">COM_CODEX_LIST_ITEM_STYLE_LEARNING</option>
+        <option value="simple">COM_CODEX_LIST_ITEM_STYLE_SIMPLE</option>
+        <option value="nickel">COM_CODEX_LIST_ITEM_STYLE_NICKEL</option>
+      </field>
+<field name="archive_posts_post_listing_layout" type="list" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL" validate="options" default="columns">
+        <option value="rows">COM_CODEX_POST_LISTING_LAYOUT_ROWS</option>
+        <option value="columns">COM_CODEX_POST_LISTING_LAYOUT_COLUMNS</option>
+      </field>
+<field name="archive_posts_columns_per_row" type="list" label="COM_CODEX_COLUMNS_PER_ROW_LABEL" validate="options" showon="archive_posts_post_listing_layout:columns" default="2">
+        <option value="2">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_2</option>
+        <option value="3">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_3</option>
+        <option value="4">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_4</option>
+        <option value="5">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_5</option>
+        <option value="6">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_6</option>
+      </field>
+<field name="archive_posts_column_style" type="list" label="COM_CODEX_COLUMN_STYLE_LABEL" validate="options" showon="archive_posts_post_listing_layout:columns" default="grid">
+        <option value="grid">COM_CODEX_COLUMN_STYLE_GRID</option>
+        <option value="masonry">COM_CODEX_COLUMN_STYLE_MASONRY</option>
+      </field>
+<field name="archive_posts_items_limit_source" type="list" label="COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_LABEL" validate="options" default="custom"><option value="joomla">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_JOOMLA</option><option value="custom">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_CUSTOM</option><option value="5">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_5</option><option value="10">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_10</option><option value="15">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_15</option><option value="20">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_20</option><option value="25">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_25</option><option value="30">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_30</option><option value="50">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_50</option><option value="100">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_100</option></field>
+<field name="archive_posts_posts_per_page" type="number" label="COM_CODEX_AUTHOR_POSTS_PER_PAGE_LABEL" filter="integer" min="1" showon="archive_posts_items_limit_source:custom" default="6" />
+<field name="archive_posts_orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" validate="options" default="none">
+        <option value="none">JGLOBAL_NO_ORDER</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+      </field>
+<field name="archive_posts_orderby_sec" type="list" label="COM_CODEX_POST_ORDER" validate="options" default="rdate">
+        <option value="front">COM_CODEX_FEATURED_ORDER</option>
+        <option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+        <option value="date">JGLOBAL_OLDEST_FIRST</option>
+        <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+        <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+        <option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+        <option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+        <option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+        <option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
+        <option value="random">JGLOBAL_RANDOM_ORDER</option>
+        <option value="order">JGLOBAL_ORDERING</option>
+        <option value="rorder">JGLOBAL_REVERSE_ORDERING</option>
+        <option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+        <option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+        <option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+        <option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+      </field>
+<field name="archive_posts_order_date" type="list" label="JGLOBAL_ORDERING_DATE_LABEL" validate="options" default="published">
+        <option value="created">JGLOBAL_CREATED</option>
+        <option value="modified">JGLOBAL_MODIFIED</option>
+        <option value="published">JPUBLISHED</option>
+        <option value="unpublished">JUNPUBLISHED</option>
+      </field>
+<field name="archive_posts_show_pagination" type="list" label="JGLOBAL_PAGINATION_LABEL" class="form-select-color-state" validate="options" default="2">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+        <option value="2">JGLOBAL_AUTO</option>
+      </field>
+<field name="archive_posts_show_pagination_results" type="list" label="JGLOBAL_PAGINATION_RESULTS_LABEL" class="form-select-color-state" validate="options" default="1">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+</fieldset>
+<fieldset name="archive_posts_slider" label="Archive Featured Slider">
+<field name="archive_posts_featured_slider_enabled" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ENABLED_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_style" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_LABEL" default="default"><option value="default">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_DEFAULT</option><option value="card">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_CARD</option><option value="hero">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_HERO</option><option value="magazine">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_MAGAZINE</option><option value="side-navigation">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SIDE_NAVIGATION</option><option value="slick">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SLICK</option><option value="thumbnail">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_THUMBNAIL</option></field>
+<field name="archive_posts_featured_slider_all_pages" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ALL_PAGES_LABEL" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_auto" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AUTO_LABEL" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_interval" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_INTERVAL_LABEL" min="1" hint="8" default="8" />
+<field name="archive_posts_featured_slider_image" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_IMAGE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_title" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_TITLE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_category" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CATEGORY_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_author" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AUTHOR_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_avatar" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AVATAR_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_readmore" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_READMORE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_navigation" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_NAVIGATION_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_content" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_ratings" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_RATINGS_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_date" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_LABEL" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="archive_posts_featured_slider_content_length" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_LABEL" description="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_DESCRIPTION" min="0" hint="250" default="250" />
+<field name="archive_posts_featured_slider_count" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_COUNT_LABEL" min="1" max="50" hint="5" default="5" />
+<field name="archive_posts_featured_slider_date_source" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_LABEL" default="created"><option value="created">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_CREATED</option><option value="modified">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_MODIFIED</option><option value="published">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_PUBLISHED</option></field>
+</fieldset>
+<fieldset name="archive_posts_compact" label="Archive Compact Posts">
+
+<field name="archive_posts_compact_show" type="list" label="COM_CODEX_COMPACT_SHOW" default="1"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="archive_posts_num_links" type="number" label="COM_CODEX_COMPACT_COUNT" filter="integer" validate="number" min="0" default="4" />
+<field name="archive_posts_compact_layout" type="list" label="COM_CODEX_COMPACT_LAYOUT" default="columns"><option value="rows">COM_CODEX_COMPACT_ROWS</option><option value="columns">COM_CODEX_COMPACT_COLUMNS_LAYOUT</option></field>
+<field name="archive_posts_compact_columns" type="list" label="COM_CODEX_COMPACT_COLUMNS" default="2" showon="archive_posts_compact_layout:columns"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="archive_posts_compact_show_title" type="list" label="COM_CODEX_COMPACT_SHOW_TITLE" default="1"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="archive_posts_compact_selection" type="list" label="COM_CODEX_COMPACT_SELECTION" description="COM_CODEX_COMPACT_SELECTION_DESC" default="next">
+        <option value="next">COM_CODEX_COMPACT_NEXT</option><option value="latest">COM_CODEX_COMPACT_LATEST</option><option value="featured">COM_CODEX_COMPACT_FEATURED</option><option value="random">COM_CODEX_COMPACT_RANDOM</option><option value="related">COM_CODEX_COMPACT_RELATED</option>
+      </field>
+<field name="archive_posts_compact_heading_alignment" type="list" label="COM_CODEX_COMPACT_HEADING_ALIGNMENT" default="left">
+  <option value="left">COM_CODEX_ALIGN_LEFT</option>
+  <option value="center">COM_CODEX_ALIGN_CENTER</option>
+  <option value="right">COM_CODEX_ALIGN_RIGHT</option>
+</field>
+<field name="archive_posts_compact_show_image" type="list" label="COM_CODEX_COMPACT_SHOW_IMAGE" default="1"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="archive_posts_link_featured_image" type="radio" label="COM_CODEX_LINKED_FEATURED_IMAGE_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+<field name="archive_posts_compact_show_rating" type="list" label="COM_CODEX_COMPACT_SHOW_RATING" default="1"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+    </fieldset>
 <fieldset name="tag_posts" label="Tag Posts">
 <field name="tag_posts_list_item_style" type="list" label="COM_CODEX_AUTHOR_ITEM_STYLE" validate="options" default="card">
         <option value="standard">COM_CODEX_LIST_ITEM_STYLE_STANDARD</option>
@@ -827,6 +934,9 @@
 </fieldset>
 </fields>
 <fields name="params">
+
+
+
 
 <fieldset name="listing_filters" label="Post Listing Filters"><field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
 <field name="listing_exclude_authors" type="postauthors" label="Exclude Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Codex\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />

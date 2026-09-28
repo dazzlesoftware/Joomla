@@ -54,7 +54,10 @@ class ArchiveModel extends PostsModel
         $input = $app->getInput();
 
         // Add archive properties
-        $params = $this->state->get('params');
+        $params = \Joomla\Component\Academy\Site\Helper\ArchivePostsHelper::settings($app->getParams('com_academy'));
+        $this->setState('params', $params);
+        $this->setState('filter.access', true);
+        $this->setState('list.links', 0);
 
         // Filter on archived posts
         $this->setState('filter.published', AcademyComponent::CONDITION_ARCHIVED);
@@ -68,7 +71,7 @@ class ArchiveModel extends PostsModel
 
         // Get list limit
         $itemid = $input->get('Itemid', 0, 'int');
-        $limit  = $app->getUserStateFromRequest('com_academy.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
+        $limit = max(1, min(100, $input->getUint('limit', \Joomla\Component\Academy\Site\Helper\ListingSettingsHelper::count($params))));
         $this->setState('list.limit', $limit);
 
         // Set the archive ordering
@@ -155,39 +158,12 @@ class ArchiveModel extends PostsModel
      */
     public function getYears()
     {
-        $db        = $this->getDatabase();
-        $nowDate   = Factory::getDate()->toSql();
-        $query     = $db->createQuery();
-        $queryDate = QueryHelper::getQueryDate($this->state->get('params')->get('order_date'), $db);
-        $years     = $query->year($queryDate);
-        $yearSort  = $this->state->get('params')->get('year_sort_order', 'ASC');
-
-        $query->select('DISTINCT ' . $years)
-            ->from($db->quoteName('#__academy', 'a'))
-            ->where($db->quoteName('a.state') . ' = ' . AcademyComponent::CONDITION_ARCHIVED)
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('a.publish_up') . ' IS NULL',
-                    $db->quoteName('a.publish_up') . ' <= :publishUp',
-                ],
-                'OR'
-            )
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('a.publish_down') . ' IS NULL',
-                    $db->quoteName('a.publish_down') . ' >= :publishDown',
-                ],
-                'OR'
-            )
-            ->bind(':publishUp', $nowDate)
-            ->bind(':publishDown', $nowDate)
-            ->order('1 ' . $yearSort);
-
-        $db->setQuery($query);
-
-        return $db->loadColumn();
+        $db = $this->getDatabase();
+        $query = parent::getListQuery();
+        $date = QueryHelper::getQueryDate($this->getState('params')->get('order_date'), $db);
+        $sort = $this->getState('params')->get('year_sort_order', 'ASC') === 'DESC' ? 'DESC' : 'ASC';
+        $query->clear('select')->clear('order')->select('DISTINCT ' . $query->year($date))->order('1 ' . $sort);
+        return $db->setQuery($query)->loadColumn();
     }
 
     /**

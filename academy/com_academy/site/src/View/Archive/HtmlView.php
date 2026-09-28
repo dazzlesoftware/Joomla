@@ -43,13 +43,17 @@ class HtmlView extends BaseHtmlView
      * @var   \stdClass[]
      */
     protected $items = [];
+    public $posts = [];
+    public $compactItems = [];
+    public $item;
+    public $sliderData;
 
     /**
      * The pagination object
      *
      * @var   \Joomla\CMS\Pagination\Pagination|null
      */
-    protected $pagination = null;
+    public $pagination = null;
 
     /**
      * The years that are available to filter on.
@@ -76,7 +80,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $params = null;
+    public $params = null;
 
     /**
      * The search query used on any archived posts (note this may not be displayed depending on the value of the
@@ -122,6 +126,11 @@ class HtmlView extends BaseHtmlView
         $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
         $state      = $model->getState();
+        $total = $model->getTotal();
+        $limit = max(1, (int) $state->get('list.limit'));
+        $start = max(0, (int) $state->get('list.start'));
+        $start = $total ? min($start, (int) (ceil($total / $limit) - 1) * $limit) : 0;
+        $model->setState('list.start', $start);
         $items      = $model->getItems();
         $pagination = $model->getPagination();
 
@@ -231,6 +240,15 @@ class HtmlView extends BaseHtmlView
         $this->pagination->setAdditionalUrlParam('filter-search', $state->get('list.filter'));
         $this->pagination->setAdditionalUrlParam('catid', $app->getInput()->get->get('catid', [], 'array'));
 
+        $this->posts = $items;
+        $fallbackModel = clone $model;
+        $fallbackModel->setState('list.start', $start + $limit);
+        $fallbackModel->setState('list.limit', max(1, min(100, (int) $params->get('num_links', 4))));
+        $fallback = $params->get('compact_selection') === 'next' ? $fallbackModel->getItems() : [];
+        $this->compactItems = \Joomla\Component\Academy\Site\Helper\ArchiveCompactHelper::select($fallback, $items, $params);
+        $pagination->setAdditionalUrlParam('option', 'com_academy');
+        $pagination->setAdditionalUrlParam('view', 'archive');
+        $pagination->setAdditionalUrlParam('limit', $limit);
         $this->_prepareDocument();
 
         parent::display($tpl);

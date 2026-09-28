@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_codex
+ *
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\LayoutHelper;
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseStyle('com_codex.archive-featured-styles', 'com_codex/archive-featured-styles.css', ['version' => 'auto']);
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseStyle('com_codex.archive-posts', 'com_codex/archive-posts.css', ['version' => hash_file('sha256', JPATH_ROOT . '/media/com_codex/css/archive-posts.css')]);
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('com_codex.post-masonry', 'com_codex/post-masonry.js', ['version' => hash_file('sha256', JPATH_ROOT . '/media/com_codex/js/post-masonry.js')], ['defer' => true]);
+
+/** @var \Joomla\Component\Codex\Site\View\Archive\HtmlView $this */
+?>
+<div class="content-view-archive-posts">
+    <?php echo \Joomla\Component\Codex\Site\Helper\ArchiveSliderHelper::render($this->params, 0, $this->pagination->limitstart, function ($style, $data) {
+        $this->sliderData = $data;
+        return $this->loadTemplate('slider_' . $style);
+    }); ?>
+    <?php if (!$this->posts) : ?><div class="text-center py-5"><span class="fa-solid fa-box-archive fa-3x mb-3" aria-hidden="true"></span><p><?php echo \Joomla\CMS\Language\Text::_('COM_CODEX_ARCHIVE_POSTS_EMPTY'); ?></p></div><?php endif; ?>
+    <?php
+    $isColumns = $this->params->get('post_listing_layout', 'rows') === 'columns';
+    $isMasonry = $isColumns && $this->params->get('column_style', 'grid') === 'masonry';
+    $columns = max(2, min(6, (int) $this->params->get('columns_per_row', 2)));
+    // Keep leading and intro posts in one continuous grid, independent of compact posts.
+    $groups = [$this->posts];
+    $gridClass = 'row row-cols-1 g-4' . ($isColumns ? ' row-cols-md-' . $columns : '');
+    ?>
+    <?php foreach ($groups as $groupIndex => $group) : ?>
+        <?php if (empty($group)) { continue; } ?>
+        <div class="post-list-items mb-4 post-style-<?php echo $this->escape((string) $this->params->get('list_item_style', 'standard')); ?> <?php echo $gridClass; ?>" <?php echo $isMasonry ? 'data-post-masonry' : ''; ?>>
+            <?php foreach ($group as $index => $item) : ?>
+                <div class="post-list-item col <?php echo $this->escape((string) $this->params->get('blog_class', '')); ?>">
+                    <?php
+                    $this->item = $item;
+                    echo $this->loadTemplate('item');
+                    ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+
+    <?php echo $this->loadTemplate('compact'); ?>
+    <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
+        <div class="w-100">
+            <?php if ($this->params->def('show_pagination_results', 1)) : ?>
+                <p class="counter float-end pt-3 pe-2">
+                    <?php echo $this->pagination->getPagesCounter(); ?>
+                </p>
+            <?php endif; ?>
+            <?php echo $this->pagination->getPagesLinks(); ?>
+        </div>
+    <?php endif; ?>
+
+</div>
