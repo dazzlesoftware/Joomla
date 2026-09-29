@@ -73,6 +73,10 @@ class FeaturedModel extends PostsModel
         // Featured layout and page size are component-only, including for existing menus.
         $global = \Joomla\CMS\Component\ComponentHelper::getParams('com_blog');
         foreach ([
+            'compact_style' => 'default',
+            'num_links' => 4,
+            'compact_layout' => 'columns',
+            'compact_columns' => 2,
             'featured_slider_style' => 'default',
             'list_item_style' => 'card',
             'post_listing_layout' => 'rows',
