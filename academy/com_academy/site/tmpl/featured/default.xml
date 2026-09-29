@@ -6,9 +6,8 @@
   </layout>
   <!-- Add fields to the parameters object for the layout. -->
   <fields name="params">
-<fieldset name="featured_slider" label="Featured">
+<fieldset name="featured_slider" label="Slider">
 <field name="featured_slider_enabled" type="list" label="Display Featured Slider" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="featured_slider_style" type="list" label="Featured Style" useglobal="true"><option value="default">Default</option><option value="card">Card</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
 <field name="featured_slider_all_pages" type="list" label="Display on All Pages" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="featured_slider_auto" type="list" label="Auto Sliding" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="featured_slider_interval" type="number" label="Auto Sliding Interval (Seconds)" min="1" hint="8" />
@@ -28,30 +27,6 @@
 </fieldset>
 
 <fieldset name="request">
-<field name="list_item_style" type="list" label="COM_ACADEMY_LIST_ITEM_STYLE_LABEL" useglobal="true" validate="options">
-        <option value="standard">COM_ACADEMY_LIST_ITEM_STYLE_STANDARD</option>
-        <option value="card">COM_ACADEMY_LIST_ITEM_STYLE_CARD</option>
-        <option value="learning">COM_ACADEMY_LIST_ITEM_STYLE_LEARNING</option>
-        <option value="simple">COM_ACADEMY_LIST_ITEM_STYLE_SIMPLE</option>
-        <option value="nickel">COM_ACADEMY_LIST_ITEM_STYLE_NICKEL</option>
-      </field>
-<field name="post_listing_layout" type="list" label="COM_ACADEMY_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
-        <option value="rows">COM_ACADEMY_POST_LISTING_LAYOUT_ROWS</option>
-        <option value="columns">COM_ACADEMY_POST_LISTING_LAYOUT_COLUMNS</option>
-      </field>
-<field name="column_style" type="list" label="COM_ACADEMY_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
-        <option value="grid">COM_ACADEMY_COLUMN_STYLE_GRID</option>
-        <option value="masonry">COM_ACADEMY_COLUMN_STYLE_MASONRY</option>
-      </field>
-<field name="columns_per_row" type="list" label="COM_ACADEMY_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="post_listing_layout:columns">
-        <option value="2">2 Columns</option>
-        <option value="3">3 Columns</option>
-        <option value="4">4 Columns</option>
-        <option value="5">5 Columns</option>
-        <option value="6">6 Columns</option>
-      </field>
-<field name="items_limit_source" type="list" label="# Items" default="component" validate="options"><option value="component">Inherit from component settings</option><option value="joomla">Inherit from Joomla global configuration</option><option value="custom">Specify List Limit Per Page</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></field>
-<field name="posts_per_page" type="number" label="Posts per page" filter="integer" min="1" default="5" showon="items_limit_source:custom" />
 <field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
 <field name="listing_exclude_authors" type="postauthors" label="Exclude Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
 <field name="listing_categories" type="postcategory" label="Filter by Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Academy\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />

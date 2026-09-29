@@ -70,7 +70,21 @@ class FeaturedModel extends PostsModel
         $mergedParams = clone $menuParams;
         $mergedParams->merge($params);
 
-        $this->setState('params', $mergedParams);
+        // Featured layout and page size are component-only, including for existing menus.
+        $global = \Joomla\CMS\Component\ComponentHelper::getParams('com_blog');
+        foreach ([
+            'featured_slider_style' => 'default',
+            'list_item_style' => 'card',
+            'post_listing_layout' => 'rows',
+            'column_style' => 'grid',
+            'columns_per_row' => 2,
+            'items_limit_source' => 'custom',
+            'posts_per_page' => 5,
+        ] as $key => $default) {
+            $mergedParams->set($key, $global->get($key, $default));
+        }
+        $params = $mergedParams;
+        $this->setState('params', $params);
 
         $limit = \Joomla\Component\Blog\Site\Helper\ListingSettingsHelper::count($params) + (\Joomla\Component\Blog\Site\Helper\CompactPostsHelper::visible($params) && $params->get('compact_selection', 'next') === 'next' ? $params->get('num_links') : 0);
         $this->setState('list.limit', $limit);

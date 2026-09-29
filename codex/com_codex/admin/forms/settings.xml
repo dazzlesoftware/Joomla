@@ -259,9 +259,9 @@
 <field name="ai_permissions_note" type="note" label="Permissions" description="Grant the Use AI tools permission in component permissions. Users also need post editing permission; image generation requires Joomla Media create permission." />
 </fieldset>
 
-<fieldset name="featured_slider" label="Featured">
+<fieldset name="featured_slider" label="Slider">
 <field name="featured_slider_enabled" type="list" label="Display Featured Slider" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="featured_slider_style" type="list" label="Featured Style" default="default"><option value="default">Default</option><option value="card">Card</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
+<field name="featured_slider_style" type="list" label="Slider Style" default="default"><option value="default">Default</option><option value="card">Card</option><option value="hero">Hero</option><option value="magazine">Magazine</option><option value="side-navigation">Side Navigation</option><option value="slick">Slick</option><option value="thumbnail">Thumbnail</option></field>
 <field name="featured_slider_all_pages" type="list" label="Display on All Pages" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="featured_slider_auto" type="list" label="Auto Sliding" default="0"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="featured_slider_interval" type="number" label="Auto Sliding Interval (Seconds)" min="1" default="8" />
