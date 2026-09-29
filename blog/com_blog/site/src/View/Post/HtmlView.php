@@ -154,13 +154,6 @@ class HtmlView extends BaseHtmlView
             // Menu overrides must be merged before resolving the selected post style.
             $item->params->merge($temp);
 
-            // Load layout from active query (in case it is an alternative menu item)
-            if (isset($active->query['layout'])) {
-                $this->setLayout($active->query['layout']);
-            } elseif ($layout = $item->params->get('post_layout')) {
-                // Check for alternative layout of post
-                $this->setLayout($layout);
-            }
 
         } else {
             // The active menu item is not linked to this post, so the post params take priority here
@@ -168,17 +161,18 @@ class HtmlView extends BaseHtmlView
             $temp->merge($item->params);
             $item->params = $temp;
 
-            // Check for alternative layouts (since we are not in a single-post menu item)
-            // Single-post menu item layout takes priority over alt layout for an post
-            if ($layout = $item->params->get('post_layout')) {
-                $this->setLayout($layout);
-            }
         }
 
-        // Allow a Wiki preview without changing the saved post layout.
-        if ($app->getInput()->getCmd('layout') === 'wiki') {
-            $this->setLayout('wiki');
+        // These settings belong exclusively to the component. Ignore old menu/post overrides.
+        $componentParams = \Joomla\CMS\Component\ComponentHelper::getParams('com_blog');
+        $layout = (string) $componentParams->get('post_layout', 'default');
+        if ($layout === '') { $layout = 'default'; }
+        foreach ([$this->params, $item->params] as $params) {
+            $params->set('post_layout', $layout);
+            $params->set('show_wiki_details', (int) $componentParams->get('show_wiki_details', 1));
         }
+        $this->setLayout($layout);
+
 
         $offset = (int) $this->state->get('list.offset');
 
