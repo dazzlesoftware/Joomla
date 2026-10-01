@@ -30,8 +30,10 @@ final class ArchiveCompactHelper
         $model->setState('filter.year', (int) $params->get('archive_year'));
         $model->setState('list.start', 0);
         $model->setState('list.limit', min(100, $limit));
-        $model->setState('filter.post_id', array_map(static fn($item) => (int) $item->id, $displayed));
-        $model->setState('filter.post_id.include', false);
+        if ($displayed) {
+            $model->setState('filter.post_id', array_map(static fn($item) => (int) $item->id, $displayed));
+            $model->setState('filter.post_id.include', false);
+        }
         if ($mode === 'featured') { $model->setState('filter.featured', 'only'); }
         if ($mode === 'related') {
             $categories = array_values(array_unique(array_map(static fn($item) => (int) $item->catid, $displayed)));

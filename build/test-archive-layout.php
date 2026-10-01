@@ -27,6 +27,54 @@ foreach (['academy','blog','codex'] as $family) {
   foreach(['card','default','hero','magazine','side-navigation','slick','thumbnail'] as $style){$v->params->set('featured_slider_style',$style);$html=$v->loadTemplate();if(!str_contains($html,'featured-showcase'))throw new RuntimeException('Slider '.$style);}
   foreach(['latest','featured','random','related','next'] as $mode){$v->params->set('compact_selection',$mode);$items=$compact::select($v->compactItems,$v->posts,$v->params);if(!$items)throw new RuntimeException('Empty compact '.$mode);foreach($items as $p){if(!in_array($p->id,$ids)||in_array($p->id,array_column($v->posts,'id')))throw new RuntimeException('Compact scope '.$mode);}}
   foreach($slider::items($v->params) as $p)if(!in_array($p->id,$ids))throw new RuntimeException('Slider scope');
+  // Exercise the actual standalone module dispatcher and its inherited/explicit filters.
+  require_once JPATH_ROOT.'/modules/mod_'.$family.'_archive/src/Dispatcher/Dispatcher.php';
+  $dispatcherClass='Joomla\\Module\\'.ucfirst($family).'Archive\\Site\\Dispatcher\\Dispatcher';
+  $moduleData=function(array $params)use($dispatcherClass,$app,$input,$family){
+   $module=(object)['module'=>'mod_'.$family.'_archive','params'=>json_encode($params)];
+   $dispatcher=new $dispatcherClass($module,$app,$input);
+   return (new ReflectionMethod($dispatcher,'getLayoutData'))->invoke($dispatcher);
+  };
+  $moduleForm=new Joomla\CMS\Form\Form('archive.module.'.$family,['control'=>'jform']);
+  $moduleForm->loadFile(JPATH_ROOT.'/modules/mod_'.$family.'_archive/mod_'.$family.'_archive.xml',true,'/extension/config');
+  foreach(['listing_authors','listing_exclude_authors','listing_categories','listing_exclude_categories','listing_tags','listing_subcategories'] as $key){
+   $field=$moduleForm->getField($key,'params');if(!$field || !$field->input)throw new RuntimeException('Module field '.$key);
+  }
+  $result=$moduleData(['count'=>100]);
+  $march=array_values(array_filter($result['list'],fn($row)=>(int)$row->year===2020&&(int)$row->month===3));
+  if(count($march)!==1 || (int)$march[0]->count!==6)throw new RuntimeException('Module archive count');
+  $result=$moduleData(['count'=>100,'listing_exclude_authors'=>[$base->created_by]]);
+  foreach($result['list'] as $row)if((int)$row->year===2020&&(int)$row->month===3)throw new RuntimeException('Module author exclusion');
+  $result=$moduleData(['count'=>100,'listing_categories'=>[$base->catid]]);
+  if(!$result['list'])throw new RuntimeException('Module category include');
+  $result=$moduleData(['listing_tags'=>[2147483647]]);if($result['list'])throw new RuntimeException('Module tag filter');
+  $input->set('archive_filters',['listing_exclude_authors'=>[$base->created_by],'order_date'=>'created']);
+  $m=$factory->createModel('Archive','Site');if($m->getTotal()!=0)throw new RuntimeException('Module link filters');
+  $input->set('archive_filters',[]);
+  // Archive filters must restrict the query, total, slider and compact selections.
+  $settings=$ns.'ArchivePostsHelper';
+  foreach (['listing_authors'=>[$base->created_by], 'listing_categories'=>[$base->catid]] as $key=>$value) {
+   $params=$settings::settings(new Joomla\Registry\Registry([$key=>$value]));
+   if($params->get($key)!==$value)throw new RuntimeException('Lost filter '.$key);
+   $m=$factory->createModel('Archive','Site');$m->getState();$m->setState('params',$params);
+   if($m->getTotal()<6)throw new RuntimeException('Include filter '.$key);
+  }
+  foreach (['listing_exclude_authors'=>[$base->created_by], 'listing_exclude_categories'=>[$base->catid], 'listing_tags'=>[2147483647]] as $key=>$value) {
+   $params=clone $v->params;$params->set($key,$value);
+   $m=$factory->createModel('Archive','Site');$m->getState();$m->setState('params',$params);
+   if($m->getTotal()!=0 || $m->getItems())throw new RuntimeException('Exclude/tag filter '.$key);
+   if($slider::items($params))throw new RuntimeException('Slider filter '.$key);
+   $params->set('compact_selection','latest');if($compact::select([],[],$params))throw new RuntimeException('Compact filter '.$key);
+  }
+  $parentId=(int)$db->setQuery('SELECT parent_id FROM #__'.$family.'_categories WHERE id='.(int)$base->catid)->loadResult();
+  if($parentId>0) {
+   $params=clone $v->params;$params->set('listing_categories',[$parentId]);$params->set('listing_subcategories',1);
+   $m=$factory->createModel('Archive','Site');$m->getState();$m->setState('params',$params);
+   if($m->getTotal()<6)throw new RuntimeException('Include subcategories');
+  }
+  $params=clone $v->params;$params->set('listing_canonical','https://example.org/archive');
+  $filters=$ns.'ListingFilterHelper';$filters::canonical($app->getDocument(),$params);
+  if(!isset($app->getDocument()->getHeadData()['links']['https://example.org/archive']))throw new RuntimeException('Canonical');
   $input->set('month',4);[$empty,$html]=$render();if($empty->posts||$empty->compactItems||str_contains($html,'featured-showcase'))throw new RuntimeException('Date scope');
   $source=__DIR__.'/../'.$family.'/com_'.$family;$global=simplexml_load_file($source.'/admin/forms/settings.xml');$menu=simplexml_load_file($source.'/site/tmpl/archive/default.xml');
   $fields=$global->xpath('//fields[@name="params"]/fieldset[starts-with(@name,"archive_posts")]/field');if(count($fields)!==40)throw new RuntimeException('Global settings');$componentOnly=['archive_posts_list_item_style', 'archive_posts_post_listing_layout', 'archive_posts_items_limit_source', 'archive_posts_posts_per_page', 'archive_posts_featured_slider_style', 'archive_posts_compact_layout', 'archive_posts_num_links', 'archive_posts_compact_columns'];foreach($fields as $field)if(count($menu->xpath('//field[@name="'.(string)$field['name'].'"]'))!==(in_array((string)$field['name'],$componentOnly,true)?0:1))throw new RuntimeException('Menu parity');

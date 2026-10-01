@@ -51,7 +51,7 @@ final class ArchivePostsHelper
         'featured_slider_date_source' => 'created',
     ];
 
-    public static function settings(Registry $overrides): Registry
+    public static function settings(Registry $overrides, bool $readRequest = true): Registry
     {
         $global = ComponentHelper::getParams('com_codex');
         $params = clone ComponentHelper::getParams('com_codex');
@@ -67,13 +67,21 @@ final class ArchivePostsHelper
         foreach (self::DEFAULTS as $key => $default) {
             $params->set($key, $params->get('archive_posts_' . $key, $default));
         }
-        foreach (['listing_categories', 'listing_authors', 'listing_exclude_authors', 'listing_tags', 'listing_exclude_categories', 'listing_exclude_posts'] as $key) {
-            $params->set($key, []);
-        }
         $input = \Joomla\CMS\Factory::getApplication()->getInput();
         $params->set('archive_month', $input->getInt('month'));
         $params->set('archive_year', $input->getInt('year'));
-        $params->set('listing_subcategories', 0);
+        // Preserve category selections from older Archive menu links.
+        if ($readRequest && !ListingFilterHelper::ids($params->get('listing_categories', []))) {
+            $legacyCategories = ListingFilterHelper::ids($input->get('catid', [], 'array'));
+            if ($legacyCategories) { $params->set('listing_categories', $legacyCategories); }
+        }
+        // Carry module filters through month links and pagination. Accept only known filter values.
+        $moduleFilters = $readRequest ? $input->get('archive_filters', [], 'array') : [];
+        foreach (['listing_authors', 'listing_exclude_authors', 'listing_categories', 'listing_exclude_categories', 'listing_tags', 'listing_exclude_posts'] as $key) {
+            if (array_key_exists($key, $moduleFilters)) { $params->set($key, ListingFilterHelper::ids($moduleFilters[$key])); }
+        }
+        if (isset($moduleFilters['listing_subcategories'])) { $params->set('listing_subcategories', (int) (bool) $moduleFilters['listing_subcategories']); }
+        if (isset($moduleFilters['order_date']) && in_array($moduleFilters['order_date'], ['created', 'modified', 'published'], true)) { $params->set('order_date', $moduleFilters['order_date']); }
         $params->set('listing_include_featured', 1);
         $params->set('listing_pin_featured', 0);
         $params->set('layout_type', 'card');

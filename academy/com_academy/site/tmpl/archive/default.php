@@ -62,6 +62,13 @@ use Joomla\CMS\Router\Route;
             <input type="hidden" name="view" value="archive">
             <input type="hidden" name="option" value="com_academy">
             <input type="hidden" name="Itemid" value="<?php echo (int) \Joomla\CMS\Factory::getApplication()->getInput()->getInt('Itemid'); ?>">
+            <?php if (\Joomla\CMS\Factory::getApplication()->getInput()->get('archive_filters', [], 'array')) : ?>
+                <?php foreach (['listing_authors', 'listing_exclude_authors', 'listing_categories', 'listing_exclude_categories', 'listing_tags', 'listing_exclude_posts', 'listing_subcategories', 'order_date'] as $key) : ?>
+                    <?php foreach ((array) $this->params->get($key, []) as $value) : ?>
+                        <input type="hidden" name="archive_filters[<?php echo $key; ?>]<?php echo in_array($key, ['listing_subcategories', 'order_date'], true) ? '' : '[]'; ?>" value="<?php echo $this->escape((string) $value); ?>">
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
             <input type="hidden" name="limitstart" value="0">
         </div>
     </fieldset>

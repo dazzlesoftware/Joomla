@@ -235,6 +235,7 @@ class HtmlView extends BaseHtmlView
         $this->params     = &$params;
         $this->user       = &$user;
         $this->pagination = &$pagination;
+        $this->pagination->setAdditionalUrlParam('archive_filters', $app->getInput()->get('archive_filters', [], 'array'));
         $this->pagination->setAdditionalUrlParam('month', $state->get('filter.month'));
         $this->pagination->setAdditionalUrlParam('year', $state->get('filter.year'));
         $this->pagination->setAdditionalUrlParam('filter-search', $state->get('list.filter'));
@@ -271,6 +272,7 @@ class HtmlView extends BaseHtmlView
             $this->params->def('page_heading', Text::_('JGLOBAL_POSTS'));
         }
 
+        \Joomla\Component\Blog\Site\Helper\ListingFilterHelper::canonical($this->getDocument(), $this->params);
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {

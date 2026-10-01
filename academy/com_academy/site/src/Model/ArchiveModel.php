@@ -95,9 +95,6 @@ class ArchiveModel extends PostsModel
     protected function getListQuery()
     {
         $params           = $this->state->get('params');
-        $app              = Factory::getApplication();
-        $catids           = $app->getInput()->get('catid', [], 'array');
-        $catids           = array_values(array_diff($catids, ['']));
 
         $postOrderDate = $params->get('order_date');
 
@@ -127,9 +124,6 @@ class ArchiveModel extends PostsModel
                 ->bind(':year', $year, ParameterType::INTEGER);
         }
 
-        if (\count($catids) > 0) {
-            $query->whereIn($db->quoteName('c.id'), $catids);
-        }
 
         return $query;
     }
@@ -156,6 +150,21 @@ class ArchiveModel extends PostsModel
      *
      * @since    3.6.0
      */
+    /** Month counts use exactly the same access and listing restrictions as Archive posts. */
+    public function getArchiveMonths(int $limit = 5): array
+    {
+        $this->getState();
+        $db = $this->getDatabase();
+        $query = parent::getListQuery();
+        $date = QueryHelper::getQueryDate($this->getState('params')->get('order_date'), $db);
+        $year = $query->year($date);
+        $month = $query->month($date);
+        $query->clear('select')->clear('order')->clear('group')
+            ->select([$year . ' AS year', $month . ' AS month', 'COUNT(DISTINCT a.id) AS count'])
+            ->group([$year, $month])->order('year DESC, month DESC');
+        return $db->setQuery($query, 0, max(1, min(100, $limit)))->loadObjectList();
+    }
+
     public function getYears()
     {
         $db = $this->getDatabase();
