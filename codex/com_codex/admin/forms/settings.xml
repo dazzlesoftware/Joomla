@@ -2,6 +2,10 @@
 <form>
   <fields name="params">
 <fieldset name="archive_posts" label="Archive Posts">
+<field name="year_sort_order" type="list" label="COM_CODEX_FIELD_YEAR_SORT_LABEL" description="COM_CODEX_FIELD_YEAR_SORT_DESC" default="ASC" validate="options">
+				<option value="ASC">JGLOBAL_OLDEST_FIRST</option>
+				<option value="DESC">JGLOBAL_MOST_RECENT_FIRST</option>
+			</field>
 <field name="archive_posts_list_item_style" type="list" label="COM_CODEX_AUTHOR_ITEM_STYLE" validate="options" default="card">
         <option value="standard">COM_CODEX_LIST_ITEM_STYLE_STANDARD</option>
         <option value="card">COM_CODEX_LIST_ITEM_STYLE_CARD</option>
@@ -377,6 +381,21 @@
       </field>
     </fieldset>
     <fieldset name="editinglayout" label="COM_CODEX_EDITING_LAYOUT" description="COM_CODEX_CONFIG_EDITOR_LAYOUT">
+<field name="cancel_redirect_menuitem" type="modal_menu" addfieldprefix="Joomla\Component\Menus\Administrator\Field" label="COM_CODEX_CREATE_POST_CANCEL_REDIRECT_MENU_LABEL" description="COM_CODEX_CREATE_POST_CANCEL_REDIRECT_MENU_DESC" showon="custom_cancel_redirect:1" default="0">
+				<option value="">JDEFAULT</option>
+			</field>
+<field name="custom_cancel_redirect" type="radio" label="COM_CODEX_CREATE_POST_CUSTOM_CANCEL_REDIRECT_LABEL" description="COM_CODEX_CREATE_POST_CUSTOM_CANCEL_REDIRECT_DESC" layout="joomla.form.field.radio.switcher" default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+<field name="redirect_menuitem" type="modal_menu" addfieldprefix="Joomla\Component\Menus\Administrator\Field" label="COM_CODEX_CREATE_POST_REDIRECTMENU_LABEL" description="COM_CODEX_CREATE_POST_REDIRECTMENU_DESC" default="0">
+				<option value="">JDEFAULT</option>
+			</field>
+<field name="catid" type="postcategory" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_CHOOSE_CATEGORY_LABEL" showon="enable_category:1" default="0" />
+<field name="enable_category" type="radio" label="COM_CODEX_CREATE_POST_CATEGORY_LABEL" layout="joomla.form.field.radio.switcher" default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
       <field name="frontend_create_access" type="accesslevel" label="COM_CODEX_FRONTEND_CREATE_ACCESS_LABEL" description="COM_CODEX_FRONTEND_CREATE_ACCESS_DESC" default="1" />
       <field name="captcha" type="plugins" label="COM_CODEX_FIELD_CAPTCHA_LABEL" folder="captcha" filter="cmd" useglobal="true">
         <option value="0">JOPTION_DO_NOT_USE</option>
@@ -419,6 +438,26 @@
       <field name="featured_image_class" type="text" label="COM_CODEX_IMAGE_FEATURED_CLASS_LABEL" validate="CssIdentifier" showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1" />
     </fieldset>
     <fieldset name="category" label="JCATEGORY" description="COM_CODEX_CONFIG_CATEGORY_SETTINGS_DESC">
+<field name="show_featured" type="list" label="JGLOBAL_SHOW_FEATURED_POSTS_LABEL" default="show" validate="options">
+				<option value="show">JSHOW</option>
+				<option value="hide">JHIDE</option>
+				<option value="only">JONLY</option>
+			</field>
+<field name="list_author" type="author" label="COM_CODEX_FIELD_AUTHOR_LABEL" multiple="true" layout="joomla.form.field.list-fancy-select" filter="intarray" class="form-select" showon="list_author_filtering_type!:2" addfieldprefix="Joomla\Component\Codex\Administrator\Field" />
+<field name="list_author_filtering_type" type="list" label="COM_CODEX_FIELD_AUTHORFILTERING_LABEL" default="1" filter="integer">
+				<option value="0">COM_CODEX_OPTION_EXCLUSIVE_VALUE</option>
+				<option value="1">COM_CODEX_OPTION_INCLUSIVE_VALUE</option>
+				<option value="2">COM_CODEX_OPTION_ONLYCURRENTUSER_VALUE</option>
+			</field>
+<field name="show_subcategory_content" type="list" label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL" validate="options" default="0">
+				<option value="0">JNONE</option>
+				<option value="-1">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+			</field>
       <field name="subcategories_style" type="list" label="Subcategories Layout" default="link_list"><option value="link_list">Link List</option><option value="image_grid">Image Grid</option></field>
       <field name="subcategories_listing_layout" type="list" label="Subcategories Listing Style" default="columns"><option value="rows">Rows</option><option value="columns">Columns</option></field>
       <field name="subcategories_column_style" type="list" label="Subcategories Column Style" default="grid"><option value="grid">Grid Layout</option><option value="masonry">Masonry Layout</option></field>
@@ -480,6 +519,7 @@
       <field name="authors_pagination_summary" type="list" label="COM_CODEX_AUTHORS_PAGINATION_SUMMARY" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 </fieldset>
     <fieldset name="categories" label="JCATEGORIES" description="COM_CODEX_CONFIG_CATEGORIES_SETTINGS_DESC">
+<field name="categories_description" type="textarea" label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL" cols="25" rows="5" default="" />
       <field name="categories_style" type="list" label="Categories Layout" default="list"><option value="list">Default Link List</option><option value="image_grid">Image Grid</option></field>
       <field name="categories_listing_layout" type="list" label="Category Listing Style" default="columns"><option value="rows">Rows</option><option value="columns">Columns</option></field>
       <field name="categories_column_style" type="list" label="Column Style" default="grid"><option value="grid">Grid Layout</option><option value="masonry">Masonry Layout</option></field>
