@@ -29,30 +29,21 @@
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 <fieldset name="archive_posts" label="Posts">
-<field name="archive_posts_list_item_style" type="list" label="COM_CODEX_AUTHOR_ITEM_STYLE" useglobal="true" validate="options">
-        <option value="standard">COM_CODEX_LIST_ITEM_STYLE_STANDARD</option>
-        <option value="card">COM_CODEX_LIST_ITEM_STYLE_CARD</option>
-        <option value="learning">COM_CODEX_LIST_ITEM_STYLE_LEARNING</option>
-        <option value="simple">COM_CODEX_LIST_ITEM_STYLE_SIMPLE</option>
-        <option value="nickel">COM_CODEX_LIST_ITEM_STYLE_NICKEL</option>
-      </field>
-<field name="archive_posts_post_listing_layout" type="list" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
-        <option value="rows">COM_CODEX_POST_LISTING_LAYOUT_ROWS</option>
-        <option value="columns">COM_CODEX_POST_LISTING_LAYOUT_COLUMNS</option>
-      </field>
-<field name="archive_posts_columns_per_row" type="list" label="COM_CODEX_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="archive_posts_post_listing_layout:columns">
+
+
+<field name="archive_posts_columns_per_row" type="list" label="COM_CODEX_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options">
         <option value="2">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_2</option>
         <option value="3">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_3</option>
         <option value="4">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_4</option>
         <option value="5">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_5</option>
         <option value="6">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_6</option>
       </field>
-<field name="archive_posts_column_style" type="list" label="COM_CODEX_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="archive_posts_post_listing_layout:columns">
+<field name="archive_posts_column_style" type="list" label="COM_CODEX_COLUMN_STYLE_LABEL" useglobal="true" validate="options">
         <option value="grid">COM_CODEX_COLUMN_STYLE_GRID</option>
         <option value="masonry">COM_CODEX_COLUMN_STYLE_MASONRY</option>
       </field>
-<field name="archive_posts_items_limit_source" type="list" label="COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_LABEL" validate="options" useglobal="true"><option value="joomla">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_JOOMLA</option><option value="custom">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_CUSTOM</option><option value="5">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_5</option><option value="10">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_10</option><option value="15">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_15</option><option value="20">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_20</option><option value="25">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_25</option><option value="30">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_30</option><option value="50">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_50</option><option value="100">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_100</option></field>
-<field name="archive_posts_posts_per_page" type="number" label="COM_CODEX_AUTHOR_POSTS_PER_PAGE_LABEL" filter="integer" min="1" showon="archive_posts_items_limit_source:custom" useglobal="true" />
+
+
 <field name="archive_posts_orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" useglobal="true" validate="options">
         <option value="none">JGLOBAL_NO_ORDER</option>
         <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -95,7 +86,7 @@
 </fieldset>
 <fieldset name="archive_posts_slider" label="Slider">
 <field name="archive_posts_featured_slider_enabled" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ENABLED_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="archive_posts_featured_slider_style" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_LABEL" useglobal="true"><option value="default">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_DEFAULT</option><option value="card">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_CARD</option><option value="hero">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_HERO</option><option value="magazine">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_MAGAZINE</option><option value="side-navigation">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SIDE_NAVIGATION</option><option value="slick">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SLICK</option><option value="thumbnail">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_THUMBNAIL</option></field>
+
 <field name="archive_posts_featured_slider_all_pages" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ALL_PAGES_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="archive_posts_featured_slider_auto" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AUTO_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="archive_posts_featured_slider_interval" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_INTERVAL_LABEL" min="1" hint="8" useglobal="true" />
@@ -116,9 +107,9 @@
 <fieldset name="archive_posts_compact" label="Compact Posts">
 
 <field name="archive_posts_compact_show" type="list" label="COM_CODEX_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-<field name="archive_posts_num_links" type="number" label="COM_CODEX_COMPACT_COUNT" filter="integer" validate="number" min="0" useglobal="true" />
-<field name="archive_posts_compact_layout" type="list" label="COM_CODEX_COMPACT_LAYOUT" useglobal="true"><option value="rows">COM_CODEX_COMPACT_ROWS</option><option value="columns">COM_CODEX_COMPACT_COLUMNS_LAYOUT</option></field>
-<field name="archive_posts_compact_columns" type="list" label="COM_CODEX_COMPACT_COLUMNS" showon="archive_posts_compact_layout:columns" useglobal="true"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+
+
+
 <field name="archive_posts_compact_show_title" type="list" label="COM_CODEX_COMPACT_SHOW_TITLE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 <field name="archive_posts_compact_selection" type="list" label="COM_CODEX_COMPACT_SELECTION" description="COM_CODEX_COMPACT_SELECTION_DESC" useglobal="true">
         <option value="next">COM_CODEX_COMPACT_NEXT</option><option value="latest">COM_CODEX_COMPACT_LATEST</option><option value="featured">COM_CODEX_COMPACT_FEATURED</option><option value="random">COM_CODEX_COMPACT_RANDOM</option><option value="related">COM_CODEX_COMPACT_RELATED</option>

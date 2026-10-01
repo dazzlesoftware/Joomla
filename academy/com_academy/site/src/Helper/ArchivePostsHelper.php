@@ -53,11 +53,16 @@ final class ArchivePostsHelper
 
     public static function settings(Registry $overrides): Registry
     {
+        $global = ComponentHelper::getParams('com_academy');
         $params = clone ComponentHelper::getParams('com_academy');
         foreach ($overrides->toArray() as $key => $value) {
             if ($value !== '' && $value !== null) {
                 $params->set($key, $value);
             }
+        }
+        // These Archive controls are managed only in component settings.
+        foreach (['list_item_style', 'post_listing_layout', 'items_limit_source', 'posts_per_page', 'featured_slider_style', 'compact_layout', 'num_links', 'compact_columns'] as $key) {
+            $params->set('archive_posts_' . $key, $global->get('archive_posts_' . $key, self::DEFAULTS[$key]));
         }
         foreach (self::DEFAULTS as $key => $default) {
             $params->set($key, $params->get('archive_posts_' . $key, $default));
