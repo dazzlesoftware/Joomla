@@ -26,7 +26,7 @@ final class ListExcerptHelper
         return $resolved;
     }
 
-    /** Only list bodies are shortened. Authored excerpts and Read More boundaries win. */
+    /** Shorten list intro text, including Read More intros. Authored excerpts take precedence. */
     public static function render(object $item, object $params): string
     {
         $params = self::settings($params);
@@ -35,7 +35,7 @@ final class ListExcerptHelper
             $item->readmore = 1;
             return '<p>' . nl2br(self::escape($item->excerpt)) . '</p>';
         }
-        if (!empty($item->readmore) || !(int) $params->get('truncation_enabled', 1)) {
+        if (!(int) $params->get('truncation_enabled', 1)) {
             return $summary;
         }
         $type = (string) $params->get('truncation_type', 'characters');
@@ -183,7 +183,7 @@ final class ListExcerptHelper
             if ($position === 'bottom') { $bottom .= $block; }
             if (!in_array($position, ['top', 'bottom'], true)) { $removedContent = true; }
         }
-        $item->readmore = $removedContent ? (int) $params->get('truncation_readmore', 1) : 0;
+        $item->readmore = !empty($item->readmore) ? 1 : ($removedContent ? (int) $params->get('truncation_readmore', 1) : 0);
         return $top . $result . $bottom;
     }
 

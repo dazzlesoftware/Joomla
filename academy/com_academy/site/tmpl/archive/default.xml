@@ -28,7 +28,7 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
-<fieldset name="archive_posts" label="Archive Posts">
+<fieldset name="archive_posts" label="Posts">
 <field name="archive_posts_list_item_style" type="list" label="COM_ACADEMY_AUTHOR_ITEM_STYLE" useglobal="true" validate="options">
         <option value="standard">COM_ACADEMY_LIST_ITEM_STYLE_STANDARD</option>
         <option value="card">COM_ACADEMY_LIST_ITEM_STYLE_CARD</option>
@@ -93,7 +93,7 @@
         <option value="1">JSHOW</option>
       </field>
 </fieldset>
-<fieldset name="archive_posts_slider" label="Archive Featured Slider">
+<fieldset name="archive_posts_slider" label="Slider">
 <field name="archive_posts_featured_slider_enabled" type="list" label="COM_ACADEMY_AUTHOR_FEATURED_SLIDER_ENABLED_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="archive_posts_featured_slider_style" type="list" label="COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_LABEL" useglobal="true"><option value="default">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_DEFAULT</option><option value="card">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_CARD</option><option value="hero">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_HERO</option><option value="magazine">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_MAGAZINE</option><option value="side-navigation">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SIDE_NAVIGATION</option><option value="slick">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SLICK</option><option value="thumbnail">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_THUMBNAIL</option></field>
 <field name="archive_posts_featured_slider_all_pages" type="list" label="COM_ACADEMY_AUTHOR_FEATURED_SLIDER_ALL_PAGES_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
@@ -113,7 +113,7 @@
 <field name="archive_posts_featured_slider_count" type="number" label="COM_ACADEMY_AUTHOR_FEATURED_SLIDER_COUNT_LABEL" min="1" max="50" hint="5" useglobal="true" />
 <field name="archive_posts_featured_slider_date_source" type="list" label="COM_ACADEMY_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_LABEL" useglobal="true"><option value="created">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_CREATED</option><option value="modified">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_MODIFIED</option><option value="published">COM_ACADEMY_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_PUBLISHED</option></field>
 </fieldset>
-<fieldset name="archive_posts_compact" label="Archive Compact Posts">
+<fieldset name="archive_posts_compact" label="Compact Posts">
 
 <field name="archive_posts_compact_show" type="list" label="COM_ACADEMY_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 <field name="archive_posts_num_links" type="number" label="COM_ACADEMY_COMPACT_COUNT" filter="integer" validate="number" min="0" useglobal="true" />
@@ -135,7 +135,7 @@
       </field>
 <field name="archive_posts_compact_show_rating" type="list" label="COM_ACADEMY_COMPACT_SHOW_RATING" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
     </fieldset>
-<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts and Read More splits take precedence. Featured slider content uses its own settings.">
+<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts take precedence. Read More intro text follows the truncation limit. Featured slider content uses its own settings.">
 <field name="truncation_enabled" type="list" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="truncation_readmore" type="list" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="truncation_image_position" type="list" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
@@ -154,9 +154,9 @@
 <field name="truncation_section_position" type="list" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
 <field name="truncation_tabs_position" type="list" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
 <field name="truncation_type" type="list" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
-<field name="truncation_content_override" type="radio" default="0" label="Maximum Content (Characters or Words)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="truncation_content_override" type="list" default="0" label="Maximum Content (Characters or Words)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
 <field name="list_excerpt_length" type="number" filter="integer" min="0" label="Maximum Content (Characters or Words)" description="0 displays all content without automatic truncation." hint="400" showon="truncation_content_override:1" />
-<field name="truncation_paragraph_override" type="radio" default="0" label="Maximum Paragraph (Paragraph or Break Tags)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="truncation_paragraph_override" type="list" default="0" label="Maximum Paragraph (Paragraph or Break Tags)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
 <field name="truncation_paragraphs" type="number" filter="integer" min="0" label="Maximum Paragraph (Paragraph or Break Tags)" description="0 displays all content without automatic truncation." hint="1" showon="truncation_paragraph_override:1" />
 </fieldset>
 

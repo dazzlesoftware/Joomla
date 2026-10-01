@@ -282,7 +282,7 @@
 <field name="postnav_home_menu" type="menuitem" label="COM_ACADEMY_POSTNAV_HOME_MENU_LABEL" description="COM_ACADEMY_POSTNAV_HOME_MENU_DESC" clientid="0" published="1" filter="integer" showon="postnav_home:menu," useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option></field>
 
     </fieldset>
-<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts and Read More splits take precedence. Featured slider content uses its own settings.">
+<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts take precedence. Read More intro text follows the truncation limit. Featured slider content uses its own settings.">
 <field name="truncation_enabled" type="list" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="truncation_readmore" type="list" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="truncation_image_position" type="list" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
@@ -301,9 +301,9 @@
 <field name="truncation_section_position" type="list" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
 <field name="truncation_tabs_position" type="list" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
 <field name="truncation_type" type="list" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
-<field name="truncation_content_override" type="radio" default="0" label="Maximum Content (Characters or Words)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="truncation_content_override" type="list" default="0" label="Maximum Content (Characters or Words)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
 <field name="list_excerpt_length" type="number" filter="integer" min="0" label="Maximum Content (Characters or Words)" description="0 displays all content without automatic truncation." hint="400" showon="truncation_content_override:1" />
-<field name="truncation_paragraph_override" type="radio" default="0" label="Maximum Paragraph (Paragraph or Break Tags)" layout="joomla.form.field.radio"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="truncation_paragraph_override" type="list" default="0" label="Maximum Paragraph (Paragraph or Break Tags)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
 <field name="truncation_paragraphs" type="number" filter="integer" min="0" label="Maximum Paragraph (Paragraph or Break Tags)" description="0 displays all content without automatic truncation." hint="1" showon="truncation_paragraph_override:1" />
 </fieldset>
     <fieldset name="integration" label="COM_MENUS_INTEGRATION_FIELDSET_LABEL">

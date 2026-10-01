@@ -37,7 +37,9 @@ foreach (['academy', 'blog', 'codex'] as $family) {
     check($render('First<br>Second<br />Third', ['truncation_type' => 'breaks', 'truncation_paragraphs' => 2])[0], '<p>First</p><p>Second</p>', 'break units');
     check($render('Full long summary', ['truncation_enabled' => 0]), ['Full long summary',0], 'disabled');
     check($render('Full long summary', ['list_excerpt_length' => 0]), ['Full long summary',0], 'unlimited');
-    check($render('Manual summary long', [], ['readmore' => 1]), ['Manual summary long',1], 'manual split');
+    check($render('Manual summary long', [], ['readmore' => 1]), ['<p>Manual&#8230;</p>',1], 'manual split intro is limited');
+    check($render('One two three four', ['truncation_type' => 'words', 'list_excerpt_length' => 2, 'truncation_content_override' => 1], ['readmore' => 26]), ['<p>One two&#8230;</p>',1], 'split intro word limit');
+    check($render('Short intro', ['list_excerpt_length' => 100], ['readmore' => 26]), ['Short intro',26], 'short split preserved');
     check($render('Full long summary', [], ['excerpt' => 'My excerpt'])[0], '<p>My excerpt</p>', 'manual excerpt');
     check($render('Full long summary', ['truncation_readmore' => 0])[1], 0, 'hide automated readmore');
     $media = '<div class="post-gallery"><img src="gallery.jpg"></div><img src="cover.jpg">{video url="video.mp4"}{audio url="song.mp3" title="Song" autoplay="0"}<p>One two three four five</p>';

@@ -804,7 +804,7 @@
         <option value="">JNONE</option>
       </field>
     </fieldset>
-    <fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts and Read More splits take precedence. Featured slider content uses its own settings.">
+    <fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts take precedence. Read More intro text follows the truncation limit. Featured slider content uses its own settings.">
 <field name="truncation_enabled" type="list" label="Enable Automated Truncation" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="truncation_readmore" type="list" label="Display Readmore Button When Necessary" default="1"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 <field name="truncation_image_position" type="list" label="Position of Images After Truncation" default="hide"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
