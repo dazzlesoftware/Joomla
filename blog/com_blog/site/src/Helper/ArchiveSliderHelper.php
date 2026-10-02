@@ -24,9 +24,15 @@ final class ArchiveSliderHelper
 
     public static function settings($overrides): Registry
     {
-        $params = clone ComponentHelper::getParams('com_blog');
+        $params = ArchivePostsHelper::settings(new Registry());
         foreach ($overrides->toArray() as $key => $value) {
             if ($value !== '' && $value !== null) { $params->set($key, $value); }
+        }
+        foreach ($overrides->toArray() as $key => $value) {
+            if (str_starts_with($key, 'archive_posts_featured_slider_') && $value !== '' && $value !== null) {
+                $common = substr($key, strlen('archive_posts_'));
+                if ($common !== 'featured_slider_style' && $overrides->get($common) === null) { $params->set($common, $value); }
+            }
         }
         return $params;
     }
@@ -69,6 +75,9 @@ final class ArchiveSliderHelper
         if ($renderer !== null) {
             return $renderer($style, ['items' => $items, 'params' => $params]);
         }
-        return LayoutHelper::render('featured.' . $style, ['items' => $items, 'params' => $params], JPATH_ROOT . '/components/com_blog/tmpl/archive/layouts');
+        $view = Factory::getApplication()->bootComponent('com_blog')->getMVCFactory()->createView('Archive', 'Site', 'html');
+        $view->addTemplatePath(JPATH_ROOT . '/components/com_blog/tmpl/archive');
+        $view->sliderData = ['items' => $items, 'params' => $params];
+        return $view->loadTemplate('slider_' . $style);
     }
 }

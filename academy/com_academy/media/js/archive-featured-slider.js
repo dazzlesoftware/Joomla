@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.featured-showcase:not(.archive-featured-showcase)').forEach(section => {
+    document.querySelectorAll('.archive-featured-showcase').forEach(section => {
         section.addEventListener('slid.bs.carousel', event => {
             section.querySelectorAll('[data-bs-slide-to]').forEach(button => {
                 const active = Number(button.dataset.bsSlideTo) === event.to;
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-    document.querySelectorAll('.featured-showcase:not(.archive-featured-showcase) [data-featured-pause]').forEach(button => {
+    document.querySelectorAll('.archive-featured-showcase [data-featured-pause]').forEach(button => {
         const section = button.closest('.carousel');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const setPaused = paused => {

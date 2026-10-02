@@ -14,12 +14,12 @@ $auto = $show('auto', 0) && count($items) > 1;
 HTMLHelper::_('bootstrap.carousel', '#' . $id, ['interval' => $auto ? max(1, (int) $params->get('featured_slider_interval', 8)) * 1000 : false, 'ride' => false, 'pause' => false]);
 \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('fontawesome');
 ?>
-<section id="<?php echo $id; ?>" class="featured-showcase carousel slide mb-4" aria-label="Featured posts" aria-roledescription="carousel">
+<section id="<?php echo $id; ?>" class="featured-showcase archive-featured-showcase carousel slide mb-4" aria-label="Featured posts" aria-roledescription="carousel">
 <div class="carousel-inner">
 <?php foreach ($items as $index => $item) :
     $link = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language), false);
     $media = json_decode((string) ($item->media ?? '{}'));
-    $image = \Joomla\Component\Academy\Site\Helper\FeaturedSliderHelper::imageUrl((string) ($media->featured_image ?? ''));
+    $image = \Joomla\Component\Academy\Site\Helper\ArchiveSliderHelper::imageUrl((string) ($media->featured_image ?? ''));
 ?>
 <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>" role="group" aria-label="<?php echo ($index + 1) . ' of ' . count($items); ?>">
 <article class="card overflow-hidden"><div class="row g-0">
@@ -58,4 +58,4 @@ HTMLHelper::_('bootstrap.carousel', '#' . $id, ['interval' => $auto ? max(1, (in
 </div><?php endif; ?>
 </section>
 <?php
-\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('com_academy.featured-slider', 'com_academy/featured-slider.js', ['version' => 'auto'], ['defer' => true], ['bootstrap.carousel']);
+\Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('com_academy.archive-featured-slider', 'com_academy/archive-featured-slider.js', ['version' => 'auto'], ['defer' => true], ['bootstrap.carousel']);

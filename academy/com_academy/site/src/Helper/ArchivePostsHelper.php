@@ -61,7 +61,7 @@ final class ArchivePostsHelper
             }
         }
         // These Archive controls are managed only in component settings.
-        foreach (['list_item_style', 'post_listing_layout', 'items_limit_source', 'posts_per_page', 'featured_slider_style', 'compact_layout', 'num_links', 'compact_columns'] as $key) {
+        foreach (['list_item_style', 'post_listing_layout', 'columns_per_row', 'column_style', 'items_limit_source', 'posts_per_page', 'featured_slider_style', 'compact_layout', 'num_links', 'compact_columns'] as $key) {
             $params->set('archive_posts_' . $key, $global->get('archive_posts_' . $key, self::DEFAULTS[$key]));
         }
         foreach (self::DEFAULTS as $key => $default) {
