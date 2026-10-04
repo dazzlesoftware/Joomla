@@ -34,12 +34,28 @@ use Joomla\CMS\Layout\LayoutHelper;
     $isColumns = $this->params->get('post_listing_layout', 'rows') === 'columns';
     $isMasonry = $isColumns && $this->params->get('column_style', 'grid') === 'masonry';
     $columns = max(2, min(6, (int) $this->params->get('columns_per_row', 2)));
-    // Keep leading and intro posts in one continuous grid, independent of compact posts.
-    $groups = [$this->posts];
+    // Group the current page by user ID, preserving post order within each author.
+    $groups = [];
+    foreach ($this->posts as $post) {
+        $groups[(int) $post->created_by][] = $post;
+    }
+    $authorNames = [];
+    if (!$this->author && $groups) {
+        $db = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $authorNames = $db->setQuery($db->createQuery()->select(['id', 'name'])->from('#__users')
+            ->whereIn('id', array_keys($groups)))->loadObjectList('id');
+    }
     $gridClass = 'row row-cols-1 g-4' . ($isColumns ? ' row-cols-md-' . $columns : '');
     ?>
     <?php foreach ($groups as $groupIndex => $group) : ?>
         <?php if (empty($group)) { continue; } ?>
+        <section class="author-post-group" data-author-id="<?php echo (int) $groupIndex; ?>">
+        <?php if (!$this->author) : ?>
+        <header class="author-profile-header d-flex align-items-center gap-3 mb-4">
+            <?php echo LayoutHelper::render('post.avatar', (object) ['created_by' => $groupIndex], JPATH_COMPONENT . '/layouts'); ?>
+            <h2 class="mb-0"><?php echo $this->escape($authorNames[$groupIndex]->name ?? $group[0]->author); ?></h2>
+        </header>
+        <?php endif; ?>
         <div class="post-list-items mb-4 post-style-<?php echo $this->escape((string) $this->params->get('list_item_style', 'standard')); ?> <?php echo $gridClass; ?>" <?php echo $isMasonry ? 'data-post-masonry' : ''; ?>>
             <?php foreach ($group as $index => $item) : ?>
                 <div class="post-list-item col <?php echo $this->escape((string) $this->params->get('blog_class', '')); ?>">
@@ -50,6 +66,7 @@ use Joomla\CMS\Layout\LayoutHelper;
                 </div>
             <?php endforeach; ?>
         </div>
+        </section>
     <?php endforeach; ?>
 
     <?php echo $this->loadTemplate('links'); ?>

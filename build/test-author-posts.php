@@ -51,6 +51,17 @@ foreach (['academy','blog','codex'] as $family) {
             if(!str_contains($html,'pagination')) { throw new RuntimeException('Pagination markup'); }
         }
     }
+    // A mixed page gets one named section per actual user ID.
+    $savedPosts=$view->posts; $savedAuthor=$view->author;
+    $other=(int)$db->setQuery('SELECT id FROM #__users WHERE block=0 AND id<>'.$authorId.' LIMIT 1')->loadResult();
+    $mixed=clone $view->posts[0]; $mixed->created_by=$other; $mixed->title='SECOND_AUTHOR_GROUP_MARKER';
+    $view->author=null; $view->posts=[$view->posts[0],$mixed,$view->posts[1]];
+    $grouped=$view->loadTemplate();
+    if(substr_count($grouped,'class="author-post-group"')!==2) throw new RuntimeException('Multi-author grouping');
+    preg_match('/data-author-id="'.$other.'"(.*?)<\/section>/s',$grouped,$section);
+    if(!str_contains($section[1]??'', 'SECOND_AUTHOR_GROUP_MARKER')) throw new RuntimeException('Author section ownership');
+    if(substr_count($grouped,'class="author-profile-header ')!==2) throw new RuntimeException('Author headings');
+    $view->posts=$savedPosts; $view->author=$savedAuthor;
     // Exercise truncation through the Author model/view with predictable content.
     $set(['show_intro'=>1,'truncation_enabled'=>1,'truncation_content_override'=>1,'truncation_type'=>'words','list_excerpt_length'=>2]);
     $prepare=static function($model) {
