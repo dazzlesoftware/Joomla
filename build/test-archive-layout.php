@@ -75,6 +75,41 @@ foreach (['academy','blog','codex'] as $family) {
   $params=clone $v->params;$params->set('listing_canonical','https://example.org/archive');
   $filters=$ns.'ListingFilterHelper';$filters::canonical($app->getDocument(),$params);
   if(!isset($app->getDocument()->getHeadData()['links']['https://example.org/archive']))throw new RuntimeException('Canonical');
+  // Every Archive item style honours the Posts display controls.
+  $originalItem=$v->item;
+  foreach(['standard','card','learning','simple','nickel'] as $style){
+   $v->params->set('list_item_style',$style);
+   $item=clone $v->posts[0];$item->params=clone $v->params;$item->params->set('list_item_style',$style);$item->params->set('show_title',1);$item->params->set('access-view',1);
+   $item->summary='<p>ARCHIVE_EXCERPT_CHECK</p>';$item->author='ARCHIVE_AUTHOR_CHECK';$item->created_by_alias='';
+   $item->category_title='ARCHIVE_CATEGORY_CHECK';$item->parent_title='ARCHIVE_PARENT_CHECK';$item->parent_alias='parent';$item->parent_id=$item->catid;
+   $v->item=$item;
+   foreach(['show_intro'=>'ARCHIVE_EXCERPT_CHECK','show_author'=>'ARCHIVE_AUTHOR_CHECK','show_category'=>'ARCHIVE_CATEGORY_CHECK','show_parent_category'=>'ARCHIVE_PARENT_CHECK','show_date'=>'<time','show_hits'=>'postmeta-hits','show_rating'=>'postmeta-rating','info_block_show_title'=>'post-info-title'] as $key=>$marker){
+    foreach([0,1] as $value){$item->params->set($key,$value);$html=$v->loadTemplate('item');if(str_contains($html,$marker)!==(bool)$value)throw new RuntimeException('Archive '.$style.' '.$key.'='.$value);}
+   }
+   foreach(['link_titles'=>$item->title,'link_author'=>'ARCHIVE_AUTHOR_CHECK','link_category'=>'ARCHIVE_CATEGORY_CHECK','link_parent_category'=>'ARCHIVE_PARENT_CHECK'] as $key=>$text){
+    foreach([0,1] as $value){$item->params->set($key,$value);$html=$v->loadTemplate('item');$doc=new DOMDocument();@$doc->loadHTML('<?xml encoding="UTF-8">'.$html);$found=false;foreach($doc->getElementsByTagName('a') as $a){if(trim($a->textContent)===$text)$found=true;}if($found!==(bool)$value)throw new RuntimeException('Archive link '.$style.' '.$key);}
+   }
+   foreach(['created','modified','published'] as $type){$item->params->set('date_type',$type);$html=$v->loadTemplate('item');$dateHelper=$ns.'DateHelper';if(!str_contains($html,$dateHelper::render($item,$item->params)))throw new RuntimeException('Archive date '.$type);}
+  }
+  $v->item=$originalItem;
+  $orderParams=clone $v->params;$orderParams->set('orderby_pri','alpha');
+  $m=$factory->createModel('Archive','Site');$m->getState();
+  $globalParams=Joomla\CMS\Component\ComponentHelper::getParams($component);$oldOrder=$globalParams->get('archive_posts_orderby_pri');
+  $globalParams->set('archive_posts_orderby_pri','alpha');$app->getParams($component)->set('archive_posts_orderby_pri','alpha');
+  $m=$factory->createModel('Archive','Site');if(!str_starts_with($m->getState('list.ordering'),'c.path'))throw new RuntimeException('Archive category ordering');
+  $globalParams->set('archive_posts_orderby_pri',$oldOrder);$app->getParams($component)->set('archive_posts_orderby_pri',$oldOrder);
+  foreach([0,1] as $show){
+   $v->params->set('show_pagination',$show);$v->params->set('show_pagination_results',1);$html=$v->loadTemplate('posts');
+   if(str_contains($html,'counter float-end')!==(bool)$show)throw new RuntimeException('Archive pagination visibility');
+   $v->params->set('show_postnav',$show);$nav=Joomla\CMS\Layout\LayoutHelper::render('postnav',['params'=>$v->params],JPATH_ROOT.'/components/'.$component.'/layouts');
+   if(str_contains($nav,'aria-label="Post navigation"')!==(bool)$show)throw new RuntimeException('Archive toolbar visibility');
+  }
+  $v->params->set('show_pagination_results',0);if(str_contains($v->loadTemplate('posts'),'counter float-end'))throw new RuntimeException('Archive pagination summary');
+  $searchParams=clone $v->params;$searchParams->set('filter_field','title');
+  $m=$factory->createModel('Archive','Site');$m->getState();$m->setState('params',$searchParams);$m->setState('list.filter','Archive layout fixture 2');
+  if($m->getTotal()!==1)throw new RuntimeException('Archive title search');
+  $navigation=$ns.'NavigationHelper';
+  foreach(['featured','posts'] as $destination){$navParams=clone $v->params;$navParams->set('postnav_home',$destination);$home=$navigation::home($navParams);if(!$home)throw new RuntimeException('Toolbar destination');}
   // Check every slider control against real archived fixtures and all seven styles.
   $sliderParams=clone $v->params;$sliderParams->set('featured_slider_enabled',1);$sliderParams->set('featured_slider_count',2);
   $sliderParams->set('featured_slider_content_length',5);

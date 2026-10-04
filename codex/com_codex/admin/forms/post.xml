@@ -119,15 +119,16 @@
 
       </fieldset>
       <fieldset name="other" label="COM_CODEX_OTHER_OPTIONS">
-        <field name="show_item_navigation" type="list" label="COM_CODEX_SHOW_PAGINATION_LABEL" useglobal="true" validate="options">
+        <field name="show_item_navigation" description="COM_CODEX_SHOW_ITEM_NAVIGATION_DESC" type="list" label="COM_CODEX_SHOW_ITEM_NAVIGATION_LABEL" useglobal="true" validate="options">
           <option value="0">JHIDE</option>
           <option value="1">JSHOW</option>
         </field>
-        <field name="show_vote" type="votelist" label="JGLOBAL_SHOW_VOTE_LABEL" useglobal="true" validate="options">
+
+        <field name="show_rating" type="list" label="COM_CODEX_SHOW_RATING_LABEL" useglobal="true" validate="options">
           <option value="0">JHIDE</option>
           <option value="1">JSHOW</option>
         </field>
-        <field name="show_hits" type="list" label="JGLOBAL_SHOW_HITS_LABEL" useglobal="true" validate="options">
+<field name="show_hits" type="list" label="JGLOBAL_SHOW_HITS_LABEL" useglobal="true" validate="options">
           <option value="0">JHIDE</option>
           <option value="1">JSHOW</option>
         </field>

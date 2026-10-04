@@ -16,7 +16,6 @@ use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
-use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\PreprocessRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
@@ -114,7 +113,8 @@ class Router extends RouterView
         $preprocess = new PreprocessRules($post, '#__codex', 'id', 'catid');
         $preprocess->setDatabase($this->db);
         $this->attachRule($preprocess);
-        $this->attachRule(new MenuRules($this));
+        $this->attachRule(new FeaturedMenuRules($this));
+        $this->attachRule(new FeaturedPostRules($this, $this->db, $this->noIDs));
         $this->attachRule(new CategoryDirectoryRules($this));
         $this->attachRule(new NomenuRules($this));
     }

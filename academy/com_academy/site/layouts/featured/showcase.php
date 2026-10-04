@@ -18,7 +18,7 @@ HTMLHelper::_('bootstrap.carousel', '#' . $id, ['interval' => $auto ? max(1, (in
 <section id="<?php echo $id; ?>" class="featured-showcase featured-style-<?php echo $escape($style); ?> carousel slide mb-4 <?php echo !$show('image') ? 'featured-no-image' : ''; ?>" aria-label="Featured posts" aria-roledescription="carousel">
 <div class="featured-stage"><div class="carousel-inner">
 <?php foreach ($items as $index => $item) :
-    $link = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language));
+    $link = Route::_(RouteHelper::getPostRoute($item->id . ':' . $item->alias, $item->catid, $item->language), false);
     $media = json_decode((string) ($item->media ?? '{}'));
     $image = \Joomla\Component\Academy\Site\Helper\FeaturedSliderHelper::imageUrl((string) ($media->featured_image ?? ''));
 ?>

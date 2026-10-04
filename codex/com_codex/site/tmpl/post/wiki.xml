@@ -176,9 +176,9 @@
 
 
 			<field
-				name="show_item_navigation"
+				name="show_item_navigation" description="COM_CODEX_SHOW_ITEM_NAVIGATION_DESC"
 				type="list"
-				label="COM_CODEX_SHOW_PAGINATION_LABEL"
+				label="COM_CODEX_SHOW_ITEM_NAVIGATION_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -187,10 +187,12 @@
 				<option value="0">JHIDE</option>
 			</field>
 
+
+
 			<field
-				name="show_vote"
-				type="votelist"
-				label="JGLOBAL_SHOW_VOTE_LABEL"
+				name="show_rating"
+				type="list"
+				label="COM_CODEX_SHOW_RATING_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -198,8 +200,7 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
-
-			<field
+<field
 				name="show_hits"
 				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
@@ -261,8 +262,8 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
-<field name="postnav_home" type="list" label="COM_CODEX_POSTNAV_HOME_LABEL" description="COM_CODEX_POSTNAV_HOME_DESC" useglobal="true"><option value="featured">COM_CODEX_POSTNAV_HOME_FEATURED</option><option value="categories">COM_CODEX_POSTNAV_HOME_CATEGORIES</option><option value="authors">COM_CODEX_POSTNAV_HOME_AUTHORS</option><option value="archive">COM_CODEX_POSTNAV_HOME_ARCHIVE</option><option value="menu">COM_CODEX_POSTNAV_HOME_MENU</option></field>
-<field name="postnav_home_menu" type="menuitem" label="COM_CODEX_POSTNAV_HOME_MENU_LABEL" description="COM_CODEX_POSTNAV_HOME_MENU_DESC" clientid="0" published="1" filter="integer" showon="postnav_home:menu," useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option></field>
+
+
 
 		</fieldset>
 	</fields>

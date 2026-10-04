@@ -148,12 +148,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
                         </th>
                     <?php endif; ?>
-                    <?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
-                        <th scope="col" id="categorylist_header_votes">
-                            <?php echo HTMLHelper::_('grid.sort', 'COM_CODEX_VOTES', 'rating_count', $listDirn, $listOrder); ?>
-                        </th>
-                    <?php endif; ?>
-                    <?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+                    <?php if ($this->params->get('list_show_ratings', 0) && $this->params->get('show_rating', 1) && $this->params->get('engagement_ratings', 1)) : ?>
                         <th scope="col" id="categorylist_header_ratings">
                             <?php echo HTMLHelper::_('grid.sort', 'COM_CODEX_RATINGS', 'rating', $listDirn, $listOrder); ?>
                         </th>
@@ -282,18 +277,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         </span>
                     </td>
                 <?php endif; ?>
-                <?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
-                    <td class="list-votes">
-                        <span class="badge bg-success">
-                            <?php if ($this->params->get('show_headings')) : ?>
-                                <?php echo $post->rating_count; ?>
-                            <?php else : ?>
-                                <?php echo Text::sprintf('COM_CODEX_VOTES_COUNT', $post->rating_count); ?>
-                            <?php endif; ?>
-                        </span>
-                    </td>
-                <?php endif; ?>
-                <?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+                <?php if ($this->params->get('list_show_ratings', 0) && $this->params->get('show_rating', 1) && $this->params->get('engagement_ratings', 1)) : ?>
                     <td class="list-ratings">
                         <span class="badge bg-warning text-light">
                             <?php if ($this->params->get('show_headings')) : ?>

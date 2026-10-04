@@ -120,35 +120,19 @@ class QueryHelper
                 break;
 
             case 'vote':
-                $orderby = 'a.id DESC ';
-
-                if (PluginHelper::isEnabled('codex', 'vote')) {
-                    $orderby = 'rating_count DESC ';
-                }
+                $orderby = 'rating_count DESC ';
                 break;
 
             case 'rvote':
-                $orderby = 'a.id ASC ';
-
-                if (PluginHelper::isEnabled('codex', 'vote')) {
-                    $orderby = 'rating_count ASC ';
-                }
+                $orderby = 'rating_count ASC ';
                 break;
 
             case 'rank':
-                $orderby = 'a.id DESC ';
-
-                if (PluginHelper::isEnabled('codex', 'vote')) {
-                    $orderby = 'rating DESC ';
-                }
+                $orderby = 'rating DESC ';
                 break;
 
             case 'rrank':
-                $orderby = 'a.id ASC ';
-
-                if (PluginHelper::isEnabled('codex', 'vote')) {
-                    $orderby = 'rating ASC ';
-                }
+                $orderby = 'rating ASC ';
                 break;
 
             default:

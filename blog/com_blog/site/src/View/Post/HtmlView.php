@@ -139,6 +139,7 @@ class HtmlView extends BaseHtmlView
         $this->params = $this->state->get('params');
         $active       = $app->getMenu()->getActive();
         $temp         = clone $this->params;
+        $resolvedItemNavigation = $item->params->get('show_item_navigation', 1);
 
         // Check to see which parameters should take priority. If the active menu item link to the current post, then
         // the menu item params take priority
@@ -162,6 +163,9 @@ class HtmlView extends BaseHtmlView
             $item->params = $temp;
 
         }
+
+        // Keep the model's resolved menu/post/global navigation value.
+        $item->params->set('show_item_navigation', $resolvedItemNavigation);
 
         // These settings belong exclusively to the component. Ignore old menu/post overrides.
         $componentParams = \Joomla\CMS\Component\ComponentHelper::getParams('com_blog');

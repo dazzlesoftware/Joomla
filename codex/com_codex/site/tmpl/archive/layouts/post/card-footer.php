@@ -13,6 +13,9 @@ $category = trim((string) ($item->category_title ?? ''));
 <div class="mt-auto pt-3">
 <footer class="post-card-footer d-flex align-items-end justify-content-between gap-3 border-top pt-3 text-muted">
     <div class="post-card-footer-details d-flex flex-column gap-1 small">
+        <?php if ($item->params->get('info_block_show_title', 1)) : ?>
+        <span class="post-info-title fw-bold"><?php echo \Joomla\CMS\Language\Text::_('COM_CODEX_POST_INFO'); ?></span>
+        <?php endif; ?>
         <?php if ($item->params->get('show_author', 1)) : ?>
             <span><span class="fa-solid fa-user me-1" aria-hidden="true"></span><?php
                 $author = htmlspecialchars((string) ($item->created_by_alias ?: ($item->author ?? '')), ENT_QUOTES, 'UTF-8');
@@ -20,6 +23,14 @@ $category = trim((string) ($item->category_title ?? ''));
                     $author = HTMLHelper::_('link', Route::_('index.php?option=com_codex&view=author&id=' . (int) $item->created_by), $author);
                 }
                 echo \Joomla\CMS\Language\Text::sprintf('COM_CODEX_WRITTEN_BY', $author);
+            ?></span>
+        <?php endif; ?>
+        <?php if ($item->params->get('show_parent_category', 1) && !empty($item->parent_id) && !empty($item->parent_title) && ($item->parent_alias ?? '') !== 'root') : ?>
+            <span class="post-parent-category"><span class="fa-solid fa-folder me-1" aria-hidden="true"></span><?php
+                $parent = htmlspecialchars((string) $item->parent_title, ENT_QUOTES, 'UTF-8');
+                echo $item->params->get('link_parent_category', 1)
+                    ? HTMLHelper::_('link', Route::_(RouteHelper::getCategoryRoute((int) $item->parent_id, $item->language)), $parent)
+                    : $parent;
             ?></span>
         <?php endif; ?>
         <?php if ($item->params->get('show_category', 1) && $category !== '') : ?>

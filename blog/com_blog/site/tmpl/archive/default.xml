@@ -75,74 +75,7 @@
         <option value="published">JPUBLISHED</option>
         <option value="unpublished">JUNPUBLISHED</option>
       </field>
-<field name="archive_posts_show_pagination" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="JGLOBAL_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
-        <option value="0">JHIDE</option>
-        <option value="1">JSHOW</option>
-        <option value="2">JGLOBAL_AUTO</option>
-      </field>
-<field name="archive_posts_show_pagination_results" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="JGLOBAL_PAGINATION_RESULTS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
-        <option value="0">JHIDE</option>
-        <option value="1">JSHOW</option>
-      </field>
-</fieldset>
-
-<fieldset name="archive_posts_compact" label="Compact Posts">
-
-<field name="archive_posts_compact_show" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-
-
-
-<field name="archive_posts_compact_show_title" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW_TITLE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-<field name="archive_posts_compact_selection" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SELECTION" description="COM_BLOG_COMPACT_SELECTION_DESC" useglobal="true">
-        <option value="next">COM_BLOG_COMPACT_NEXT</option><option value="latest">COM_BLOG_COMPACT_LATEST</option><option value="featured">COM_BLOG_COMPACT_FEATURED</option><option value="random">COM_BLOG_COMPACT_RANDOM</option><option value="related">COM_BLOG_COMPACT_RELATED</option>
-      </field>
-<field name="archive_posts_compact_heading_alignment" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_HEADING_ALIGNMENT" useglobal="true">
-  <option value="left">COM_BLOG_ALIGN_LEFT</option>
-  <option value="center">COM_BLOG_ALIGN_CENTER</option>
-  <option value="right">COM_BLOG_ALIGN_RIGHT</option>
-</field>
-<field name="archive_posts_compact_show_image" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW_IMAGE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-<field name="archive_posts_link_featured_image" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_LINKED_FEATURED_IMAGE_LABEL" useglobal="true">
-        <option value="0">JNO</option>
-        <option value="1">JYES</option>
-      </field>
-<field name="archive_posts_compact_show_rating" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW_RATING" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-    </fieldset>
-<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts take precedence. Read More intro text follows the truncation limit. Featured slider content uses its own settings.">
-<field name="truncation_enabled" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="truncation_readmore" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="truncation_image_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_video_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Videos After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_audio_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Audio Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_gallery_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Gallery After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_accordion_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Accordion After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_alert_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Alert After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_button_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Button After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_columns_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Columns After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_comparison_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Comparison After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_embed_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_poll_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Poll After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_quote_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Quote After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_rule_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Rule After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_section_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_tabs_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_type" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
-<field name="truncation_content_override" type="list" default="0" label="Maximum Content (Characters or Words)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
-<field name="list_excerpt_length" type="number" filter="integer" min="0" label="Maximum Content (Characters or Words)" description="0 displays all content without automatic truncation." hint="400" showon="truncation_content_override:1" />
-<field name="truncation_paragraph_override" type="list" default="0" label="Maximum Paragraph (Paragraph or Break Tags)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
-<field name="truncation_paragraphs" type="number" filter="integer" min="0" label="Maximum Paragraph (Paragraph or Break Tags)" description="0 displays all content without automatic truncation." hint="1" showon="truncation_paragraph_override:1" />
-</fieldset>
-
-
-		<!-- Basic options. -->
-		<fieldset name="basic" label="JGLOBAL_ARCHIVE_OPTIONS"
-		>
-
-
-
-
-
-			<field
+<field
 				name="year_sort_order"
 				type="list"
 				label="COM_BLOG_FIELD_YEAR_SORT_LABEL"
@@ -153,10 +86,7 @@
 				<option value="ASC">JGLOBAL_OLDEST_FIRST</option>
 				<option value="DESC">JGLOBAL_MOST_RECENT_FIRST</option>
 			</field>
-
-
-
-			<field
+<field
 				name="filter_field"
 				type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
@@ -167,17 +97,49 @@
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+<field name="archive_posts_show_pagination" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="JGLOBAL_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+        <option value="2">JGLOBAL_AUTO</option>
+      </field>
+<field name="archive_posts_show_pagination_results" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="JGLOBAL_PAGINATION_RESULTS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
 
 
 
-		</fieldset>
 
-		<!-- Posts options. -->
-		<fieldset name="posts"
-			label="COM_BLOG_ATTRIBS_POST_SETTINGS_LABEL"
-		>
 
-			<field
+
+
+
+
+
+
+
+
+
+
+
+			<field name="show_title" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="JGLOBAL_SHOW_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+<field
+				name="link_titles"
+				type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field"
+				label="JGLOBAL_LINKED_TITLES_LABEL"
+				description="JGLOBAL_LINKED_TITLES_DESC"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+<field
 				name="show_intro"
 				type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field"
 				label="COM_BLOG_SHOW_EXCERPT_LABEL"
@@ -188,6 +150,11 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+<field name="info_block_show_title" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_FIELD_INFOBLOCK_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_BLOG_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
 
 
 
@@ -239,18 +206,7 @@
 				<option	value="1">JYES</option>
 			</field>
 
-			<field
-				name="link_titles"
-				type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field"
-				label="JGLOBAL_LINKED_TITLES_LABEL"
-				description="JGLOBAL_LINKED_TITLES_DESC"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
+
 
 			<field
 				name="show_author"
@@ -283,10 +239,12 @@
 
 
 
+
+
 			<field
-				name="show_item_navigation"
+				name="show_rating"
 				type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field"
-				label="COM_BLOG_SHOW_PAGINATION_LABEL"
+				label="COM_BLOG_SHOW_RATING_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -294,8 +252,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field
+<field
 				name="show_hits"
 				type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field"
 				label="JGLOBAL_SHOW_HITS_LABEL"
@@ -319,10 +276,64 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-<field name="postnav_home" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_POSTNAV_HOME_LABEL" description="COM_BLOG_POSTNAV_HOME_DESC" useglobal="true"><option value="featured">COM_BLOG_POSTNAV_HOME_FEATURED</option><option value="categories">COM_BLOG_POSTNAV_HOME_CATEGORIES</option><option value="authors">COM_BLOG_POSTNAV_HOME_AUTHORS</option><option value="archive">COM_BLOG_POSTNAV_HOME_ARCHIVE</option><option value="menu">COM_BLOG_POSTNAV_HOME_MENU</option></field>
-<field name="postnav_home_menu" type="menuitem" label="COM_BLOG_POSTNAV_HOME_MENU_LABEL" description="COM_BLOG_POSTNAV_HOME_MENU_DESC" clientid="0" published="1" filter="integer" showon="postnav_home:menu," useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option></field>
+
+
 
 		</fieldset>
+
+<fieldset name="archive_posts_compact" label="Compact Posts">
+
+<field name="archive_posts_compact_show" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+
+
+
+<field name="archive_posts_compact_show_title" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW_TITLE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="archive_posts_compact_selection" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SELECTION" description="COM_BLOG_COMPACT_SELECTION_DESC" useglobal="true">
+        <option value="next">COM_BLOG_COMPACT_NEXT</option><option value="latest">COM_BLOG_COMPACT_LATEST</option><option value="featured">COM_BLOG_COMPACT_FEATURED</option><option value="random">COM_BLOG_COMPACT_RANDOM</option><option value="related">COM_BLOG_COMPACT_RELATED</option>
+      </field>
+<field name="archive_posts_compact_heading_alignment" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_HEADING_ALIGNMENT" useglobal="true">
+  <option value="left">COM_BLOG_ALIGN_LEFT</option>
+  <option value="center">COM_BLOG_ALIGN_CENTER</option>
+  <option value="right">COM_BLOG_ALIGN_RIGHT</option>
+</field>
+<field name="archive_posts_compact_show_image" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW_IMAGE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="archive_posts_link_featured_image" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_LINKED_FEATURED_IMAGE_LABEL" useglobal="true">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+<field name="archive_posts_compact_show_rating" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="COM_BLOG_COMPACT_SHOW_RATING" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+    </fieldset>
+<fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts take precedence. Read More intro text follows the truncation limit. Featured slider content uses its own settings.">
+<field name="truncation_enabled" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_readmore" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_image_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_video_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Videos After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_audio_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Audio Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_gallery_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Gallery After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_accordion_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Accordion After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_alert_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Alert After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_button_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Button After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_columns_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Columns After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_comparison_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Comparison After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_embed_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_poll_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Poll After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_quote_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Quote After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_rule_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Rule After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_section_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_tabs_position" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_type" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
+<field name="truncation_content_override" type="list" default="0" label="Maximum Content (Characters or Words)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="list_excerpt_length" type="number" filter="integer" min="0" label="Maximum Content (Characters or Words)" description="0 displays all content without automatic truncation." hint="400" showon="truncation_content_override:1" />
+<field name="truncation_paragraph_override" type="list" default="0" label="Maximum Paragraph (Paragraph or Break Tags)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
+<field name="truncation_paragraphs" type="number" filter="integer" min="0" label="Maximum Paragraph (Paragraph or Break Tags)" description="0 displays all content without automatic truncation." hint="1" showon="truncation_paragraph_override:1" />
+</fieldset>
+
+
+		<!-- Basic options. -->
+
+
+		<!-- Posts options. -->
+
 
 	</fields>
 </metadata>

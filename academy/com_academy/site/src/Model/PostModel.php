@@ -19,7 +19,6 @@ use Joomla\Component\Academy\Administrator\Table\PostTable;
 use Joomla\Component\Academy\Administrator\Extension\AcademyComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\IpHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -242,6 +241,19 @@ class PostModel extends ItemModel
 
                 $data->params->merge($registry);
 
+                // Navigation honours an explicit menu choice, then the post, then the component.
+                // Blank post options mean inheritance, not Hide.
+                $activeMenu = Factory::getApplication()->getMenu()->getActive();
+                $menuNavigation = ($activeMenu && ($activeMenu->query['option'] ?? '') === 'com_academy')
+                    ? $activeMenu->getParams()->get('show_item_navigation') : null;
+                $postNavigation = $registry->get('show_item_navigation');
+                $navigation = in_array($menuNavigation, [0, 1, '0', '1'], true)
+                    ? $menuNavigation
+                    : (in_array($postNavigation, [0, 1, '0', '1'], true)
+                        ? $postNavigation : $globalParams->get('show_item_navigation', 1));
+                $data->params->set('show_item_navigation', (int) $navigation);
+
+
                 $data->metadata = new Registry($data->metadata);
 
                 // Technically guest could edit an post, but lets not check that to improve performance a little.
@@ -314,115 +326,6 @@ class PostModel extends ItemModel
         return true;
     }
 
-    /**
-     * Save user vote on post
-     *
-     * @param   integer  $pk    Joomla Post Id
-     * @param   integer  $rate  Voting rate
-     *
-     * @return  boolean          Return true on success
-     */
-    public function storeVote($pk = 0, $rate = 0)
-    {
-        $pk   = (int) $pk;
-        $rate = (int) $rate;
-
-        if ($rate >= 1 && $rate <= 5 && $pk > 0) {
-            $userIP = IpHelper::getIp();
-
-            // Initialize variables.
-            $db    = $this->getDatabase();
-            $query = $db->createQuery();
-
-            // Create the base select statement.
-            $query->select('*')
-                ->from($db->quoteName('#__academy_rating'))
-                ->where($db->quoteName('content_id') . ' = :pk')
-                ->bind(':pk', $pk, ParameterType::INTEGER);
-
-            // Set the query and load the result.
-            $db->setQuery($query);
-
-            // Check for a database error.
-            try {
-                $rating = $db->loadObject();
-            } catch (\RuntimeException $e) {
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-                return false;
-            }
-
-            // There are no ratings yet, so lets insert our rating
-            if (!$rating) {
-                $query = $db->createQuery();
-
-                // Create the base insert statement.
-                $query->insert($db->quoteName('#__academy_rating'))
-                    ->columns(
-                        [
-                            $db->quoteName('content_id'),
-                            $db->quoteName('lastip'),
-                            $db->quoteName('rating_sum'),
-                            $db->quoteName('rating_count'),
-                        ]
-                    )
-                    ->values(':pk, :ip, :rate, 1')
-                    ->bind(':pk', $pk, ParameterType::INTEGER)
-                    ->bind(':ip', $userIP)
-                    ->bind(':rate', $rate, ParameterType::INTEGER);
-
-                // Set the query and execute the insert.
-                $db->setQuery($query);
-
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-                    return false;
-                }
-            } else {
-                if ($userIP != $rating->lastip) {
-                    $query = $db->createQuery();
-
-                    // Create the base update statement.
-                    $query->update($db->quoteName('#__academy_rating'))
-                        ->set(
-                            [
-                                $db->quoteName('rating_count') . ' = ' . $db->quoteName('rating_count') . ' + 1',
-                                $db->quoteName('rating_sum') . ' = ' . $db->quoteName('rating_sum') . ' + :rate',
-                                $db->quoteName('lastip') . ' = :ip',
-                            ]
-                        )
-                        ->where($db->quoteName('content_id') . ' = :pk')
-                        ->bind(':rate', $rate, ParameterType::INTEGER)
-                        ->bind(':ip', $userIP)
-                        ->bind(':pk', $pk, ParameterType::INTEGER);
-
-                    // Set the query and execute the update.
-                    $db->setQuery($query);
-
-                    try {
-                        $db->execute();
-                    } catch (\RuntimeException $e) {
-                        Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-
-            $this->cleanCache();
-
-            return true;
-        }
-
-        Factory::getApplication()->enqueueMessage(Text::sprintf('COM_ACADEMY_INVALID_RATING', $rate), 'error');
-
-        return false;
-    }
 
     /**
      * Cleans the cache of com_academy and content modules

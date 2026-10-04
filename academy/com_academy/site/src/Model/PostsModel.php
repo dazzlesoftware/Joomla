@@ -302,17 +302,15 @@ class PostsModel extends ListModel
 
         $query->join($frontpageJoin, $db->quoteName('#__academy_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'));
 
-        if (PluginHelper::isEnabled('academy', 'vote')) {
-            // Join on voting table
-            $query->select(
-                [
-                    'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1), 0), 0)'
-                        . ' AS ' . $db->quoteName('rating'),
-                    'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
-                ]
-            )
-                ->join('LEFT', $db->quoteName('#__academy_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
-        }
+        // Join the component rating data independently of plugins.
+        $query->select(
+            [
+                'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1), 0), 0)'
+                    . ' AS ' . $db->quoteName('rating'),
+                'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
+            ]
+        )
+            ->join('LEFT', $db->quoteName('#__academy_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
 
         // Filter by access level.
         if ($this->getState('filter.access', true)) {

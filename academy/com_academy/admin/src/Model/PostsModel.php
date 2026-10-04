@@ -279,16 +279,14 @@ class PostsModel extends ListModel
             ->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
             ->join('LEFT', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
-        if (PluginHelper::isEnabled('academy', 'vote')) {
-            $query->select(
-                [
-                    'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
-                        . ' AS ' . $db->quoteName('rating'),
-                    'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
-                ]
-            )
-                ->join('LEFT', $db->quoteName('#__academy_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
-        }
+        $query->select(
+            [
+                'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+                    . ' AS ' . $db->quoteName('rating'),
+                'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
+            ]
+        )
+            ->join('LEFT', $db->quoteName('#__academy_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
 
         // Join over the associations.
         if (Associations::isEnabled()) {

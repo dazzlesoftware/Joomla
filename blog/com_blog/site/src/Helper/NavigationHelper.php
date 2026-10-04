@@ -14,14 +14,11 @@ final class NavigationHelper
     {
         $app = Factory::getApplication();
         $global = ComponentHelper::getParams('com_blog');
-        $setting = static function (string $key, $default) use ($overrides, $global) {
-            $value = $overrides?->get($key);
-            return $value !== null && $value !== '' ? $value : $global->get($key, $default);
-        };
-        $destination = (string) $setting('postnav_home', 'featured');
+        // Toolbar destinations are component-only; ignore saved menu overrides.
+        $destination = (string) $global->get('postnav_home', 'featured');
         $input = $app->getInput();
         if ($destination === 'menu') {
-            $id = (int) $setting('postnav_home_menu', 0);
+            $id = (int) $global->get('postnav_home_menu', 0);
             $menu = $app->getMenu();
             $item = $menu->getItem($id);
             $seen = [];

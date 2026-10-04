@@ -268,21 +268,11 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				name="list_show_votes"
-				type="votelist"
-				label="JGLOBAL_LIST_VOTES_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0" requires="vote">JHIDE</option>
-				<option value="1" requires="vote">JSHOW</option>
-			</field>
+
 
 			<field
 				name="list_show_ratings"
-				type="votelist"
+				type="list"
 				label="JGLOBAL_LIST_RATINGS_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
@@ -539,9 +529,9 @@
 
 
 			<field
-				name="show_item_navigation"
+				name="show_item_navigation" description="COM_BLOG_SHOW_ITEM_NAVIGATION_DESC"
 				type="list"
-				label="COM_BLOG_SHOW_PAGINATION_LABEL"
+				label="COM_BLOG_SHOW_ITEM_NAVIGATION_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -550,17 +540,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				name="show_vote"
-				type="votelist"
-				label="JGLOBAL_SHOW_VOTE_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
-			</field>
+
 
 			<field
 				name="show_readmore"
@@ -588,6 +568,17 @@
 			</field>
 
 			<field
+				name="show_rating"
+				type="list"
+				label="COM_BLOG_SHOW_RATING_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+<field
 				name="show_hits"
 				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
@@ -624,8 +615,8 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-<field name="postnav_home" type="list" label="COM_BLOG_POSTNAV_HOME_LABEL" description="COM_BLOG_POSTNAV_HOME_DESC" useglobal="true"><option value="featured">COM_BLOG_POSTNAV_HOME_FEATURED</option><option value="categories">COM_BLOG_POSTNAV_HOME_CATEGORIES</option><option value="authors">COM_BLOG_POSTNAV_HOME_AUTHORS</option><option value="archive">COM_BLOG_POSTNAV_HOME_ARCHIVE</option><option value="menu">COM_BLOG_POSTNAV_HOME_MENU</option></field>
-<field name="postnav_home_menu" type="menuitem" label="COM_BLOG_POSTNAV_HOME_MENU_LABEL" description="COM_BLOG_POSTNAV_HOME_MENU_DESC" clientid="0" published="1" filter="integer" showon="postnav_home:menu," useglobal="true"><option value="">JGLOBAL_USE_GLOBAL</option></field>
+
+
 
 		</fieldset>
 <fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts take precedence. Read More intro text follows the truncation limit. Featured slider content uses its own settings.">

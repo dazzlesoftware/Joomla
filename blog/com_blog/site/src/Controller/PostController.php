@@ -461,36 +461,4 @@ class PostController extends FormController
         parent::reload($key, $urlVar);
     }
 
-    /**
-     * Method to save a vote.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    public function vote()
-    {
-        // Check for request forgeries.
-        $this->checkToken();
-
-        $user_rating = $this->input->getInt('user_rating', -1);
-
-        if ($user_rating > -1) {
-            $url      = $this->input->getString('url', '');
-            $id       = $this->input->getInt('id', 0);
-            $viewName = $this->input->getString('view', $this->default_view);
-            $model    = $this->getModel($viewName);
-
-            // Don't redirect to an external URL.
-            if (!Uri::isInternal($url)) {
-                $url = Route::_('index.php');
-            }
-
-            if ($model->storeVote($id, $user_rating)) {
-                $this->setRedirect($url, Text::_('COM_BLOG_POST_VOTE_SUCCESS'));
-            } else {
-                $this->setRedirect($url, Text::_('COM_BLOG_POST_VOTE_FAILURE'));
-            }
-        }
-    }
 }

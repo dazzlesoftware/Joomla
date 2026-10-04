@@ -17,6 +17,7 @@ Factory::getApplication()->getDocument()->getWebAssetManager()
     ->registerAndUseScript('com_codex.share-popup', 'com_codex/share-popup.js', ['version' => 'auto'], ['defer' => true]);
 
 $params = ComponentHelper::getParams('com_' . $family);
+$displayParams = $displayData->params ?? $params;
 $url = Uri::getInstance()->toString();
 $title = (string) ($displayData->title ?? '');
 $db = Factory::getContainer()->get(DatabaseInterface::class);
@@ -31,7 +32,7 @@ $subscribeButton = (string) $params->get('subscribe_button', 'Subscribe');
 $consentText = (string) $params->get('subscribe_consent', 'I agree to receive email updates and can unsubscribe at any time.');
 ?>
 <section class="post-engagement my-4" aria-label="Post engagement">
-<?php if ($params->get('engagement_ratings', 1)): ?>
+<?php if ($params->get('engagement_ratings', 1) && $displayParams->get('show_rating', 1)): ?>
 <form method="post" action="<?php echo htmlspecialchars(Uri::base().'index.php?option=com_'.$family.'&task=engagement.rate', ENT_QUOTES, 'UTF-8'); ?>" class="post-rating d-flex flex-wrap align-items-center gap-1 mb-3">
     <span class="me-2"><?php echo htmlspecialchars($ratingLabel, ENT_QUOTES, 'UTF-8'); ?></span>
     <?php for ($star = 1; $star <= 5; $star++): ?><button class="btn btn-link text-warning text-decoration-none fs-4 lh-1 p-1" type="submit" name="rating" value="<?php echo $star; ?>" aria-label="Rate <?php echo $star; ?> out of 5 stars"><span class="<?php echo $star <= $filledStars ? 'fa-solid' : 'fa-regular'; ?> fa-star" aria-hidden="true"></span></button><?php endfor; ?>

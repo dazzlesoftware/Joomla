@@ -41,6 +41,15 @@ abstract class RouteHelper
         // Create the link
         $link = 'index.php?option=com_academy&view=post&id=' . $id;
 
+        // Posts opened from Featured retain that menu's display overrides.
+        $app = \Joomla\CMS\Factory::getApplication();
+        $active = $app->getMenu()->getActive();
+        if ($active && ($active->query['option'] ?? '') === 'com_academy'
+            && ($active->query['view'] ?? '') === 'featured') {
+            $link .= '&Itemid=' . (int) $active->id;
+        }
+
+
         if ((int) $catid > 1) {
             $link .= '&catid=' . $catid;
         }

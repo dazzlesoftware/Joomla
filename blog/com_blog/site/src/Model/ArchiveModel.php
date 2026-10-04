@@ -78,10 +78,10 @@ class ArchiveModel extends PostsModel
         $postOrderby   = $params->get('orderby_sec', 'rdate');
         $postOrderDate = $params->get('order_date');
 
-        // No category ordering
+        // Apply category ordering before post ordering.
         $secondary = QueryHelper::orderbySecondary($postOrderby, $postOrderDate, $this->getDatabase());
 
-        $this->setState('list.ordering', $secondary . ', a.created DESC');
+        $this->setState('list.ordering', QueryHelper::orderbyPrimary($params->get('orderby_pri', 'none')) . $secondary . ', a.created DESC');
         $this->setState('list.direction', '');
     }
 

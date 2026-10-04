@@ -58,7 +58,7 @@ $title   = (string) $item->title;
 
 <div class="postmeta-row d-flex flex-wrap align-items-center gap-3 mb-2 text-muted small">
 
-    <?php if ($params->get('engagement_ratings', 1)) : ?>
+    <?php if ($params->get('engagement_ratings', 1) && $params->get('show_rating', 1)) : ?>
     <span class="postmeta-rating" aria-label="Rating: <?php echo $ratingAverage; ?> out of 5, <?php echo $ratingCount; ?> vote<?php echo $ratingCount === 1 ? '' : 's'; ?>">
 
         <?php for ($star = 1; $star <= 5; $star++) : ?>

@@ -62,6 +62,9 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
         $row     = $event->getItem();
         $params  = $event->getParams();
 
+        // A post can be prepared more than once with different display settings.
+        unset($row->pagination, $row->prev, $row->next, $row->prev_label, $row->next_label);
+
         $app   = $this->getApplication();
         $view  = $app->getInput()->get('view');
         $print = $app->getInput()->getBool('print');
@@ -70,15 +73,14 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if ($context === 'com_academy.post' && $view === 'post' && $params->get('show_item_navigation')) {
+        // Individual-post Previous/Next links; listing pages use show_pagination separately.
+        if ($context === 'com_academy.post' && $view === 'post' && (int) $params->get('show_item_navigation', 1) === 1) {
             $db         = $this->getDatabase();
             $user       = $app->getIdentity();
             $lang       = $app->getLanguage();
             $now        = Factory::getDate()->toSql();
             $query      = $db->createQuery();
             $uid        = $row->id;
-            $option     = 'com_academy';
-            $canPublish = $user->authorise('core.edit.state', $option . '.post.' . $row->id);
 
             /**
              * The following is needed as different menu items types utilise a different param to control ordering.
@@ -155,7 +157,7 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
                 }
             }
 
-            $query->order($orderby);
+            $query->order($orderby)->order($db->quoteName('a.id') . ' ASC');
 
             $case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias'), '!=', '0')
                 . ' THEN ' . $query->concatenate([$query->castAs('CHAR', $db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
@@ -184,9 +186,9 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
                 ->bind(':catid', $row->catid, ParameterType::INTEGER)
                 ->bind(':state', $row->state, ParameterType::INTEGER);
 
-            if (!$canPublish) {
-                $query->whereIn($db->quoteName('a.access'), Access::getAuthorisedViewLevels($user->id));
-            }
+            $query->whereIn($db->quoteName('a.access'), Access::getAuthorisedViewLevels($user->id));
+            $query->whereIn($db->quoteName('cc.access'), Access::getAuthorisedViewLevels($user->id));
+            $query->where($db->quoteName('cc.published') . ' = 1');
 
             $query->where(
                 [
@@ -212,7 +214,10 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             reset($list);
 
             // Location of current content item in array list.
-            $location = array_search($uid, array_keys($list));
+            $location = array_search((int) $uid, array_map('intval', array_keys($list)), true);
+            if ($location === false) {
+                return;
+            }
             $rows     = array_values($list);
 
             $row->prev = null;
@@ -248,6 +253,8 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             if ($row->prev || $row->next) {
                 // Get the path for the layout file
                 $path = PluginHelper::getLayoutPath('academy', 'pagenavigation');
+
+                $app->getDocument()->getWebAssetManager()->useStyle('fontawesome');
 
                 // Render the pagenav
                 ob_start();
