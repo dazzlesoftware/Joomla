@@ -82,6 +82,22 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
             $query      = $db->createQuery();
             $uid        = $row->id;
 
+            $menu = $app->getMenu()->getActive();
+            if ($menu && ($menu->query['option'] ?? '') === 'com_codex'
+                && ($menu->query['view'] ?? '') === 'archive') {
+                // Archive neighbours belong to the menu's complete filtered list,
+                // not just the current post's category. Use the same query/order
+                // as the listing, but never navigate into inaccessible posts.
+                $model = $app->bootComponent('com_codex')->getMVCFactory()->createModel('Archive', 'Site');
+                $model->getState();
+                $model->setState('list.start', 0);
+                $model->setState('list.limit', 0);
+                $model->setState('filter.access', true);
+                $list = [];
+                foreach ($model->getItems() ?: [] as $neighbour) {
+                    $list[(int) $neighbour->id] = $neighbour;
+                }
+            } else {
             /**
              * The following is needed as different menu items types utilise a different param to control ordering.
              * For Blogs the `orderby_sec` param is the order controlling param.
@@ -205,6 +221,8 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
 
             $db->setQuery($query);
             $list = $db->loadObjectList('id');
+
+            }
 
             // This check needed if incorrect Itemid is given resulting in an incorrect result.
             if (!\is_array($list)) {

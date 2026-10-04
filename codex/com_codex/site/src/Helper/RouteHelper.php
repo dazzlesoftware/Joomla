@@ -45,7 +45,7 @@ abstract class RouteHelper
         $app = \Joomla\CMS\Factory::getApplication();
         $active = $app->getMenu()->getActive();
         if ($active && ($active->query['option'] ?? '') === 'com_codex'
-            && ($active->query['view'] ?? '') === 'featured') {
+            && in_array($active->query['view'] ?? '', ['featured', 'archive', 'author', 'tags'], true)) {
             $link .= '&Itemid=' . (int) $active->id;
         }
 

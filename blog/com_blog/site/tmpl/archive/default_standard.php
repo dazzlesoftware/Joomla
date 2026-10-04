@@ -56,6 +56,20 @@ if (in_array($listStyle, ['card', 'learning'], true) && empty($featuredImages->f
 <div class="item-content learning-item-content card-body d-flex flex-column">
     <?php echo $this->loadTemplate('title'); ?>
     <?php if ($params->get('show_intro', 1)) : ?><?php echo $this->item->summary; ?><?php endif; ?>
+    <?php if ($params->get('show_readmore') && $this->item->readmore) :
+        if ($params->get('access-view')) :
+            $link = Route::_(RouteHelper::getPostRoute($this->item->slug, $this->item->catid, $this->item->language));
+        else :
+            $menu = Factory::getApplication()->getMenu();
+            $active = $menu->getActive();
+            $itemId = $active->id;
+            $link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+            $link->setVar('return', base64_encode(RouteHelper::getPostRoute($this->item->slug, $this->item->catid, $this->item->language)));
+        endif; ?>
+
+        <?php echo LayoutHelper::render('blog.content.readmore', ['item' => $this->item, 'params' => $params, 'link' => $link], __DIR__ . '/layouts'); ?>
+
+    <?php endif; ?>
     <?php echo $this->loadTemplate('meta'); ?>
     <?php echo $this->loadTemplate('footer'); ?>
 </div>

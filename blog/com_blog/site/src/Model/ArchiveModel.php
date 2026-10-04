@@ -56,7 +56,7 @@ class ArchiveModel extends PostsModel
         // Add archive properties
         $params = \Joomla\Component\Blog\Site\Helper\ArchivePostsHelper::settings($app->getParams('com_blog'));
         $this->setState('params', $params);
-        $this->setState('filter.access', true);
+        $this->setState('filter.access', !in_array($params->get('show_noauth', 0), [1, '1', 'use_post'], true));
         $this->setState('list.links', 0);
 
         // Filter on archived posts

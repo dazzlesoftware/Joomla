@@ -42,12 +42,15 @@ foreach(['academy','blog','codex'] as $family){
   $check((bool)$target,'Featured menu fixture');$saved=$target->getParams()->toArray();$savedQuery=$target->query;$target->query['option']=$component;$menu->setActive($target->id);
   $global=Joomla\CMS\Component\ComponentHelper::getParams($component);$oldGlobal=$global->get('show_item_navigation');
   try {
+   foreach(['featured','archive','author','tags','category'] as $origin) {
+   $target->query['view']=$origin;
    foreach([[0,1,1,0],[1,0,0,1],['use_post',0,1,0],['use_post','',1,1],['',1,0,1],['','',0,0],['','',1,1]] as [$menuValue,$postValue,$globalValue,$expected]){
     $target->getParams()->set('show_item_navigation',$menuValue);$global->set('show_item_navigation',$globalValue);
     $db->setQuery($db->createQuery()->update('#__'.$family)->set('options='.$db->quote(json_encode(['show_item_navigation'=>$postValue])))->where('id='.$ids[1]))->execute();
     $input->set('id',$ids[1]);$m=$factory->createModel('Post','Site');$m->getState();
     $params=clone $global;if($menuValue!=='')$params->set('show_item_navigation',$menuValue);$m->setState('params',$params);
     $item=$m->getItem($ids[1]);$check((int)$item->params->get('show_item_navigation')===$expected,'menu/post/global precedence '.json_encode([$menuValue,$postValue,$globalValue]));
+   }
    }
   } finally {$target->getParams()->loadArray($saved);$target->query=$savedQuery;$global->set('show_item_navigation',$oldGlobal);$menu->setActive($oldActive?->id);}
   echo "$family: neighbours, rendered links, Hide, print, listing context, missing current post and menu/post/global inheritance passed.\n";

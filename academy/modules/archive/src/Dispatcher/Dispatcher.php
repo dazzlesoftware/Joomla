@@ -28,6 +28,7 @@ final class Dispatcher extends AbstractModuleDispatcher
         $model = $app->bootComponent('com_academy')->getMVCFactory()->createModel('Archive', 'Site');
         $model->getState();
         $model->setState('params', $params);
+        $model->setState('filter.access', !in_array($params->get('show_noauth', 0), [1, '1', 'use_post'], true));
         $model->setState('filter.tag', null);
         $model->setState('list.filter', '');
         $items = $model->getArchiveMonths((int) $data['params']->get('count', 5));

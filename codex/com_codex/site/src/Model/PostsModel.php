@@ -134,7 +134,7 @@ class PostsModel extends ListModel
         $this->setState('filter.language', Multilanguage::isEnabled());
 
         // Process show_noauth parameter
-        if ((!$params->get('show_noauth')) || (!ComponentHelper::getParams('com_codex')->get('show_noauth'))) {
+        if (!in_array($params->get('show_noauth', 0), [1, '1', 'use_post'], true)) {
             $this->setState('filter.access', true);
         } else {
             $this->setState('filter.access', false);
@@ -313,10 +313,29 @@ class PostsModel extends ListModel
             ->join('LEFT', $db->quoteName('#__codex_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
 
         // Filter by access level.
+        $groups = $this->getState('filter.viewlevels', $user->getAuthorisedViewLevels());
         if ($this->getState('filter.access', true)) {
-            $groups = $this->getState('filter.viewlevels', $user->getAuthorisedViewLevels());
             $query->whereIn($db->quoteName('a.access'), $groups)
                 ->whereIn($db->quoteName('c.access'), $groups);
+        } elseif ($params->get('show_noauth') === 'use_post') {
+            // Resolve per-post preview permission before pagination, without
+            // depending on database-specific JSON functions. This never grants
+            // access to the full post; access-view is still calculated below.
+            $levels = implode(',', array_map('intval', $groups));
+            $allowed = '(a.access IN (' . $levels . ') AND c.access IN (' . $levels . '))';
+            $candidates = $db->setQuery($db->createQuery()
+                ->select(['a.id', 'a.options'])->from('#__codex AS a')
+                ->join('LEFT', '#__codex_categories AS c ON c.id=a.catid')
+                ->where('NOT ' . $allowed))->loadObjectList();
+            $previewIds = [];
+            $default = (int) ComponentHelper::getParams('com_codex')->get('show_noauth', 0);
+            foreach ($candidates as $candidate) {
+                $value = (new Registry($candidate->options))->get('show_noauth');
+                if ((int) ($value === '' || $value === null ? $default : $value) === 1) {
+                    $previewIds[] = (int) $candidate->id;
+                }
+            }
+            $query->where('(' . $allowed . ($previewIds ? ' OR a.id IN (' . implode(',', $previewIds) . ')' : '') . ')');
         }
 
         // Filter by published state

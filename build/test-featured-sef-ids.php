@@ -23,7 +23,8 @@ try {
         require_once __DIR__ . '/../' . $family . '/com_' . $family . '/site/src/Service/FeaturedPostRules.php';
         require_once __DIR__ . '/../' . $family . '/com_' . $family . '/site/src/Service/Router.php';
         $component = 'com_' . $family;
-        $target->query = ['option' => $component, 'view' => 'featured'];
+        foreach (['featured', 'archive', 'author', 'tags'] as $listingView) {
+        $target->query = ['option' => $component, 'view' => $listingView];
         $params = ComponentHelper::getParams($component);
         $saved = $params->get('sef_ids');
         $ids = [];
@@ -74,10 +75,11 @@ try {
                 $rule->parse($parts, $vars);
                 $check(!$vars && count($parts) === 2, "$family: unknown or ambiguous URL rejected");
             }
-            echo "$family: setting on/off, Featured context, URL compatibility, duplicates, numeric aliases and unknown paths passed.\n";
+            echo "$family/$listingView: setting on/off, Featured context, URL compatibility, duplicates, numeric aliases and unknown paths passed.\n";
         } finally {
             $params->set('sef_ids', $saved);
             if ($ids) { $db->setQuery('DELETE FROM #__' . $family . ' WHERE id IN (' . implode(',', $ids) . ')')->execute(); }
+        }
         }
     }
 } finally {

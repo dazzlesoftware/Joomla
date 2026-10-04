@@ -19,7 +19,7 @@ final class HtmlView extends BaseHtmlView
         'posts' => ['label' => 'Post Display', 'icon' => 'file-alt', 'fieldsets' => ['posts']],
         'editor' => ['label' => 'Editor & Authoring', 'icon' => 'edit', 'fieldsets' => ['block_editor', 'polls', 'editinglayout']],
         'lists' => ['label' => 'Post Lists & Blog Layouts', 'icon' => 'list', 'fieldsets' => ['list_display', 'automated_truncation', 'listing_filters', 'featured_slider', 'blog_default_parameters', 'compact_posts', 'list_default_parameters', 'shared']],
-        'authors' => ['label' => 'COM_ACADEMY_AUTHORS_HEADING', 'icon_class' => 'fa-solid fa-users', 'fieldsets' => ['authors', 'author_posts', 'author_slider']],
+        'authors' => ['label' => 'COM_ACADEMY_AUTHORS_HEADING', 'icon_class' => 'fa-solid fa-users', 'fieldsets' => ['authors', 'author_slider', 'author_posts', 'author_compact']],
         'tags' => ['label' => 'COM_ACADEMY_TAGS_LAYOUT', 'icon_class' => 'fa-solid fa-tags', 'fieldsets' => ['tags_directory', 'tag_posts', 'tag_posts_slider', 'tag_posts_compact']],
         'archives' => ['label' => 'Archives', 'icon_class' => 'fa-solid fa-box-archive', 'fieldsets' => ['archive_posts', 'archive_posts_slider', 'archive_posts_compact']],
         'categories' => ['label' => 'Category Layouts', 'icon' => 'folder', 'fieldsets' => ['category', 'categories']],

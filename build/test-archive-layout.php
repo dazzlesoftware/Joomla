@@ -89,6 +89,25 @@ foreach (['academy','blog','codex'] as $family) {
    foreach(['link_titles'=>$item->title,'link_author'=>'ARCHIVE_AUTHOR_CHECK','link_category'=>'ARCHIVE_CATEGORY_CHECK','link_parent_category'=>'ARCHIVE_PARENT_CHECK'] as $key=>$text){
     foreach([0,1] as $value){$item->params->set($key,$value);$html=$v->loadTemplate('item');$doc=new DOMDocument();@$doc->loadHTML('<?xml encoding="UTF-8">'.$html);$found=false;foreach($doc->getElementsByTagName('a') as $a){if(trim($a->textContent)===$text)$found=true;}if($found!==(bool)$value)throw new RuntimeException('Archive link '.$style.' '.$key);}
    }
+   $item->readmore = 1;
+   $item->alternative_readmore = '';
+   $item->params->set('access-view', true);
+   foreach ([0, 1] as $show) {
+    $item->params->set('show_readmore', $show);
+    $html = $v->loadTemplate('item');
+    if (str_contains($html, 'class="readmore"') !== (bool) $show) throw new RuntimeException('Archive Read More ' . $style);
+   }
+   foreach ([0, 1] as $title) {
+    $item->params->set('show_readmore_title', $title);
+    $html = $v->loadTemplate('item');
+    $doc = new DOMDocument(); @$doc->loadHTML('<?xml encoding="UTF-8">' . $html);
+    $xp = new DOMXPath($doc); $text = $xp->evaluate('string(//p[@class="readmore"]/a)');
+    if (str_contains($text, $item->title) !== (bool) $title) throw new RuntimeException('Archive Read More title ' . $style);
+   }
+   $item->params->set('access-view', false);
+   $html = $v->loadTemplate('item');
+   if (!str_contains($html, 'return=')) throw new RuntimeException('Archive login return ' . $style);
+   $item->params->set('access-view', true);
    foreach(['created','modified','published'] as $type){$item->params->set('date_type',$type);$html=$v->loadTemplate('item');$dateHelper=$ns.'DateHelper';if(!str_contains($html,$dateHelper::render($item,$item->params)))throw new RuntimeException('Archive date '.$type);}
   }
   $v->item=$originalItem;

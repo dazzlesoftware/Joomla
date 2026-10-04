@@ -18,11 +18,13 @@ use Joomla\CMS\Layout\LayoutHelper;
 ?>
 <div class="content-view-author">
     <?php echo $this->loadTemplate('navigation'); ?>
+    <?php if ($this->author) : ?>
     <header class="author-profile-header d-flex align-items-center gap-3 mb-4">
         <?php echo LayoutHelper::render('post.avatar', (object) ['created_by' => $this->author->id], JPATH_COMPONENT . '/layouts'); ?>
         <div><h1 class="mb-1"><?php echo $this->escape($this->author->name); ?></h1>
         <div class="text-muted"><?php echo \Joomla\CMS\Language\Text::plural('COM_ACADEMY_AUTHORS_POST_COUNT', $this->pagination->total); ?></div></div>
     </header>
+    <?php else : ?><h1><?php echo \Joomla\CMS\Language\Text::_('COM_ACADEMY_AUTHORS_HEADING'); ?></h1><?php endif; ?>
     <?php echo \Joomla\Component\Academy\Site\Helper\FeaturedSliderHelper::render($this->params, 0, $this->pagination->limitstart, function ($style, $data) {
         $this->sliderData = $data;
         return $this->loadTemplate('slider_' . $style);
@@ -49,6 +51,8 @@ use Joomla\CMS\Layout\LayoutHelper;
             <?php endforeach; ?>
         </div>
     <?php endforeach; ?>
+
+    <?php echo $this->loadTemplate('links'); ?>
 
     <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
         <div class="w-100">

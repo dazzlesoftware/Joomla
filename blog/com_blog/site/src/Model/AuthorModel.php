@@ -8,19 +8,19 @@ use Joomla\Component\Blog\Site\Helper\AuthorListingHelper;
 use Joomla\Component\Blog\Site\Helper\ListingSettingsHelper;
 use Joomla\Component\Blog\Site\Helper\QueryHelper;
 
-/** Published, accessible posts belonging to one author, with database pagination. */
+/** Filtered author posts, with database pagination. */
 final class AuthorModel extends PostsModel
 {
     protected function populateState($ordering = 'ordering', $direction = 'ASC')
     {
         parent::populateState($ordering, $direction);
         $app = Factory::getApplication();
-        $authorId = $app->getInput()->getInt('id');
+        $authorId = $app->getInput()->getInt('id', 0);
         $params = AuthorListingHelper::settings($app->getParams('com_blog'), $authorId);
         $this->setState('params', $params);
-        $this->setState('filter.author_id', $authorId);
+        $this->setState('filter.author_id', null);
         $this->setState('filter.published', 1);
-        $this->setState('filter.access', true);
+        $this->setState('filter.access', !in_array($params->get('show_noauth', 0), [1, '1', 'use_post'], true));
         $this->setState('list.limit', ListingSettingsHelper::count($params));
         $this->setState('list.links', 0);
         $this->setState('list.ordering', QueryHelper::orderbyPrimary($params->get('orderby_pri'))
@@ -31,8 +31,7 @@ final class AuthorModel extends PostsModel
     protected function getListQuery()
     {
         $query = parent::getListQuery();
-        // Do not allow a missing id (zero) to become an unrestricted list.
-        $query->where('a.created_by = ' . (int) $this->getState('filter.author_id'));
+        $query->where('ua.block = 0');
         if ($this->getState('filter.language')) {
             $query->whereIn('c.language', [Factory::getApplication()->getLanguage()->getTag(), '*'], \Joomla\Database\ParameterType::STRING);
         }

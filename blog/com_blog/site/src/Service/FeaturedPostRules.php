@@ -6,7 +6,7 @@ use Joomla\CMS\Component\Router\Rules\RulesInterface;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\Database\DatabaseInterface;
 
-/** Route individual posts beneath their Featured menu without losing its settings. */
+/** Route individual posts beneath their listing menu without losing its settings. */
 final class FeaturedPostRules implements RulesInterface
 {
     public function __construct(private RouterView $router, private DatabaseInterface $db, private bool $noIDs = false) {}
@@ -18,7 +18,7 @@ final class FeaturedPostRules implements RulesInterface
         $menu = isset($query['Itemid']) ? $this->router->menu->getItem((int) $query['Itemid']) : null;
         if (($query['view'] ?? '') !== 'post' || !$menu
             || ($menu->query['option'] ?? '') !== 'com_blog'
-            || ($menu->query['view'] ?? '') !== 'featured' || empty($query['id'])) {
+            || !in_array($menu->query['view'] ?? '', ['featured', 'archive', 'author', 'tags'], true) || empty($query['id'])) {
             return;
         }
         $post = $this->post((int) $query['id']);
@@ -38,7 +38,7 @@ final class FeaturedPostRules implements RulesInterface
     {
         $menu = $this->router->menu->getActive();
         if (!$menu || ($menu->query['option'] ?? '') !== 'com_blog'
-            || ($menu->query['view'] ?? '') !== 'featured'
+            || !in_array($menu->query['view'] ?? '', ['featured', 'archive', 'author', 'tags'], true)
             || count($segments) !== 2 || $segments[0] !== 'post') {
             return;
         }

@@ -20,7 +20,7 @@ final class TagsModel extends PostsModel
         $this->setState('params', $params);
         $this->setState('filter.tag_id', $tagId);
         $this->setState('filter.published', 1);
-        $this->setState('filter.access', true);
+        $this->setState('filter.access', !in_array($params->get('show_noauth', 0), [1, '1', 'use_post'], true));
         $this->setState('list.limit', ListingSettingsHelper::count($params));
         $this->setState('list.links', 0);
         $this->setState('list.ordering', QueryHelper::orderbyPrimary($params->get('orderby_pri'))

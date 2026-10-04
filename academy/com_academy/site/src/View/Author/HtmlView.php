@@ -15,6 +15,7 @@ final class HtmlView extends BaseHtmlView
 {
     public ?object $author = null;
     public array $posts = [];
+    public array $compactItems = [];
     public ?Registry $params = null;
     public ?Pagination $pagination = null;
     public ?object $item = null;
@@ -23,26 +24,40 @@ final class HtmlView extends BaseHtmlView
     public function display($tpl = null): void
     {
         $app = Factory::getApplication();
-        $authorId = $app->getInput()->getInt('id');
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
-        $this->author = $db->setQuery($db->createQuery()->select(['id', 'name'])->from('#__users')
-            ->where('id=' . $authorId)->where('block=0'))->loadObject();
-        if (!$this->author) {
-            throw new \RuntimeException('Author not found.', 404);
-        }
+        $authorId = $app->getInput()->getInt('id', 0);
         $model = $this->getModel();
         $this->params = $model->getState('params');
+        $authors = \Joomla\Component\Academy\Site\Helper\ListingFilterHelper::ids($this->params->get('listing_authors', []));
+        $profileId = count($authors) === 1 ? $authors[0] : 0;
+        if ($profileId) {
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+            $this->author = $db->setQuery($db->createQuery()->select(['id', 'name'])->from('#__users')
+                ->where('id=' . $profileId)->where('block=0'))->loadObject();
+            if (!$this->author) { throw new \RuntimeException('Author not found.', 404); }
+        }
         $total = (int) $model->getTotal();
         $limit = (int) $model->getState('list.limit');
         $start = (int) $model->getState('list.start');
         $start = $total ? min(intdiv($start, $limit), intdiv($total - 1, $limit)) * $limit : 0;
         $model->setState('list.start', $start);
         $this->posts = $model->getItems();
+        $compact = '\\Joomla\\Component\\Academy\\Site\\Helper\\CompactPostsHelper';
+        $fallback = [];
+        if ($compact::visible($this->params) && $this->params->get('compact_selection', 'next') === 'next') {
+            $next = $app->bootComponent('com_academy')->getMVCFactory()->createModel('Author', 'Site');
+            $next->getState();
+            $next->setState('params', clone $this->params);
+            $next->setState('list.start', $start + count($this->posts));
+            $next->setState('list.limit', max(0, (int) $this->params->get('num_links', 4)));
+            $next->setState('filter.access', true);
+            if ($next->getState('list.limit') > 0) { $fallback = $next->getItems() ?: []; }
+        }
+        $this->compactItems = $compact::select($fallback, $this->posts, $this->params);
         $this->pagination = new Pagination($total, $start, $limit);
         $this->pagination->hideEmptyLimitstart = true;
         $this->pagination->setAdditionalUrlParam('option', 'com_academy');
         $this->pagination->setAdditionalUrlParam('view', 'author');
-        $this->pagination->setAdditionalUrlParam('id', $authorId);
+        if ($authorId) { $this->pagination->setAdditionalUrlParam('id', $authorId); }
         PluginHelper::importPlugin('content');
         PluginHelper::importPlugin('academy');
         foreach ($this->posts as $post) {
@@ -58,7 +73,8 @@ final class HtmlView extends BaseHtmlView
                 $post->event->$property = trim(implode("\n", $app->triggerEvent($event, ['com_academy.author', &$post, &$post->params, 0])));
             }
         }
-        $this->document->setTitle($this->author->name);
+        $this->document->setTitle($this->author->name ?? \Joomla\CMS\Language\Text::_('COM_ACADEMY_AUTHORS_HEADING'));
+        \Joomla\Component\Academy\Site\Helper\ListingFilterHelper::canonical($this->document, $this->params);
         parent::display($tpl);
     }
 }
