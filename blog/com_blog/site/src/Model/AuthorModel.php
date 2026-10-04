@@ -15,7 +15,9 @@ final class AuthorModel extends PostsModel
     {
         parent::populateState($ordering, $direction);
         $app = Factory::getApplication();
-        $authorId = $app->getInput()->getInt('id', 0);
+        $authorId = $app->getInput()->getCmd('view') === 'post'
+            ? (int) ($app->getMenu()->getActive()->query['id'] ?? 0)
+            : $app->getInput()->getInt('id', 0);
         $params = AuthorListingHelper::settings($app->getParams('com_blog'), $authorId);
         $this->setState('params', $params);
         $this->setState('filter.author_id', null);

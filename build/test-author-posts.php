@@ -50,6 +50,23 @@ foreach (['academy','blog','codex'] as $family) {
             if(!str_contains($html,'pagination')) { throw new RuntimeException('Pagination markup'); }
         }
     }
+    // Every display style must honor excerpt and post-info switches.
+    foreach(['standard','card','learning','simple','nickel'] as $style) {
+        $view->params->set('list_item_style',$style);
+        $view->item=$view->posts[0];
+        $view->item->summary='AUTHOR_EXCERPT_TEST';
+        $view->item->params->set('list_item_style',$style);
+        foreach([0,1] as $show) {
+            $view->item->params->set('show_intro',$show);
+            $view->item->params->set('show_title',$show);
+            $html=$view->loadTemplate('item');
+            if(str_contains($html,'AUTHOR_EXCERPT_TEST') !== (bool)$show) throw new RuntimeException('Excerpt visibility '.$style);
+            $view->item->params->set('info_block_show_title',$show);
+            $footer=$view->loadTemplate('footer');
+            preg_match('/<dt class="article-info-term">(.*?)<\/dt>/s',$footer,$infoTitle);
+            if(str_contains($infoTitle[1] ?? '', 'visually-hidden') !== !$show) throw new RuntimeException('Post info title '.$style);
+        }
+    }
     // Exercise the real Author view, not only its form fields.
     $set(['author_compact_show'=>1,'author_num_links'=>2,'author_compact_columns'=>2]);
     foreach(['next','latest','featured','random','related'] as $mode) {

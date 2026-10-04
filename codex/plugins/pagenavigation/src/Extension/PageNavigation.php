@@ -84,17 +84,18 @@ final class PageNavigation extends CMSPlugin implements SubscriberInterface
 
             $menu = $app->getMenu()->getActive();
             if ($menu && ($menu->query['option'] ?? '') === 'com_codex'
-                && ($menu->query['view'] ?? '') === 'archive') {
-                // Archive neighbours belong to the menu's complete filtered list,
+                && in_array($menu->query['view'] ?? '', ['archive', 'author'], true)) {
+                // Listing neighbours belong to the menu's complete filtered list,
                 // not just the current post's category. Use the same query/order
                 // as the listing, but never navigate into inaccessible posts.
-                $model = $app->bootComponent('com_codex')->getMVCFactory()->createModel('Archive', 'Site');
+                $model = $app->bootComponent('com_codex')->getMVCFactory()->createModel(ucfirst($menu->query['view']), 'Site');
                 $model->getState();
                 $model->setState('list.start', 0);
                 $model->setState('list.limit', 0);
                 $model->setState('filter.access', true);
                 $list = [];
                 foreach ($model->getItems() ?: [] as $neighbour) {
+                    $neighbour->slug = $neighbour->id . ':' . $neighbour->alias;
                     $list[(int) $neighbour->id] = $neighbour;
                 }
             } else {
