@@ -16,6 +16,28 @@ foreach (['academy','blog','codex'] as $family) {
     ob_start();$view->display();$html=ob_get_clean();
     if (count($view->items)>1 || !$view->pagination) { throw new RuntimeException('Page size'); }
     if ($view->pagination->total && !$view->items) { throw new RuntimeException('Out of range page'); }
+    // Verify filters affect both directory rows and counts on the installed view.
+    $page=$app->getParams('com_'.$family);
+    $saved=$page->toArray();
+    $db=Joomla\CMS\Factory::getContainer()->get(Joomla\Database\DatabaseInterface::class);
+    $author=(int)$db->setQuery('SELECT created_by FROM #__'.$family.' WHERE state=1 LIMIT 1')->loadResult();
+    foreach([
+        ['listing_authors'=>[$author]],
+        ['listing_exclude_authors'=>[$author]],
+        ['listing_categories'=>[2147483647]],
+        ['listing_tags'=>[2147483647]],
+    ] as $filter) {
+        foreach(['listing_authors','listing_exclude_authors','listing_categories','listing_exclude_categories','listing_tags'] as $key) $page->set($key,[]);
+        foreach($filter as $key=>$value) $page->set($key,$value);
+        ob_start();$view->display();ob_end_clean();
+        foreach($view->items as $item) {
+            if(isset($filter['listing_authors']) && (int)$item->id!==$author) throw new RuntimeException('Included author');
+            if(isset($filter['listing_exclude_authors']) && (int)$item->id===$author) throw new RuntimeException('Excluded author');
+        }
+        if((isset($filter['listing_categories']) || isset($filter['listing_tags'])) && ($view->items || $view->pagination->total)) throw new RuntimeException('Filtered directory counts');
+    }
+    foreach(['listing_authors','listing_exclude_authors','listing_categories','listing_exclude_categories','listing_tags'] as $key) $page->set($key,$saved[$key]??[]);
+    ob_start();$view->display();ob_end_clean();
     foreach (['link_list','image_grid'] as $style) {
         foreach (['rows','columns'] as $layout) {
             foreach (['grid','masonry'] as $columnStyle) {

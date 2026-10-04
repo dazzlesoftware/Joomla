@@ -18,7 +18,10 @@ final class HtmlView extends BaseHtmlView
     public function display($tpl = null): void
     {
         $app = Factory::getApplication();
-        $this->params = $app->getParams();
+        $this->params = clone \Joomla\CMS\Component\ComponentHelper::getParams('com_academy');
+        foreach ($app->getParams('com_academy')->toArray() as $key => $value) {
+            if ($value !== '' && $value !== null) { $this->params->set($key, $value); }
+        }
 
         $db = Factory::getContainer()->get(DatabaseInterface::class);
         $levels = array_map('intval', $app->getIdentity()->getAuthorisedViewLevels());
@@ -28,6 +31,8 @@ final class HtmlView extends BaseHtmlView
             ->select(['u.id', 'u.name', 'u.email', 'COUNT(p.id) AS post_count'])
             ->from('#__users AS u')
             ->join('INNER', '#__academy AS p ON p.created_by = u.id')
+            ->join('INNER', '#__academy_categories AS c ON c.id=p.catid')
+            ->where('c.published = 1')->whereIn('c.access', $levels)
             ->where('u.block = 0')
             ->where('p.state = 1')
             ->whereIn('p.access', $levels)
@@ -38,6 +43,11 @@ final class HtmlView extends BaseHtmlView
         if ($app->getLanguageFilter()) {
             $query->whereIn('p.language', ['*', $app->getLanguage()->getTag()], \Joomla\Database\ParameterType::STRING);
         }
+        $filters = clone $this->params;
+        $filters->set('listing_include_featured', 1);
+        $filters->set('listing_pin_featured', 0);
+        \Joomla\Component\Academy\Site\Helper\ListingFilterHelper::apply($query, $filters);
+        \Joomla\Component\Academy\Site\Helper\ListingFilterHelper::canonical($this->getDocument(), $this->params);
         $countQuery = clone $query;
         $countQuery->clear('order')->clear('group')->clear('select')->select('COUNT(DISTINCT u.id)');
         $total = (int) $db->setQuery($countQuery)->loadResult();

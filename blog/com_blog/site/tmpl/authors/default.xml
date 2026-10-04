@@ -4,6 +4,15 @@
     <message>COM_BLOG_AUTHORS_VIEW_DEFAULT_DESC</message>
   </layout>
   <fields name="params">
+<fieldset name="request">
+<field name="listing_authors" type="postauthors" label="Filter by Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_authors" type="postauthors" label="Exclude Authors" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_categories" type="postcategory" label="Filter by Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_exclude_categories" type="postcategory" label="Exclude Categories" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_tags" type="posttags" label="Filter by Tags" multiple="true" layout="joomla.form.field.list-fancy-select" filter="int_array" addfieldprefix="Joomla\Component\Blog\Administrator\Field" description="Leave empty for no restriction. Exclusions take priority over included items." />
+<field name="listing_canonical" type="url" label="Custom Canonical Link" filter="url" relative="false" description="Optional absolute HTTP or HTTPS URL for this listing page." />
+<field name="listing_subcategories" type="globaldefaultlist" globalcomponent="com_blog" addfieldprefix="Joomla\Component\Blog\Administrator\Field" label="Include Subcategories" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
+</fieldset>
     <fieldset name="authors" label="COM_BLOG_AUTHORS_HEADING">
       <field name="authors_style" type="list" label="COM_BLOG_AUTHORS_STYLE" useglobal="true"><option value="link_list">COM_BLOG_AUTHORS_LINK_LIST</option><option value="image_grid">COM_BLOG_AUTHORS_IMAGE_GRID</option></field>
       <field name="authors_listing_layout" type="list" label="COM_BLOG_AUTHORS_LISTING" useglobal="true"><option value="rows">COM_BLOG_AUTHORS_ROWS</option><option value="columns">COM_BLOG_AUTHORS_COLUMNS</option></field>
@@ -12,7 +21,7 @@
       <field name="authors_per_page" type="number" label="COM_BLOG_AUTHORS_PER_PAGE" min="1" max="100" useglobal="true" />
       <field name="authors_pagination_summary" type="list" label="COM_BLOG_AUTHORS_PAGINATION_SUMMARY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
     </fieldset>
-    <fieldset name="pagevars" label="COM_MENUS_PAGE_DISPLAY_OPTIONS_FIELDSET_LABEL">
+    <fieldset name="pagevars" label="JOPTIONS">
       <field name="show_postnav" type="list" label="COM_BLOG_SHOW_POSTNAV_LABEL" description="COM_BLOG_SHOW_POSTNAV_DESC" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
