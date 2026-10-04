@@ -20,9 +20,10 @@ foreach (['academy','blog','codex'] as $family) {
         }
     };
     $set(['author_items_limit_source'=>'custom','author_posts_per_page'=>2,'author_show_pagination'=>1,'author_featured_slider_enabled'=>0,'author_listing_exclude_authors'=>[]]);
-    $render=function ($start=0) use ($app,$factory,$component) {
+    $render=function ($start=0, $prepare=null) use ($app,$factory,$component) {
         $app->getInput()->set('limitstart',$start);
         $model=$factory->createModel('Author','Site');
+        if ($prepare) { $prepare($model); }
         $view=$factory->createView('Author','Site','html');
         $view->setModel($model,true);
         $view->addTemplatePath(JPATH_ROOT.'/components/'.$component.'/tmpl/author');
@@ -50,6 +51,22 @@ foreach (['academy','blog','codex'] as $family) {
             if(!str_contains($html,'pagination')) { throw new RuntimeException('Pagination markup'); }
         }
     }
+    // Exercise truncation through the Author model/view with predictable content.
+    $set(['show_intro'=>1,'truncation_enabled'=>1,'truncation_content_override'=>1,'truncation_type'=>'words','list_excerpt_length'=>2]);
+    $prepare=static function($model) {
+        foreach($model->getItems() as $post) { $post->excerpt=''; $post->summary='Alpha Bravo Charlie Delta Echo'; $post->readmore=0; }
+    };
+    [$short]=$render(0,$prepare);
+    if(str_contains($short->posts[0]->summary,'Charlie') || !str_contains($short->posts[0]->summary,'Bravo')) throw new RuntimeException('Author word truncation');
+    $set(['list_excerpt_length'=>4]);
+    [$long]=$render(0,$prepare);
+    if(!str_contains($long->posts[0]->summary,'Delta') || str_contains($long->posts[0]->summary,'Echo')) throw new RuntimeException('Author changed truncation limit');
+    $set(['truncation_enabled'=>0]);
+    [$full]=$render(0,$prepare);
+    if(!str_contains($full->posts[0]->summary,'Echo')) throw new RuntimeException('Author truncation disabled');
+    $set(['truncation_enabled'=>1]);
+    [$manual]=$render(0,static function($model)use($prepare) { $prepare($model); foreach($model->getItems() as $post) $post->excerpt='MANUAL AUTHOR EXCERPT'; });
+    if(!str_contains($manual->posts[0]->summary,'MANUAL AUTHOR EXCERPT')) throw new RuntimeException('Author manual excerpt precedence');
     // Every display style must honor excerpt and post-info switches.
     foreach(['standard','card','learning','simple','nickel'] as $style) {
         $view->params->set('list_item_style',$style);
