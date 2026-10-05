@@ -38,6 +38,32 @@ foreach (['academy','blog','codex'] as $family) {
     }
     foreach(['listing_authors','listing_exclude_authors','listing_categories','listing_exclude_categories','listing_tags'] as $key) $page->set($key,$saved[$key]??[]);
     ob_start();$view->display();ob_end_clean();
+    $page->set('compact_show',1);
+    $page->set('num_links',2);
+    foreach(['next','latest','featured','random','related'] as $selection) {
+        $page->set('compact_selection',$selection);
+        ob_start();$view->display();$compactHtml=ob_get_clean();
+        if(count($view->compactItems)>2) throw new RuntimeException('Compact count');
+        foreach($view->compactItems as $post) if(!in_array((int)$post->created_by,array_map('intval',array_column($view->items,'id')),true)) throw new RuntimeException('Directory compact author scope');
+        if($view->compactItems && !str_contains($compactHtml,'class="compact-posts ')) throw new RuntimeException('Directory compact markup');
+    }
+    $page->set('compact_show',0);
+    ob_start();$view->display();$compactHtml=ob_get_clean();
+    if($view->compactItems || str_contains($compactHtml,'class="compact-posts ')) throw new RuntimeException('Directory compact Hide');
+    $view->params->set('featured_slider_enabled',1);
+    $view->params->set('featured_slider_all_pages',0);
+    $view->pagination=new Joomla\CMS\Pagination\Pagination(20,0,1);
+    $html=$view->loadTemplate();
+    if(!str_contains($html,'featured-showcase') && !str_contains($html,'featured-slider')) throw new RuntimeException('Authors slider missing');
+    $view->pagination=new Joomla\CMS\Pagination\Pagination(20,1,1);
+    $html=$view->loadTemplate();
+    if(str_contains($html,'featured-showcase')) throw new RuntimeException('Authors first-page gating');
+    $view->params->set('featured_slider_all_pages',1);
+    $html=$view->loadTemplate();
+    if(!str_contains($html,'featured-showcase') && !str_contains($html,'featured-slider')) throw new RuntimeException('Authors all-pages slider');
+    $view->params->set('featured_slider_enabled',0);
+    $html=$view->loadTemplate();
+    if(str_contains($html,'featured-showcase')) throw new RuntimeException('Authors slider Hide');
     foreach (['link_list','image_grid'] as $style) {
         foreach (['rows','columns'] as $layout) {
             foreach (['grid','masonry'] as $columnStyle) {

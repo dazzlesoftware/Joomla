@@ -13,6 +13,25 @@
 <field name="listing_canonical" type="url" label="Custom Canonical Link" filter="url" relative="false" description="Optional absolute HTTP or HTTPS URL for this listing page." />
 <field name="listing_subcategories" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Include Subcategories" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JNO</option><option value="1">JYES</option></field>
 </fieldset>
+<fieldset name="featured_slider" label="Slider">
+<field name="featured_slider_enabled" type="list" label="Display Featured Slider" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_all_pages" type="list" label="Display on All Pages" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_auto" type="list" label="Auto Sliding" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_interval" type="number" label="Auto Sliding Interval (Seconds)" min="1" hint="8" />
+<field name="featured_slider_image" type="list" label="Show Post Image" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_title" type="list" label="Show Post Title" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_category" type="list" label="Show Post Category" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_author" type="list" label="Show Post Author" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_avatar" type="list" label="Show Author Avatar" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_readmore" type="list" label="Show Readmore" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_navigation" type="list" label="Show Navigation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content" type="list" label="Show Post Content" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_ratings" type="list" label="Show Post Ratings" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_date" type="list" label="Show Post Date" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="featured_slider_content_length" type="number" label="Maximum Content (Characters)" description="0 displays the complete text. Empty inherits the component setting." min="0" hint="250" />
+<field name="featured_slider_count" type="number" label="Maximum Featured Posts" min="1" max="50" hint="5" />
+<field name="featured_slider_date_source" type="list" label="Post Date Source" useglobal="true"><option value="created">Created Date</option><option value="modified">Modified Date</option><option value="published">Published Date</option></field>
+</fieldset>
     <fieldset name="authors" label="COM_CODEX_AUTHORS_HEADING">
       <field name="authors_style" type="list" label="COM_CODEX_AUTHORS_STYLE" useglobal="true"><option value="link_list">COM_CODEX_AUTHORS_LINK_LIST</option><option value="image_grid">COM_CODEX_AUTHORS_IMAGE_GRID</option></field>
       <field name="authors_listing_layout" type="list" label="COM_CODEX_AUTHORS_LISTING" useglobal="true"><option value="rows">COM_CODEX_AUTHORS_ROWS</option><option value="columns">COM_CODEX_AUTHORS_COLUMNS</option></field>
@@ -21,6 +40,27 @@
       <field name="authors_per_page" type="number" label="COM_CODEX_AUTHORS_PER_PAGE" min="1" max="100" useglobal="true" />
       <field name="authors_pagination_summary" type="list" label="COM_CODEX_AUTHORS_PAGINATION_SUMMARY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
     </fieldset>
+<fieldset name="compact_posts" label="COM_CODEX_COMPACT_POSTS_TAB">
+<field name="compact_show" type="list" label="COM_CODEX_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+
+
+
+<field name="compact_show_title" type="list" label="COM_CODEX_COMPACT_SHOW_TITLE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="compact_selection" type="list" label="COM_CODEX_COMPACT_SELECTION" description="COM_CODEX_COMPACT_SELECTION_DESC" useglobal="true">
+        <option value="next">COM_CODEX_COMPACT_NEXT</option><option value="latest">COM_CODEX_COMPACT_LATEST</option><option value="featured">COM_CODEX_COMPACT_FEATURED</option><option value="random">COM_CODEX_COMPACT_RANDOM</option><option value="related">COM_CODEX_COMPACT_RELATED</option>
+      </field>
+<field name="compact_heading_alignment" type="list" label="COM_CODEX_COMPACT_HEADING_ALIGNMENT" useglobal="true">
+  <option value="left">COM_CODEX_ALIGN_LEFT</option>
+  <option value="center">COM_CODEX_ALIGN_CENTER</option>
+  <option value="right">COM_CODEX_ALIGN_RIGHT</option>
+</field>
+<field name="compact_show_image" type="list" label="COM_CODEX_COMPACT_SHOW_IMAGE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="link_featured_image" type="list" label="COM_CODEX_LINKED_FEATURED_IMAGE_LABEL" useglobal="true" validate="options">
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+<field name="compact_show_rating" type="list" label="COM_CODEX_COMPACT_SHOW_RATING" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+</fieldset>
     <fieldset name="pagevars" label="JOPTIONS">
       <field name="show_postnav" type="list" label="COM_CODEX_SHOW_POSTNAV_LABEL" description="COM_CODEX_SHOW_POSTNAV_DESC" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>

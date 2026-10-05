@@ -22,6 +22,7 @@ $avatarHelper = '\\Joomla\\Plugin\\User\\GenesisProfile\\Helper\\GenesisProfileH
     <?php if ($this->params->get('show_page_heading', 1)) : ?>
         <h1 class="mb-4"><?php echo $this->escape($this->params->get('page_heading') ?: Text::_('COM_BLOG_AUTHORS_HEADING')); ?></h1>
     <?php endif; ?>
+    <?php echo \Joomla\Component\Blog\Site\Helper\FeaturedSliderHelper::render($this->params, 0, $this->pagination->limitstart); ?>
     <ul class="list-unstyled row row-cols-1 row-cols-md-<?php echo $columns; ?> g-4" <?php echo $masonry ? 'data-post-masonry' : ''; ?>>
         <?php foreach ($this->items as $author) : ?>
             <?php $url = Route::_('index.php?option=com_blog&view=author&id=' . (int) $author->id, false); ?>
@@ -47,6 +48,7 @@ $avatarHelper = '\\Joomla\\Plugin\\User\\GenesisProfile\\Helper\\GenesisProfileH
         <?php endforeach; ?>
     </ul>
     <?php if (!$this->items) : ?><p class="alert alert-info"><?php echo Text::_('COM_BLOG_AUTHORS_EMPTY'); ?></p><?php endif; ?>
+    <?php echo LayoutHelper::render('compact-posts', ['items' => $this->compactItems, 'params' => $this->params], dirname(__DIR__, 2) . '/layouts'); ?>
     <?php if ($this->pagination && $this->pagination->pagesTotal > 1) : ?>
         <div class="com-content-category-blog__navigation">
             <?php echo $this->pagination->getPagesLinks(); ?>

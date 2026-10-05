@@ -12,6 +12,7 @@ use Joomla\Registry\Registry;
 final class HtmlView extends BaseHtmlView
 {
     public array $items = [];
+    public array $compactItems = [];
     public ?\Joomla\CMS\Pagination\Pagination $pagination = null;
     public ?Registry $params = null;
 
@@ -56,6 +57,18 @@ final class HtmlView extends BaseHtmlView
         $start = $total ? min(intdiv($start, $limit) * $limit, intdiv($total - 1, $limit) * $limit) : 0;
         $this->pagination = new \Joomla\CMS\Pagination\Pagination($total, $start, $limit);
         $this->items = $db->setQuery($query, $start, $limit)->loadObjectList() ?: [];
+
+        // The directory contains authors rather than a primary post list.
+        // Next/related therefore select recent posts by the authors on this page.
+        $compactParams = clone $this->params;
+        $compactParams->set('listing_authors', array_map(static fn($author) => (int) $author->id, $this->items));
+        $compactParams->set('listing_include_featured', 1);
+        $compactParams->set('listing_pin_featured', 0);
+        if (in_array($compactParams->get('compact_selection', 'next'), ['next', 'related'], true)) {
+            $compactParams->set('compact_selection', 'latest');
+        }
+        $this->compactItems = $this->items
+            ? \Joomla\Component\Blog\Site\Helper\CompactPostsHelper::select([], [], $compactParams) : [];
 
         $this->getDocument()->setTitle(\Joomla\CMS\Language\Text::_('COM_BLOG_AUTHORS_HEADING'));
         parent::display($tpl);
