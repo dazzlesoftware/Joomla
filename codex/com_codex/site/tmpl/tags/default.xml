@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata><layout title="(Tags) Browse Tags"><message>Browse this component's independent tags or posts for a selected tag.</message></layout><fields name="request"><fieldset name="request"><field name="tag_id" type="posttags" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Tag" description="Leave empty to show all tags."><option value="0">All tags</option></field></fieldset></fields><fields name="params">
-<fieldset name="tag_posts" label="Tag Posts">
-<field name="show_item_navigation" description="COM_CODEX_SHOW_ITEM_NAVIGATION_DESC" type="list" label="COM_CODEX_SHOW_ITEM_NAVIGATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
-        <option value="use_post">COM_CODEX_FIELD_VALUE_USE_POST_SETTINGS</option>
-        <option value="0">JHIDE</option>
-        <option value="1">JSHOW</option>
-      </field>
-<field name="show_readmore" type="list" label="JGLOBAL_SHOW_READMORE_LABEL" description="JGLOBAL_SHOW_READMORE_DESC" useglobal="true" class="form-select-color-state" validate="options">
-        <option value="0">JHIDE</option>
-        <option value="1">JSHOW</option>
-      </field>
-<field name="show_readmore_title" type="list" label="JGLOBAL_SHOW_READMORE_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
-        <option value="0">JHIDE</option>
-        <option value="1">JSHOW</option>
-      </field>
-<field name="show_rating" type="list" label="COM_CODEX_SHOW_RATING_LABEL" useglobal="true" class="form-select-color-state"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_list_item_style" type="list" label="COM_CODEX_AUTHOR_ITEM_STYLE" useglobal="true" validate="options">
+<fieldset name="tag_posts_slider" label="Slider">
+<field name="tag_posts_featured_slider_enabled" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ENABLED_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_style" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_LABEL" useglobal="true"><option value="default">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_DEFAULT</option><option value="card">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_CARD</option><option value="hero">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_HERO</option><option value="magazine">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_MAGAZINE</option><option value="side-navigation">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SIDE_NAVIGATION</option><option value="slick">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SLICK</option><option value="thumbnail">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_THUMBNAIL</option></field>
+<field name="tag_posts_featured_slider_all_pages" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ALL_PAGES_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_auto" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AUTO_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_interval" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_INTERVAL_LABEL" min="1" hint="8" useglobal="true" />
+<field name="tag_posts_featured_slider_image" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_IMAGE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_title" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_TITLE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_category" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CATEGORY_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_author" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AUTHOR_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_avatar" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AVATAR_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_readmore" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_READMORE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_navigation" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_NAVIGATION_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_content" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_ratings" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_RATINGS_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_date" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tag_posts_featured_slider_content_length" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_LABEL" description="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_DESCRIPTION" min="0" hint="250" useglobal="true" />
+<field name="tag_posts_featured_slider_count" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_COUNT_LABEL" min="1" max="50" hint="5" useglobal="true" />
+<field name="tag_posts_featured_slider_date_source" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_LABEL" useglobal="true"><option value="created">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_CREATED</option><option value="modified">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_MODIFIED</option><option value="published">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_PUBLISHED</option></field>
+</fieldset>
+<fieldset name="tag_posts" label="Posts">
+<field name="tag_posts_list_item_style" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_ITEM_STYLE" useglobal="true" validate="options">
         <option value="standard">COM_CODEX_LIST_ITEM_STYLE_STANDARD</option>
         <option value="card">COM_CODEX_LIST_ITEM_STYLE_CARD</option>
         <option value="learning">COM_CODEX_LIST_ITEM_STYLE_LEARNING</option>
         <option value="simple">COM_CODEX_LIST_ITEM_STYLE_SIMPLE</option>
         <option value="nickel">COM_CODEX_LIST_ITEM_STYLE_NICKEL</option>
       </field>
-<field name="tag_posts_post_listing_layout" type="list" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
+<field name="tag_posts_post_listing_layout" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_POST_LISTING_LAYOUT_LABEL" useglobal="true" validate="options">
         <option value="rows">COM_CODEX_POST_LISTING_LAYOUT_ROWS</option>
         <option value="columns">COM_CODEX_POST_LISTING_LAYOUT_COLUMNS</option>
       </field>
-<field name="tag_posts_columns_per_row" type="list" label="COM_CODEX_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="tag_posts_post_listing_layout:columns">
+<field name="tag_posts_columns_per_row" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COLUMNS_PER_ROW_LABEL" useglobal="true" validate="options" showon="tag_posts_post_listing_layout:columns">
         <option value="2">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_2</option>
         <option value="3">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_3</option>
         <option value="4">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_4</option>
         <option value="5">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_5</option>
         <option value="6">COM_CODEX_AUTHOR_COLUMNS_PER_ROW_OPTION_6</option>
       </field>
-<field name="tag_posts_column_style" type="list" label="COM_CODEX_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="tag_posts_post_listing_layout:columns">
+<field name="tag_posts_column_style" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COLUMN_STYLE_LABEL" useglobal="true" validate="options" showon="tag_posts_post_listing_layout:columns">
         <option value="grid">COM_CODEX_COLUMN_STYLE_GRID</option>
         <option value="masonry">COM_CODEX_COLUMN_STYLE_MASONRY</option>
       </field>
-<field name="tag_posts_items_limit_source" type="list" label="COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_LABEL" validate="options" useglobal="true"><option value="joomla">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_JOOMLA</option><option value="custom">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_CUSTOM</option><option value="5">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_5</option><option value="10">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_10</option><option value="15">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_15</option><option value="20">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_20</option><option value="25">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_25</option><option value="30">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_30</option><option value="50">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_50</option><option value="100">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_100</option></field>
+<field name="tag_posts_items_limit_source" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_LABEL" validate="options" useglobal="true"><option value="joomla">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_JOOMLA</option><option value="custom">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_CUSTOM</option><option value="5">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_5</option><option value="10">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_10</option><option value="15">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_15</option><option value="20">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_20</option><option value="25">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_25</option><option value="30">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_30</option><option value="50">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_50</option><option value="100">COM_CODEX_AUTHOR_ITEMS_LIMIT_SOURCE_OPTION_100</option></field>
 <field name="tag_posts_posts_per_page" type="number" label="COM_CODEX_AUTHOR_POSTS_PER_PAGE_LABEL" filter="integer" min="1" showon="tag_posts_items_limit_source:custom" useglobal="true" />
-<field name="tag_posts_orderby_pri" type="list" label="JGLOBAL_CATEGORY_ORDER_LABEL" useglobal="true" validate="options">
+<field name="tag_posts_orderby_pri" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_CATEGORY_ORDER_LABEL" useglobal="true" validate="options">
         <option value="none">JGLOBAL_NO_ORDER</option>
         <option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
         <option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
         <option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
       </field>
-<field name="tag_posts_orderby_sec" type="list" label="COM_CODEX_POST_ORDER" useglobal="true" validate="options">
+<field name="tag_posts_orderby_sec" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_POST_ORDER" useglobal="true" validate="options">
         <option value="front">COM_CODEX_FEATURED_ORDER</option>
         <option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
         <option value="date">JGLOBAL_OLDEST_FIRST</option>
@@ -63,120 +69,107 @@
         <option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
         <option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
       </field>
-<field name="tag_posts_order_date" type="list" label="JGLOBAL_ORDERING_DATE_LABEL" useglobal="true" validate="options">
+<field name="tag_posts_order_date" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_ORDERING_DATE_LABEL" useglobal="true" validate="options">
         <option value="created">JGLOBAL_CREATED</option>
         <option value="modified">JGLOBAL_MODIFIED</option>
         <option value="published">JPUBLISHED</option>
         <option value="unpublished">JUNPUBLISHED</option>
       </field>
-<field name="tag_posts_show_pagination" type="list" label="JGLOBAL_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+<field name="tag_posts_show_pagination" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_PAGINATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
         <option value="2">JGLOBAL_AUTO</option>
       </field>
-<field name="tag_posts_show_pagination_results" type="list" label="JGLOBAL_PAGINATION_RESULTS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+<field name="tag_posts_show_pagination_results" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_PAGINATION_RESULTS_LABEL" useglobal="true" class="form-select-color-state" validate="options">
         <option value="0">JHIDE</option>
         <option value="1">JSHOW</option>
       </field>
+<field name="show_item_navigation" description="COM_CODEX_SHOW_ITEM_NAVIGATION_DESC" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_SHOW_ITEM_NAVIGATION_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_CODEX_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+<field name="show_readmore" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_SHOW_READMORE_LABEL" description="JGLOBAL_SHOW_READMORE_DESC" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+<field name="show_readmore_title" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_SHOW_READMORE_TITLE_LABEL" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="0">JHIDE</option>
+        <option value="1">JSHOW</option>
+      </field>
+<field name="show_rating" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_SHOW_RATING_LABEL" useglobal="true" class="form-select-color-state"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="show_noauth" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL" description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC" useglobal="true" class="form-select-color-state" validate="options">
+        <option value="use_post">COM_CODEX_FIELD_VALUE_USE_POST_SETTINGS</option>
+        <option value="0">JNO</option>
+        <option value="1">JYES</option>
+      </field>
+<field name="show_postnav" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_SHOW_POSTNAV_LABEL" description="COM_CODEX_SHOW_POSTNAV_DESC" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
 </fieldset>
+<fieldset name="tag_posts_compact" label="Compact Posts">
 
-<fieldset name="tag_posts_slider" label="Tag Featured Slider">
-<field name="tag_posts_featured_slider_enabled" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ENABLED_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_style" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_LABEL" useglobal="true"><option value="default">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_DEFAULT</option><option value="card">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_CARD</option><option value="hero">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_HERO</option><option value="magazine">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_MAGAZINE</option><option value="side-navigation">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SIDE_NAVIGATION</option><option value="slick">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_SLICK</option><option value="thumbnail">COM_CODEX_AUTHOR_FEATURED_SLIDER_STYLE_OPTION_THUMBNAIL</option></field>
-<field name="tag_posts_featured_slider_all_pages" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_ALL_PAGES_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_auto" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AUTO_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_interval" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_INTERVAL_LABEL" min="1" hint="8" useglobal="true" />
-<field name="tag_posts_featured_slider_image" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_IMAGE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_title" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_TITLE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_category" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CATEGORY_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_author" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AUTHOR_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_avatar" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_AVATAR_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_readmore" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_READMORE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_navigation" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_NAVIGATION_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_content" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_ratings" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_RATINGS_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_date" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_LABEL" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tag_posts_featured_slider_content_length" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_LABEL" description="COM_CODEX_AUTHOR_FEATURED_SLIDER_CONTENT_LENGTH_DESCRIPTION" min="0" hint="250" useglobal="true" />
-<field name="tag_posts_featured_slider_count" type="number" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_COUNT_LABEL" min="1" max="50" hint="5" useglobal="true" />
-<field name="tag_posts_featured_slider_date_source" type="list" label="COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_LABEL" useglobal="true"><option value="created">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_CREATED</option><option value="modified">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_MODIFIED</option><option value="published">COM_CODEX_AUTHOR_FEATURED_SLIDER_DATE_SOURCE_OPTION_PUBLISHED</option></field>
-</fieldset>
-
-
-<fieldset name="tag_posts_compact" label="Tag Compact Posts">
-
-<field name="tag_posts_compact_show" type="list" label="COM_CODEX_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="tag_posts_compact_show" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_SHOW" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
 <field name="tag_posts_num_links" type="number" label="COM_CODEX_COMPACT_COUNT" filter="integer" validate="number" min="0" useglobal="true" />
-<field name="tag_posts_compact_layout" type="list" label="COM_CODEX_COMPACT_LAYOUT" useglobal="true"><option value="rows">COM_CODEX_COMPACT_ROWS</option><option value="columns">COM_CODEX_COMPACT_COLUMNS_LAYOUT</option></field>
-<field name="tag_posts_compact_columns" type="list" label="COM_CODEX_COMPACT_COLUMNS" showon="tag_posts_compact_layout:columns" useglobal="true"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
-<field name="tag_posts_compact_show_title" type="list" label="COM_CODEX_COMPACT_SHOW_TITLE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-<field name="tag_posts_compact_selection" type="list" label="COM_CODEX_COMPACT_SELECTION" description="COM_CODEX_COMPACT_SELECTION_DESC" useglobal="true">
+<field name="tag_posts_compact_layout" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_LAYOUT" useglobal="true"><option value="rows">COM_CODEX_COMPACT_ROWS</option><option value="columns">COM_CODEX_COMPACT_COLUMNS_LAYOUT</option></field>
+<field name="tag_posts_compact_columns" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_COLUMNS" showon="tag_posts_compact_layout:columns" useglobal="true"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="tag_posts_compact_show_title" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_SHOW_TITLE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="tag_posts_compact_selection" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_SELECTION" description="COM_CODEX_COMPACT_SELECTION_DESC" useglobal="true">
         <option value="next">COM_CODEX_COMPACT_NEXT</option><option value="latest">COM_CODEX_COMPACT_LATEST</option><option value="featured">COM_CODEX_COMPACT_FEATURED</option><option value="random">COM_CODEX_COMPACT_RANDOM</option><option value="related">COM_CODEX_COMPACT_RELATED</option>
       </field>
-<field name="tag_posts_compact_heading_alignment" type="list" label="COM_CODEX_COMPACT_HEADING_ALIGNMENT" useglobal="true">
+<field name="tag_posts_compact_heading_alignment" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_HEADING_ALIGNMENT" useglobal="true">
   <option value="left">COM_CODEX_ALIGN_LEFT</option>
   <option value="center">COM_CODEX_ALIGN_CENTER</option>
   <option value="right">COM_CODEX_ALIGN_RIGHT</option>
 </field>
-<field name="tag_posts_compact_show_image" type="list" label="COM_CODEX_COMPACT_SHOW_IMAGE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
-<field name="tag_posts_link_featured_image" type="list" label="COM_CODEX_LINKED_FEATURED_IMAGE_LABEL" useglobal="true">
+<field name="tag_posts_compact_show_image" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_SHOW_IMAGE" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="tag_posts_link_featured_image" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_LINKED_FEATURED_IMAGE_LABEL" useglobal="true">
         <option value="0">JNO</option>
         <option value="1">JYES</option>
       </field>
-<field name="tag_posts_compact_show_rating" type="list" label="COM_CODEX_COMPACT_SHOW_RATING" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
+<field name="tag_posts_compact_show_rating" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_COMPACT_SHOW_RATING" useglobal="true"><option value="1">JSHOW</option><option value="0">JHIDE</option></field>
     </fieldset>
-
-<fieldset name="tags_directory" label="COM_CODEX_TAGS_LAYOUT">
-<field name="tags_style" type="list" label="COM_CODEX_TAGS_STYLE" useglobal="true"><option value="link_grid">COM_CODEX_TAGS_LINK</option><option value="image_grid">COM_CODEX_TAGS_IMAGE</option></field>
-<field name="tags_listing_layout" type="list" label="COM_CODEX_TAGS_LISTING" useglobal="true"><option value="rows">COM_CODEX_TAGS_ROWS</option><option value="columns">COM_CODEX_TAGS_COLUMNS_LAYOUT</option></field>
-<field name="tags_columns" type="list" label="COM_CODEX_TAGS_COLUMNS" useglobal="true" showon="tags_listing_layout:columns,"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
-<field name="tags_column_style" type="list" label="COM_CODEX_TAGS_COLUMN_STYLE" useglobal="true" showon="tags_listing_layout:columns,"><option value="grid">COM_CODEX_TAGS_GRID</option><option value="masonry">COM_CODEX_TAGS_MASONRY</option></field>
-<field name="tags_per_page" type="number" filter="integer" min="1" max="100" label="COM_CODEX_TAGS_PER_PAGE" useglobal="true" />
-<field name="tags_show_count" type="list" label="COM_CODEX_TAGS_SHOW_COUNT" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_show_rss" type="list" label="COM_CODEX_TAGS_SHOW_RSS" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_show_description" type="list" label="COM_CODEX_TAGS_SHOW_DESCRIPTION" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_description_length" type="number" filter="integer" min="1" max="2000" label="COM_CODEX_TAGS_DESCRIPTION_LENGTH" useglobal="true" />
-<field name="tags_show_empty" type="list" label="COM_CODEX_TAGS_SHOW_EMPTY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_show_search" type="list" label="COM_CODEX_TAGS_SHOW_SEARCH" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_show_sort" type="list" label="COM_CODEX_TAGS_SHOW_SORT" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_order" type="list" label="COM_CODEX_TAGS_ORDER" useglobal="true"><option value="title">COM_CODEX_TAGS_ORDER_TITLE</option><option value="title_desc">COM_CODEX_TAGS_ORDER_TITLE_DESC</option><option value="count">COM_CODEX_TAGS_ORDER_COUNT</option><option value="newest">COM_CODEX_TAGS_ORDER_NEWEST</option></field>
-<field name="tags_pagination" type="list" label="COM_CODEX_TAGS_PAGINATION" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_pagination_summary" type="list" label="COM_CODEX_TAGS_PAGINATION_SUMMARY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="tags_exclusions_override" type="list" default="0" label="COM_CODEX_TAGS_EXCLUSIONS_MODE"><option value="0">JGLOBAL_USE_GLOBAL</option><option value="1">COM_CODEX_TAGS_EXCLUSIONS_CUSTOM</option></field>
-<field name="tags_exclude_tags" type="posttags" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_TAGS" description="COM_CODEX_TAGS_EXCLUDE_TAGS_DESC" showon="tags_exclusions_override:1" />
-<field name="tags_exclude_categories" type="postcategory" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_CATEGORIES" description="COM_CODEX_TAGS_EXCLUDE_CATEGORIES_DESC" showon="tags_exclusions_override:1" />
-<field name="tags_exclude_posts" type="postchoices" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_POSTS" description="COM_CODEX_TAGS_EXCLUDE_POSTS_DESC" showon="tags_exclusions_override:1" />
-</fieldset>
-
 <fieldset name="automated_truncation" label="Automated Truncation" description="Shorten list content automatically. Manual excerpts take precedence. Read More intro text follows the truncation limit. Featured slider content uses its own settings.">
-<field name="truncation_enabled" type="list" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="truncation_readmore" type="list" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-<field name="truncation_image_position" type="list" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_video_position" type="list" label="Position of Videos After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_audio_position" type="list" label="Position of Audio Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_gallery_position" type="list" label="Position of Gallery After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_accordion_position" type="list" label="Position of Accordion After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_alert_position" type="list" label="Position of Alert After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_button_position" type="list" label="Position of Button After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_columns_position" type="list" label="Position of Columns After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_comparison_position" type="list" label="Position of Comparison After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_embed_position" type="list" label="Position of Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_poll_position" type="list" label="Position of Poll After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_quote_position" type="list" label="Position of Quote After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_rule_position" type="list" label="Position of Rule After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_section_position" type="list" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_tabs_position" type="list" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
-<field name="truncation_type" type="list" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
+<field name="truncation_enabled" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Enable Automated Truncation" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_readmore" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Display Readmore Button When Necessary" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="truncation_image_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Images After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_video_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Videos After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_audio_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Audio Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_gallery_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Gallery After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_accordion_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Accordion After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_alert_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Alert After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_button_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Button After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_columns_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Columns After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_comparison_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Comparison After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_embed_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Embed After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_poll_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Poll After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_quote_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Quote After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_rule_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Rule After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_section_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Section After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_tabs_position" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Position of Tabs After Truncation" useglobal="true"><option value="top">Top</option><option value="bottom">Bottom</option><option value="hide">Do Not Display Items</option></field>
+<field name="truncation_type" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="Truncation Type (Joomla Editor)" useglobal="true"><option value="characters">By characters</option><option value="words">By words</option><option value="paragraphs">By paragraph &lt;p&gt;</option><option value="breaks">By break tags &lt;br&gt;</option></field>
 <field name="truncation_content_override" type="list" default="0" label="Maximum Content (Characters or Words)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
 <field name="list_excerpt_length" type="number" filter="integer" min="0" label="Maximum Content (Characters or Words)" description="0 displays all content without automatic truncation." hint="400" showon="truncation_content_override:1" />
 <field name="truncation_paragraph_override" type="list" default="0" label="Maximum Paragraph (Paragraph or Break Tags)"><option value="0">Inherit from default settings</option><option value="1">Use this option</option></field>
 <field name="truncation_paragraphs" type="number" filter="integer" min="0" label="Maximum Paragraph (Paragraph or Break Tags)" description="0 displays all content without automatic truncation." hint="1" showon="truncation_paragraph_override:1" />
 </fieldset>
-<fieldset name="pagevars" label="COM_MENUS_PAGE_DISPLAY_OPTIONS_FIELDSET_LABEL"><field name="show_noauth" type="list" label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL" description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC" useglobal="true" class="form-select-color-state" validate="options">
-        <option value="use_post">COM_CODEX_FIELD_VALUE_USE_POST_SETTINGS</option>
-        <option value="0">JNO</option>
-        <option value="1">JYES</option>
-      </field>
-<field name="show_postnav" type="list" label="COM_CODEX_SHOW_POSTNAV_LABEL" description="COM_CODEX_SHOW_POSTNAV_DESC" useglobal="true" class="form-select-color-state" validate="options"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
-
-
-</fieldset></fields></metadata>
+<fieldset name="tags_directory" label="COM_CODEX_TAGS_LAYOUT">
+<field name="tags_style" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_STYLE" useglobal="true"><option value="link_grid">COM_CODEX_TAGS_LINK</option><option value="image_grid">COM_CODEX_TAGS_IMAGE</option></field>
+<field name="tags_listing_layout" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_LISTING" useglobal="true"><option value="rows">COM_CODEX_TAGS_ROWS</option><option value="columns">COM_CODEX_TAGS_COLUMNS_LAYOUT</option></field>
+<field name="tags_columns" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_COLUMNS" useglobal="true" showon="tags_listing_layout:columns,"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></field>
+<field name="tags_column_style" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_COLUMN_STYLE" useglobal="true" showon="tags_listing_layout:columns,"><option value="grid">COM_CODEX_TAGS_GRID</option><option value="masonry">COM_CODEX_TAGS_MASONRY</option></field>
+<field name="tags_per_page" type="number" filter="integer" min="1" max="100" label="COM_CODEX_TAGS_PER_PAGE" useglobal="true" />
+<field name="tags_show_count" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_SHOW_COUNT" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_rss" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_SHOW_RSS" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_description" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_SHOW_DESCRIPTION" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_description_length" type="number" filter="integer" min="1" max="2000" label="COM_CODEX_TAGS_DESCRIPTION_LENGTH" useglobal="true" />
+<field name="tags_show_empty" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_SHOW_EMPTY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_search" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_SHOW_SEARCH" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_show_sort" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_SHOW_SORT" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_order" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_ORDER" useglobal="true"><option value="title">COM_CODEX_TAGS_ORDER_TITLE</option><option value="title_desc">COM_CODEX_TAGS_ORDER_TITLE_DESC</option><option value="count">COM_CODEX_TAGS_ORDER_COUNT</option><option value="newest">COM_CODEX_TAGS_ORDER_NEWEST</option></field>
+<field name="tags_pagination" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_PAGINATION" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_pagination_summary" type="globaldefaultlist" globalcomponent="com_codex" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_PAGINATION_SUMMARY" useglobal="true"><option value="0">JHIDE</option><option value="1">JSHOW</option></field>
+<field name="tags_exclusions_override" type="list" default="0" label="COM_CODEX_TAGS_EXCLUSIONS_MODE"><option value="0">JGLOBAL_USE_GLOBAL</option><option value="1">COM_CODEX_TAGS_EXCLUSIONS_CUSTOM</option></field>
+<field name="tags_exclude_tags" type="posttags" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_TAGS" description="COM_CODEX_TAGS_EXCLUDE_TAGS_DESC" showon="tags_exclusions_override:1" />
+<field name="tags_exclude_categories" type="postcategory" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_CATEGORIES" description="COM_CODEX_TAGS_EXCLUDE_CATEGORIES_DESC" showon="tags_exclusions_override:1" />
+<field name="tags_exclude_posts" type="postchoices" multiple="true" filter="int_array" layout="joomla.form.field.list-fancy-select" addfieldprefix="Joomla\Component\Codex\Administrator\Field" label="COM_CODEX_TAGS_EXCLUDE_POSTS" description="COM_CODEX_TAGS_EXCLUDE_POSTS_DESC" showon="tags_exclusions_override:1" />
+</fieldset>
+</fields></metadata>

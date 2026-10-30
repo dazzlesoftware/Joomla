@@ -42,7 +42,7 @@ final class HtmlView extends BaseHtmlView
         $user = $app->getIdentity();
         $db   = CategoriesHelper::db();
 
-        $this->params = clone $app->getParams();
+        $this->params = ListExcerptHelper::settings($app->getParams());
         $id = $app->getInput()->getInt('id', 0);
         if (!$this->params->get('listing_tags') && $app->getInput()->get('filter_tag', [], 'array')) {
             $this->params->set('listing_tags', $app->getInput()->get('filter_tag', [], 'array'));
@@ -81,7 +81,7 @@ final class HtmlView extends BaseHtmlView
             $item->readmore = 0;
         }
 
-        $this->params = clone $app->getParams();
+        $this->params = ListExcerptHelper::settings($app->getParams());
         $requestedLayout = $app->getInput()->getCmd('layout', '');
         $layout = (string) $this->params->get('category_layout', '');
         // Alternative URLs remain valid; the Category Posts menu uses its style setting.
@@ -108,8 +108,22 @@ final class HtmlView extends BaseHtmlView
         $this->items = array_slice($all, $this->pagination->limitstart, $limit);
 
         foreach ($this->items as $item) {
+            $postParams = $item->params;
             $merged = clone $this->params;
-            $merged->merge($item->params);
+            foreach ($postParams->toArray() as $key => $value) {
+                // Styled listings follow Archive: menu settings win unless Use Post is selected.
+                // The legacy List layout retains its per-post overrides, but blanks inherit.
+                if ($value !== '' && $value !== null
+                    && ($layoutName === 'default' || !$merged->exists($key) || $merged->get($key) === 'use_post')) {
+                    $merged->set($key, $value);
+                }
+            }
+            foreach ($merged->toArray() as $key => $value) {
+                if ($value === 'use_post') {
+                    $merged->set($key, \Joomla\CMS\Component\ComponentHelper::getParams('com_blog')->get($key));
+                }
+            }
+            $item->alternative_readmore = $postParams->get('alternative_readmore');
             $item->params = $merged;
         }
 

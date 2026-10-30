@@ -30,7 +30,7 @@ foreach(['academy','blog','codex'] as $family){
     foreach($items as $item)if((int)$item->access===999999 && $item->params->get('access-view'))throw new RuntimeException('Restricted full access granted');
    }
   }
-  foreach(['archive','author','tags','featured','category','categories'] as $view){
+  foreach(['archive','author','tags','featured','category'] as $view){
    foreach(glob(__DIR__.'/../'.$family.'/com_'.$family.'/site/tmpl/'.$view.'/*.xml') as $file){
     if(basename($file)==='metadata.xml')continue;
     $xml=simplexml_load_file($file);

@@ -32,7 +32,7 @@ $imageClass = empty($featuredImages->featured_image_class) ? $params->get('featu
 $layoutAttr = [
     'class' => 'img-fluid w-100',
     'src' => $featuredImages->featured_image,
-    'alt' => empty($featuredImages->featured_image_alt) && empty($featuredImages->featured_image_alt_empty) ? false : $featuredImages->featured_image_alt,
+    'alt' => empty($featuredImages->featured_image_alt) && empty($featuredImages->featured_image_alt_empty) ? false : ($featuredImages->featured_image_alt ?? ''),
 ];
 ?>
 <figure class="<?php echo $this->escape($imageClass); ?> item-image featured-image">
